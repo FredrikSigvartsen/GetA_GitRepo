@@ -9,5 +9,9 @@
  * @author fredr_000
  */
 public class Skademelding {
+   
     
+    public Skademelding(){
+        
+    }
 }
