@@ -10,4 +10,7 @@
  */
 public class Skademelding {
     
+    public Skademelding(){
+        super();
+    }
 }
