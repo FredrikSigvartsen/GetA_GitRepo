@@ -8,6 +8,26 @@
  *
  * @author Jens
  */
+import java.util.*;
+
 public class ForsikringsKunde {
-    //testingtesting123
+    private String fornavn;
+    private String etternavn;
+    private String fakturaAdresse;
+    private String postSted;
+    private int postNr;    
+    private int forsikringsnr;
+    private int forsikringsPremie;
+    private boolean totalKunde;
+    private SkademeldingsRegister skademelding;
+    private int erstatninger;
+    private Date startDato;
+    private ForsikringsListe forsikringer;
+    private SkadeMeldingsliste skademeldinger;
+    private int fodselsNr;
+    private boolean erForsikringsKunde;
+    
+    private ForsikringsKunde(){
+        
+    }
 }
