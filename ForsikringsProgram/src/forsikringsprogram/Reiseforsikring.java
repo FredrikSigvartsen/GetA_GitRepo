@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package forsikringsprogram;
 
 /**
  *
- * @author fredr_000
+ * @author Elias
  */
-public class Skademelding {
+public class Reiseforsikring extends Forsikring {
     
-    public Skademelding(){
-        super();
+    public Reiseforsikring() {
+        
     }
 }
