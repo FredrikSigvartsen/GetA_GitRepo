@@ -4,6 +4,7 @@ package forsikringsprogram;
 import java.awt.*;
 import java.text.*;
 import java.util.*;
+import javax.swing.*;
 
 
 
@@ -15,7 +16,7 @@ public class Skademelding {
    private static int nesteNr = 1;
    private int skadeNr;          
    private String beskrivelse;  // Beskrivelse av skade
-   private Image bilde;         // Bilde av skade
+   private ImageIcon bilde;         // Bilde av skade
    private String vitneKontakt; // Kontaktinformasjon om vitner
    private int takst;           // Taksteringsbeløp for skaden
    private int erstatningsbeløp;
@@ -23,7 +24,7 @@ public class Skademelding {
    //private String skjema;   // gjelder bare for bil
 
     
-    public Skademelding(String skadeType, String beskrivelse, Image bilde, String vitneKontakt, int takst, int erstatningsbeløp, String inntruffetTidspunkt) {
+    public Skademelding(String skadeType, String beskrivelse, ImageIcon bilde, String vitneKontakt, int takst, int erstatningsbeløp, String inntruffetTidspunkt) {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
@@ -40,6 +41,7 @@ public class Skademelding {
         String skademelding = "\n\nSkademelding\n------------------------------------------------------------\n"
                 + "Skadetype  :  " + skadeType 
                 + "\nSkadenummer:  " + skadeNr
+                + "\nBilde av skaden:  " + bilde
                 + "\nBeskrivelse av skaden:\n" + beskrivelse
                 + "\nTaksteringsbeløp:  " + takst
                 + "\nErstatningsbeløp:  " + erstatningsbeløp
@@ -89,7 +91,7 @@ public class Skademelding {
         return beskrivelse;
     }
 
-    public Image getBilde() {
+    public ImageIcon getBilde() {
         return bilde;
     }
 
