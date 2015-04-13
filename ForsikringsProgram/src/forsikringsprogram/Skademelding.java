@@ -52,11 +52,6 @@ public class Skademelding {
        return skademelding;
     }//end of method toString()
     
-    public String skrivDatoTid(){
-        String dato = "";
-        
-        return dato;
-    }
     //Set-metoder
     public void setInntruffetDato(Calendar inntruffetDato) {
         this.inntruffetDato = inntruffetDato;
