@@ -5,20 +5,21 @@
  */
 package forsikringsprogram;
 
+import java.util.Calendar;
 import javax.swing.*;
 
 /**
  * Siden skademeldingen er spesiell for biler, er det naturlig å ha en egen klasse som arver Skademelding. 
- * Et "skjema" vil alltid være på papirform, og fylles ut av to parter under et bilkrasj. 
- * @author fredr_000
+ * Et "skjema" vil alltid være på papirform, og fylles ut av to parter under et bilkrasj, og vil derfor være av objekt ImageIcon. 
+ * 
  */
 public class BilSkademelding extends Skademelding {
 
     private ImageIcon krasjSkjema;
     
     public BilSkademelding(String skadeType, String beskrivelse, ImageIcon bilde, String vitneKontakt, int takst, int erstatningsbeløp, 
-                            String inntruffetTidspunkt, ImageIcon krasjSkjema) {
-        super(skadeType, beskrivelse, bilde, vitneKontakt, takst, erstatningsbeløp, inntruffetTidspunkt);
+                            Calendar inntruffetDato, String inntruffetTidspunkt, ImageIcon krasjSkjema) {
+        super(skadeType, beskrivelse, bilde, vitneKontakt, takst, erstatningsbeløp, inntruffetDato,  inntruffetTidspunkt);
         krasjSkjema = krasjSkjema;
     }
 

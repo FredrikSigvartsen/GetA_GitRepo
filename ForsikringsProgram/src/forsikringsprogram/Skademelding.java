@@ -6,7 +6,12 @@ import java.text.*;
 import java.util.*;
 import javax.swing.*;
 
-
+/*
+ En skademelding er i "forsikringssystemet" viktig, da det for forsikringsselskapet er viktig å kunne generere utbetalinger på bakgrunn av informasjonen om kunden
+ og skademeldingen. Dette for å avlaste selskapet med unødige behandlinger. Det er en saksbehandler som behandler skademeldingene, og avgjører om informasjonen fra kunden
+ er tilstrekkelig for å kunne registrere dette som en skademelding. 
+ Vi har get-metoder for de fleste variablene, da det er interessant å kunne hente informasjon om en skademelding senere i programmet. 
+*/
 
 public class Skademelding {
 
@@ -21,10 +26,9 @@ public class Skademelding {
    private int takst;           // Taksteringsbeløp for skaden
    private int erstatningsbeløp;
    private SimpleDateFormat formaterDato;
-   //private String skjema;   // gjelder bare for bil
 
     
-    public Skademelding(String skadeType, String beskrivelse, ImageIcon bilde, String vitneKontakt, int takst, int erstatningsbeløp, String inntruffetTidspunkt) {
+    public Skademelding(String skadeType, String beskrivelse, ImageIcon bilde, String vitneKontakt, int takst, int erstatningsbeløp, Calendar inntruffetDato, String inntruffetTidspunkt) {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
@@ -33,15 +37,19 @@ public class Skademelding {
         this.takst = takst;
         this.erstatningsbeløp = erstatningsbeløp;
         this.inntruffetTidspunkt = inntruffetTidspunkt;
+        this.inntruffetDato = inntruffetDato;
         skadeNr = nesteNr++;
         formaterDato = new SimpleDateFormat("dd/MM/yyyy");
     }
-    //Utskrift av skademeldingens toString()
+    
+    
+    // Redefinerer toString() for å få en bedre utskriftsform av objekter av type Skademelding. 
+   @Override
     public String toString(){
-        String skademelding = "\n\nSkademelding\n------------------------------------------------------------\n"
+        String skademelding = "\n\n\nSkademelding nr." + skadeNr + "\n------------------------------------------------------------\n"
                 + "Skadetype  :  " + skadeType 
-                + "\nSkadenummer:  " + skadeNr
-                + "\nBilde av skaden:  " + bilde
+                //+ "\nSkadenummer:  " + skadeNr
+//                + "\nBilde av skaden:  " + bilde
                 + "\nBeskrivelse av skaden:\n" + beskrivelse
                 + "\nTaksteringsbeløp:  " + takst
                 + "\nErstatningsbeløp:  " + erstatningsbeløp
@@ -52,11 +60,12 @@ public class Skademelding {
        return skademelding;
     }//end of method toString()
     
-    //Set-metoder
-    public void setInntruffetDato(Calendar inntruffetDato) {
-        this.inntruffetDato = inntruffetDato;
-    }
-    
+//    
+//    //Set-metoder
+//    public void setInntruffetDato(Calendar inntruffetDato) {
+//        this.inntruffetDato = inntruffetDato;
+//    }
+//    
     //Get-metoder
     public static int getNesteNr() {
         return nesteNr;
@@ -65,7 +74,7 @@ public class Skademelding {
     public static void setNesteNr(int nesteNr) {
         Skademelding.nesteNr = nesteNr;
     }
-
+    
     public String getInntruffetTidspunkt() {
         return inntruffetTidspunkt;
     }
