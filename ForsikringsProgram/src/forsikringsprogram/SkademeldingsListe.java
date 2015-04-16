@@ -25,9 +25,7 @@ public class SkademeldingsListe {
     public boolean registrerSkademelding(Skademelding skade){
         if(skade == null)
             return false;
-        if(!skademeldingsListe.add(skade))
-            return false;
-        return true;
+        return skademeldingsListe.add(skade);
     } // end of method registrerSkademelding()
     
     /* Vi tenker oss at vi har generelle skader. Derfor sender vi med en tekst som beskriver skademeldingstypen, og sammenligner denne teksten mot alle skademeldingene i listens

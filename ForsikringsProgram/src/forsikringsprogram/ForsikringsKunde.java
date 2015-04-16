@@ -33,26 +33,22 @@ public class ForsikringsKunde {
         this.fakturaAdresse = fakturaAdresse;
         this.postSted = postSted;
         this.postNr = postNr;
-        this.erstatninger = erstatninger;
         this.startDato = Calendar.getInstance();
         this.fodselsNr = fodselsNr;
         
-       skademeldinger = new SkademeldingsListe();
-       forsikringer = new Forsikringsliste();
+        erForsikringsKunde = true;
+        skademeldinger = new SkademeldingsListe();
+        forsikringer = new Forsikringsliste();
     }// end of constructor
 
     // Legger til en skademelding i kundens SkademeldingsListe. Returverdien indikerer om dette gikk eller ikke. Se SkademeldingsListe.registrerSkademelding()
     public boolean registrerSkademelding(Skademelding ny){
-        if(!skademeldinger.registrerSkademelding(ny))
-            return false;
-        return true;
+        return skademeldinger.registrerSkademelding(ny);
     } // end of method registrerSkademelding(Skademelding)
     
     // Legger til en forsikring i kundens Forsikringsliste. Returverdien indikerer om dette gikk eller ikke. Se Forsikringsliste.Forsikring()
     public boolean registrerForsikring(Forsikring ny){
-        if(!forsikringer.registrerForsikring(ny))
-            return false;
-        return true;
+        return forsikringer.registrerForsikring(ny);
     } // end of method registrerForsikring(Forsikring)
 
     @Override
@@ -68,7 +64,6 @@ public class ForsikringsKunde {
                 + "\nTotalkunde: " + (totalKunde == true ? "Ja" : "Nei")  
                 + "\nErstatninger: " + erstatninger 
                 + "\nEr kunde hos oss: " + (erForsikringsKunde == true ? "Ja" : "Nei");
-        
         return utskrift;
     } //end of method toString()
     

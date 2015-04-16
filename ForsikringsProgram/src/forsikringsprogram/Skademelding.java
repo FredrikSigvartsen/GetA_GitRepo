@@ -21,7 +21,6 @@ public class Skademelding {
    private static int nesteNr = 1;
    private int skadeNr;          
    private String beskrivelse;  // Beskrivelse av skade
-   private ImageIcon bilde;         // Bilde av skade
    private String vitneKontakt; // Kontaktinformasjon om vitner
    private int takst;           // Taksteringsbeløp for skaden
    private int erstatningsbeløp;
@@ -32,7 +31,6 @@ public class Skademelding {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
-        this.bilde = bilde;
         this.vitneKontakt = vitneKontakt;
         this.takst = takst;
         this.erstatningsbeløp = erstatningsbeløp;
@@ -48,8 +46,6 @@ public class Skademelding {
     public String toString(){
         String skademelding = "\n\n\nSkademelding nr." + skadeNr + "\n------------------------------------------------------------\n"
                 + "Skadetype  :  " + skadeType 
-                //+ "\nSkadenummer:  " + skadeNr
-//                + "\nBilde av skaden:  " + bilde
                 + "\nBeskrivelse av skaden:\n" + beskrivelse
                 + "\nTaksteringsbeløp:  " + takst
                 + "\nErstatningsbeløp:  " + erstatningsbeløp
@@ -93,10 +89,6 @@ public class Skademelding {
 
     public String getBeskrivelse() {
         return beskrivelse;
-    }
-
-    public ImageIcon getBilde() {
-        return bilde;
     }
 
     public String getVitneKontakt() {

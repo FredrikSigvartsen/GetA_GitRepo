@@ -21,9 +21,7 @@ public class Forsikringsliste {
     public boolean registrerForsikring(Forsikring f) {
         if(f == null)
             return false;
-        if(!liste.add(f))
-            return false;
-        return true;
+        return liste.add(f);
     }// end of method settInn(forsikringer)
     
     public void opphorForsikring(Forsikring f) {
