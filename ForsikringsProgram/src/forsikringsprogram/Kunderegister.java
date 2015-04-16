@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,9 +33,7 @@ public class Kunderegister {
         
         if(ny == null)
             return false;
-        if(!kunderegister.add(ny))
-            return false;
-        return true;
+        return kunderegister.add(ny);
     }// end of method settInn(ForsikringsKunde)
     
     // Finner en kunde med fornavn,etternavn,fødselsnummer, og returnerer denne Kunden. Returnerer null kunden ikke finnes i registeret.
@@ -56,9 +55,7 @@ public class Kunderegister {
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
             return false;
-        if (!kunde.registrerSkademelding(skademelding) ) 
-            return false;
-        return true;
+        return kunde.registrerSkademelding(skademelding);
     }// end of method registrerSkademelding(Skademelding skademelding, String fodselsNr)
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
