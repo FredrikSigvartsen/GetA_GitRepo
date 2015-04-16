@@ -36,13 +36,13 @@ public class ForsikringsKunde {
         this.erstatninger = erstatninger;
         this.startDato = Calendar.getInstance();
         this.fodselsNr = fodselsNr;
-    }
+    }// end of constructor
 
     
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // dd/MM-yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
         String startDatoString = sdf.format(startDato.getTime());
         
         String utskrift = "\n\nKunde   " + fornavn + " " + etternavn + "\n--------------------------------------------------------\n" 
@@ -63,6 +63,9 @@ public class ForsikringsKunde {
 
     public String getEtternavn() {
         return etternavn;
+    }
+    public String getAdresse(){
+        return fakturaAdresse + ", " + postNr + " " + postSted;
     }
 
     public String getPostSted() {

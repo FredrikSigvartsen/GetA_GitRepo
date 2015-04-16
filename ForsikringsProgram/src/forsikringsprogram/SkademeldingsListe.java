@@ -26,10 +26,8 @@ public class SkademeldingsListe {
         
         if(skade == null)
             return false;
-        else{
-            if(!skademeldingsListe.add(skade))
-                return false;
-        }
+        if(!skademeldingsListe.add(skade))
+            return false;
         return true;
     } // end of method registrerSkademelding()
     

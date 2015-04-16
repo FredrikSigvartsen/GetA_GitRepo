@@ -11,9 +11,20 @@ public class Forsikringsliste {
     private List<Forsikring> liste = new ArrayList<>();
     private Iterator<Forsikring> iter;
     
-    public void settInn(Forsikring f) {
-        liste.add(f);
+    public Forsikringsliste(){
+        liste = new ArrayList<>();
     }
+    
+    /*Setter inn en forsikring i listen. Returnerer false hvis man sender med et object som er null, for å unngå tomme plasser i ArrayList'en,
+      eller om det ble returnert false i listen sin add-metode. Returnerer true hvis forsikringen ble lagt til i listen. 
+    */
+    public boolean settInn(Forsikring f) {
+        if(f == null)
+            return false;
+        if(!liste.add(f))
+            return false;
+        return true;
+    }// end of method settInn(forsikringer)
     
     public void opphorForsikring(Forsikring f) {
         f.opphorForsikring();
@@ -41,8 +52,27 @@ public class Forsikringsliste {
                     return true;
         }
         return false;
-    }
+    }//end of method inneholderObjektAvType(konstant)
     
+    /*Finner en forsikring med avtalenummer lik det tallet man sender med metoden. Returnerer forsikringen hvis forsikringen finnes, returnerer false hvis det ikke finnes,
+      eller om nummeret man sender med metoden er lavere enn de avtalenumrene som finnes. 
+    */
+    public Forsikring finnForsikringer(int avtaleNr){
+        iter = liste.listIterator();
+        Forsikring returForsikring = null;
+        
+        if(avtaleNr < 1)
+            return null;
+        
+        while(iter.hasNext()){
+            returForsikring = iter.next();
+            if( returForsikring.getAvtaleNr() == avtaleNr)
+                return returForsikring;
+        }// end of while
+        return returForsikring;
+    }// end of method finnForsikringer(avataleNr)
+    
+    @Override
     public String toString() {
         iter = liste.listIterator();
         String output = "";
@@ -55,7 +85,7 @@ public class Forsikringsliste {
                     output += "-";
                 output += "\n";
             }
-        }
+        }//end of while
         return output;
-    }
+    }// end of method toString()
 }//end of class Forsikringsliste

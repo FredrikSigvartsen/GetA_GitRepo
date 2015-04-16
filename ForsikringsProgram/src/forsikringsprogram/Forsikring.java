@@ -30,6 +30,10 @@ public abstract class Forsikring {
         this.forsikringsPremie = forsikringsPremie;
         this.forsikringsBelop = forsikringsBelop;
     }
+
+    public int getAvtaleNr() {
+        return avtaleNr;
+    }
     
     public void setForsikringsPremie(int x) {
         this.forsikringsPremie = x;////////////Må finne priser
@@ -44,11 +48,19 @@ public abstract class Forsikring {
         this.opphorsDato = Calendar.getInstance();
         this.aktivForsikring = false;
     }
+
+    public static void setNesteNr(int nesteNr) {
+        Forsikring.nesteNr = nesteNr;
+    }
+
+    public static int getNesteNr() {
+        return nesteNr;
+    }
     
     public String toString() {
         return "Forsikringsavtale nr." + avtaleNr + "\n-----------------------------------------------------------\n" +
                "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
-               "\nOpphørs dato: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
+               "\nAvtale opphørt: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
                "\nBetingelse: " + this.betingelser +
                "\nForsikringspremie: " + this.forsikringsPremie +
                "\nForsikringsbeløp: " + this.forsikringsBelop;
