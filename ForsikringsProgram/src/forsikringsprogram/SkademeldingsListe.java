@@ -23,7 +23,6 @@ public class SkademeldingsListe {
     /* Sender med en skademelding som parameterer, og legger denne til i listen. Hvis skademeldingen blir lagt til i listen, returnerer metoden true. Hvis dette ikke går, returnerer
      metoden false. */
     public boolean registrerSkademelding(Skademelding skade){
-        
         if(skade == null)
             return false;
         if(!skademeldingsListe.add(skade))
