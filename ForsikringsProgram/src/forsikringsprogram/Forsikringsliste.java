@@ -16,9 +16,9 @@ public class Forsikringsliste {
     }
     
     /*Setter inn en forsikring i listen. Returnerer false hvis man sender med et object som er null, for å unngå tomme plasser i ArrayList'en,
-      eller om det ble returnert false i listen sin add-metode. Returnerer true hvis forsikringen ble lagt til i listen. 
+      eller om det ble returnert false i listen sin add-metode. Returnerer også false hvis forsikringen allerede er tegnet. Returnerer true hvis forsikringen ble lagt til i listen. 
     */
-    public boolean settInn(Forsikring f) {
+    public boolean registrerForsikring(Forsikring f) {
         if(f == null)
             return false;
         if(!liste.add(f))

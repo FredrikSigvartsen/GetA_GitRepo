@@ -16,7 +16,7 @@ public class ForsikringsKunde {
     private String etternavn;
     private String fakturaAdresse;
     private String postSted;
-    private int postNr;
+    private String postNr;
     
     private int forsikringsPremie;
     private boolean totalKunde;
@@ -27,7 +27,7 @@ public class ForsikringsKunde {
     private String fodselsNr;
     private boolean erForsikringsKunde;
 
-    public ForsikringsKunde(String fornavn, String etternavn, String fakturaAdresse, String postSted, int postNr, String fodselsNr) {
+    public ForsikringsKunde(String fornavn, String etternavn, String fakturaAdresse, String postSted, String postNr, String fodselsNr) {
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.fakturaAdresse = fakturaAdresse;
@@ -36,16 +36,31 @@ public class ForsikringsKunde {
         this.erstatninger = erstatninger;
         this.startDato = Calendar.getInstance();
         this.fodselsNr = fodselsNr;
+        
+       skademeldinger = new SkademeldingsListe();
+       forsikringer = new Forsikringsliste();
     }// end of constructor
 
+    // Legger til en skademelding i kundens SkademeldingsListe. Returverdien indikerer om dette gikk eller ikke. Se SkademeldingsListe.registrerSkademelding()
+    public boolean registrerSkademelding(Skademelding ny){
+        if(!skademeldinger.registrerSkademelding(ny))
+            return false;
+        return true;
+    } // end of method registrerSkademelding(Skademelding)
     
+    // Legger til en forsikring i kundens Forsikringsliste. Returverdien indikerer om dette gikk eller ikke. Se Forsikringsliste.Forsikring()
+    public boolean registrerForsikring(Forsikring ny){
+        if(!forsikringer.registrerForsikring(ny))
+            return false;
+        return true;
+    } // end of method registrerForsikring(Forsikring)
 
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
         String startDatoString = sdf.format(startDato.getTime());
         
-        String utskrift = "\n\nKunde   " + fornavn + " " + etternavn + "\n--------------------------------------------------------\n" 
+        String utskrift = "\n\nKunde   " + fornavn + " " + etternavn + "\n--------------------------------------------------------" 
                 + "\nFødselsnummer: " + fodselsNr  
                 + "\nFaktura adresse: " + fakturaAdresse + ", " + postNr + " " + postSted
                 + "\nStartdato: " + startDatoString 
@@ -72,7 +87,7 @@ public class ForsikringsKunde {
         return postSted;
     }
 
-    public int getPostNr() {
+    public String getPostNr() {
         return postNr;
     }
     
