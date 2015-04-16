@@ -40,9 +40,8 @@ public class Kunderegister {
     public ForsikringsKunde finnKunde(String fodselsNr){
         
         iterator = kunderegister.iterator();
-        ForsikringsKunde gjeldendeKunde = null;
         while(iterator.hasNext()){
-            gjeldendeKunde = iterator.next();
+            ForsikringsKunde gjeldendeKunde = iterator.next();
             if( fodselsNr.equalsIgnoreCase(gjeldendeKunde.getFodselsNr()) )
                 return gjeldendeKunde;
         }// end of while
