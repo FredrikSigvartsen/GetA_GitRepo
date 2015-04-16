@@ -17,30 +17,46 @@ public class ForsikringsKunde {
     private String fakturaAdresse;
     private String postSted;
     private int postNr;
+    
     private int forsikringsPremie;
     private boolean totalKunde;
-   // private SkademeldingsRegister skademelding;
     private int erstatninger;
     private Calendar startDato;
-   // private ForsikringsListe forsikringer;
-   // private SkadeMeldingsliste skademeldinger;
+    private Forsikringsliste forsikringer;
+    private SkademeldingsListe skademeldinger;
     private String fodselsNr;
     private boolean erForsikringsKunde;
 
-    public ForsikringsKunde(String fornavn, String etternavn, String fakturaAdresse, String postSted, int postNr, /*SkademeldingsRegister skademelding,*/ int erstatninger, /*ForsikringsListe forsikringer, SkadeMeldingsliste skademeldinger,*/ String fodselsNr) {
+    public ForsikringsKunde(String fornavn, String etternavn, String fakturaAdresse, String postSted, int postNr, String fodselsNr) {
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.fakturaAdresse = fakturaAdresse;
         this.postSted = postSted;
         this.postNr = postNr;
-        //this.skademelding = skademelding;
         this.erstatninger = erstatninger;
         this.startDato = Calendar.getInstance();
-        //this.forsikringer = forsikringer;
-        //this.skademeldinger = skademeldinger;
         this.fodselsNr = fodselsNr;
     }
 
+    
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // dd/MM-yyyy
+        String startDatoString = sdf.format(startDato.getTime());
+        
+        String utskrift = "\n\nKunde   " + fornavn + " " + etternavn + "\n--------------------------------------------------------\n" 
+                + "\nFødselsnummer: " + fodselsNr  
+                + "\nFaktura adresse: " + fakturaAdresse + ", " + postNr + " " + postSted
+                + "\nStartdato: " + startDatoString 
+                + "\nForsikringspremie: " + forsikringsPremie 
+                + "\nTotalkunde: " + (totalKunde == true ? "Ja" : "Nei")  
+                + "\nErstatninger: " + erstatninger 
+                + "\nEr kunde hos oss: " + (erForsikringsKunde == true ? "Ja" : "Nei");
+        
+        return utskrift;
+    } //end of method toString()
+    
     public String getFornavn() {
         return fornavn;
     }
@@ -69,17 +85,13 @@ public class ForsikringsKunde {
         return fodselsNr;
     }
 
-   /* public SkademeldingsRegister getSkademelding() {
-        return skademelding;
-    }
-
-    public ForsikringsListe getForsikringer() {
+    public Forsikringsliste getForsikringer() {
         return forsikringer;
     }
 
-    public SkadeMeldingsliste getSkademeldinger() {
+    public SkademeldingsListe getSkademeldinger() {
         return skademeldinger;
-    }*/
+    }
     
     public boolean getTotalKunde() {
         return totalKunde;
@@ -96,17 +108,4 @@ public class ForsikringsKunde {
     public void setErForsikringsKunde(boolean erForsikringsKunde) {
         this.erForsikringsKunde = erForsikringsKunde;
     }
-
-    @Override
-    public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String startDatoString = sdf.format(startDato.getTime());
-        return "\nForsikringsKunde: " + "\nFornavn: " + fornavn + "\nEtternavn: " 
-                + etternavn + "\nFaktura adresse: " + fakturaAdresse + "\nPoststed: " 
-                + postSted + "\nPostnummer: " + postNr + "\nForsikringspremie: " + forsikringsPremie 
-                + "\nTotalkunde: " + (totalKunde == true ? "Ja" : "Nei") + "\nErstatninger: " 
-                + erstatninger + "\nStartdato: " + startDatoString 
-                + "\nFødselsnummer: " + fodselsNr + "\nEr forsikret: " 
-                + (erForsikringsKunde == true ? "Ja" : "Nei");
-    } 
 }   //End of class ForsikringsKunde
