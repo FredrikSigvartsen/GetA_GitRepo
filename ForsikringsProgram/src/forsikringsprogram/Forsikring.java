@@ -46,9 +46,9 @@ public abstract class Forsikring {
     }
     
     public String toString() {
-        return "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
+        return "Forsikringsavtale nr." + avtaleNr + "\n-----------------------------------------------------------\n" +
+               "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
                "\nOpphørs dato: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
-               "\nAvtale nr: " + this.avtaleNr +
                "\nBetingelse: " + this.betingelser +
                "\nForsikringspremie: " + this.forsikringsPremie +
                "\nForsikringsbeløp: " + this.forsikringsBelop;
