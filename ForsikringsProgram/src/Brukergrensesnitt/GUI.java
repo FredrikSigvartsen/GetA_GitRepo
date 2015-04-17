@@ -12,7 +12,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -29,14 +28,18 @@ import javafx.stage.Stage;
 public class GUI extends Application{  
     private Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
     private VBox kundeRegistreringBox;
+    private VBox skadeRegistreringBox;
     private VBox forsikringRegistreringBox;
     private VBox siOppForsikringBox;
+    private VBox sokBox;
     private HBox faneMeny;
     private HBox kundebehandlingsMeny;
     private HBox outputBox = new HBox();
     private TabPane fanePanel;
     private TabPane kundebehandlingsPanel;
     private ComboBox forsikringsType;
+    private ComboBox forsikringsTypeSok;
+    private ComboBox skadeType;
     private TextField fornavn;
     private TextField etternavn;
     private TextField adresse;
@@ -44,6 +47,10 @@ public class GUI extends Application{
     private TextField poststed;
     private TextField telefonnr;
     private TextField fodselsnr;
+    private TextField avtalenr;
+    private TextField skadeBeskrivelse;
+    private TextField sted;
+    private TextField utbetalingsBelop;
     private Kunderegister kundeRegister;
     private Button tegnForsikring;
     private Button registrer;
@@ -54,6 +61,8 @@ public class GUI extends Application{
         kundeRegistrering();
         tegnForsikring();
         siOppForsikring();
+        kundeSok();
+        skadeRegistrering();
         kundeRegister = new Kunderegister();
     }
     
@@ -312,6 +321,94 @@ public class GUI extends Application{
                 avtalenr, siOppForsikring);
     }
     
+     private void kundeSok(){                   
+        sokBox = VBoxBuilder.create()
+                .alignment(Pos.CENTER_LEFT)
+                .spacing(5.0)
+                .build();
+        
+        TextField fodsels_avtalenr;
+        
+        Label fodsels_avtalenrLabel;
+        Label forsikringstypeSokLabel;
+        
+        fodsels_avtalenrLabel = new Label("Fødsels/avtalenummer:");
+        fodsels_avtalenr = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        forsikringstypeSokLabel = new Label("Forsikrings type:");
+        forsikringsTypeSok = new ComboBox();
+        ObservableList<String> forsikringerTilSok = FXCollections.observableArrayList(
+                                              "Bilforsikring", "Båtforsikring",
+                                              "Boligforsikring", "Reiseforsikring");
+        forsikringsTypeSok.setItems(forsikringerTilSok);
+        
+        
+        sokBox.getChildren().addAll(fodsels_avtalenrLabel, fodsels_avtalenr, forsikringstypeSokLabel, forsikringsTypeSok);
+    }
+    
+    private void skadeRegistrering(){                   
+        skadeRegistreringBox = VBoxBuilder.create()
+                .alignment(Pos.CENTER_LEFT)
+                .spacing(5.0)
+                .build();
+        
+        Label avtalenrLabel;
+        Label fodselsnrLabel;
+        Label skadeTypeLabel;
+        Label skadeBeskrivelseLabel;
+        Label datoLabel;
+        Label stedLabel;
+        Label utbetalingsBelopLabel;
+        
+        registrer = new Button("Registrer og utbetal");
+        
+        avtalenrLabel = new Label("Avtalenummer:");
+        avtalenr = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        fodselsnrLabel = new Label("Fødselsnummer:");
+        fodselsnr = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        skadeTypeLabel = new Label("Skadetype:");
+        skadeType = new ComboBox();
+        ObservableList<String> skader = FXCollections.observableArrayList(
+                                              "Bilskade", "Båtskade",
+                                              "Boligskade", "Reiseskade");
+        skadeType.setItems(skader);
+        
+        skadeBeskrivelseLabel = new Label("Skadebeskrivelse:");
+        skadeBeskrivelse = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        datoLabel = new Label("Dato:");
+        
+        stedLabel = new Label("Sted:");
+        sted = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        utbetalingsBelopLabel = new Label("Utbetalingsbeløp:");
+        utbetalingsBelop = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        skadeRegistreringBox.getChildren().addAll(avtalenrLabel, avtalenr, fodselsnrLabel,
+                fodselsnr, skadeTypeLabel, skadeType, skadeBeskrivelseLabel, skadeBeskrivelse, stedLabel, sted, utbetalingsBelopLabel, 
+                utbetalingsBelop, registrer);
+    }
+    
     private double getSkjermBredde(){
         return (double)opplosning.getWidth() / 2;
     }
@@ -321,22 +418,54 @@ public class GUI extends Application{
     }
     
     private void registrerKunde(){
-        ForsikringsKunde kunde = new ForsikringsKunde(fornavn.getText().trim(), etternavn.getText().trim(), adresse.getText().trim(), poststed.getText().trim(), postnr.getText().trim(), fodselsnr.getText().trim());
-        kundeRegister.registrerKunde(kunde);
-        //System.out.println(kunde.toString());
-        TextArea kundeOutput;
-        kundeOutput = TextAreaBuilder.create()
-                .prefWidth(getSkjermBredde())
-                .prefHeight(getSkjermHoyde() / 3)
-                .wrapText(true)
-                .editable(false)
-                .build();
-        kundeOutput.setText(kunde.toString());
-        outputBox.getChildren().addAll(kundeOutput);
+        String fornavn = this.fornavn.getText();
+        String etternavn = this.etternavn.getText();
+        String adresse = this.adresse.getText();
+        String poststed = this.poststed.getText();
+        String postnr = this.postnr.getText();
+        String fodselsnr = this.fodselsnr.getText();
+        if(fornavn.trim().equals("") || etternavn.trim().equals("") || adresse.trim().equals("") || poststed.trim().equals("") || postnr.trim().equals("") || fodselsnr.trim().equals("")){
+            System.out.println("Venligst fyll inn alle feltene");
+        }
+        else{
+            ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
+            kundeRegister.registrerKunde(kunde);
+            //System.out.println(kunde.toString());
+            TextArea kundeOutput;
+            kundeOutput = TextAreaBuilder.create()
+                    .prefWidth(getSkjermBredde())
+                    .prefHeight(getSkjermHoyde() / 3)
+                    .wrapText(true)
+                    .editable(false)
+                    .build();
+            kundeOutput.setText(kunde.toString());
+            outputBox.getChildren().addAll(kundeOutput);
+        }
     }
     
     private void registrerSkadeMelding(){
-        
+        String avtalenr = this.avtalenr.getText();
+        String fodselsnr = this.fodselsnr.getText();
+        //skadestype
+        String skadeBeskrivelse = this.skadeBeskrivelse.getText();
+        //dato
+        String sted = this.sted.getText();
+        int utbetalingsBelop = Integer.parseInt(this.utbetalingsBelop.getText());
+        if(avtalenr.trim().equals("") || fodselsnr.trim().equals("") || skadeBeskrivelse.trim().equals("") || sted.trim().equals("") || utbetalingsBelop != 0){
+            System.out.println("Venligst fyll inn alle feltene");
+        }
+        else{
+            Skademelding skade = new Skademelding(null, skadeBeskrivelse, null, null, 0, utbetalingsBelop, null, null );
+            TextArea skadeOutput;
+            skadeOutput = TextAreaBuilder.create()
+                    .prefWidth(getSkjermBredde())
+                    .prefHeight(getSkjermHoyde() / 3)
+                    .wrapText(true)
+                    .editable(false)
+                    .build();
+            skadeOutput.setText(skade.toString());
+            outputBox.getChildren().addAll(skadeOutput);
+        }
     }
     
     @Override
@@ -380,20 +509,21 @@ public class GUI extends Application{
             switch (t1.getText()) {
                 case "Kundebehandling":
                     System.out.println("Bytte til Kundebehandling");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox, skadeRegistreringBox);
                     center.getChildren().addAll(kundebehandlingsMeny, kundeRegistreringBox);
                     break;
                 case "Skademelding":
                     System.out.println("Bytte til Skademelsing");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox, skadeRegistreringBox);
+                    center.getChildren().addAll(skadeRegistreringBox);
                     break;
                 case "Økonomi":
                     System.out.println("Bytte til Økonomi");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox, skadeRegistreringBox);
                     break;
                 case "Statistikk":
                     System.out.println("Bytte til Statistikk");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox, skadeRegistreringBox);
                     break;
             }
         });
@@ -401,23 +531,23 @@ public class GUI extends Application{
             switch (t1.getText()) {
                 case "Kunderegistrering":
                     System.out.println("Bytte til Kunderegistrering");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox);
                     center.getChildren().addAll(kundebehandlingsMeny, kundeRegistreringBox);
                     break;
                 case "Tegn forsikring":
                     System.out.println("Bytte til Tegn forsikring");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox);
                     center.getChildren().addAll(kundebehandlingsMeny, forsikringRegistreringBox);
                     break;
                 case "Si opp forsikring":
                     System.out.println("Bytte til Si opp forsikring");
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox);
                     center.getChildren().addAll(kundebehandlingsMeny, siOppForsikringBox);
                     break;
                 case "Søk":
                     System.out.println("Bytte til Søk");    
-                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
-                    center.getChildren().addAll(kundebehandlingsMeny);
+                    center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox, sokBox);
+                    center.getChildren().addAll(kundebehandlingsMeny, sokBox);
                     break;
             }
         });
