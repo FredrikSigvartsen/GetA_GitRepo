@@ -3,21 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forsikringsprogram;
+package Brukergrensesnitt;
+import forsikringsprogram.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.stage.Stage;
@@ -32,9 +33,20 @@ public class GUI extends Application{
     private VBox siOppForsikringBox;
     private HBox faneMeny;
     private HBox kundebehandlingsMeny;
+    private HBox outputBox = new HBox();
     private TabPane fanePanel;
     private TabPane kundebehandlingsPanel;
     private ComboBox forsikringsType;
+    private TextField fornavn;
+    private TextField etternavn;
+    private TextField adresse;
+    private TextField postnr;
+    private TextField poststed;
+    private TextField telefonnr;
+    private TextField fodselsnr;
+    private Kunderegister kundeRegister;
+    private Button tegnForsikring;
+    private Button registrer;
     
     public GUI(){
         faneMeny();
@@ -42,6 +54,7 @@ public class GUI extends Application{
         kundeRegistrering();
         tegnForsikring();
         siOppForsikring();
+        kundeRegister = new Kunderegister();
     }
     
     private void faneMeny(){
@@ -100,14 +113,6 @@ public class GUI extends Application{
                 .spacing(5.0)
                 .build();
         
-        TextField fornavn;
-        TextField etternavn;
-        TextField adresse;
-        TextField postnr;
-        TextField poststed;
-        TextField telefonnr;
-        TextField fodselsnr;
-        
         Label fornavnLabel;
         Label etternavnLabel;
         Label adresseLabel;
@@ -116,7 +121,7 @@ public class GUI extends Application{
         Label telefonnrLabel;
         Label fodselsnrLabel;
         
-        Button registrer = new Button("Registrer");
+        registrer = new Button("Registrer");
         
         fornavnLabel = new Label("Fornavn:");
         fornavn = TextFieldBuilder.create()
@@ -239,7 +244,7 @@ public class GUI extends Application{
         Label forsikringsbelopLabel;
         Label betingelserLabel;
         
-        Button tegnForsikring = new Button("Tegn forsikring");
+        tegnForsikring = new Button("Tegn forsikring");
         
         fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
@@ -315,16 +320,35 @@ public class GUI extends Application{
         return (double)opplosning.getHeight() / 1.3;
     }
     
+    private void registrerKunde(){
+        ForsikringsKunde kunde = new ForsikringsKunde(fornavn.getText().trim(), etternavn.getText().trim(), adresse.getText().trim(), poststed.getText().trim(), postnr.getText().trim(), fodselsnr.getText().trim());
+        kundeRegister.registrerKunde(kunde);
+        //System.out.println(kunde.toString());
+        TextArea kundeOutput;
+        kundeOutput = TextAreaBuilder.create()
+                .prefWidth(getSkjermBredde())
+                .prefHeight(getSkjermHoyde() / 3)
+                .wrapText(true)
+                .editable(false)
+                .build();
+        kundeOutput.setText(kunde.toString());
+        outputBox.getChildren().addAll(kundeOutput);
+    }
+    
+    private void registrerSkadeMelding(){
+        
+    }
+    
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Forsikringsprogram");
                 
         
         
-        ForsikringsKunde kunde = new ForsikringsKunde("Jens", "Omfjord", "Pilestredet Park 21", "Oslo", "1336", "27129346367");
+        //ForsikringsKunde kunde = new ForsikringsKunde("Jens", "Omfjord", "Pilestredet Park 21", "Oslo", "1336", "27129346367");
         
         
-        HBox outputBox = new HBox();
+        /*HBox outputBox = new HBox();
         TextArea output;
         output = TextAreaBuilder.create()
                 .prefWidth(getSkjermBredde())
@@ -332,8 +356,8 @@ public class GUI extends Application{
                 .wrapText(true)
                 .editable(false)
                 .build();
-        output.setText(kunde.toString());
-        outputBox.getChildren().addAll(output);
+        //output.setText(kunde.toString());
+        outputBox.getChildren().addAll(output);*/
         
         VBox center = new VBox();
         center.getChildren().addAll(kundebehandlingsMeny, kundeRegistreringBox);
@@ -391,11 +415,14 @@ public class GUI extends Application{
                     center.getChildren().addAll(kundebehandlingsMeny, siOppForsikringBox);
                     break;
                 case "Søk":
-                    System.out.println("Bytte til Søk");
+                    System.out.println("Bytte til Søk");    
                     center.getChildren().removeAll(kundebehandlingsMeny, kundeRegistreringBox, forsikringRegistreringBox, siOppForsikringBox);
                     center.getChildren().addAll(kundebehandlingsMeny);
                     break;
             }
+        });
+        registrer.setOnAction((ActionEvent event) -> {
+            registrerKunde();
         });
         /*forsikringsType.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ComboBox>() {
             @Override
@@ -409,8 +436,6 @@ public class GUI extends Application{
     
     public static void main(String[] args) {
         // TODO code application logic here
-        //ForsikringsKunde kunde = new ForsikringsKunde("Jens", "Omfjord", "Pilestredet Park 21", "Oslo", 1336, 99999, "27129346367");
-        //System.out.println(kunde.toString());
         Application.launch(args);
     }
 } //end of class GUI
