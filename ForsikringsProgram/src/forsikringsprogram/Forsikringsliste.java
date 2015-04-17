@@ -29,26 +29,31 @@ public class Forsikringsliste {
     }
     
     //For å sjekke om kunden har en type forsikring
-    public boolean inneholderObjektAvType(int konstant) {
+    public boolean harRiktigForsikring(String konstant) {
         iter = liste.listIterator();
         
-        if(konstant == Forsikring.BAAT) {
-            while(iter.hasNext()) 
-                if(iter.next() instanceof Baatforsikring)
-                    return true;
-        } else if(konstant == Forsikring.REISE) {
-            while(iter.hasNext())
-                if(iter.next() instanceof Reiseforsikring)
-                    return true;
-        } else if(konstant == Forsikring.BIL) {
-            while(iter.hasNext())
-                if(iter.next() instanceof Bilforsikring)
-                    return true;
-        } else if(konstant == Forsikring.BOLIG) {
-            while(iter.hasNext())
-                if(iter.next() instanceof Boligforsikring)
-                    return true;
-        }
+        switch (konstant) {
+            case Forsikring.BAAT:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Baatforsikring)
+                        return true;
+                break;
+            case Forsikring.REISE:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Reiseforsikring)
+                        return true;
+                break;
+            case Forsikring.BIL:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Bilforsikring)
+                        return true;
+                break;
+            case Forsikring.BOLIG:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Boligforsikring)
+                        return true;
+                break;
+        }// end of switch-case
         return false;
     }//end of method inneholderObjektAvType(konstant)
     
@@ -57,17 +62,15 @@ public class Forsikringsliste {
     */
     public Forsikring finnForsikringer(int avtaleNr){
         iter = liste.listIterator();
-        Forsikring returForsikring = null;
         
         if(avtaleNr < 1)
             return null;
-        
         while(iter.hasNext()){
-            returForsikring = iter.next();
+            Forsikring returForsikring = iter.next();
             if( returForsikring.getAvtaleNr() == avtaleNr)
                 return returForsikring;
         }// end of while
-        return returForsikring;
+        return null;
     }// end of method finnForsikringer(avataleNr)
     
     @Override

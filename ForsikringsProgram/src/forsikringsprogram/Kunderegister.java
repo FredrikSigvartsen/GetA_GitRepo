@@ -30,7 +30,6 @@ public class Kunderegister {
        Returnerer true hvis kunden blir lagt til. 
     */
     public boolean registrerKunde(ForsikringsKunde ny){
-        
         if(ny == null)
             return false;
         return kunderegister.add(ny);
@@ -50,25 +49,32 @@ public class Kunderegister {
     
     /* Registrerer en skademelding på en kunde som har fødselsnummer lik fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se SkademeldingsListe.registrerSkademelding  .*/
-    public boolean registrerSkademelding(Skademelding skademelding, String fodselsNr){
+    public String registrerSkademelding(Skademelding skademelding, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
-            return false;
+            return "Det finnes ingen kunder med dette fødselsnummeret.";
+        if(skademelding == null)
+            return "Skademelding ikke opprettet";
         return kunde.registrerSkademelding(skademelding);
     }// end of method registrerSkademelding(Skademelding skademelding, String fodselsNr)
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se Forsikringsliste.registrerForsikring()*/
-    public boolean tegnForsikring(Forsikring ny, String fodselsNr){
+    public String tegnForsikring(Forsikring ny, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
-            return false;
-        if(!kunde.registrerForsikring(ny))
-            return false;
-        return true;        
+            return "Det finnes ingen kunder med dette fødselsnummeret.";
+        return kunde.registrerForsikring(ny);        
     }// end of method tegnForsikring
     
-    
+    //Sier opp en forsikring med gitt avtaleNr, på en gitt kunde med gitt fødselsnummer. Returverdien indikerer om hva som gikk galt, eller om alt gikk bra. 
+    // Se ForsikringsKunde.siOppForsikring
+    public String siOppForsikring(String fdnr, int avtaleNr){
+        ForsikringsKunde kunden = finnKunde(fdnr);
+        if(kunden == null)
+            return "Det finnes ingen kunder med dette fødselsnummeret.";
+        return kunden.siOppForsikring(avtaleNr);
+    }// end of method siOppForsikring(fødselsnr, avtaleNr)
     
     @Override
     public String toString(){

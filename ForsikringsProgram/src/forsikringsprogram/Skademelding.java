@@ -27,7 +27,7 @@ public class Skademelding {
    private SimpleDateFormat formaterDato;
 
     
-    public Skademelding(String skadeType, String beskrivelse, ImageIcon bilde, String vitneKontakt, int takst, int erstatningsbeløp, Calendar inntruffetDato, String inntruffetTidspunkt) {
+    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, int takst, int erstatningsbeløp, Calendar inntruffetDato, String inntruffetTidspunkt) {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;

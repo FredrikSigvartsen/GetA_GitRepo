@@ -41,16 +41,36 @@ public class ForsikringsKunde {
         forsikringer = new Forsikringsliste();
     }// end of constructor
 
-    // Legger til en skademelding i kundens SkademeldingsListe. Returverdien indikerer om dette gikk eller ikke. Se SkademeldingsListe.registrerSkademelding()
-    public boolean registrerSkademelding(Skademelding ny){
-        return skademeldinger.registrerSkademelding(ny);
+    /* Legger til en skademelding i kundens SkademeldingsListe. Returverdien indikerer om dette gikk eller ikke. Se SkademeldingsListe.registrerSkademelding()
+       Returnerer også false hvis kunden ikke har riktig type forsikring. 
+    */
+    public String registrerSkademelding(Skademelding ny){
+        if(!forsikringer.harRiktigForsikring(ny.getSkadeType()))
+            return "Kunden har ikke forsikring på " + ( ny.getSkadeType() ).toLowerCase() +"en sin, i vårt selskap";
+        if(!skademeldinger.registrerSkademelding(ny))
+            return "Feil i registrering av skademelding. Kontakt IT-ansvarlig.";
+        return "Skademelding er nå registrert på " + etternavn + ", " + fornavn + ". Utbetaling er på vei.";
     } // end of method registrerSkademelding(Skademelding)
     
-    // Legger til en forsikring i kundens Forsikringsliste. Returverdien indikerer om dette gikk eller ikke. Se Forsikringsliste.Forsikring()
-    public boolean registrerForsikring(Forsikring ny){
-        return forsikringer.registrerForsikring(ny);
+    // Legger til en forsikring i kundens Forsikringsliste. Returverdien indikerer om det gikk, eller om hva som gikk galt. Se Forsikringsliste.Forsikring()
+    public String registrerForsikring(Forsikring ny){
+        if(ny == null)
+            return "Feil i opprettelse av forsikring. Kontakt IT-ansvarlig.";
+        if(!forsikringer.registrerForsikring(ny))
+            return "Feil i registrering av forsikring. Kontakt IT-ansvarlig.";
+        return "Forsikring nr." + ny.getAvtaleNr() + " er nå registrert på " + etternavn + ", " + fornavn + ".";
     } // end of method registrerForsikring(Forsikring)
 
+    //Sier opp kundens forsikring med gitt avtalenummer. Returverdi indikerer om det gikk, eller hva som gikk galt.
+    public String siOppForsikring(int avtaleNr){
+        Forsikring forsikringen = forsikringer.finnForsikringer(avtaleNr);
+        if(forsikringen == null)
+            return "Kunden har ingen forsikring med dette avtalenummeret.";
+        forsikringen.opphorForsikring();
+        return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString() ;
+    }// end of method siOppForsikring(avtaleNr)
+    
+    
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
