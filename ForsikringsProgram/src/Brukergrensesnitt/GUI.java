@@ -7,12 +7,14 @@ package Brukergrensesnitt;
 import forsikringsprogram.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Iterator;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -27,14 +29,16 @@ import javafx.stage.Stage;
  */
 public class GUI extends Application{  
     private Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
+    private BorderPane layout;
     private VBox kundeRegistreringBox;
     private VBox skadeRegistreringBox;
     private VBox forsikringRegistreringBox;
     private VBox siOppForsikringBox;
     private VBox sokBox;
+    private VBox center;
     private HBox faneMeny;
     private HBox kundebehandlingsMeny;
-    private HBox outputBox = new HBox();
+    private HBox outputBox;
     private TabPane fanePanel;
     private TabPane kundebehandlingsPanel;
     private ComboBox forsikringsType;
@@ -45,17 +49,20 @@ public class GUI extends Application{
     private TextField adresse;
     private TextField postnr;
     private TextField poststed;
-    private TextField telefonnr;
-    private TextField fodselsnr;
+    private TextField fodselsnrSkade;
+    private TextField fodselsnrKunde;
     private TextField avtalenr;
     private TextField skadeBeskrivelse;
     private TextField sted;
     private TextField utbetalingsBelop;
+    private TextArea outputArea;
     private Kunderegister kundeRegister;
     private Button tegnForsikring;
-    private Button registrer;
+    private Button registrerKunde;
+    private Button registrerSkade;
     
     public GUI(){
+        layout = new BorderPane();
         faneMeny();
         kundeMeny();
         kundeRegistrering();
@@ -64,6 +71,14 @@ public class GUI extends Application{
         kundeSok();
         skadeRegistrering();
         kundeRegister = new Kunderegister();
+        center = new VBox();
+        outputBox = new HBox();
+        outputArea = TextAreaBuilder.create()
+                    .prefWidth(getSkjermBredde())
+                    .prefHeight(getSkjermHoyde() / 3)
+                    .wrapText(true)
+                    .editable(false)
+                    .build();
     }
     
     private void faneMeny(){
@@ -130,7 +145,7 @@ public class GUI extends Application{
         Label telefonnrLabel;
         Label fodselsnrLabel;
         
-        registrer = new Button("Registrer");
+        registrerKunde = new Button("Registrer");
         
         fornavnLabel = new Label("Fornavn:");
         fornavn = TextFieldBuilder.create()
@@ -162,21 +177,15 @@ public class GUI extends Application{
                    .maxWidth(100)
                    .build();
         
-        telefonnrLabel = new Label("Telefonnummer:");
-        telefonnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
-                   .build();
-        
         fodselsnrLabel = new Label("Fødselsnummer:");
-        fodselsnr = TextFieldBuilder.create()
+        fodselsnrKunde = TextFieldBuilder.create()
                    .minWidth(100)
                    .maxWidth(100)
                    .build();
         
         kundeRegistreringBox.getChildren().addAll(fornavnLabel, fornavn, etternavnLabel,
                 etternavn, adresseLabel, adresse, postnrLabel, postnr, poststedLabel, 
-                poststed, telefonnrLabel, telefonnr, fodselsnrLabel, fodselsnr, registrer);
+                poststed, fodselsnrLabel, fodselsnrKunde, registrerKunde);
     }
     
      private void tegnForsikring(){                   
@@ -363,7 +372,7 @@ public class GUI extends Application{
         Label stedLabel;
         Label utbetalingsBelopLabel;
         
-        registrer = new Button("Registrer og utbetal");
+        registrerSkade = new Button("Registrer og utbetal");
         
         avtalenrLabel = new Label("Avtalenummer:");
         avtalenr = TextFieldBuilder.create()
@@ -372,7 +381,7 @@ public class GUI extends Application{
                    .build();
         
         fodselsnrLabel = new Label("Fødselsnummer:");
-        fodselsnr = TextFieldBuilder.create()
+        fodselsnrSkade = TextFieldBuilder.create()
                    .minWidth(100)
                    .maxWidth(100)
                    .build();
@@ -405,8 +414,8 @@ public class GUI extends Application{
                    .build();
         
         skadeRegistreringBox.getChildren().addAll(avtalenrLabel, avtalenr, fodselsnrLabel,
-                fodselsnr, skadeTypeLabel, skadeType, skadeBeskrivelseLabel, skadeBeskrivelse, stedLabel, sted, utbetalingsBelopLabel, 
-                utbetalingsBelop, registrer);
+                fodselsnrSkade, skadeTypeLabel, skadeType, skadeBeskrivelseLabel, skadeBeskrivelse, stedLabel, sted, utbetalingsBelopLabel, 
+                utbetalingsBelop, registrerSkade);
     }
     
     private double getSkjermBredde(){
@@ -423,51 +432,65 @@ public class GUI extends Application{
         String adresse = this.adresse.getText();
         String poststed = this.poststed.getText();
         String postnr = this.postnr.getText();
-        String fodselsnr = this.fodselsnr.getText();
+        String fodselsnr = this.fodselsnrKunde.getText();
         if(fornavn.trim().equals("") || etternavn.trim().equals("") || adresse.trim().equals("") || poststed.trim().equals("") || postnr.trim().equals("") || fodselsnr.trim().equals("")){
+            /*if(fornavn.trim().equals(""))
+                System.out.println("Fyll inn fornavn");
+            else if(etternavn.trim().equals(""))
+                System.out.println("Fyll inn etternavn");
+            else if(adresse.trim().equals(""))
+                System.out.println("Fyll inn adresse");
+            else if(postnr.trim().equals(""))
+                System.out.println("Fyll inn postnr");
+            else if(poststed.trim().equals(""))
+                System.out.println("Fyll inn poststed");
+            else if(fodselsnr.trim().equals(""))
+                System.out.println("Fyll inn fodselsnr");*/
             System.out.println("Venligst fyll inn alle feltene");
         }
         else{
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
             kundeRegister.registrerKunde(kunde);
-            //System.out.println(kunde.toString());
-            TextArea kundeOutput;
-            kundeOutput = TextAreaBuilder.create()
-                    .prefWidth(getSkjermBredde())
-                    .prefHeight(getSkjermHoyde() / 3)
-                    .wrapText(true)
-                    .editable(false)
-                    .build();
-            kundeOutput.setText(kunde.toString());
-            outputBox.getChildren().addAll(kundeOutput);
+            System.out.println(kunde.toString());
+            outputArea.setText(kunde.toString());
+            outputBox.getChildren().removeAll(outputArea);
+            outputBox.getChildren().addAll(outputArea);
+            //fjernTekstIFelter();
         }
     }
     
     private void registrerSkadeMelding(){
         String avtalenr = this.avtalenr.getText();
-        String fodselsnr = this.fodselsnr.getText();
+        String fodselsnr = this.fodselsnrSkade.getText();
         //skadestype
         String skadeBeskrivelse = this.skadeBeskrivelse.getText();
         //dato
         String sted = this.sted.getText();
         int utbetalingsBelop = Integer.parseInt(this.utbetalingsBelop.getText());
-        if(avtalenr.trim().equals("") || fodselsnr.trim().equals("") || skadeBeskrivelse.trim().equals("") || sted.trim().equals("") || utbetalingsBelop != 0){
+        if(avtalenr.trim().equals("") || fodselsnr.trim().equals("") || skadeBeskrivelse.trim().equals("") || sted.trim().equals("") || utbetalingsBelop == 0){
             System.out.println("Venligst fyll inn alle feltene");
         }
         else{
             Skademelding skade = new Skademelding(null, skadeBeskrivelse, null, null, 0, utbetalingsBelop, null, null );
-            TextArea skadeOutput;
-            skadeOutput = TextAreaBuilder.create()
+            System.out.println(skade.toString());
+            /*outputArea = TextAreaBuilder.create()
                     .prefWidth(getSkjermBredde())
                     .prefHeight(getSkjermHoyde() / 3)
                     .wrapText(true)
                     .editable(false)
-                    .build();
-            skadeOutput.setText(skade.toString());
-            outputBox.getChildren().addAll(skadeOutput);
+                    .build();*/
+            outputArea.setText(skade.toString());
+            outputBox.getChildren().removeAll(outputArea);
+            outputBox.getChildren().addAll(outputArea);
         }
     }
     
+    /*private void fjernTekstIFelter(){
+        layout.getChildren().stream().filter((node) -> (node instanceof TextField)).forEach((node) -> {
+            ((TextField)node).setText("");
+        });
+    }*/
+    //Override av Application sin start metode slik at vi kan vise de ønskede komponentene på skjermen
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Forsikringsprogram");
@@ -488,11 +511,11 @@ public class GUI extends Application{
         //output.setText(kunde.toString());
         outputBox.getChildren().addAll(output);*/
         
-        VBox center = new VBox();
+        
         center.getChildren().addAll(kundebehandlingsMeny, kundeRegistreringBox);
         
        
-        BorderPane layout = new BorderPane();
+        
         layout.setTop(faneMeny);
         layout.setCenter(center);
         layout.setBottom(outputBox);
@@ -551,8 +574,11 @@ public class GUI extends Application{
                     break;
             }
         });
-        registrer.setOnAction((ActionEvent event) -> {
+        registrerKunde.setOnAction((ActionEvent event) -> {
             registrerKunde();
+        });
+        registrerSkade.setOnAction((ActionEvent event) -> {
+            registrerSkadeMelding();
         });
         /*forsikringsType.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ComboBox>() {
             @Override
