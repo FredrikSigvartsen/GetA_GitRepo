@@ -1,6 +1,5 @@
-
+//Elias, Fredrik
 package forsikringsprogram;
-
 import java.io.Serializable;
 import java.util.Comparator;
 

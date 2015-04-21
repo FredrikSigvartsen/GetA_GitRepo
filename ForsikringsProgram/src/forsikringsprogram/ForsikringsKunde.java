@@ -43,7 +43,12 @@ public class ForsikringsKunde implements Serializable{
         skademeldinger = new SkademeldingsListe();
         forsikringer = new Forsikringsliste();
     }// end of constructor
-
+    
+    ///Metode jeg har brukt for å teste
+    public Forsikringsliste getForsikringsliste() {
+        return forsikringer;
+    }
+    
     /* Legger til en skademelding i kundens SkademeldingsListe. Returverdien indikerer om dette gikk eller ikke. Se SkademeldingsListe.registrerSkademelding()
        Returnerer også false hvis kunden ikke har riktig type forsikring. 
     */

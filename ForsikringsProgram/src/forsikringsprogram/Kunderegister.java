@@ -21,7 +21,6 @@ public class Kunderegister implements Serializable {
                 return f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn());
             }
         };
-        // end of override method compare( ForsikringsKunde f1, ForsikringsKunde f2 )
         
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
     }// end of oonstructor

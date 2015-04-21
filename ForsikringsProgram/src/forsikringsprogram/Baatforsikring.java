@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Baatforsikring extends Forsikring implements Serializable{
     
     private static final long serialVersionUID = 345L;
-    private int registreringsNr;
+    private String registreringsNr;
     private int aarsmodell;
     private int motorstyrke;
     private String merke;
@@ -18,7 +18,7 @@ public class Baatforsikring extends Forsikring implements Serializable{
     
     //Konstruktør
     public Baatforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop, 
-                         int registreringsNr, int aarsmodell, int motorstyrke, String merke,
+                         String registreringsNr, int aarsmodell, int motorstyrke, String merke,
                          String modell, String motortype) {
         
         super(betingelser, forsikringsPremie, forsikringsBelop);
