@@ -51,12 +51,23 @@ public class GUI extends Application{
     private TextField poststed;
     private TextField fodselsnrSkade;
     private TextField fodselsnrKunde;
+    private TextField fodselsnrForsikring;
     private TextField avtalenr;
     private TextField skadeBeskrivelse;
     private TextField sted;
     private TextField utbetalingsBelop;
+    private TextField forsikringspremie;
+    private TextField forsikringsbelop;
+    private TextField betingelser;
+    private TextField registreringsnr;
+    private TextField merke;
+    private TextField modell;
+    private TextField registreringsar;
+    private TextField kjorelengde;
+    private TextField prisPerKm;
     private TextArea outputArea;
     private Kunderegister kundeRegister;
+    private Bilforsikring bilForsikring;
     private Button tegnForsikring;
     private Button registrerKunde;
     private Button registrerSkade;
@@ -194,20 +205,12 @@ public class GUI extends Application{
                 .spacing(5.0)
                 .build();
         
-        TextField fodselsnr;
         forsikringsType = new ComboBox();
-        TextField forsikringspremie;
-        TextField forsikringsbelop;
-        TextField betingelser;  //Sjekk ut om dette skal være med
+          //Sjekk ut om dette skal være med
         
         //ANDRE FELTER SOM KOMMER FREM BASERT PÅ VALG I DROPDOWN!!!!
         //Bilforsikring
-        TextField registreringsnr;
-        TextField merke;
-        TextField modell;
-        TextField registreringsar;
-        TextField kjorelengde;
-        TextField prisPerKm;
+        
         
         Label registreringsnrLabel;
         Label merkeLabel;
@@ -215,6 +218,42 @@ public class GUI extends Application{
         Label registreringsarLabel;
         Label kjorelengdeLabel;
         Label prisPerKmLabel;
+        
+        registreringsnrLabel = new Label("Registreringsnummer:");
+        registreringsnr = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+        
+        merkeLabel = new Label("Merke:");
+        merke = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+                
+        modellLabel = new Label("Modell:");
+        modell = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+                
+        registreringsarLabel = new Label("Registrerings år:");
+        registreringsar = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+                
+        kjorelengdeLabel = new Label("Kjørelengde:");
+        kjorelengde = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
+                
+        prisPerKmLabel = new Label("Pris per KM:");
+        prisPerKm = TextFieldBuilder.create()
+                   .minWidth(100)
+                   .maxWidth(100)
+                   .build();
         //Slutt Bilforsikring
         
         //Båtforsikring
@@ -265,7 +304,7 @@ public class GUI extends Application{
         tegnForsikring = new Button("Tegn forsikring");
         
         fodselsnrLabel = new Label("Fødselsnummer:");
-        fodselsnr = TextFieldBuilder.create()
+        fodselsnrForsikring = TextFieldBuilder.create()
                    .minWidth(100)
                    .maxWidth(100)
                    .build();
@@ -295,8 +334,10 @@ public class GUI extends Application{
                    .build();
         
         
-        forsikringRegistreringBox.getChildren().addAll(fodselsnrLabel, fodselsnr, forsikringstypeLabel, forsikringsType, forsikringspremieLabel,
-                forsikringspremie, forsikringsbelopLabel, forsikringsbelop, betingelserLabel, betingelser, tegnForsikring);
+        forsikringRegistreringBox.getChildren().addAll(fodselsnrLabel, fodselsnrForsikring, forsikringstypeLabel, forsikringsType, forsikringspremieLabel,
+                forsikringspremie, forsikringsbelopLabel, forsikringsbelop, betingelserLabel, betingelser, registreringsnrLabel, 
+                registreringsnr, merkeLabel, merke, modellLabel, modell, registreringsarLabel, registreringsar, kjorelengdeLabel, kjorelengde, 
+                prisPerKmLabel, prisPerKm, tegnForsikring);
     }
      
     private void siOppForsikring(){                   
@@ -451,11 +492,40 @@ public class GUI extends Application{
         else{
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
             kundeRegister.registrerKunde(kunde);
-            System.out.println(kunde.toString());
+            //System.out.println(kunde.toString());
             outputArea.setText(kunde.toString());
             outputBox.getChildren().removeAll(outputArea);
             outputBox.getChildren().addAll(outputArea);
             //fjernTekstIFelter();
+        }
+    }
+    
+    private void registrerForsikring(){
+        String fodselsnr = this.fodselsnrForsikring.getText();
+        String forsikringsType = (String) this.forsikringsType.getValue();
+        int forsikringspremie = Integer.parseInt(this.forsikringspremie.getText());
+        int forsikringsbelop = Integer.parseInt(this.forsikringsbelop.getText());
+        String betingelser = this.betingelser.getText();
+        String registreringsnr = this.registreringsnr.getText();
+        String merke = this.merke.getText();
+        String modell = this.modell.getText();
+        int registreringsar = Integer.parseInt(this.registreringsar.getText());
+        int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
+        int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
+        
+        if(fodselsnr.trim().equals("") || forsikringsType.trim().equals("") || forsikringspremie == 0 
+                || forsikringsbelop == 0 || betingelser.trim().equals("") || registreringsnr.trim().equals("")
+                || merke.trim().equals("") || modell.trim().equals("") || registreringsar == 0
+                || kjorelengde == 0 || prisPerKm == 0){
+            System.out.println("Venligst fyll inn allefeltene");
+        }
+        else{
+            bilForsikring = new Bilforsikring(betingelser, forsikringspremie, forsikringsbelop,
+                         registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
+            kundeRegister.tegnForsikring(bilForsikring, fodselsnr);
+            outputArea.setText(bilForsikring.toString());
+            outputBox.getChildren().removeAll(outputArea);
+            outputBox.getChildren().addAll(outputArea);
         }
     }
     
@@ -579,6 +649,9 @@ public class GUI extends Application{
         });
         registrerSkade.setOnAction((ActionEvent event) -> {
             registrerSkadeMelding();
+        });
+        tegnForsikring.setOnAction((ActionEvent event) -> {
+            registrerForsikring();
         });
         /*forsikringsType.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ComboBox>() {
             @Override
