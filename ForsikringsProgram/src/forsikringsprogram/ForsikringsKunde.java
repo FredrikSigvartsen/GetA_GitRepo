@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package forsikringsprogram;
+import java.io.Serializable;
 import java.util.*;
 import java.text.*;
 /**
@@ -11,7 +12,9 @@ import java.text.*;
  * @author Jens
  */
 
-public class ForsikringsKunde {
+public class ForsikringsKunde implements Serializable{
+    
+    private static final long serialVersionUID = 321L;
     private String fornavn;
     private String etternavn;
     private String fakturaAdresse;

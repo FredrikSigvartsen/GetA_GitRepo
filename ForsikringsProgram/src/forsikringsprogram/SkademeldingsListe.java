@@ -5,16 +5,17 @@
  */
 package forsikringsprogram;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author fredr_000
  */
-public class SkademeldingsListe {
+public class SkademeldingsListe implements Serializable {
     
+    private static final long serialVersionUID = 567L;
     private List<Skademelding> skademeldingsListe;
-    private ListIterator<Skademelding> iterator;
     
     public SkademeldingsListe(){
         skademeldingsListe = new ArrayList<>();
@@ -33,7 +34,7 @@ public class SkademeldingsListe {
     public List<Skademelding> finnSkademeldinger(String skademeldingsType){
        List<Skademelding> liste = new ArrayList<>();
         
-       iterator = skademeldingsListe.listIterator();
+       ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         while( iterator.hasNext() ){
             Skademelding gjeldeneSkademelding = iterator.next();
             if( skademeldingsType.equalsIgnoreCase( gjeldeneSkademelding.getSkadeType()) )
@@ -54,7 +55,7 @@ public class SkademeldingsListe {
             return null;
         
         List<Skademelding> liste = new ArrayList<>();
-        iterator = skademeldingsListe.listIterator();
+        ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         
         while(iterator.hasNext()){
             Skademelding gjeldendeSkademelding = iterator.next();
@@ -83,7 +84,7 @@ public class SkademeldingsListe {
     @Override
     public String toString(){
         
-        iterator = skademeldingsListe.listIterator();
+        ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         String utskrift = "";
         while(iterator.hasNext()){
             utskrift += iterator.next().toString();

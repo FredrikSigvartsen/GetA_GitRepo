@@ -1,24 +1,26 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forsikringsprogram;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author Fredrik
  */
-public class Kunderegister {
+public class Kunderegister implements Serializable {
+    
+    private static final long serialVersionUID = 123L;
     private TreeSet<ForsikringsKunde> kunderegister;
-    private Iterator<ForsikringsKunde> iterator;
     
     public Kunderegister(){
         // Redefinerer comparatoren til å sortere på etternavn
-        Comparator<ForsikringsKunde> comparator = (ForsikringsKunde f1, ForsikringsKunde f2) -> f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn()) ;
+        SerialiserbarComparator<ForsikringsKunde> comparator = new SerialiserbarComparator<ForsikringsKunde>() {
+
+            @Override
+            public int compare(ForsikringsKunde f1, ForsikringsKunde f2) {
+                return f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn());
+            }
+        };
         // end of override method compare( ForsikringsKunde f1, ForsikringsKunde f2 )
         
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
@@ -38,7 +40,7 @@ public class Kunderegister {
     // Finner en kunde med fornavn,etternavn,fødselsnummer, og returnerer denne Kunden. Returnerer null kunden ikke finnes i registeret.
     public ForsikringsKunde finnKunde(String fodselsNr){
         
-        iterator = kunderegister.iterator();
+        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
         while(iterator.hasNext()){
             ForsikringsKunde gjeldendeKunde = iterator.next();
             if( fodselsNr.equalsIgnoreCase(gjeldendeKunde.getFodselsNr()) )
@@ -80,7 +82,7 @@ public class Kunderegister {
     public String toString(){
         if(kunderegister.isEmpty())
             return null;
-        iterator = kunderegister.iterator();
+        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
         String utskrift = "";
         while(iterator.hasNext())
             utskrift += iterator.next().toString();

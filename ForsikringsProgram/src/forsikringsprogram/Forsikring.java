@@ -1,12 +1,14 @@
 //Elias
 
 package forsikringsprogram;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 //Abstrakt superklasse til alle forsikringstypene
-public abstract class Forsikring {
+public abstract class Forsikring implements Serializable{
     
+    private static final long serialVersionUID = 432L;
     public static final String BAAT = "Båt";
     public static final String REISE = "Reise";
     public static final String BIL = "Bil";

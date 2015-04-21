@@ -2,6 +2,7 @@ package forsikringsprogram;
 
 
 import java.awt.*;
+import java.io.Serializable;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
@@ -13,18 +14,19 @@ import javax.swing.*;
  Vi har get-metoder for de fleste variablene, da det er interessant å kunne hente informasjon om en skademelding senere i programmet. 
 */
 
-public class Skademelding {
-
-   private Calendar inntruffetDato;
-   private String inntruffetTidspunkt;
-   private String skadeType; 
-   private static int nesteNr = 1;
-   private int skadeNr;          
-   private String beskrivelse;  // Beskrivelse av skade
-   private String vitneKontakt; // Kontaktinformasjon om vitner
-   private int takst;           // Taksteringsbeløp for skaden
-   private int erstatningsbeløp;
-   private SimpleDateFormat formaterDato;
+public class Skademelding implements Serializable {
+    
+    private static final long serialVersionUID = 765L;
+    private Calendar inntruffetDato;
+    private String inntruffetTidspunkt;
+    private String skadeType; 
+    private static int nesteNr = 1;
+    private int skadeNr;          
+    private String beskrivelse;  // Beskrivelse av skade
+    private String vitneKontakt; // Kontaktinformasjon om vitner
+    private int takst;           // Taksteringsbeløp for skaden
+    private int erstatningsbeløp;
+    private SimpleDateFormat formaterDato;
 
     
     public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, int takst, int erstatningsbeløp, Calendar inntruffetDato, String inntruffetTidspunkt) {
