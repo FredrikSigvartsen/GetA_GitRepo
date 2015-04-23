@@ -5,11 +5,11 @@
  */
 package Brukergrensesnitt;
 
+import Brukergrensesnitt.skademelding.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.scene.*;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -27,7 +27,6 @@ public class GUI extends Application{
     private HBox faneMeny;
     private TabPane fanePanel;
     private KundePane kundeLayout;
-    private SkadePane skadeLayout;
     private KundebehandlingsFaner faner;
     private TegnforsikringsPane tegnForsikringsPane;
     
@@ -50,10 +49,6 @@ public class GUI extends Application{
         kundebehandlingFane.setText("Kundebehandling");
         fanePanel.getTabs().add(kundebehandlingFane);
 
-        Tab skademeldingFane = new Tab();
-        skademeldingFane.setText("Skademelding");
-        fanePanel.getTabs().add(skademeldingFane);
-
         Tab okonomiFane = new Tab();
         okonomiFane.setText("Økonomi");
         fanePanel.getTabs().add(okonomiFane);
@@ -67,11 +62,10 @@ public class GUI extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         kundeLayout = new KundePane();
-        skadeLayout = new SkadePane();
-        tegnForsikringsPane = new TegnforsikringsPane();
+        tegnForsikringsPane = new TegnforsikringsPane(); // Denne skal vel ikke være her Jens? 
         faneMeny();
         kundeLayout.tabLytter();
-        tegnForsikringsPane.comboLytter();
+        tegnForsikringsPane.comboLytter();  // Ikke denne heller vel?
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
@@ -88,9 +82,6 @@ public class GUI extends Application{
             switch (t1.getText()) {
                 case "Kundebehandling":
                     layout.setCenter(kundeLayout);
-                    break;
-                case "Skademelding":
-                    layout.setCenter(skadeLayout);
                     break;
                 case "Økonomi":
                     break;

@@ -60,6 +60,15 @@ public class Kunderegister {
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se Forsikringsliste.registrerForsikring()*/
+   
+    
+    /**
+     * Fddfdfd.
+     * GGhgg
+     * @param ny
+     * @param fodselsNr
+     * @return 
+     */
     public boolean tegnForsikring(Forsikring ny, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
@@ -70,7 +79,10 @@ public class Kunderegister {
     }// end of method tegnForsikring
     
     
-    
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString(){
         if(kunderegister.isEmpty())

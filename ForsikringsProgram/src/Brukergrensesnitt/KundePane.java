@@ -5,68 +5,79 @@
  */
 package Brukergrensesnitt;
 
-import javafx.scene.*;
+import Brukergrensesnitt.skademelding.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import forsikringsprogram.*;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Side;
 
 /**
  *
  * @author Jens
  */
 public class KundePane extends BorderPane{
-    private Scene kundeScene;
-    private HBox kundebehandlingsMeny;
+    
+    private VBox kundebehandlingsMeny;
     private TabPane kundebehandlingsPanel;
-    private ForsikringsKunde kunde;
-    private Kunderegister kundeRegister;
-    private KundebehandlingsFaner kundeFaner;
-    private KunderegistreringsPane registreringsPane;
+    
+    //Forskjellgie typer for kundebehandling
+    private RegistrerKundeLayout kundeRegistreringsPane;
     private TegnforsikringsPane forsikringsPane;
     private SioppforsikringsPane sioppPane;
     private KundesokPane sokPane;
+    private RegistrerSkadeLayout registrerSkademeldingLayout;
         
     public KundePane() {
         kundebehandlingsFaner();
-        registreringsPane = new KunderegistreringsPane();
+        opprettLayout();
+    }
+    public void opprettLayout(){
+        kundebehandlingsMeny = kundebehandlingsFaner();
+        registrerSkademeldingLayout = new RegistrerSkadeLayout();
+        kundeRegistreringsPane = new RegistrerKundeLayout();
         forsikringsPane = new TegnforsikringsPane();
         sioppPane = new SioppforsikringsPane();
         sokPane = new KundesokPane();
-        setTop(kundebehandlingsMeny);
-        setCenter(registreringsPane);
-        //setCenter(kundebehandlingsP)
+        
+        //Setter plassering
+        setLeft(kundebehandlingsMeny);
+        setCenter(kundeRegistreringsPane);
     }
-    
-    public void kundebehandlingsFaner(){
-        kundebehandlingsMeny = new HBox();
+    public VBox kundebehandlingsFaner(){
+        VBox box = new VBox();
         kundebehandlingsPanel = new TabPane();
-        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde() * 2);
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        Tab registrerFane = new Tab();
-        registrerFane.setText("Kunderegistrering");
+        
+        
+        Tab registrerFane = new Tab("Kunderegistrering");
         kundebehandlingsPanel.getTabs().add(registrerFane);
         
-        Tab forsikringsFane = new Tab();
-        forsikringsFane.setText("Tegn forsikring");
+        Tab forsikringsFane = new Tab("Tegn forsikring");
         kundebehandlingsPanel.getTabs().add(forsikringsFane);
         
-        Tab sioppForsikringsFane = new Tab();
-        sioppForsikringsFane.setText("Si opp forsikring");
+        Tab sioppForsikringsFane = new Tab("Si opp forsikring");
         kundebehandlingsPanel.getTabs().add(sioppForsikringsFane);
         
-        Tab sokFane = new Tab();
-        sokFane.setText("Søk");
+        Tab registrerSkademeldingFane = new Tab("Registrer skademelding");
+        kundebehandlingsPanel.getTabs().add(registrerSkademeldingFane);
+        
+        Tab sokFane = new Tab("Søk");
         kundebehandlingsPanel.getTabs().add(sokFane);
         
-        kundebehandlingsMeny.getChildren().add(kundebehandlingsPanel);
+        
+        kundebehandlingsPanel.setSide(Side.LEFT);
+        //kundebehandlingsPanel.setRotate(90);
+        
+        box.getChildren().add(kundebehandlingsPanel);
+        
+        return box;
     }
     
     public void tabLytter(){
         kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov2, Tab t2, Tab t3) -> {
         switch (t3.getText()) {
             case "Kunderegistrering":
-                setCenter(registreringsPane);
+                setCenter(kundeRegistreringsPane);
                 break;
             case "Tegn forsikring":
                 setCenter(forsikringsPane);
@@ -77,6 +88,11 @@ public class KundePane extends BorderPane{
             case "Søk":   
                 setCenter(sokPane);
                 break;
+            case "Registrer skademelding":
+                setCenter(registrerSkademeldingLayout);
+                break;
+            default:
+                setCenter(kundeRegistreringsPane);
             }
         });
     }

@@ -13,13 +13,13 @@ import javafx.scene.layout.*;
  *
  * @author Jens
  */
-public class KunderegistreringsPane extends GridPane{
+public class RegistrerKundeLayout extends GridPane{
     
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
     private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;
     private Button registrerKunde;
     
-    public KunderegistreringsPane(){
+    public RegistrerKundeLayout(){
         kundeRegistreringSkjema();
     }
     

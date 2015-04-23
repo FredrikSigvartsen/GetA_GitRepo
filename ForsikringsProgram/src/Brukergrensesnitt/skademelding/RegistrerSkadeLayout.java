@@ -5,7 +5,6 @@
  */
 package Brukergrensesnitt.skademelding;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -17,6 +16,7 @@ public class RegistrerSkadeLayout extends GridPane {
     
     private VBox skadeInfoBox;
     private VBox ekstraInfoBox;
+    private Border kantlinje;
     
     public RegistrerSkadeLayout(){
         opprettRegisteringLayout();
@@ -35,7 +35,7 @@ public class RegistrerSkadeLayout extends GridPane {
     //Returnerer en VBox(VertikalBoks) hvor brukeren skal skrive inn fødselsnr, velge skadetype, og beskrive skaden. 
     private VBox skadeInfoBox(){
         VBox box = new VBox(8);
-        box.setPadding(new Insets(15));
+        box.setBorder(SkademeldingsPane.KANTLINJE);
         
         //Labels
         Label fodselsNrLabel = new Label("Kundens fødselsnummer:");
@@ -45,16 +45,29 @@ public class RegistrerSkadeLayout extends GridPane {
         
         //TextInputs
         TextField fodselsNr = new TextField();
+        fodselsNr.setMinWidth(50);
+        fodselsNr.setPrefWidth(50);
+        fodselsNr.setMaxWidth(400);
+        
         ChoiceBox skadeType = new ChoiceBox();
         skadeType.getItems().addAll("Bolig", "Båt", "Bil", "Reise");
+        
         TextArea skadeBeskrivelse = new TextArea();
+        skadeBeskrivelse.setMinWidth(50);
+        skadeBeskrivelse.setPrefWidth(50);
+        skadeBeskrivelse.setMaxWidth(400);
+        
         TextField takst = new TextField();
+        takst.setMinWidth(50);
+        takst.setPrefWidth(50);
+        takst.setMaxWidth(400);
         
         
         box.getChildren().addAll(fodselsNrLabel, fodselsNr, 
                                  skadeTypeLabel, skadeType, 
-                                 skadeBeskrivelseLabel,  skadeBeskrivelse,
-                                 taksteringsLabel, takst);
+                                 taksteringsLabel, takst,
+                                 skadeBeskrivelseLabel,  skadeBeskrivelse
+                                 );
         return box;
     }// end of method genereringAvUtbetlingBox()
     
@@ -62,7 +75,7 @@ public class RegistrerSkadeLayout extends GridPane {
     // En vertikal boks med info om dato og tidspunkt for inntruffet skade, og input for kontaktinformasjon
     private VBox ekstraInfoBox(){
         VBox box = new VBox(8);
-        box.setPadding(new Insets(15));
+        box.setBorder(SkademeldingsPane.KANTLINJE);
         //Labels
         Label datoLabel = new Label("Dato inntruffet:");
         Label tidspunktLabel = new Label("Tidspunkt inntruffet:");
@@ -71,6 +84,11 @@ public class RegistrerSkadeLayout extends GridPane {
         //TextInputs
         DatePicker dato = new DatePicker();
         TextField tidspunkt = new TextField();
+        tidspunkt.setMinWidth(40);
+        tidspunkt.setPrefWidth(80);
+        tidspunkt.setMaxWidth(80);
+        
+        
         TextArea vitne = new TextArea();
         
         //Legger til dataInputs og beskrivende labels.
