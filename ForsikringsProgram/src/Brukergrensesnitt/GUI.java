@@ -20,14 +20,14 @@ import javafx.stage.Stage;
  *
  * @author Jens
  */
-public class StartGUI extends Application{
+public class GUI extends Application{
     private Stage stage;
     private Scene scene;
     private static Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
     private HBox faneMeny;
     private TabPane fanePanel;
-    private KundeScene kundeSceneObjekt;
-    private SkadeScene skadeSceneObjekt;
+    private KundePane kundeLayout;
+    private SkadePane skadeLayout;
     private KundebehandlingsFaner faner;
     
     
@@ -42,7 +42,7 @@ public class StartGUI extends Application{
     public void faneMeny(){
         faneMeny = new HBox();
         fanePanel = new TabPane();
-        fanePanel.setMinWidth(StartGUI.getSkjermBredde());
+        fanePanel.setMinWidth(GUI.getSkjermBredde() * 2);
         fanePanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         
         Tab kundebehandlingFane = new Tab();
@@ -65,22 +65,23 @@ public class StartGUI extends Application{
     
     @Override
     public void start(Stage primaryStage) throws Exception{
-        kundeSceneObjekt = new KundeScene();
-        skadeSceneObjekt = new SkadeScene();
-        faner = new KundebehandlingsFaner();
+        kundeLayout = new KundePane();
+        //skadeSceneObjekt = new SkadeScene();
+        //faner = new KundebehandlingsFaner();
         faneMeny();
-        TabPane kundeFaner = faner.getFaner();
+        //TabPane kundeFaner = faner.getFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
-        layout.setCenter(kundeSceneObjekt.getBox());
-        scene= new Scene(layout, getSkjermBredde(), getSkjermHoyde());
+        layout.setCenter(kundeLayout);
+        
+        scene = new Scene(layout, getSkjermBredde(), getSkjermHoyde());
         
         stage.setScene(scene);
         stage.show();
         
-        fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
+        /*fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
             switch (t1.getText()) {
                 case "Kundebehandling":
                     layout.setCenter(kundeSceneObjekt.getBox());
@@ -119,13 +120,6 @@ public class StartGUI extends Application{
         });
         tegnForsikring.setOnAction((ActionEvent event) -> {
             registrerForsikring();
-        });
-        /*forsikringsType.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ComboBox>() {
-            @Override
-            public void changed(ObservableValue<? extends ComboBox> ov, ComboBox t, ComboBox t1) {
-                System.out.println("Woop!");
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
         });*/
     }
   

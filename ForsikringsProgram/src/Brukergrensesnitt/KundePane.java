@@ -5,36 +5,35 @@
  */
 package Brukergrensesnitt;
 
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import forsikringsprogram.*;
-import javafx.event.ActionEvent;
 
 /**
  *
  * @author Jens
  */
-public class KundeScene extends Scene{
+public class KundePane extends BorderPane{
     private Scene kundeScene;
-    private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
-    private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;    
-    private VBox kundeRegistreringsBox;    
-    private VBox kundeBox;    
-    private Button registrerKunde;
     private HBox kundebehandlingsMeny;
     private TabPane kundebehandlingsPanel;
     private ForsikringsKunde kunde;
     private Kunderegister kundeRegister;
     private KundebehandlingsFaner kundeFaner;
+    private KunderegistreringsPane registreringsPane;
         
-    /*public void kundebehandlingsFaner(){
+    public KundePane() {
+        kundebehandlingsFaner();
+        registreringsPane = new KunderegistreringsPane();
+        leggTil();
+        //setCenter(kundebehandlingsP)
+    }
+    
+    public void kundebehandlingsFaner(){
         kundebehandlingsMeny = new HBox();
         kundebehandlingsPanel = new TabPane();
-        kundebehandlingsPanel.setMinWidth(StartGUI.getSkjermBredde());
+        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde());
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         Tab registrerFane = new Tab();
         registrerFane.setText("Kunderegistrering");
@@ -53,16 +52,17 @@ public class KundeScene extends Scene{
         kundebehandlingsPanel.getTabs().add(sokFane);
         
         kundebehandlingsMeny.getChildren().add(kundebehandlingsPanel);
-    }*/
+    }
     
-    public KundeScene() {
-        
-        
+    public void leggTil(){
+        setTop(kundebehandlingsMeny);
+        setCenter(registreringsPane);
     }
     
     
     
-    public void registrerKunde(){
+    
+    /*public void registrerKunde(){
         String fornavn = this.fornavn.getText();
         String etternavn = this.etternavn.getText();
         String adresse = this.adresse.getText();
@@ -81,7 +81,7 @@ public class KundeScene extends Scene{
             else if(poststed.trim().equals(""))
                 System.out.println("Fyll inn poststed");
             else if(fodselsnr.trim().equals(""))
-                System.out.println("Fyll inn fodselsnr");*/
+                System.out.println("Fyll inn fodselsnr");
             System.out.println("Venligst fyll inn alle feltene");
         }
         else{
@@ -93,9 +93,9 @@ public class KundeScene extends Scene{
             //outputBox.getChildren().addAll(outputArea);
             //fjernTekstIFelter();
         }
-    }
+    }*/
     
-    public VBox getBox(){
+    /*public VBox getBox(){
         return kundeBox;
     }
     
@@ -103,7 +103,7 @@ public class KundeScene extends Scene{
         return kundebehandlingsPanel;
     }*/
     
-    public Button getRegistrer(){
+    /*public Button getRegistrer(){
         return registrerKunde;
-    }
+    }*/
 }

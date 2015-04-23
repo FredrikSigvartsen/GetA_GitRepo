@@ -5,7 +5,8 @@
  */
 package Brukergrensesnitt;
 
-import javafx.geometry.Pos;
+import static javafx.geometry.VPos.*;
+import static javafx.geometry.HPos.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -13,7 +14,7 @@ import javafx.scene.layout.*;
  *
  * @author Jens
  */
-public class KunderegistreringsPane {
+public class KunderegistreringsPane extends GridPane{
     
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
     private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;
@@ -24,16 +25,8 @@ public class KunderegistreringsPane {
     }
     
     public void kundeRegistreringSkjema(){
-        //kundebehandlingsFaner();
-        kundeRegistreringsBox = VBoxBuilder.create()
-                .alignment(Pos.CENTER_LEFT)
-                .spacing(5.0)
-                .build();
         
         registrerKunde = new Button("Registrer");
-        /*registrer.setOnAction((ActionEvent event) -> {
-           registrerKunde();
-        });*/
         
         fornavnLabel = new Label("Fornavn:");
         fornavn = TextFieldBuilder.create()
@@ -71,17 +64,20 @@ public class KunderegistreringsPane {
                    .maxWidth(100)
                    .build();
         
-        /*kundeRegistreringsBox.getChildren().addAll(fornavnLabel, fornavn, etternavnLabel,
-                etternavn, adresseLabel, adresse, postnrLabel, postnr, poststedLabel, 
-                poststed, fodselsnrLabel, fodselsnr, registrerKunde);*/
         add(fornavnLabel, 1, 1);
-        add
-        kundeBox = new VBox();
-        kundeFaner = new KundebehandlingsFaner();
-        kundeBox.getChildren().addAll(kundeFaner.getMeny(), kundeRegistreringsBox);
-        /*layout = new BorderPane();
-        layout.setCenter(kundeBox);
-        layout.setTop(faneMeny());
-        kundeScene1 = new Scene(layout, StartGUI.getSkjermBredde(), StartGUI.getSkjermHoyde());*/
+        add(fornavn, 2, 1);
+        add(etternavnLabel, 1, 2);
+        add(etternavn, 2, 2);
+        add(adresseLabel, 1, 3);
+        add(adresse, 2, 3);
+        add(postnrLabel, 1, 4);
+        add(postnr, 2, 4);
+        add(poststedLabel, 1, 5);
+        add(poststed, 2, 5);
+        add(fodselsnrLabel, 1, 6);
+        add(fodselsnr, 2, 6);
+        setConstraints(registrerKunde, 1, 7, 2, 1);
+        //add(registrerKunde, 1, 7, 2, 1);
+        ///getChildren().addAll(fornavnLabel, fornavn, etternavnLabel, etternavn, adresseLabel, adresse, postnrLabel, postnr, poststedLabel, poststed, fodselsnrLabel, fodselsnr, registrerKunde);
     }
 }

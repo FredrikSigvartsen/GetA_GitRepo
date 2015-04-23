@@ -21,7 +21,7 @@ public class KundebehandlingsFaner {
     public KundebehandlingsFaner(){
         kundebehandlingsMeny = new HBox();
         kundebehandlingsPanel = new TabPane();
-        kundebehandlingsPanel.setMinWidth(StartGUI.getSkjermBredde());
+        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde());
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         Tab registrerFane = new Tab();
         registrerFane.setText("Kunderegistrering");
