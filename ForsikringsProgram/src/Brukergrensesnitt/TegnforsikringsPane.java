@@ -25,6 +25,7 @@ public class TegnforsikringsPane extends GridPane{
     
     public TegnforsikringsPane(){
         tegnForsikringsSkjema();
+        comboLytter();
     }
     
     public void tegnForsikringsSkjema(){
@@ -168,7 +169,12 @@ public class TegnforsikringsPane extends GridPane{
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
                 String valg = (String) t1;
                 if(valg.equals("Bilforsikring")){
-                    System.out.println("(Y)");
+                    add(registreringsnrLabel, 1, 6);
+                    add(registreringsnr, 2, 6);
+                    add(merkeLabel, 1, 7);
+                    add(merke, 2, 7);
+                    add(modellLabel, 1, 8);
+                    add(modell, 1, 8);
                 }
             }
         });
