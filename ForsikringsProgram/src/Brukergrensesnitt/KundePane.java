@@ -38,7 +38,7 @@ public class KundePane extends BorderPane{
         //setCenter(kundebehandlingsP)
     }
     
-    public TabPane kundebehandlingsFaner(){
+    public void kundebehandlingsFaner(){
         kundebehandlingsMeny = new HBox();
         kundebehandlingsPanel = new TabPane();
         kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde() * 2);
@@ -60,8 +60,6 @@ public class KundePane extends BorderPane{
         kundebehandlingsPanel.getTabs().add(sokFane);
         
         kundebehandlingsMeny.getChildren().add(kundebehandlingsPanel);
-        
-        return kundebehandlingsPanel;
     }
     
     public void tabLytter(){
