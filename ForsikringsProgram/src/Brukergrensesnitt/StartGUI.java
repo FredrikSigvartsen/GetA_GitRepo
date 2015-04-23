@@ -26,8 +26,8 @@ public class StartGUI extends Application{
     private static Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
     private HBox faneMeny;
     private TabPane fanePanel;
-    private KundePane kundeSceneObjekt;
-    private SkadePane skadeSceneObjekt;
+    private KundeScene kundeSceneObjekt;
+    private SkadeScene skadeSceneObjekt;
     private KundebehandlingsFaner faner;
     
     
@@ -65,8 +65,8 @@ public class StartGUI extends Application{
     
     @Override
     public void start(Stage primaryStage) throws Exception{
-        kundeSceneObjekt = new KundePane();
-        skadeSceneObjekt = new SkadePane();
+        kundeSceneObjekt = new KundeScene();
+        skadeSceneObjekt = new SkadeScene();
         faner = new KundebehandlingsFaner();
         faneMeny();
         TabPane kundeFaner = faner.getFaner();

@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
  *
  * @author Jens
  */
-public class SkadePane {
+public class SkadeScene {
     
     private VBox skadeBox;
     private TextField fodselsnr, avtalenr, skadeBeskrivelse, sted, utbetalingsBelop;
@@ -24,7 +24,7 @@ public class SkadePane {
     private ComboBox skadeType;
     private DatePicker dato;
     
-    public SkadePane(){                 
+    public SkadeScene(){                 
         skadeBox = VBoxBuilder.create()
                 .alignment(Pos.CENTER_LEFT)
                 .spacing(5.0)
