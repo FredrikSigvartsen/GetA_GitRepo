@@ -29,6 +29,7 @@ public class GUI extends Application{
     private KundePane kundeLayout;
     private SkadePane skadeLayout;
     private KundebehandlingsFaner faner;
+    private TegnforsikringsPane tegnForsikringsPane;
     
     
     public static double getSkjermBredde(){
@@ -66,10 +67,12 @@ public class GUI extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         kundeLayout = new KundePane();
-        //skadeSceneObjekt = new SkadeScene();
-        //faner = new KundebehandlingsFaner();
+        skadeLayout = new SkadePane();
+        tegnForsikringsPane = new TegnforsikringsPane();
         faneMeny();
-        //TabPane kundeFaner = faner.getFaner();
+        kundeLayout.tabLytter();
+        tegnForsikringsPane.comboLytter();
+        //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
         BorderPane layout = new BorderPane();
@@ -81,13 +84,13 @@ public class GUI extends Application{
         stage.setScene(scene);
         stage.show();
         
-        /*fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
+        fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
             switch (t1.getText()) {
                 case "Kundebehandling":
-                    layout.setCenter(kundeSceneObjekt.getBox());
+                    layout.setCenter(kundeLayout);
                     break;
                 case "Skademelding":
-                    layout.setCenter(skadeSceneObjekt.getBox());
+                    layout.setCenter(skadeLayout);
                     break;
                 case "Økonomi":
                     break;
@@ -95,8 +98,9 @@ public class GUI extends Application{
                     break;
             }
         });
-        kundeFaner.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
-            switch (t1.getText()) {
+        
+        /*kundeLayout.kundebehandlingsFaner().getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov2, Tab t2, Tab t3) -> {
+            switch (t3.getText()) {
                 case "Kunderegistrering":
                     System.out.println("Bytte til Kunderegistrering");
                     break;
@@ -111,7 +115,7 @@ public class GUI extends Application{
                     break;
                 }
             });
-        
+        /*
         kundeSceneObjekt.getRegistrer().setOnAction((ActionEvent event) -> {
             kundeSceneObjekt.registrerKunde();
         });

@@ -5,8 +5,7 @@
  */
 package Brukergrensesnitt;
 
-import static javafx.geometry.VPos.*;
-import static javafx.geometry.HPos.*;
+import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -64,6 +63,8 @@ public class KunderegistreringsPane extends GridPane{
                    .maxWidth(100)
                    .build();
         
+        setVgap(10);
+        setHgap(10);
         add(fornavnLabel, 1, 1);
         add(fornavn, 2, 1);
         add(etternavnLabel, 1, 2);
@@ -76,8 +77,7 @@ public class KunderegistreringsPane extends GridPane{
         add(poststed, 2, 5);
         add(fodselsnrLabel, 1, 6);
         add(fodselsnr, 2, 6);
-        setConstraints(registrerKunde, 1, 7, 2, 1);
-        //add(registrerKunde, 1, 7, 2, 1);
-        ///getChildren().addAll(fornavnLabel, fornavn, etternavnLabel, etternavn, adresseLabel, adresse, postnrLabel, postnr, poststedLabel, poststed, fodselsnrLabel, fodselsnr, registrerKunde);
+        GridPane.setHalignment(registrerKunde, HPos.CENTER);
+        add(registrerKunde, 1, 7, 2, 1);
     }
 }

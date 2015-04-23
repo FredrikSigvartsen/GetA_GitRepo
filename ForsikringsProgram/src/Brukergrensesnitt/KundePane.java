@@ -9,6 +9,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import forsikringsprogram.*;
+import javafx.beans.value.ObservableValue;
 
 /**
  *
@@ -22,18 +23,25 @@ public class KundePane extends BorderPane{
     private Kunderegister kundeRegister;
     private KundebehandlingsFaner kundeFaner;
     private KunderegistreringsPane registreringsPane;
+    private TegnforsikringsPane forsikringsPane;
+    private SioppforsikringsPane sioppPane;
+    private KundesokPane sokPane;
         
     public KundePane() {
         kundebehandlingsFaner();
         registreringsPane = new KunderegistreringsPane();
-        leggTil();
+        forsikringsPane = new TegnforsikringsPane();
+        sioppPane = new SioppforsikringsPane();
+        sokPane = new KundesokPane();
+        setTop(kundebehandlingsMeny);
+        setCenter(registreringsPane);
         //setCenter(kundebehandlingsP)
     }
     
-    public void kundebehandlingsFaner(){
+    public TabPane kundebehandlingsFaner(){
         kundebehandlingsMeny = new HBox();
         kundebehandlingsPanel = new TabPane();
-        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde());
+        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde() * 2);
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         Tab registrerFane = new Tab();
         registrerFane.setText("Kunderegistrering");
@@ -52,11 +60,27 @@ public class KundePane extends BorderPane{
         kundebehandlingsPanel.getTabs().add(sokFane);
         
         kundebehandlingsMeny.getChildren().add(kundebehandlingsPanel);
+        
+        return kundebehandlingsPanel;
     }
     
-    public void leggTil(){
-        setTop(kundebehandlingsMeny);
-        setCenter(registreringsPane);
+    public void tabLytter(){
+        kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov2, Tab t2, Tab t3) -> {
+        switch (t3.getText()) {
+            case "Kunderegistrering":
+                setCenter(registreringsPane);
+                break;
+            case "Tegn forsikring":
+                setCenter(forsikringsPane);
+                break;
+            case "Si opp forsikring":
+                setCenter(sioppPane);
+                break;
+            case "Søk":   
+                setCenter(sokPane);
+                break;
+            }
+        });
     }
     
     
