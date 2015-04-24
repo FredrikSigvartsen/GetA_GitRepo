@@ -24,19 +24,17 @@ public class Skademelding implements Serializable {
     private int skadeNr;          
     private String beskrivelse;  // Beskrivelse av skade
     private String vitneKontakt; // Kontaktinformasjon om vitner
-    private int takst;           // Taksteringsbeløp for skaden
-    private int erstatningsbelop;
+    private double takst;           // Taksteringsbeløp for skaden
+    private double erstatningsbelop;
     private SimpleDateFormat formaterDato;
 
     
-    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, int takst, 
-                        int erstatningsbelop, Calendar inntruffetDato, String inntruffetTidspunkt) {
+    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt) {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
         this.vitneKontakt = vitneKontakt;
         this.takst = takst;
-        this.erstatningsbelop = erstatningsbelop;
         this.inntruffetTidspunkt = inntruffetTidspunkt;
         this.inntruffetDato = inntruffetDato;
         skadeNr = nesteNr++;
@@ -65,6 +63,11 @@ public class Skademelding implements Serializable {
 //        this.inntruffetDato = inntruffetDato;
 //    }
 //    
+    
+    public void setErstatningsbelop(double takst) {
+        this.erstatningsbelop = takst;
+    }
+    
     //Get-metoder
     public static int getNesteNr() {
         return nesteNr;
@@ -98,11 +101,11 @@ public class Skademelding implements Serializable {
         return vitneKontakt;
     }
 
-    public int getTakst() {
+    public double getTakst() {
         return takst;
     }
 
-    public int getErstatningsbeløp() {
+    public double getErstatningsbeløp() {
         return erstatningsbelop;
     }
    

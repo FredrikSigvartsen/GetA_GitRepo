@@ -17,11 +17,11 @@ public class Baatforsikring extends Forsikring implements Serializable{
     private String motortype;
     
     //Konstruktør
-    public Baatforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop, 
+    public Baatforsikring(String betingelser, double forsikringsBelop, 
                          String registreringsNr, int aarsmodell, int motorstyrke, String merke,
                          String modell, String motortype) {
         
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+        super(betingelser, Forsikring.BAATPREMIE, forsikringsBelop);
         this.registreringsNr = registreringsNr;
         this.aarsmodell = aarsmodell;
         this.motorstyrke = motorstyrke;

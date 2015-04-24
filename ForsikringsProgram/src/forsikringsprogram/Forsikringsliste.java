@@ -3,7 +3,6 @@
 package forsikringsprogram;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -30,7 +29,7 @@ public class Forsikringsliste implements Serializable {
         f.opphorForsikring();
     }
     
-    //For å sjekke om kunden har en type forsikring
+    //For å sjekke om kunden har en type forsikring ( I forhold til erstatnings-utbetaling )
     public boolean harRiktigForsikring(String konstant) {
         ListIterator<Forsikring> iter = liste.listIterator();
         
@@ -59,9 +58,29 @@ public class Forsikringsliste implements Serializable {
         return false;
     }//end of method inneholderObjektAvType(konstant)
     
-    /*Finner en forsikring med avtalenummer lik det tallet man sender med metoden. Returnerer forsikringen hvis forsikringen finnes, returnerer false hvis det ikke finnes,
-      eller om nummeret man sender med metoden er lavere enn de avtalenumrene som finnes. 
-    */
+    public boolean innholderTreForskjelligeForsikringstyper() {
+        ListIterator<Forsikring> iter = liste.listIterator();
+        int antBaat = 0;
+        int antReise = 0;
+        int antBil = 0;
+        int antBolig = 0;
+        
+        while(iter.hasNext()) {
+            Forsikring f = iter.next();
+            if(f instanceof Baatforsikring && antBaat == 0)
+                antBaat++;
+            if(f instanceof Reiseforsikring && antReise == 0)
+                antReise++;
+            if(f instanceof Bilforsikring && antBil == 0)
+                antBil++;
+            if(f instanceof Boligforsikring && antBolig == 0)
+                antBolig++;
+        }
+        return (antBaat + antReise + antBil + antBolig) >= 3;       
+    }
+    
+    //Finner en forsikring med avtalenummer lik det tallet man sender med metoden. Returnerer forsikringen hvis forsikringen finnes, returnerer false hvis det ikke finnes,
+    //eller om nummeret man sender med metoden er lavere enn de avtalenumrene som finnes. 
     public Forsikring finnForsikringer(int avtaleNr){
         ListIterator<Forsikring> iter = liste.listIterator();
         
