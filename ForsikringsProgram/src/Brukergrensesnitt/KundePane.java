@@ -5,7 +5,7 @@
  */
 package Brukergrensesnitt;
 
-import Brukergrensesnitt.skademelding.*;
+import Brukergrensesnitt.kundebehandling.RegistrerSkadeLayout;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;

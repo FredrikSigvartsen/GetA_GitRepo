@@ -5,7 +5,6 @@
  */
 package Brukergrensesnitt;
 
-import Brukergrensesnitt.skademelding.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.application.Application;
