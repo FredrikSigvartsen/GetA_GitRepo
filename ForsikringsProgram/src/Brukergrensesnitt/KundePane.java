@@ -9,7 +9,10 @@ import Brukergrensesnitt.skademelding.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Side;
+import javafx.geometry.Insets;
+import static javafx.scene.layout.BorderStroke.*;
+import static javafx.scene.layout.BorderStrokeStyle.SOLID;
+import static javafx.scene.paint.Color.DARKGRAY;
 
 /**
  *
@@ -19,6 +22,8 @@ public class KundePane extends BorderPane{
     
     private HBox kundebehandlingsMeny;
     private TabPane kundebehandlingsPanel;
+     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
+     public static final Insets PADDING = new Insets(10);
     
     //Forskjellgie typer for kundebehandling
     private RegistrerKundeLayout kundeRegistreringsPane;
