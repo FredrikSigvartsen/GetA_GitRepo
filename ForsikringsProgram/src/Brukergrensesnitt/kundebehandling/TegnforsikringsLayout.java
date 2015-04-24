@@ -38,6 +38,7 @@ public class TegnforsikringsLayout extends GridPane{
     public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
         comboLytter();
+        tegnForsikringLytter();
         this.kundeRegister = register;
     }
     
@@ -309,7 +310,7 @@ public class TegnforsikringsLayout extends GridPane{
                     else{
                         Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
                                 registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-                        kundeRegister.tegnForsikring(bilforsikring, fodselsnr);
+                        System.out.println(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
                         ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
                         System.out.println( kunde.visForsikringsliste() );
                     }
@@ -361,7 +362,7 @@ public class TegnforsikringsLayout extends GridPane{
         }
     }
     
-    public void comboLytter(){
+    private void comboLytter(){
         forsikringsType.valueProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
