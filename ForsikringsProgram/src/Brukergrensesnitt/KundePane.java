@@ -5,11 +5,14 @@
  */
 package Brukergrensesnitt;
 
-import Brukergrensesnitt.skademelding.*;
+import Brukergrensesnitt.kundebehandling.RegistrerSkadeLayout;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Side;
+import javafx.geometry.Insets;
+import static javafx.scene.layout.BorderStroke.*;
+import static javafx.scene.layout.BorderStrokeStyle.SOLID;
+import static javafx.scene.paint.Color.DARKGRAY;
 
 /**
  *

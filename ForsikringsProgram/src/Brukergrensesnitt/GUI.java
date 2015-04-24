@@ -5,15 +5,18 @@
  */
 package Brukergrensesnitt;
 
-import Brukergrensesnitt.skademelding.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
+import static javafx.scene.layout.BorderStroke.THIN;
+import static javafx.scene.layout.BorderStrokeStyle.SOLID;
+import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.stage.Stage;
 
 /**
@@ -21,6 +24,11 @@ import javafx.stage.Stage;
  * @author Jens
  */
 public class GUI extends Application{
+    
+    
+    public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
+    public static final Insets PADDING = new Insets(10);
+    
     private Stage stage;
     private Scene scene;
     private static Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
