@@ -3,8 +3,12 @@
 package forsikringsprogram;
 
 //Boligforsikrings-klasse
-public class Boligforsikring extends Forsikring {
+
+import java.io.Serializable;
+
+public class Boligforsikring extends Forsikring implements Serializable {
     
+    private static final long serialVersionUID = 456L;
     private String gateAdresse;
     private String boligType;
     private String byggeMateriale;
