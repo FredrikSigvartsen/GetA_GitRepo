@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Brukergrensesnitt;
+package Brukergrensesnitt.kundebehandling;
 
+import Brukergrensesnitt.GUI;
 import Brukergrensesnitt.kundebehandling.RegistrerSkadeLayout;
 import forsikringsprogram.*;
 import javafx.scene.control.*;

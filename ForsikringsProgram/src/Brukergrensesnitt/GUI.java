@@ -5,6 +5,8 @@
  */
 package Brukergrensesnitt;
 
+import Brukergrensesnitt.kundebehandling.KundePane;
+import Brukergrensesnitt.kundebehandling.TegnforsikringsLayout;
 import forsikringsprogram.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -36,7 +38,6 @@ public class GUI extends Application{
     private HBox faneMeny;
     private TabPane fanePanel;
     private KundePane kundeLayout;
-    private KundebehandlingsFaner faner;
     private TegnforsikringsLayout tegnForsikringsPane;
     private Kunderegister kundeRegister;
     
