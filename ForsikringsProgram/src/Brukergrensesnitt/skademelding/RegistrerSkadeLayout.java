@@ -5,7 +5,7 @@
  */
 package Brukergrensesnitt.skademelding;
 
-import Brukergrensesnitt.KundePane;
+import Brukergrensesnitt.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -29,14 +29,14 @@ public class RegistrerSkadeLayout extends GridPane {
         
         addColumn( 1, skadeInfoBox);
         addColumn( 2, ekstraInfoBox);
-        setBorder(KundePane.KANTLINJE);
+        setBorder(GUI.KANTLINJE);
         
     }// end of method opprettRegistreringsLayout
     
     //Returnerer en VBox(VertikalBoks) hvor brukeren skal skrive inn fødselsnr, velge skadetype, og beskrive skaden. 
     private VBox skadeInfoBox(){
         VBox box = new VBox(8);
-        box.setPadding(KundePane.PADDING);
+        box.setPadding(GUI.PADDING);
 //        box.setBorder(KundePane.KANTLINJE);
         
         //Labels
@@ -80,7 +80,7 @@ public class RegistrerSkadeLayout extends GridPane {
     // En vertikal boks med info om dato og tidspunkt for inntruffet skade, og input for kontaktinformasjon
     private VBox ekstraInfoBox(){
         VBox box = new VBox(8);
-        box.setPadding(KundePane.PADDING);
+        box.setPadding(GUI.PADDING);
 //        box.setBorder(KundePane.KANTLINJE);
         
         //TextInputs
