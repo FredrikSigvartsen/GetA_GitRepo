@@ -20,7 +20,6 @@ public class RegistrerKundeLayout extends GridPane{
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
     private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;
     private Button registrerKunde;
-    private ForsikringsKunde kunde;
     private Kunderegister kundeRegister;
     
     public RegistrerKundeLayout(Kunderegister register){
@@ -107,16 +106,15 @@ public class RegistrerKundeLayout extends GridPane{
                 System.out.println("Fyll inn poststed");
             else if(fodselsnr.trim().equals(""))
                 System.out.println("Fyll inn fodselsnr");*/
-            System.out.println("Venligst fyll inn alle feltene");
         }
         else{
-            kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
-            if(kundeRegister.registrerKunde(kunde) )
-                System.out.println(  kundeRegister.registrerKunde(kunde) );
+            ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
+                if( kundeRegister.registrerKunde(kunde) )
+                    System.out.println( kundeRegister.toString() );
+               
             //outputArea.setText(kunde.toString());
             //outputBox.getChildren().removeAll(outputArea);
             //outputBox.getChildren().addAll(outputArea);
-            //fjernTekstIFelter();
         }
     }
     

@@ -33,11 +33,14 @@ public class KundePane extends BorderPane{
     private Kunderegister kundeRegister;
         
     public KundePane(Kunderegister register) {
+        super();
+        kundeRegister = register;
         kundebehandlingsFaner();
         opprettLayout();
-        this.kundeRegister = register;
+        //this.kundeRegister = register;
     }
     public void opprettLayout(){
+        
         kundebehandlingsMeny = kundebehandlingsFaner();
         registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister);
         kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister);
