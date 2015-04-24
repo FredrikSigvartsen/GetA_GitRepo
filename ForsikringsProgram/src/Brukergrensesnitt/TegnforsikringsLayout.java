@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt;
 
+import forsikringsprogram.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
@@ -16,7 +17,7 @@ import javafx.scene.layout.*;
  *
  * @author Jens
  */
-public class TegnforsikringsPane extends GridPane{
+public class TegnforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, forsikringspremie, forsikringsbelop, betingelser, registreringsnr, 
             merke, modell, registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
@@ -30,10 +31,12 @@ public class TegnforsikringsPane extends GridPane{
     private Button tegnForsikring;
     private ComboBox forsikringsType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
+    private Kunderegister kundeRegister;
     
-    public TegnforsikringsPane(){
+    public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
         comboLytter();
+        this.kundeRegister = register;
     }
     
     private void tegnForsikringsSkjema(){

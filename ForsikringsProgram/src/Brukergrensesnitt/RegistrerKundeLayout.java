@@ -5,9 +5,11 @@
  */
 package Brukergrensesnitt;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import forsikringsprogram.*;
 
 /**
  *
@@ -18,9 +20,13 @@ public class RegistrerKundeLayout extends GridPane{
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
     private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;
     private Button registrerKunde;
+    private ForsikringsKunde kunde;
+    private Kunderegister kundeRegister;
     
-    public RegistrerKundeLayout(){
+    public RegistrerKundeLayout(Kunderegister register){
         kundeRegistreringSkjema();
+        registrerLytter();
+        this.kundeRegister = register;
     }
     
     public void kundeRegistreringSkjema(){
@@ -79,5 +85,44 @@ public class RegistrerKundeLayout extends GridPane{
         add(fodselsnr, 2, 6);
         GridPane.setHalignment(registrerKunde, HPos.CENTER);
         add(registrerKunde, 1, 7, 2, 1);
+    }
+    
+    public void registrerKunde(){
+        String fornavn = this.fornavn.getText();
+        String etternavn = this.etternavn.getText();
+        String adresse = this.adresse.getText();
+        String poststed = this.poststed.getText();
+        String postnr = this.postnr.getText();
+        String fodselsnr = this.fodselsnr.getText();
+        if(fornavn.trim().equals("") || etternavn.trim().equals("") || adresse.trim().equals("") || poststed.trim().equals("") || postnr.trim().equals("") || fodselsnr.trim().equals("")){
+            /*if(fornavn.trim().equals(""))
+                System.out.println("Fyll inn fornavn");
+            else if(etternavn.trim().equals(""))
+                System.out.println("Fyll inn etternavn");
+            else if(adresse.trim().equals(""))
+                System.out.println("Fyll inn adresse");
+            else if(postnr.trim().equals(""))
+                System.out.println("Fyll inn postnr");
+            else if(poststed.trim().equals(""))
+                System.out.println("Fyll inn poststed");
+            else if(fodselsnr.trim().equals(""))
+                System.out.println("Fyll inn fodselsnr");*/
+            System.out.println("Venligst fyll inn alle feltene");
+        }
+        else{
+            kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
+            kundeRegister.registrerKunde(kunde);
+            System.out.println(kunde.toString());
+            //outputArea.setText(kunde.toString());
+            //outputBox.getChildren().removeAll(outputArea);
+            //outputBox.getChildren().addAll(outputArea);
+            //fjernTekstIFelter();
+        }
+    }
+    
+    private void registrerLytter(){
+        registrerKunde.setOnAction((ActionEvent event) -> {
+            registrerKunde();
+        });
     }
 }

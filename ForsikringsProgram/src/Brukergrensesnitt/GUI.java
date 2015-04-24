@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt;
 
+import forsikringsprogram.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javafx.application.Application;
@@ -36,7 +37,8 @@ public class GUI extends Application{
     private TabPane fanePanel;
     private KundePane kundeLayout;
     private KundebehandlingsFaner faner;
-    private TegnforsikringsPane tegnForsikringsPane;
+    private TegnforsikringsLayout tegnForsikringsPane;
+    private Kunderegister kundeRegister;
     
     
     public static double getSkjermBredde(){
@@ -69,11 +71,10 @@ public class GUI extends Application{
     
     @Override
     public void start(Stage primaryStage) throws Exception{
-        kundeLayout = new KundePane();
-        tegnForsikringsPane = new TegnforsikringsPane(); // Denne skal vel ikke være her Jens? 
+        kundeRegister = new Kunderegister();
+        kundeLayout = new KundePane( kundeRegister );
         faneMeny();
-        kundeLayout.tabLytter();
-        tegnForsikringsPane.comboLytter();  // Ikke denne heller vel?
+        kundeLayout.tabLytter();  // Ikke denne heller vel?
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
@@ -98,26 +99,7 @@ public class GUI extends Application{
             }
         });
         
-        /*kundeLayout.kundebehandlingsFaner().getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov2, Tab t2, Tab t3) -> {
-            switch (t3.getText()) {
-                case "Kunderegistrering":
-                    System.out.println("Bytte til Kunderegistrering");
-                    break;
-                case "Tegn forsikring":
-                    System.out.println("Bytte til Tegn forsikring");
-                    break;
-                case "Si opp forsikring":
-                    System.out.println("Bytte til Si opp forsikring");
-                    break;
-                case "Søk":   
-                    System.out.println("Bytte til Søk");
-                    break;
-                }
-            });
-        /*
-        kundeSceneObjekt.getRegistrer().setOnAction((ActionEvent event) -> {
-            kundeSceneObjekt.registrerKunde();
-        });
+        
         /*registrerSkade.setOnAction((ActionEvent event) -> {
             registrerSkadeMelding();
         });
@@ -126,6 +108,9 @@ public class GUI extends Application{
         });*/
     }
   
+    public Kunderegister getKundeRegister(){
+        return kundeRegister;
+    }
     
     public static void main(String[] args) {
         // TODO code application logic here

@@ -6,6 +6,7 @@
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
+import forsikringsprogram.Kunderegister;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -18,9 +19,11 @@ public class RegistrerSkadeLayout extends GridPane {
     private VBox skadeInfoBox;
     private VBox ekstraInfoBox;
     private Border kantlinje;
+    private Kunderegister kundeRegister;
     
-    public RegistrerSkadeLayout(){
+    public RegistrerSkadeLayout(Kunderegister register){
         opprettRegisteringLayout();
+        this.kundeRegister = register;
     }
     
     private void opprettRegisteringLayout(){

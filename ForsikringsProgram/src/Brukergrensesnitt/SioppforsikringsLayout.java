@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt;
 
+import forsikringsprogram.*;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -13,14 +14,16 @@ import javafx.scene.layout.*;
  *
  * @author Jens
  */
-public class SioppforsikringsPane extends GridPane{
+public class SioppforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, avtalenr;    
     private Label fodselsnrLabel, avtalenrLabel;
     private Button siOppForsikring;
+    private Kunderegister kundeRegister;
     
-    public SioppforsikringsPane(){
+    public SioppforsikringsLayout(Kunderegister register){
         siOppForsikringsSkjema();
+        this.kundeRegister = register;
     }
     
     public void siOppForsikringsSkjema(){

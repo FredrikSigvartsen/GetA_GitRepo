@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt;
 
+import forsikringsprogram.*;
 import javafx.collections.*;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
@@ -14,15 +15,17 @@ import javafx.scene.layout.*;
  *
  * @author Jens
  */
-public class KundesokPane extends GridPane{
+public class KundesokLayout extends GridPane{
     
     private TextField fodsels_avtalenr;    
     private Label fodsels_avtalenrLabel, forsikringstypeLabel;
     private Button sok;
     private ComboBox forsikringsType;
+    private Kunderegister kundeRegister;
     
-    public KundesokPane(){
+    public KundesokLayout(Kunderegister register){
         kundeSokSkjema();
+        this.kundeRegister = register;
     }
     
     public void kundeSokSkjema(){
