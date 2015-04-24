@@ -64,8 +64,8 @@ public class Skademelding implements Serializable {
 //    }
 //    
     
-    public void setErstatningsbelop(double takst) {
-        this.erstatningsbelop = takst;
+    public void setErstatningsbelopLikTakst() {
+        this.erstatningsbelop = this.takst;
     }
     
     //Get-metoder
@@ -102,7 +102,7 @@ public class Skademelding implements Serializable {
     }
 
     public double getTakst() {
-        return takst;
+        return this.takst;
     }
 
     public double getErstatningsbeløp() {
