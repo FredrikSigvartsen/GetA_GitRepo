@@ -17,7 +17,7 @@ import javafx.geometry.Side;
  */
 public class KundePane extends BorderPane{
     
-    private VBox kundebehandlingsMeny;
+    private HBox kundebehandlingsMeny;
     private TabPane kundebehandlingsPanel;
     
     //Forskjellgie typer for kundebehandling
@@ -40,13 +40,14 @@ public class KundePane extends BorderPane{
         sokPane = new KundesokPane();
         
         //Setter plassering
-        setLeft(kundebehandlingsMeny);
+        setTop(kundebehandlingsMeny);
         setCenter(kundeRegistreringsPane);
     }
-    public VBox kundebehandlingsFaner(){
-        VBox box = new VBox();
+    public HBox kundebehandlingsFaner(){
+        HBox box = new HBox();
         kundebehandlingsPanel = new TabPane();
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde()*2);
         
         
         Tab registrerFane = new Tab("Kunderegistrering");
@@ -63,9 +64,6 @@ public class KundePane extends BorderPane{
         
         Tab sokFane = new Tab("Søk");
         kundebehandlingsPanel.getTabs().add(sokFane);
-        
-        
-        kundebehandlingsPanel.setSide(Side.LEFT);
         //kundebehandlingsPanel.setRotate(90);
         
         box.getChildren().add(kundebehandlingsPanel);
