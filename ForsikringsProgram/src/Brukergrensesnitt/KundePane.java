@@ -78,8 +78,8 @@ public class KundePane extends BorderPane{
     }
     
     public void tabLytter(){
-        kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov2, Tab t2, Tab t3) -> {
-        switch (t3.getText()) {
+        kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
+        switch (t1.getText()) {
             case "Kunderegistrering":
                 setCenter(kundeRegistreringsPane);
                 break;

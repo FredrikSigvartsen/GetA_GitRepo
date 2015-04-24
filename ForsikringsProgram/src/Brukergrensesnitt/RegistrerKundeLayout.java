@@ -111,8 +111,8 @@ public class RegistrerKundeLayout extends GridPane{
         }
         else{
             kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
-            kundeRegister.registrerKunde(kunde);
-            System.out.println(kunde.toString());
+            if(kundeRegister.registrerKunde(kunde) )
+                System.out.println(  kundeRegister.registrerKunde(kunde) );
             //outputArea.setText(kunde.toString());
             //outputBox.getChildren().removeAll(outputArea);
             //outputBox.getChildren().addAll(outputArea);

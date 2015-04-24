@@ -40,7 +40,11 @@ public class GUI extends Application{
     private TegnforsikringsLayout tegnForsikringsPane;
     private Kunderegister kundeRegister;
     
-    
+    public GUI(){
+        
+        
+        kundeLayout = new KundePane( kundeRegister );
+    }
     public static double getSkjermBredde(){
         return (double)opplosning.getWidth() / 2;
     }
@@ -69,12 +73,12 @@ public class GUI extends Application{
         faneMeny.getChildren().add(fanePanel);
     }
     
-    @Override
+   
     public void start(Stage primaryStage) throws Exception{
         kundeRegister = new Kunderegister();
-        kundeLayout = new KundePane( kundeRegister );
+        System.out.println(kundeRegister);
         faneMeny();
-        kundeLayout.tabLytter();  // Ikke denne heller vel?
+        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
