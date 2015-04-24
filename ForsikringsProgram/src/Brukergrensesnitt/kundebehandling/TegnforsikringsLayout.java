@@ -9,6 +9,7 @@ import forsikringsprogram.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
+import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -19,11 +20,11 @@ import javafx.scene.layout.*;
  */
 public class TegnforsikringsLayout extends GridPane{
     
-    private TextField fodselsnr, forsikringspremie, forsikringsbelop, betingelser, registreringsnr, 
+    private TextField fodselsnr, forsikringsbelop, betingelser, registreringsnr, 
             merke, modell, registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
             batModell, arsmodell, motorType, motorStyrke, gateAdresse, postnr, byggear, boligType,
             byggemateriale, standard, antallKVM, omrade;    
-    private Label fodselsnrLabel, forsikringstypeLabel, forsikringspremieLabel, forsikringsbelopLabel, 
+    private Label fodselsnrLabel, forsikringstypeLabel, forsikringsbelopLabel, 
             betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, registreringsarLabel, 
             kjorelengdeLabel, prisPerKmLabel, batRegistreringsnrLabel, batMerkeLabel, batModellLabel, 
             arsmodellLabel, motorTypeLabel, motorStyrkeLabel, gateAdresseLabel, postnrLabel, byggearLabel, 
@@ -32,6 +33,7 @@ public class TegnforsikringsLayout extends GridPane{
     private ComboBox forsikringsType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
+    private String forsikringsTypeString = "";
     
     public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
@@ -56,13 +58,7 @@ public class TegnforsikringsLayout extends GridPane{
         ObservableList<String> forsikringer = FXCollections.observableArrayList(
                                               "Bilforsikring", "Båtforsikring",
                                               "Boligforsikring", "Reiseforsikring");
-        forsikringsType.setItems(forsikringer);
-        
-        forsikringspremieLabel = new Label("Forsikringspremie:");
-        forsikringspremie = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
-                   .build();
+        forsikringsType.setItems(forsikringer);;
         
         forsikringsbelopLabel = new Label("Forsikringsbeløp:");
         forsikringsbelop = TextFieldBuilder.create()
@@ -82,8 +78,6 @@ public class TegnforsikringsLayout extends GridPane{
         add(fodselsnr, 2, 1);
         add(forsikringstypeLabel, 1, 2);
         add(forsikringsType, 2, 2);
-        add(forsikringspremieLabel, 1, 3);
-        add(forsikringspremie, 2, 3);
         add(forsikringsbelopLabel, 1, 4);
         add(forsikringsbelop, 2, 4);
         add(betingelserLabel, 1, 5);
@@ -293,6 +287,80 @@ public class TegnforsikringsLayout extends GridPane{
         reiseforsikringFelter.add(tegnForsikring, 0, 2, 2, 1);
     }//End of method BoligforsikringFeilter
     
+    public void tegnForsikring(){
+        String fodselsnr = this.fodselsnr.getText();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+        String betingelser = this.betingelser.getText();
+        if(fodselsnr.trim().equals("") || forsikringsbelop == 0 || betingelser.trim().equals("")){
+            System.out.println("Venligst lyll inn alle feltene");
+        }
+        else{
+            switch (forsikringsTypeString){
+                case "bilforsikring":
+                    String registreringsnr = this.registreringsnr.getText();
+                    String merke = this.merke.getText();
+                    String modell = this.modell.getText();
+                    int registreringsar = Integer.parseInt(this.registreringsar.getText());
+                    int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
+                    int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
+                    if(registreringsnr.trim().equals("") || merke.trim().equals("") || modell.trim().equals("") 
+                            || registreringsar == 0 || kjorelengde == 0 || prisPerKm == 0)
+                        System.out.println("Venligst fyll inn alle feltene");
+                    else{
+                        Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
+                                registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
+                        kundeRegister.tegnForsikring(bilforsikring, fodselsnr);
+                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        System.out.println( kunde.visForsikringsliste() );
+                    }
+                    break;
+                case "batforsikring":
+                    String batRegistreringsnr = this.batRegistreringsnr.getText();
+                    String batMerke = this.batMerke.getText();
+                    String batModell = this.batModell.getText();
+                    String motorType = this.motorType.getText();
+                    int arsmodell = Integer.parseInt(this.arsmodell.getText());
+                    int motorStyrke = Integer.parseInt(this.motorStyrke.getText());
+                    if(batRegistreringsnr.trim().equals("") || batMerke.trim().equals("") || batModell.trim().equals("") 
+                            || motorType.trim().equals("") || arsmodell == 0 || motorStyrke == 0 )
+                        System.out.println("Venligst fyll inn alle feltene");
+                    else{
+                        Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
+                                batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
+                        kundeRegister.tegnForsikring(batforsikring, fodselsnr);
+                    }
+                    break;
+                case "boligforsikring":
+                    String gateAdresse = this.gateAdresse.getText();
+                    String boligType = this.boligType.getText();
+                    String byggemateriale = this.byggemateriale.getText();
+                    String standard = this.standard.getText();
+                    String postnr = this.postnr.getText();
+                    int byggear = Integer.parseInt(this.byggear.getText());
+                    int antallKVM = Integer.parseInt(this.antallKVM.getText());
+                    if(gateAdresse.trim().equals("") || boligType.trim().equals("") || byggemateriale.trim().equals("") 
+                            || standard.trim().equals("") || postnr.trim().equals("") || byggear == 0 || antallKVM == 0 )
+                        System.out.println("Venligst fyll inn alle feltene");
+                    else{
+                        Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
+                                gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
+                        kundeRegister.tegnForsikring(boligforsikring, fodselsnr);
+                    }
+                    break;
+                case "reiseforsikring":
+                    String omrade = this.omrade.getText();
+                    if(omrade.trim().equals(""))
+                        System.out.println("Venligst fyll inn alle feltene");
+                    else{
+                        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
+                        kundeRegister.tegnForsikring(reiseforsikring, fodselsnr);
+                    }
+                    break;
+            }
+            
+        }
+    }
+    
     public void comboLytter(){
         forsikringsType.valueProperty().addListener(new ChangeListener<String>(){
             @Override
@@ -301,24 +369,36 @@ public class TegnforsikringsLayout extends GridPane{
                     case "Bilforsikring":
                         getChildren().removeAll(batforsikringFelter, bilforsikringFelter, boligforsikringFelter, reiseforsikringFelter);
                         add(bilforsikringFelter, 1, 6, 2, 1);
+                        forsikringsTypeString = "bilforsikring";
                         break;
                     case "Båtforsikring":
                         getChildren().removeAll(bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter);
                         add(batforsikringFelter, 1, 6, 2, 1);
+                        forsikringsTypeString = "batforsikring";
                         break;
                     case "Boligforsikring":
                         getChildren().removeAll(bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter);
                         add(boligforsikringFelter, 1, 6, 2, 1);
+                        forsikringsTypeString = "boligforsikring";
                         break;
                     case "Reiseforsikring":
                         getChildren().removeAll(bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter);
                         add(reiseforsikringFelter, 1, 6, 2, 1);
+                        forsikringsTypeString = "reiseforsikring";
                         break;
                     default:
                         getChildren().removeAll(bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter);
                         add(bilforsikringFelter, 1, 6, 2, 1);
+                        forsikringsTypeString = "default";
                 }
             }
+        });
+    }
+    
+    private void tegnForsikringLytter(){
+        tegnForsikring.setOnAction((ActionEvent event) -> {
+            tegnForsikring();
+            System.out.println("Tegner forsikring");
         });
     }
 }
