@@ -1,17 +1,19 @@
 //Elias
 
 package forsikringsprogram;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 //Abstrakt superklasse til alle forsikringstypene
-public abstract class Forsikring {
+public abstract class Forsikring implements Serializable{
     
-    public static final int BAAT = 1;
-    public static final int REISE = 2;
-    public static final int BIL = 3;
-    public static final int BOLIG = 4;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    private static final long serialVersionUID = 432L;
+    public static final String BAAT = "Båt";
+    public static final String REISE = "Reise";
+    public static final String BIL = "Bil";
+    public static final String BOLIG = "Bolig";
+    private SimpleDateFormat sdf;
     private Calendar opprettelsesDato;
     private Calendar opphorsDato;
     private int forsikringsPremie;
@@ -29,6 +31,7 @@ public abstract class Forsikring {
         this.avtaleNr = nesteNr++;
         this.forsikringsPremie = forsikringsPremie;
         this.forsikringsBelop = forsikringsBelop;
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     public int getAvtaleNr() {
@@ -43,7 +46,7 @@ public abstract class Forsikring {
         this.forsikringsBelop = x;//////////////Må finne priser
     }
     
-    //Skal kalles på når en avtale opphøres. Setter opphørsdato og gjforsikringen "inaktiv"
+    //Skal kalles på når en avtale opphøres. Setter opphørsdato og gjør forsikringen "inaktiv"
     public void opphorForsikring() {
         this.opphorsDato = Calendar.getInstance();
         this.aktivForsikring = false;
@@ -58,7 +61,7 @@ public abstract class Forsikring {
     }
     
     public String toString() {
-        return "\nForsikringsavtale nr." + avtaleNr + "\n-----------------------------------------------------------\n" +
+        return "\nForsikringsavtale nr." + avtaleNr + "\n-------------------------------------------\n" +
                "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
                "\nAvtale opphørt: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
                "\nBetingelse: " + this.betingelser +

@@ -3,8 +3,12 @@
 package forsikringsprogram;
 
 //Reiseforsikring-klasse
-public class Bilforsikring extends Forsikring {
+
+import java.io.Serializable;
+
+public class Bilforsikring extends Forsikring implements Serializable {
     
+    private static final long serialVersionUID = 543L;
     private String registreringsNr;
     private String merke;
     private String modell;
