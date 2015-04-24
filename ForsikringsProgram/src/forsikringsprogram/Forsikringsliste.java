@@ -1,15 +1,16 @@
 //Elias
 
 package forsikringsprogram;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 //Klassen innholder en ArrayList med forsikrings-objekter
-public class Forsikringsliste {
+public class Forsikringsliste implements Serializable {
     
-    private List<Forsikring> liste = new ArrayList<>();
-    private Iterator<Forsikring> iter;
+    private static final long serialVersionUID = 234L;
+    private List<Forsikring> liste;
     
     public Forsikringsliste(){
         liste = new ArrayList<>();
@@ -28,51 +29,74 @@ public class Forsikringsliste {
         f.opphorForsikring();
     }
     
-    //For å sjekke om kunden har en type forsikring
-    public boolean inneholderObjektAvType(int konstant) {
-        iter = liste.listIterator();
+    //For å sjekke om kunden har en type forsikring ( I forhold til erstatnings-utbetaling )
+    public boolean harRiktigForsikring(String konstant) {
+        ListIterator<Forsikring> iter = liste.listIterator();
         
-        if(konstant == Forsikring.BAAT) {
-            while(iter.hasNext()) 
-                if(iter.next() instanceof Baatforsikring)
-                    return true;
-        } else if(konstant == Forsikring.REISE) {
-            while(iter.hasNext())
-                if(iter.next() instanceof Reiseforsikring)
-                    return true;
-        } else if(konstant == Forsikring.BIL) {
-            while(iter.hasNext())
-                if(iter.next() instanceof Bilforsikring)
-                    return true;
-        } else if(konstant == Forsikring.BOLIG) {
-            while(iter.hasNext())
-                if(iter.next() instanceof Boligforsikring)
-                    return true;
-        }
+        switch (konstant) {
+            case Forsikring.BAAT:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Baatforsikring)
+                        return true;
+                break;
+            case Forsikring.REISE:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Reiseforsikring)
+                        return true;
+                break;
+            case Forsikring.BIL:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Bilforsikring)
+                        return true;
+                break;
+            case Forsikring.BOLIG:
+                while(iter.hasNext())
+                    if(iter.next() instanceof Boligforsikring)
+                        return true;
+                break;
+        }// end of switch-case
         return false;
     }//end of method inneholderObjektAvType(konstant)
     
-    /*Finner en forsikring med avtalenummer lik det tallet man sender med metoden. Returnerer forsikringen hvis forsikringen finnes, returnerer false hvis det ikke finnes,
-      eller om nummeret man sender med metoden er lavere enn de avtalenumrene som finnes. 
-    */
+    public boolean innholderTreForskjelligeForsikringstyper() {
+        ListIterator<Forsikring> iter = liste.listIterator();
+        int antBaat = 0;
+        int antReise = 0;
+        int antBil = 0;
+        int antBolig = 0;
+        
+        while(iter.hasNext()) {
+            Forsikring f = iter.next();
+            if(f instanceof Baatforsikring && antBaat == 0)
+                antBaat++;
+            if(f instanceof Reiseforsikring && antReise == 0)
+                antReise++;
+            if(f instanceof Bilforsikring && antBil == 0)
+                antBil++;
+            if(f instanceof Boligforsikring && antBolig == 0)
+                antBolig++;
+        }
+        return (antBaat + antReise + antBil + antBolig) >= 3;       
+    }
+    
+    //Finner en forsikring med avtalenummer lik det tallet man sender med metoden. Returnerer forsikringen hvis forsikringen finnes, returnerer false hvis det ikke finnes,
+    //eller om nummeret man sender med metoden er lavere enn de avtalenumrene som finnes. 
     public Forsikring finnForsikringer(int avtaleNr){
-        iter = liste.listIterator();
-        Forsikring returForsikring = null;
+        ListIterator<Forsikring> iter = liste.listIterator();
         
         if(avtaleNr < 1)
             return null;
-        
         while(iter.hasNext()){
-            returForsikring = iter.next();
+            Forsikring returForsikring = iter.next();
             if( returForsikring.getAvtaleNr() == avtaleNr)
                 return returForsikring;
         }// end of while
-        return returForsikring;
+        return null;
     }// end of method finnForsikringer(avataleNr)
     
     @Override
     public String toString() {
-        iter = liste.listIterator();
+        ListIterator<Forsikring> iter = liste.listIterator();
         String output = "";
         
         while(iter.hasNext()) {

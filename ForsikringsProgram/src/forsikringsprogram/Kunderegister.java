@@ -1,25 +1,25 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forsikringsprogram;
-
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author Fredrik
  */
-public class Kunderegister {
+public class Kunderegister implements Serializable {
+    
+    private static final long serialVersionUID = 123L;
     private TreeSet<ForsikringsKunde> kunderegister;
-    private Iterator<ForsikringsKunde> iterator;
     
     public Kunderegister(){
         // Redefinerer comparatoren til å sortere på etternavn
-        Comparator<ForsikringsKunde> comparator = (ForsikringsKunde f1, ForsikringsKunde f2) -> f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn()) ;
-        // end of override method compare( ForsikringsKunde f1, ForsikringsKunde f2 )
+        SerialiserbarComparator<ForsikringsKunde> comparator = new SerialiserbarComparator<ForsikringsKunde>() {
+
+            @Override
+            public int compare(ForsikringsKunde f1, ForsikringsKunde f2) {
+                return f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn());
+            }
+        };
         
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
     }// end of oonstructor
@@ -30,7 +30,6 @@ public class Kunderegister {
        Returnerer true hvis kunden blir lagt til. 
     */
     public boolean registrerKunde(ForsikringsKunde ny){
-        
         if(ny == null)
             return false;
         return kunderegister.add(ny);
@@ -39,10 +38,9 @@ public class Kunderegister {
     // Finner en kunde med fornavn,etternavn,fødselsnummer, og returnerer denne Kunden. Returnerer null kunden ikke finnes i registeret.
     public ForsikringsKunde finnKunde(String fodselsNr){
         
-        iterator = kunderegister.iterator();
-        ForsikringsKunde gjeldendeKunde = null;
+        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
         while(iterator.hasNext()){
-            gjeldendeKunde = iterator.next();
+            ForsikringsKunde gjeldendeKunde = iterator.next();
             if( fodselsNr.equalsIgnoreCase(gjeldendeKunde.getFodselsNr()) )
                 return gjeldendeKunde;
         }// end of while
@@ -51,31 +49,38 @@ public class Kunderegister {
     
     /* Registrerer en skademelding på en kunde som har fødselsnummer lik fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se SkademeldingsListe.registrerSkademelding  .*/
-    public boolean registrerSkademelding(Skademelding skademelding, String fodselsNr){
+    public String registrerSkademelding(Skademelding skademelding, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
-            return false;
+            return "Det finnes ingen kunder med dette fødselsnummeret.";
+        if(skademelding == null)
+            return "Skademelding ikke opprettet";
         return kunde.registrerSkademelding(skademelding);
     }// end of method registrerSkademelding(Skademelding skademelding, String fodselsNr)
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se Forsikringsliste.registrerForsikring()*/
-    public boolean tegnForsikring(Forsikring ny, String fodselsNr){
+    public String tegnForsikring(Forsikring ny, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
-            return false;
-        if(!kunde.registrerForsikring(ny))
-            return false;
-        return true;        
+            return "Det finnes ingen kunder med dette fødselsnummeret.";
+        return kunde.registrerForsikring(ny);        
     }// end of method tegnForsikring
     
-    
+    //Sier opp en forsikring med gitt avtaleNr, på en gitt kunde med gitt fødselsnummer. Returverdien indikerer om hva som gikk galt, eller om alt gikk bra. 
+    // Se ForsikringsKunde.siOppForsikring
+    public String siOppForsikring(String fdnr, int avtaleNr){
+        ForsikringsKunde kunden = finnKunde(fdnr);
+        if(kunden == null)
+            return "Det finnes ingen kunder med dette fødselsnummeret.";
+        return kunden.siOppForsikring(avtaleNr);
+    }// end of method siOppForsikring(fødselsnr, avtaleNr)
     
     @Override
     public String toString(){
         if(kunderegister.isEmpty())
             return null;
-        iterator = kunderegister.iterator();
+        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
         String utskrift = "";
         while(iterator.hasNext())
             utskrift += iterator.next().toString();

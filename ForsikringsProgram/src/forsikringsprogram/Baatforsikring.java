@@ -3,9 +3,13 @@
 package forsikringsprogram;
 
 //Båtforsikring-klasse
-public class Baatforsikring extends Forsikring {
+
+import java.io.Serializable;
+
+public class Baatforsikring extends Forsikring implements Serializable{
     
-    private int registreringsNr;
+    private static final long serialVersionUID = 345L;
+    private String registreringsNr;
     private int aarsmodell;
     private int motorstyrke;
     private String merke;
@@ -13,11 +17,11 @@ public class Baatforsikring extends Forsikring {
     private String motortype;
     
     //Konstruktør
-    public Baatforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop, 
-                         int registreringsNr, int aarsmodell, int motorstyrke, String merke,
+    public Baatforsikring(String betingelser, double forsikringsBelop, 
+                         String registreringsNr, int aarsmodell, int motorstyrke, String merke,
                          String modell, String motortype) {
         
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+        super(betingelser, Forsikring.BAATPREMIE, forsikringsBelop);
         this.registreringsNr = registreringsNr;
         this.aarsmodell = aarsmodell;
         this.motorstyrke = motorstyrke;

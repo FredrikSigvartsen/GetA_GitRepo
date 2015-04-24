@@ -5,16 +5,17 @@
  */
 package forsikringsprogram;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author fredr_000
  */
-public class SkademeldingsListe {
+public class SkademeldingsListe implements Serializable {
     
+    private static final long serialVersionUID = 567L;
     private List<Skademelding> skademeldingsListe;
-    private ListIterator<Skademelding> iterator;
     
     public SkademeldingsListe(){
         skademeldingsListe = new ArrayList<>();
@@ -32,11 +33,8 @@ public class SkademeldingsListe {
        skademeldingstyper. Og vi returnerer alle skademeldinger som er av denne typen skademelding.  */
     public List<Skademelding> finnSkademeldinger(String skademeldingsType){
        List<Skademelding> liste = new ArrayList<>();
-        if(skademeldingsListe.isEmpty())
-            return null;
         
-        iterator = skademeldingsListe.listIterator();
-        
+       ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         while( iterator.hasNext() ){
             Skademelding gjeldeneSkademelding = iterator.next();
             if( skademeldingsType.equalsIgnoreCase( gjeldeneSkademelding.getSkadeType()) )
@@ -53,13 +51,11 @@ public class SkademeldingsListe {
     */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max){
         
-        if(skademeldingsListe.isEmpty())
-            return null;
         if( min == null || max == null)
             return null;
         
         List<Skademelding> liste = new ArrayList<>();
-        iterator = skademeldingsListe.listIterator();
+        ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         
         while(iterator.hasNext()){
             Skademelding gjeldendeSkademelding = iterator.next();
@@ -88,10 +84,7 @@ public class SkademeldingsListe {
     @Override
     public String toString(){
         
-        if( skademeldingsListe.isEmpty() )
-            return null;
-        
-        iterator = skademeldingsListe.listIterator();
+        ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         String utskrift = "";
         while(iterator.hasNext()){
             utskrift += iterator.next().toString();

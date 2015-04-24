@@ -3,8 +3,12 @@
 package forsikringsprogram;
 
 //Reiseforsikring-klasse
-public class Bilforsikring extends Forsikring {
+
+import java.io.Serializable;
+
+public class Bilforsikring extends Forsikring implements Serializable {
     
+    private static final long serialVersionUID = 543L;
     private String registreringsNr;
     private String merke;
     private String modell;
@@ -14,10 +18,10 @@ public class Bilforsikring extends Forsikring {
     private int bonusIprosent;
     
     //Konstruktør
-    public Bilforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop,
+    public Bilforsikring(String betingelser, double forsikringsBelop,
                          String registreringsNr, String merke, String modell, int registreringsAar,
                          int kjoreLengdeKm, int prisPrKm) {
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+        super(betingelser, Forsikring.BILPREMIE, forsikringsBelop);
         this.registreringsNr = registreringsNr;
         this.merke = merke;
         this.modell = modell;

@@ -1,34 +1,41 @@
 //Elias
 
 package forsikringsprogram;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 //Abstrakt superklasse til alle forsikringstypene
-public abstract class Forsikring {
+public abstract class Forsikring implements Serializable{
     
-    public static final int BAAT = 1;
-    public static final int REISE = 2;
-    public static final int BIL = 3;
-    public static final int BOLIG = 4;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    private static final long serialVersionUID = 432L;
+    public static final String BAAT = "Båt";
+    public static final String REISE = "Reise";
+    public static final String BIL = "Bil";
+    public static final String BOLIG = "Bolig";
+    public static final double BAATPREMIE = 10000;
+    public static final double REISEPREMIE = 4000;
+    public static final double BILPREMIE = 10000;
+    public static final double BOLIGPREMIE = 20000;
+    private SimpleDateFormat sdf;
     private Calendar opprettelsesDato;
     private Calendar opphorsDato;
-    private int forsikringsPremie;
-    private int forsikringsBelop;
+    private double forsikringsPremie;
+    private double forsikringsBelop;
     private String betingelser;
     private boolean aktivForsikring;
     private static int nesteNr = 1;
     private int avtaleNr;
     
     //Konstruktør
-    public Forsikring(String betingelser, int forsikringsPremie, int forsikringsBelop) {
+    public Forsikring(String betingelser, double forsikringsPremie, double forsikringsBelop) {
         this.opprettelsesDato = Calendar.getInstance();
         this.betingelser = betingelser;
         this.aktivForsikring = true;
         this.avtaleNr = nesteNr++;
         this.forsikringsPremie = forsikringsPremie;
         this.forsikringsBelop = forsikringsBelop;
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     public int getAvtaleNr() {
@@ -43,7 +50,7 @@ public abstract class Forsikring {
         this.forsikringsBelop = x;//////////////Må finne priser
     }
     
-    //Skal kalles på når en avtale opphøres. Setter opphørsdato og gjforsikringen "inaktiv"
+    //Skal kalles på når en avtale opphøres. Setter opphørsdato og gjør forsikringen "inaktiv"
     public void opphorForsikring() {
         this.opphorsDato = Calendar.getInstance();
         this.aktivForsikring = false;
@@ -58,7 +65,7 @@ public abstract class Forsikring {
     }
     
     public String toString() {
-        return "\nForsikringsavtale nr." + avtaleNr + "\n-----------------------------------------------------------\n" +
+        return "\nForsikringsavtale nr." + avtaleNr + "\n-------------------------------------------\n" +
                "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
                "\nAvtale opphørt: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
                "\nBetingelse: " + this.betingelser +

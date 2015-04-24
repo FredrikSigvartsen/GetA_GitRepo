@@ -2,6 +2,7 @@ package forsikringsprogram;
 
 
 import java.awt.*;
+import java.io.Serializable;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
@@ -13,27 +14,27 @@ import javax.swing.*;
  Vi har get-metoder for de fleste variablene, da det er interessant å kunne hente informasjon om en skademelding senere i programmet. 
 */
 
-public class Skademelding {
-
-   private Calendar inntruffetDato;
-   private String inntruffetTidspunkt;
-   private String skadeType; 
-   private static int nesteNr = 1;
-   private int skadeNr;          
-   private String beskrivelse;  // Beskrivelse av skade
-   private String vitneKontakt; // Kontaktinformasjon om vitner
-   private int takst;           // Taksteringsbeløp for skaden
-   private int erstatningsbeløp;
-   private SimpleDateFormat formaterDato;
+public class Skademelding implements Serializable {
+    
+    private static final long serialVersionUID = 765L;
+    private Calendar inntruffetDato;
+    private String inntruffetTidspunkt;
+    private String skadeType; 
+    private static int nesteNr = 1;
+    private int skadeNr;          
+    private String beskrivelse;  // Beskrivelse av skade
+    private String vitneKontakt; // Kontaktinformasjon om vitner
+    private double takst;           // Taksteringsbeløp for skaden
+    private double erstatningsbelop;
+    private SimpleDateFormat formaterDato;
 
     
-    public Skademelding(String skadeType, String beskrivelse, ImageIcon bilde, String vitneKontakt, int takst, int erstatningsbeløp, Calendar inntruffetDato, String inntruffetTidspunkt) {
+    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt) {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
         this.vitneKontakt = vitneKontakt;
         this.takst = takst;
-        this.erstatningsbeløp = erstatningsbeløp;
         this.inntruffetTidspunkt = inntruffetTidspunkt;
         this.inntruffetDato = inntruffetDato;
         skadeNr = nesteNr++;
@@ -48,7 +49,7 @@ public class Skademelding {
                 + "Skadetype  :  " + skadeType 
                 + "\nBeskrivelse av skaden:\n" + beskrivelse
                 + "\nTaksteringsbeløp:  " + takst
-                + "\nErstatningsbeløp:  " + erstatningsbeløp
+                + "\nErstatningsbeløp:  " + erstatningsbelop
                 + "\nKontakt til vitne:  " + vitneKontakt
                 + "\nDato for inntruffet skade:  " + formaterDato.format(inntruffetDato.getTime())
                 + "\nAnslått tid for inntruffet skade:  " + inntruffetTidspunkt;
@@ -62,6 +63,11 @@ public class Skademelding {
 //        this.inntruffetDato = inntruffetDato;
 //    }
 //    
+    
+    public void setErstatningsbelop(double takst) {
+        this.erstatningsbelop = takst;
+    }
+    
     //Get-metoder
     public static int getNesteNr() {
         return nesteNr;
@@ -95,12 +101,12 @@ public class Skademelding {
         return vitneKontakt;
     }
 
-    public int getTakst() {
+    public double getTakst() {
         return takst;
     }
 
-    public int getErstatningsbeløp() {
-        return erstatningsbeløp;
+    public double getErstatningsbeløp() {
+        return erstatningsbelop;
     }
    
    

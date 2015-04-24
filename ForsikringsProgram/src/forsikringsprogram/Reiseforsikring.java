@@ -3,13 +3,17 @@
 package forsikringsprogram;
 
 //Reiseforsikrings-klasse
-public class Reiseforsikring extends Forsikring {
+
+import java.io.Serializable;
+
+public class Reiseforsikring extends Forsikring implements Serializable {
     
+    private static final long serialVersionUID = 654L;
     private String omraade;
     
     //Konstruktør
-    public Reiseforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop, String omraade) {
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+    public Reiseforsikring(String betingelser, double forsikringsBelop, String omraade) {
+        super(betingelser, Forsikring.REISEPREMIE, forsikringsBelop);
         this.omraade = omraade;
     }
     

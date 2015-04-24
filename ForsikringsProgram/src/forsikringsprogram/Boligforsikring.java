@@ -3,8 +3,12 @@
 package forsikringsprogram;
 
 //Boligforsikrings-klasse
-public class Boligforsikring extends Forsikring {
+
+import java.io.Serializable;
+
+public class Boligforsikring extends Forsikring implements Serializable {
     
+    private static final long serialVersionUID = 456L;
     private String gateAdresse;
     private String boligType;
     private String byggeMateriale;
@@ -14,10 +18,10 @@ public class Boligforsikring extends Forsikring {
     private int antallKvm;
     
     //Konstruktør
-    public Boligforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop,
+    public Boligforsikring(String betingelser, double forsikringsBelop,
                            String gateAdresse, String boligType, String byggeMateriale, 
                            String standard, String postNr, int byggAar, int antallKvm) {
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+        super(betingelser, Forsikring.BOLIGPREMIE, forsikringsBelop);
         this.gateAdresse = gateAdresse;
         this.boligType = boligType;
         this.byggeMateriale = byggeMateriale;
