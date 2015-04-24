@@ -18,10 +18,10 @@ public class Boligforsikring extends Forsikring implements Serializable {
     private int antallKvm;
     
     //Konstruktør
-    public Boligforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop,
+    public Boligforsikring(String betingelser, double forsikringsBelop,
                            String gateAdresse, String boligType, String byggeMateriale, 
                            String standard, String postNr, int byggAar, int antallKvm) {
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+        super(betingelser, Forsikring.BOLIGPREMIE, forsikringsBelop);
         this.gateAdresse = gateAdresse;
         this.boligType = boligType;
         this.byggeMateriale = byggeMateriale;

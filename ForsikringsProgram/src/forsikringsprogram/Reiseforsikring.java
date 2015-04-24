@@ -12,8 +12,8 @@ public class Reiseforsikring extends Forsikring implements Serializable {
     private String omraade;
     
     //Konstruktør
-    public Reiseforsikring(String betingelser, int forsikringsPremie, int forsikringsBelop, String omraade) {
-        super(betingelser, forsikringsPremie, forsikringsBelop);
+    public Reiseforsikring(String betingelser, double forsikringsBelop, String omraade) {
+        super(betingelser, Forsikring.REISEPREMIE, forsikringsBelop);
         this.omraade = omraade;
     }
     
