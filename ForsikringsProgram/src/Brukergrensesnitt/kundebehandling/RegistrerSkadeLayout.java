@@ -6,20 +6,30 @@
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
-import forsikringsprogram.Kunderegister;
+import forsikringsprogram.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import static javafx.scene.control.Alert.AlertType.*;
 import javafx.scene.layout.*;
 
 /**
  *
- * @author fredr_000
+ * @author fredrik
  */
 public class RegistrerSkadeLayout extends GridPane {
-    
-    private VBox skadeInfoBox;
-    private VBox ekstraInfoBox;
-    private Border kantlinje;
+
     private Kunderegister kundeRegister;
+    private Button registrerKnapp, tomFelterKnapp;
+    private TextArea skadeBeskrivelseInput, vitneKontaktInput;
+    private TextField fodselsNrInput, takstInput, erstatningsOutput, tidspunktInput;
+    private ChoiceBox skadetypeInput;
+    private DatePicker datoInput;
+//    private String fodselsNr, skadetype, takst, skadeBeskrivelse, datoIntruffet, tidspunktInntruffet, erstatningsbeløp, vitneKontakt;
     
     public RegistrerSkadeLayout(Kunderegister register){
         opprettRegisteringLayout();
@@ -27,89 +37,256 @@ public class RegistrerSkadeLayout extends GridPane {
     }
     
     private void opprettRegisteringLayout(){
-        skadeInfoBox =  skadeInfoBox();
-        ekstraInfoBox = ekstraInfoBox();
+        fodselsNrInput = mellomStorInput();
+        takstInput = mellomStorInput();
+        erstatningsOutput = mellomStorInput();
+        tidspunktInput = litenInput();
+        skadeBeskrivelseInput = storInput();
+        vitneKontaktInput = storInput();
         
-        addColumn( 1, skadeInfoBox);
-        addColumn( 2, ekstraInfoBox);
+        skadetypeInput = new ChoiceBox();
+        skadetypeInput.getItems().addAll("Bolig", "Båt", "Bil", "Reise");
+        
+        datoInput = new DatePicker();
+        
+        //Knappen i layoutet med en lytter koblet til som kjører metode registrerSkademelding()
+        registrerKnapp = new Button("Registrer skademelding");
+        registrerKnapp.setPadding(GUI.PADDING);
+        registrerKnapp.setOnAction( new EventHandler<ActionEvent>(){ 
+        
+            public void handle( ActionEvent e){
+                registrerSkademelding();
+            }
+        });
+        
+       
+        
+        //Kolonne 1
+        add( new Label("Kundens fødselsnummer:"), 1, 1);
+        add( fodselsNrInput, 1, 2);
+        add( new Label("Skadetype:"), 1, 3);
+        add( skadetypeInput, 1, 4);
+        add( new Label("Taksteringsbeløpet for skaden:"), 1, 5);
+        add( takstInput, 1, 6);
+        add( new Label("Beskrivelse av skaden:"), 1, 7);
+        add( skadeBeskrivelseInput, 1, 8);
+        add( registrerKnapp, 1, 9);
+        
+        //Kolonne 2
+        add( new Label("Dato inntruffet:"), 2, 1);
+        add( datoInput, 2, 2);
+        add( new Label("Tidspunkt inntruffet(Timer:Minutter):"), 2, 3);
+        add( tidspunktInput, 2, 4);
+        add( new Label("Erstatningbeløp kunden får utbetalt:"), 2, 5);
+        add( erstatningsOutput, 2, 6);
+        add( new Label("Kontaktinformasjon til eventuelle vitner:"), 2, 7);
+        add( vitneKontaktInput, 2, 8);
+        
         setBorder(GUI.KANTLINJE);
+        setHgap(20);
+        setVgap(10);
+        
         
     }// end of method opprettRegistreringsLayout
     
-    //Returnerer en VBox(VertikalBoks) hvor brukeren skal skrive inn fødselsnr, velge skadetype, og beskrive skaden. 
-    private VBox skadeInfoBox(){
-        VBox box = new VBox(8);
-        box.setPadding(GUI.PADDING);
-//        box.setBorder(KundePane.KANTLINJE);
-        
-        //Labels
-        Label fodselsNrLabel = new Label("Kundens fødselsnummer:");
-        Label skadeTypeLabel = new Label("Skadetype:");
-        Label skadeBeskrivelseLabel = new Label("Beskrivelse av skaden:");
-        Label taksteringsLabel = new Label("Taksteringsbeløpet for skaden:");
-        
-        //TextInputs
-        TextField fodselsNr = new TextField();
-        fodselsNr.setMinWidth(50);
-        fodselsNr.setPrefWidth(50);
-        fodselsNr.setMaxWidth(400);
-        
-        ChoiceBox skadeType = new ChoiceBox();
-        skadeType.getItems().addAll("Bolig", "Båt", "Bil", "Reise");
-        
-        TextArea skadeBeskrivelse = new TextArea();
-        skadeBeskrivelse.setMinWidth(400);
-        skadeBeskrivelse.setPrefWidth(400);
-        skadeBeskrivelse.setMaxWidth(800);
-        skadeBeskrivelse.setMinHeight(200);
-        skadeBeskrivelse.setPrefHeight(200);
-        skadeBeskrivelse.setMaxHeight(800);
-        
-        TextField takst = new TextField();
-        takst.setMinWidth(100);
-        takst.setPrefWidth(100);
-        takst.setMaxWidth(400);
-        
-        
-        box.getChildren().addAll(fodselsNrLabel, fodselsNr, 
-                                 skadeTypeLabel, skadeType, 
-                                 taksteringsLabel, takst,
-                                 skadeBeskrivelseLabel,  skadeBeskrivelse
-                                 );
-        return box;
-    }// end of method genereringAvUtbetlingBox()
     
+    /**
+     * Henter tekst 
+     */
+    private void registrerSkademelding(){
+        if( !sjekkFelter() )
+            return;
+        
+        try{
+        String fodselsNr = fodselsNrInput.getText();
+        String skadetype = skadetypeInput.getValue().toString();
+        double takst = Double.parseDouble(takstInput.getText());
+        String skadeBeskrivelse = skadeBeskrivelseInput.getText();
+        Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), datoInput.getValue().getMonthValue()-1, datoInput.getValue().getDayOfMonth() );
+        String tidspunkt = tidspunktInput.getText();
+        String vitneKontakt = vitneKontaktInput.getText();
+        
+       Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt ); 
+       
+       String melding = kundeRegister.registrerSkademelding(skade, fodselsNr);
+            System.out.println(melding);
+        
+            
+        if( kundeRegister.finnKunde(fodselsNr) == null)
+           return;
+        setFelterTomme();
+        }// end of try
+        
+        catch(NumberFormatException | NullPointerException e){
+            visProgramFeilMelding(e);
+            return;
+        }
+        
+    }// end of method knappeLytter()
     
-    // En vertikal boks med info om dato og tidspunkt for inntruffet skade, og input for kontaktinformasjon
-    private VBox ekstraInfoBox(){
-        VBox box = new VBox(8);
-        box.setPadding(GUI.PADDING);
-//        box.setBorder(KundePane.KANTLINJE);
+    /**
+     * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn. 
+     */
+    private boolean sjekkFelter(){
+        if( fodselsNrInput.getText().trim().isEmpty()){
+            visFyllInnMelding("fødselsnummer");
+            return false;
+        }
         
-        //TextInputs
-        DatePicker datoVelger = new DatePicker();
-        TextField tidspunktInput = new TextField();
-        tidspunktInput.setMinWidth(40);
-        tidspunktInput.setPrefWidth(80);
-        tidspunktInput.setMaxWidth(80);
+        else if( skadetypeInput.getValue() == null){
+            visFyllInnMelding("skadetype");
+            return false;
+        }
         
-        TextField erstatningInput = new TextField();
-        erstatningInput.setEditable(false);
+        else if( takstInput.getText().trim().isEmpty()){
+            visFyllInnMelding( "takst");
+            return false;
+        }
         
-        TextArea vitne = new TextArea();
-        vitne.setMinWidth(400);
-        vitne.setPrefWidth(400);
-        vitne.setMaxWidth(800);
-        vitne.setMinHeight(200);
-        vitne.setPrefHeight(200);
-        vitne.setMaxHeight(800);
+        else if( skadeBeskrivelseInput.getText().trim().isEmpty()){
+            visFyllInnMelding("beskrivelse av skaden");
+            return false;
+        }
         
-        //Legger til dataInputs og beskrivende labels.
-        box.getChildren().addAll( new Label("Dato inntruffet:"), datoVelger,
-                                  new Label("Tidspunkt inntruffet:"), tidspunktInput,
-                                  new Label("Erstatningbeløp kunden får utbetalt:"), erstatningInput,
-                                  new Label("Kontaktinformasjon til eventuelle vitner:"), vitne );
-        return box;
-    }// end of method ekstraInfoBox()
+        else if( datoInput.getValue() == null){
+            visFyllInnMelding( "dato for skaden");
+            return false;
+        }
+        
+        else if( tidspunktInput.getText().trim().isEmpty()){
+            visFyllInnMelding( "tidspunkt for skaden");
+            return false;
+        }
+        
+        else if( vitneKontaktInput.getText().trim().isEmpty()){
+            visFyllInnMelding( "kontaktinfo til eventuelle vitner", "Finnes det ingen vitner, skriv dette.");
+            return false;
+        }
+        return true;
+    }// end of method sjekkFelter()
+    
+    /**
+     * Tømmer alle feltene i registreringen av skademelding
+     */
+    private void setFelterTomme(){
+        
+        fodselsNrInput.setText("");
+        skadetypeInput.setValue(null);
+        takstInput.setText("");
+        skadeBeskrivelseInput.setText("");
+        datoInput.setValue(null);
+        tidspunktInput.setText("");
+        erstatningsOutput.setText("");
+        vitneKontaktInput.setText("");
+        
+    }// end of method setFelterTomme()
+    
+    /**
+     * Viser en melding om hva brukeren må fylle inn.
+     * @param s er meldingen om hva som må fylles inn. 
+     */
+    private void visFyllInnMelding(String s){
+        Alert varsel = new Alert( INFORMATION);
+        varsel.setTitle("OBS! Fyll inn " + s);
+        varsel.setHeaderText(null);
+        varsel.setContentText( "Du må fylle inn " + s + " for å kunne registrere en skademelding.");
+        varsel.showAndWait();
+    }// end of method visFyllInnMelding() med en parameter
+    
+    /**
+     * Viser en melding om hva brukeren må fylle inn.
+     * @param s er meldingen om hva som må fylles inn. 
+     * @param s2 er en tekst som kan legges til for tilleggsinformasjon til brukeren. 
+     */
+    private void visFyllInnMelding(String s, String s2){
+        Alert varsel = new Alert( INFORMATION);
+        varsel.setTitle("OBS! Fyll inn " + s);
+        varsel.setHeaderText(null);
+        varsel.setContentText( "Du må fylle inn " + s + " for å kunne registrere en skademelding.\n" + s2);
+        varsel.showAndWait();
+    }// end of method visFyllInnMelding() med to parametre
+    
+    /**
+     * 
+     * @param overskrift er overskriften i varsel-vinduet.
+     * @param innhold  vises som hovedinnhold i varsel-vinduet
+     */
+    private void visProgramFeilMelding( Exception e){
+        Alert varsel = new Alert( ERROR);
+        varsel.setTitle("Programfeil");
+        varsel.setHeaderText("Programfeil. Kontakt IT-Ansvarlig");
+        varsel.setContentText( e.getLocalizedMessage());
+        
+        
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String exceptionTekst = sw.toString();
+        
+        TextArea tekstomraade = new TextArea(exceptionTekst);
+        tekstomraade.setEditable(false);
+        tekstomraade.setWrapText(true);
+        tekstomraade.setMaxWidth( Double.MAX_VALUE);
+        tekstomraade.setMaxHeight( Double.MAX_VALUE);
+        GridPane.setVgrow( tekstomraade, Priority.ALWAYS);
+        GridPane.setHgrow( tekstomraade, Priority.ALWAYS);
+        
+        GridPane expInnhold = new GridPane();
+        expInnhold.setMaxWidth( Double.MAX_VALUE);
+        expInnhold.add( new Label("Programfeilen skyldtes:"), 0, 0);
+        expInnhold.add( tekstomraade, 0, 0);
+        
+        varsel.getDialogPane().setExpandableContent(expInnhold);
+        
+        varsel.showAndWait();
+    }// end of method visFeilMelding()
+    
+    /**
+     * 
+     * @return et lite tekstfelt for input. 
+     */
+    private TextField litenInput(){
+        TextField input = new TextField();
+        
+        input.setMinWidth(40);
+        input.setPrefWidth(80);
+        input.setMaxWidth(80);
+        input.setPadding( GUI.PADDING );
+        
+        return input;
+    }// end of method litenInput()
+    
+    /**
+     * 
+     * @return et mellomstort tekstfelt for input.
+     */
+    private TextField mellomStorInput(){
+        TextField input = new TextField();
+        
+        input.setMinWidth(100);
+        input.setPrefWidth(100);
+        input.setMaxWidth(400);
+        input.setPadding( GUI.PADDING );
+        
+        return input;
+    }// end of method mellomStorInput()
+    
+    /**
+     * 
+     * @return et stort tekstfelt for input.
+     */
+    private TextArea storInput(){
+        
+        TextArea innskrift = new TextArea();
+        innskrift.setMinWidth(400);
+        innskrift.setPrefWidth(400);
+        innskrift.setMaxWidth(800);
+        innskrift.setMinHeight(200);
+        innskrift.setPrefHeight(200);
+        innskrift.setMaxHeight(800);
+        innskrift.setPadding( GUI.PADDING );
+        
+        return innskrift;
+    } // end of method storreInputOmraade()
     
 }// end of class RegistrerSkadeLayout

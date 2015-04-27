@@ -7,8 +7,7 @@ package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.GUI;
 import forsikringsprogram.*;
-import javafx.collections.*;
-import javafx.geometry.HPos;
+import javafx.event.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -129,6 +128,10 @@ public class KundesokLayout extends GridPane{
         return skadeLayout;
     } // end of method sokSkadeNr()
     
+    /**
+     * 
+     * @return en liten GridPane-layout 
+     */
     private GridPane sokSkadetype(){
         GridPane skadetypeLayout = new GridPane();
         
@@ -136,6 +139,12 @@ public class KundesokLayout extends GridPane{
         skadetype.setPadding(GUI.PADDING);
         skadetype.getItems().addAll("Boligskade", "Båtskade", "Bilskade", "Reiseskade");
         Button sokKnapp = new Button("Søk");
+//        sokKnapp.setOnAction( new EventHandler<ActionEvent>(){ 
+//        
+//            public void handle( ActionEvent e){
+//                
+//            }
+//        });
         
         skadetypeLayout.add( new Label("Skadetype:"), 1, 1);
         skadetypeLayout.add( skadetype, 1, 2);
