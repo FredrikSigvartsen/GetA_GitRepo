@@ -29,6 +29,16 @@ public class SkademeldingsListe implements Serializable {
         return skademeldingsListe.add(skade);
     } // end of method registrerSkademelding()
     
+    public Skademelding finnSkademeldinger(int skadeNr){
+        ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
+        
+        while(iterator.hasNext()){
+            Skademelding gjeldendeSkademelding = iterator.next();
+            if( skadeNr == gjeldendeSkademelding.getSkadeNr())
+                return gjeldendeSkademelding;
+        }
+        return null;
+    }// end of method finnSkademeldinger(int skadeNr)
     /* Vi tenker oss at vi har generelle skader. Derfor sender vi med en tekst som beskriver skademeldingstypen, og sammenligner denne teksten mot alle skademeldingene i listens
        skademeldingstyper. Og vi returnerer alle skademeldinger som er av denne typen skademelding.  */
     public List<Skademelding> finnSkademeldinger(String skademeldingsType){
@@ -96,4 +106,4 @@ public class SkademeldingsListe implements Serializable {
         return skademeldingsListe;
     }
     
-}
+}// end of class SkademeldingsListe

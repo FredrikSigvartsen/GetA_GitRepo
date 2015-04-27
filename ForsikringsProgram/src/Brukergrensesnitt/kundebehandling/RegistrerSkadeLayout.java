@@ -96,7 +96,6 @@ public class RegistrerSkadeLayout extends GridPane {
     private void registrerSkademelding(){
         if( !sjekkFelter() )
             return;
-        
         try{
         String fodselsNr = fodselsNrInput.getText();
         String skadetype = skadetypeInput.getValue().toString();
@@ -118,7 +117,7 @@ public class RegistrerSkadeLayout extends GridPane {
         }// end of try
         
         catch(NumberFormatException | NullPointerException e){
-            visProgramFeilMelding(e);
+            GUI.visProgramFeilMelding(e);
             return;
         }
         
@@ -133,7 +132,7 @@ public class RegistrerSkadeLayout extends GridPane {
             return false;
         }
         
-        else if( skadetypeInput.getValue() == null){
+        else if( skadetypeInput.getValue().equals(null)  ){
             visFyllInnMelding("skadetype");
             return false;
         }
@@ -148,7 +147,7 @@ public class RegistrerSkadeLayout extends GridPane {
             return false;
         }
         
-        else if( datoInput.getValue() == null){
+        else if( datoInput.getValue().equals(null) ){
             visFyllInnMelding( "dato for skaden");
             return false;
         }
@@ -169,7 +168,6 @@ public class RegistrerSkadeLayout extends GridPane {
      * Tømmer alle feltene i registreringen av skademelding
      */
     private void setFelterTomme(){
-        
         fodselsNrInput.setText("");
         skadetypeInput.setValue(null);
         takstInput.setText("");
@@ -208,41 +206,6 @@ public class RegistrerSkadeLayout extends GridPane {
     
     /**
      * 
-     * @param overskrift er overskriften i varsel-vinduet.
-     * @param innhold  vises som hovedinnhold i varsel-vinduet
-     */
-    private void visProgramFeilMelding( Exception e){
-        Alert varsel = new Alert( ERROR);
-        varsel.setTitle("Programfeil");
-        varsel.setHeaderText("Programfeil. Kontakt IT-Ansvarlig");
-        varsel.setContentText( e.getLocalizedMessage());
-        
-        
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        String exceptionTekst = sw.toString();
-        
-        TextArea tekstomraade = new TextArea(exceptionTekst);
-        tekstomraade.setEditable(false);
-        tekstomraade.setWrapText(true);
-        tekstomraade.setMaxWidth( Double.MAX_VALUE);
-        tekstomraade.setMaxHeight( Double.MAX_VALUE);
-        GridPane.setVgrow( tekstomraade, Priority.ALWAYS);
-        GridPane.setHgrow( tekstomraade, Priority.ALWAYS);
-        
-        GridPane expInnhold = new GridPane();
-        expInnhold.setMaxWidth( Double.MAX_VALUE);
-        expInnhold.add( new Label("Programfeilen skyldtes:"), 0, 0);
-        expInnhold.add( tekstomraade, 0, 0);
-        
-        varsel.getDialogPane().setExpandableContent(expInnhold);
-        
-        varsel.showAndWait();
-    }// end of method visFeilMelding()
-    
-    /**
-     * 
      * @return et lite tekstfelt for input. 
      */
     private TextField litenInput(){
@@ -276,7 +239,6 @@ public class RegistrerSkadeLayout extends GridPane {
      * @return et stort tekstfelt for input.
      */
     private TextArea storInput(){
-        
         TextArea innskrift = new TextArea();
         innskrift.setMinWidth(400);
         innskrift.setPrefWidth(400);
