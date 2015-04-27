@@ -69,12 +69,10 @@ public class GUI extends Application{
         faneMeny.getChildren().add(fanePanel);
     }
    
+    @Override
     public void start(Stage primaryStage) throws Exception{
         kundeRegister = new Kunderegister();
         kundeLayout = new KundePane( kundeRegister );
-        //ForsikringsKunde kunde = new ForsikringsKunde("Fredrik", "Sigvartsen", "Tullin", "ff","ff","ff");
-        //if(kundeRegister.registrerKunde( kunde) )
-        //    System.out.println(kunde);
         faneMeny();
         kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();

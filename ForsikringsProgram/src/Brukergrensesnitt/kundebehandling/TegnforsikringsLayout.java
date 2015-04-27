@@ -48,6 +48,9 @@ public class TegnforsikringsLayout extends GridPane{
         boligforsikringsFelter();
         reiseforsikringsFelter();
         
+        
+        tegnForsikring = new Button("Tegn forsiring");
+        
         fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
                    .minWidth(100)
@@ -83,6 +86,7 @@ public class TegnforsikringsLayout extends GridPane{
         add(forsikringsbelop, 2, 4);
         add(betingelserLabel, 1, 5);
         add(betingelser, 2, 5);
+        add(tegnForsikring, 1, 7);
         /*GridPane.setHalignment(registrerKunde, HPos.CENTER);
         add(registrerKunde, 1, 7, 2, 1);*/
     }
@@ -90,7 +94,7 @@ public class TegnforsikringsLayout extends GridPane{
     private void bilforsikringsFelter(){
         bilforsikringFelter = new GridPane();
         
-        tegnForsikring = new Button("Tegn bilforsikring");
+        //tegnForsikring = new Button("Tegn bilforsikring");
         
         registreringsnrLabel = new Label("Registreringsnr:");
         registreringsnr = TextFieldBuilder.create()
@@ -142,13 +146,13 @@ public class TegnforsikringsLayout extends GridPane{
         bilforsikringFelter.add(kjorelengde, 1, 5);
         bilforsikringFelter.add(prisPerKmLabel, 0, 6);
         bilforsikringFelter.add(prisPerKm, 1, 6);
-        bilforsikringFelter.add(tegnForsikring, 0, 7, 2, 1);
+        //bilforsikringFelter.add(tegnForsikring, 0, 7, 2, 1);
     }//End of method BilforsikringFeilter
     
     private void batforsikringsFelter(){
         batforsikringFelter = new GridPane();
         
-        tegnForsikring = new Button("Tegn båtforsikring");
+        //tegnForsikring = new Button("Tegn båtforsikring");
         
         batRegistreringsnrLabel = new Label("Registreringsnr:");
         batRegistreringsnr = TextFieldBuilder.create()
@@ -200,13 +204,13 @@ public class TegnforsikringsLayout extends GridPane{
         batforsikringFelter.add(motorType, 1, 5);
         batforsikringFelter.add(motorStyrkeLabel, 0, 6);
         batforsikringFelter.add(motorStyrke, 1, 6);
-        batforsikringFelter.add(tegnForsikring, 0, 7, 2, 1);
+        //batforsikringFelter.add(tegnForsikring, 0, 7, 2, 1);
     }//End of method BatforsikringFeilter
     
     private void boligforsikringsFelter(){
         boligforsikringFelter = new GridPane();
         
-        tegnForsikring = new Button("Tegn boligforsikring");
+        //tegnForsikring = new Button("Tegn boligforsikring");
         
         gateAdresseLabel = new Label("Adresse:");
         gateAdresse = TextFieldBuilder.create()
@@ -266,13 +270,13 @@ public class TegnforsikringsLayout extends GridPane{
         boligforsikringFelter.add(standard, 1, 6);
         boligforsikringFelter.add(antallKVMLabel, 0, 7);
         boligforsikringFelter.add(antallKVM, 1, 7);
-        boligforsikringFelter.add(tegnForsikring, 0, 8, 2, 1);
+        //boligforsikringFelter.add(tegnForsikring, 0, 8, 2, 1);
     }//End of method BoligforsikringFeilter
     
     private void reiseforsikringsFelter(){
         reiseforsikringFelter = new GridPane();
         
-        tegnForsikring = new Button("Tegn reiseforsikring");
+        //tegnForsikring = new Button("Tegn reiseforsikring");
         
         omradeLabel = new Label("Område:");
         omrade = TextFieldBuilder.create()
@@ -285,10 +289,10 @@ public class TegnforsikringsLayout extends GridPane{
         reiseforsikringFelter.setHgap(10);
         reiseforsikringFelter.add(omradeLabel, 0, 1);
         reiseforsikringFelter.add(omrade, 1, 1);
-        reiseforsikringFelter.add(tegnForsikring, 0, 2, 2, 1);
+        //reiseforsikringFelter.add(tegnForsikring, 0, 2, 2, 1);
     }//End of method BoligforsikringFeilter
     
-    public void tegnForsikring(){
+    public void registrerForsikring(){
         String fodselsnr = this.fodselsnr.getText();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
         String betingelser = this.betingelser.getText();
@@ -329,6 +333,8 @@ public class TegnforsikringsLayout extends GridPane{
                         Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
                                 batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
                         kundeRegister.tegnForsikring(batforsikring, fodselsnr);
+                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        System.out.println( kunde.visForsikringsliste() );
                     }
                     break;
                 case "boligforsikring":
@@ -346,6 +352,8 @@ public class TegnforsikringsLayout extends GridPane{
                         Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
                                 gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
                         kundeRegister.tegnForsikring(boligforsikring, fodselsnr);
+                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        System.out.println( kunde.visForsikringsliste() );
                     }
                     break;
                 case "reiseforsikring":
@@ -355,6 +363,8 @@ public class TegnforsikringsLayout extends GridPane{
                     else{
                         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
                         kundeRegister.tegnForsikring(reiseforsikring, fodselsnr);
+                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        System.out.println( kunde.visForsikringsliste() );
                     }
                     break;
             }
@@ -398,8 +408,7 @@ public class TegnforsikringsLayout extends GridPane{
     
     private void tegnForsikringLytter(){
         tegnForsikring.setOnAction((ActionEvent event) -> {
-            tegnForsikring();
-            System.out.println("Tegner forsikring");
+            registrerForsikring();
         });
     }
 }
