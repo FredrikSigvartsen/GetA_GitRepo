@@ -20,22 +20,29 @@ public class Kunderegister implements Serializable {
                 return f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn());
             }
         };
-        
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
     }// end of oonstructor
     
     
     //Kundebehandling 
-    /* Setter inn en kunde i registeret. Returnerer false hvis IKKE objektet er ForsikringsKunde, eller hvis kunden ikke blir lagt til.
-       Returnerer true hvis kunden blir lagt til. 
-    */
+    
+    /**
+     * Registrerer en ny kunde. 
+     * @param ny ForsikringsKunde som blir lagt til i systemet. 
+     * @return indikerer om kunden ble lagt til eller ikke. Kunden blir ikke lagt til hvis det allerede finnes et slikt objekt. 
+     */
     public boolean registrerKunde(ForsikringsKunde ny){
         if(ny == null)
             return false;
         return kunderegister.add(ny);
     }// end of method settInn(ForsikringsKunde)
     
-    // Finner en kunde med fornavn,etternavn,fødselsnummer, og returnerer denne Kunden. Returnerer null kunden ikke finnes i registeret.
+    
+    /**
+     * Finner en kunde med fødselsnummer lik parameteren.
+     * @param fodselsNr fødselsnummeret til kunden brukeren vil finne i systemet.
+     * @return kunden metoden finner. 
+     */
     public ForsikringsKunde finnKunde(String fodselsNr){
         
         Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
@@ -47,8 +54,30 @@ public class Kunderegister implements Serializable {
         return null;
     }// end of method finnKunde(String fornavn, String etternavn, String fodselsNr)
     
-    /* Registrerer en skademelding på en kunde som har fødselsnummer lik fodselsNr. Returverdien indikerer om dette gikk eller ikke.
-       Se SkademeldingsListe.registrerSkademelding  .*/
+    /**
+     * Søker opp en kunde lik parametrene fornavn og etternavn. 
+     * @param fornavn på kunden vi vil finne.
+     * @param etternavn på kunden vi vil finnet
+     * @return kunden vi har funnet. Hvis kunden ikke finnes, returnerer metoden null.
+     */
+    public ForsikringsKunde finnKunde(String fornavn, String etternavn){
+       Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
+       while(iterator.hasNext()){
+           ForsikringsKunde gjeldendeKunde = iterator.next();
+           if( fornavn.equalsIgnoreCase( gjeldendeKunde.getFornavn()) &&
+               etternavn.equalsIgnoreCase( gjeldendeKunde.getEtternavn()))
+               return gjeldendeKunde;
+       }// end of while
+       return null;
+    } // finnKunde(String fornavn, String etternavn)
+    
+    
+    /**
+     * Registrerer en skademelding på en kunde som har fødselsnummer lik den andre parameteren. 
+     * @param skademelding vi vil registrere
+     * @param fodselsNr på kunden vi vil registrere skademeldingen på. 
+     * @return indikerer hva som gikk galt under registreringen. 
+     */
     public String registrerSkademelding(Skademelding skademelding, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
@@ -57,6 +86,33 @@ public class Kunderegister implements Serializable {
             return "Skademelding ikke opprettet";
         return kunde.registrerSkademelding(skademelding);
     }// end of method registrerSkademelding(Skademelding skademelding, String fodselsNr)
+    
+    /** 
+     * Finner en skademelding med skadenummer lik parameteren. 
+     * @param skadeNr på skademeldingen brukeren til programmet vil søke opp.
+     * @return skademeldingen som er funnet. 
+     */
+    public Skademelding finnSkademeldinger(int skadeNr){
+        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
+        
+        while( iterator.hasNext() ){
+            SkademeldingsListe gjeldendeListe = iterator.next().getSkademeldinger();
+            if( gjeldendeListe != null 
+               && gjeldendeListe.finnSkademeldinger(skadeNr) != null)
+                return gjeldendeListe.finnSkademeldinger(skadeNr);
+        }// end of while
+        return null;
+    }// end of method finnSkademeldinger(int skadeNr)
+    
+    
+    /**
+     * 
+     * @param skadetype
+     * @return 
+     */
+    public List<Skademelding> finnSkademeldinger( String skadetype ){
+        return null;
+    }// end of method finnSkademeldinger(skadetype)
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se Forsikringsliste.registrerForsikring()*/
@@ -76,6 +132,19 @@ public class Kunderegister implements Serializable {
         return kunden.siOppForsikring(avtaleNr);
     }// end of method siOppForsikring(fødselsnr, avtaleNr)
     
+    /**
+     * 
+     * @param forsikringstype
+     * @return 
+     */
+    public List<Forsikring> finnForsikringer( String forsikringstype ){
+        return null;
+    }// end of method finnForsikringer( forsikringstype )
+    
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString(){
         if(kunderegister.isEmpty())

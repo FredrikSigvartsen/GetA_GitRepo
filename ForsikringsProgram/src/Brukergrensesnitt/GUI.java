@@ -102,12 +102,15 @@ public class GUI extends Application{
         }
     }// end of method lesFraFil()
     
-    private void visProgramFeilMelding( Exception e){
+    /**
+     * Viser en feilmelding forårsaket av en exception.
+     * @param e er det unntaktet som har oppstått.
+     */
+    public static void visProgramFeilMelding( Exception e){
         Alert varsel = new Alert( ERROR);
         varsel.setTitle("Programfeil");
         varsel.setHeaderText("Programfeil. Kontakt IT-Ansvarlig");
         varsel.setContentText( e.getLocalizedMessage());
-        
         
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -163,7 +166,6 @@ public class GUI extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         lesFraFil();
-        System.out.println( kundeRegister.finnKunde("15129400015" ).getForsikringer().toString() );
         kundeLayout = new KundePane( kundeRegister );
         faneMeny();
         kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
@@ -180,6 +182,7 @@ public class GUI extends Application{
         stage.setOnCloseRequest((WindowEvent t) -> {
             skrivTilFil();
         } );
+        
         fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
             switch (t1.getText()) {
                 case "Kundebehandling":
