@@ -18,7 +18,7 @@ import forsikringsprogram.*;
 public class RegistrerKundeLayout extends GridPane{
     
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
-    private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;
+    private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel, registrertLabel;
     private Button registrerKunde;
     private Kunderegister kundeRegister;
     
@@ -94,27 +94,26 @@ public class RegistrerKundeLayout extends GridPane{
         String postnr = this.postnr.getText();
         String fodselsnr = this.fodselsnr.getText();
         if(fornavn.trim().equals("") || etternavn.trim().equals("") || adresse.trim().equals("") || poststed.trim().equals("") || postnr.trim().equals("") || fodselsnr.trim().equals("")){
-            /*if(fornavn.trim().equals(""))
-                System.out.println("Fyll inn fornavn");
-            else if(etternavn.trim().equals(""))
-                System.out.println("Fyll inn etternavn");
-            else if(adresse.trim().equals(""))
-                System.out.println("Fyll inn adresse");
-            else if(postnr.trim().equals(""))
-                System.out.println("Fyll inn postnr");
-            else if(poststed.trim().equals(""))
-                System.out.println("Fyll inn poststed");
-            else if(fodselsnr.trim().equals(""))
-                System.out.println("Fyll inn fodselsnr");*/
+            Alert fyllInnAltMelding = new Alert(Alert.AlertType.WARNING);
+            fyllInnAltMelding.setTitle("Feil i Inntasting");
+            fyllInnAltMelding.setHeaderText("Tomme felter");
+            fyllInnAltMelding.setContentText("Venligst fyll inn alle feltene");
+            fyllInnAltMelding.showAndWait();
         }
         else{
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
-                if( kundeRegister.registrerKunde(kunde) )
-                    System.out.println( kundeRegister.toString() );
-               
-            //outputArea.setText(kunde.toString());
-            //outputBox.getChildren().removeAll(outputArea);
-            //outputBox.getChildren().addAll(outputArea);
+            if(kundeRegister.finnKunde(fodselsnr) != null){
+                getChildren().remove(registrertLabel);
+                registrertLabel = new Label("Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
+                add(registrertLabel, 1, 8, 2, 1);
+            }
+            else{
+                getChildren().remove(registrertLabel);
+                kundeRegister.registrerKunde(kunde);
+                registrertLabel = new Label(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
+                add(registrertLabel, 1, 8, 3, 1);
+            }
+            System.out.println( kundeRegister.toString() );
         }
     }
     
