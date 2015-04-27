@@ -12,6 +12,7 @@ import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.*;
 import javafx.scene.layout.*;
 
 /**
@@ -293,31 +294,44 @@ public class TegnforsikringsLayout extends GridPane{
     }//End of method BoligforsikringFeilter
     
     public void registrerForsikring(){
-        String fodselsnr = this.fodselsnr.getText();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
-        String betingelser = this.betingelser.getText();
-        if(fodselsnr.trim().equals("") || forsikringsbelop == 0 || betingelser.trim().equals("")){
-            System.out.println("Venligst lyll inn alle feltene");
-        }
-        else{
+        try{
+            String fodselsnr = this.fodselsnr.getText();
+            double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+            String betingelser = this.betingelser.getText();
+            ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
             switch (forsikringsTypeString){
                 case "bilforsikring":
+                    try{
                     String registreringsnr = this.registreringsnr.getText();
                     String merke = this.merke.getText();
                     String modell = this.modell.getText();
                     int registreringsar = Integer.parseInt(this.registreringsar.getText());
                     int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
                     int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
-                    if(registreringsnr.trim().equals("") || merke.trim().equals("") || modell.trim().equals("") 
-                            || registreringsar == 0 || kjorelengde == 0 || prisPerKm == 0)
-                        System.out.println("Venligst fyll inn alle feltene");
+                    Alert fyllInnAltMelding = new Alert(AlertType.WARNING);
+                    
+                    if(registreringsnr.trim().equals("") || merke.trim().equals("") || modell.trim().equals("")){
+                        fyllInnAltMelding.setTitle("Feil i Inntasting");
+                        fyllInnAltMelding.setHeaderText("Tomme felter");
+                        fyllInnAltMelding.setContentText("Venligst fyll inn alle feltene");
+                        fyllInnAltMelding.showAndWait();
+                    }
                     else{
                         Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
-                                registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
+                        registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
                         System.out.println(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
-                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
                         System.out.println( kunde.visForsikringsliste() );
                     }
+                    }
+                    catch(NumberFormatException nfe){
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Feil i Inntasting");
+                        alert.setHeaderText("Feil tallformat");
+                        alert.setContentText("Fyll inn kun tall i feltene: Registreringsår, Kjørelengde og Pris per KM");
+                        alert.showAndWait();
+                    }
+                    
+                    
                     break;
                 case "batforsikring":
                     String batRegistreringsnr = this.batRegistreringsnr.getText();
@@ -333,7 +347,7 @@ public class TegnforsikringsLayout extends GridPane{
                         Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
                                 batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
                         kundeRegister.tegnForsikring(batforsikring, fodselsnr);
-                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        //ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
                         System.out.println( kunde.visForsikringsliste() );
                     }
                     break;
@@ -352,7 +366,7 @@ public class TegnforsikringsLayout extends GridPane{
                         Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
                                 gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
                         kundeRegister.tegnForsikring(boligforsikring, fodselsnr);
-                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        //ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
                         System.out.println( kunde.visForsikringsliste() );
                     }
                     break;
@@ -363,14 +377,21 @@ public class TegnforsikringsLayout extends GridPane{
                     else{
                         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
                         kundeRegister.tegnForsikring(reiseforsikring, fodselsnr);
-                        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
+                        //ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
                         System.out.println( kunde.visForsikringsliste() );
                     }
                     break;
             }
-            
         }
-    }
+            catch(NumberFormatException nfe){
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Feil i Inntasting");
+                alert.setHeaderText("Feil tallformat");
+                alert.setContentText("Fyll inn kun tall i forsikringsbeløp feltet");
+                alert.showAndWait();
+            }
+        }
+    
     
     private void comboLytter(){
         forsikringsType.valueProperty().addListener(new ChangeListener<String>(){
