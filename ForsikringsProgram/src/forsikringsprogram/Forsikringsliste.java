@@ -29,6 +29,47 @@ public class Forsikringsliste implements Serializable {
         f.opphorForsikring();
     }
     
+    public List<Forsikring> listeMedForsikringAvType(String konstant) {
+        ListIterator<Forsikring> iter = liste.listIterator();
+        List<Forsikring> ny = new ArrayList<>();
+        
+        switch (konstant) {
+            case Forsikring.BAAT:
+                while(iter.hasNext()) {
+                    Forsikring forsikring = iter.next();
+                    if(forsikring instanceof Baatforsikring) {
+                        ny.add(forsikring);
+                    }
+                }   
+                break;
+            case Forsikring.REISE:
+                while(iter.hasNext()) {
+                    Forsikring forsikring = iter.next();
+                    if(forsikring instanceof Reiseforsikring) {
+                        ny.add(forsikring);
+                    }
+                }   
+                break;
+            case Forsikring.BOLIG:
+                while(iter.hasNext()) {
+                    Forsikring forsikring = iter.next();
+                    if(forsikring instanceof Boligforsikring) {
+                        ny.add(forsikring);
+                    }
+                }   
+                break;
+            case Forsikring.BIL:
+                while(iter.hasNext()) {
+                    Forsikring forsikring = iter.next();
+                    if(forsikring instanceof Bilforsikring) {
+                        ny.add(forsikring);
+                    }
+                }   
+                break;
+        }
+        return ny;
+    }
+    
     //For å sjekke om kunden har en type forsikring ( I forhold til erstatnings-utbetaling )
     public boolean harRiktigForsikring(String konstant) {
         ListIterator<Forsikring> iter = liste.listIterator();
