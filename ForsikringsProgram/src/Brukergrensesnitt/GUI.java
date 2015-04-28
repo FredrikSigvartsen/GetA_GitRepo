@@ -19,6 +19,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -46,7 +48,9 @@ public class GUI extends Application{
     
     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
     public static final Insets PADDING = new Insets(10);
-    public static final String TIMER_REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+    
+    public static final String TIDSPUNKT_REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+    public static final String NAVN_REGEX = "[A-Z][a-zA-Z æøåÆØÅ]*$";
     
     private Stage stage;
     private Scene scene;
@@ -54,11 +58,10 @@ public class GUI extends Application{
     private HBox faneMeny;
     private TabPane fanePanel;
     private KundePane kundeLayout;
-    private TegnforsikringsLayout tegnForsikringsPane;
     private Kunderegister kundeRegister;
     
     /**
-     * 
+     * Skriver til fil.
      */
     public void skrivTilFil() {
         
@@ -78,7 +81,7 @@ public class GUI extends Application{
     }// end of method skrivTilFil()
     
     /**
-     * 
+     * Leser fra fil
      */
     public void lesFraFil() {
         try(ObjectInputStream innfil = new ObjectInputStream(
@@ -196,10 +199,86 @@ public class GUI extends Application{
         });
     }// end of method start()
   
+    /**
+     * En metode som sjekker om teksten stemmer overens med regexen man sender med. 
+     * @param regex Sender med et regulært uttrykk 
+     * @param sjekk Teksten som skal valideres for det regulære uttrykket.
+     * @return En boolsk verdi som tilsier om teksten stemmer overens med regex'en. 
+     */
+    public static boolean sjekkRegex(String regex, String sjekk){
+        Pattern regExPattern = Pattern.compile(regex);
+        Matcher regMatch = regExPattern.matcher(sjekk);
+        
+        return regMatch.matches();
+    }// end of method sjekkRegex
+    
     public Kunderegister getKundeRegister(){
         return kundeRegister;
     }
     
+    /**
+     * 
+     * @param fodselNr Sender med det fødselsnummeret programmereren vil validere. 
+     * @return En boolsk verdi som tilsier om fødselsnummeret er validert eller ikke. 
+     */
+    public static boolean sjekkRegexFodselsNr(String fodselNr) {
+
+        if(fodselNr == null || fodselNr.trim().equals("")) 
+          return false;
+        return sjekkFodselsNr(fodselNr);
+    }// end of method sjekkRegexFodselsNr(String fodselsDato)
+    
+    /**
+     * 
+     * @param fodselsNr Sjekker om fødselsnummer stemmer overens med norske fødselsnummer. 
+     * @return En boolsk verdi som tilsier om fødselsnummeret kan være et norsk fødselsnummer. 
+     */
+    private static boolean sjekkFodselsNr(String fodselsNr) {
+      try {
+         // dag
+        int dag1 = Integer.parseInt(new String("" + fodselsNr.charAt(0)));
+        int dag2 = Integer.parseInt(new String("" + fodselsNr.charAt(1)));
+        // Måned
+        int m1 = Integer.parseInt(new String("" + fodselsNr.charAt(2)));
+        int m2 = Integer.parseInt(new String("" + fodselsNr.charAt(3)));
+        // År
+        int y1 = Integer.parseInt(new String("" + fodselsNr.charAt(4)));
+        int y2 = Integer.parseInt(("" + fodselsNr.charAt(5)));
+        // Individ sifre
+        int i1 = Integer.parseInt(new String("" + fodselsNr.charAt(6)));
+        int i2 = Integer.parseInt(new String("" + fodselsNr.charAt(7)));
+        int i3 = Integer.parseInt(new String("" + fodselsNr.charAt(8)));
+        int bk1 = Integer.parseInt(new String("" + fodselsNr.charAt(9)));
+        int bk2 = Integer.parseInt(new String("" + fodselsNr.charAt(10)));
+        int rest1, k1, rest2, k2;
+ 
+        rest1 = ((3 * dag1 + 7 * dag2 + 6 * m1 + 1 * m2 + 8 * y1 + 9 * y2 + 4
+                 * i1 + 5 * i2 + 2 * i3) % 11);
+        if (rest1 == 0) {
+            k1 = 0;
+        } else {
+            k1 = 11 - rest1;
+        }
+        rest2 = ((5 * dag1 + 4 * dag2 + 3 * m1 + 2 * m2 + 7 * y1 + 6 * y2 + 5
+             * i1 + 4 * i2 + 3 * i3 + 2 * k1) % 11);
+  
+        if (rest2 == 0) {
+           k2 = 0;
+        } else {
+           k2 = 11 - rest2;
+        }
+        if (k1 == bk1 && k2 == bk2) {
+            return true;
+        } else {
+            return false;
+        }
+      }// end of try// end of try
+      catch (Exception nfe) {
+          visProgramFeilMelding(nfe);
+          return false;
+      }// end of catch
+    }// end of method sjekkFodselsNr(String birthNumber)
+
     public static void main(String[] args) {
         // TODO code application logic here
         Application.launch(args);
