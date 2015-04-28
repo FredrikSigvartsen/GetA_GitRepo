@@ -183,6 +183,8 @@ public class GUI extends Application{
 
         if(fodselNr == null || fodselNr.trim().equals("")) 
           return false;
+        if( fodselNr.length() != 11)
+          return false;
         return sjekkFodselsNr(fodselNr);
     }// end of method sjekkRegexFodselsNr(String fodselsDato)
     
@@ -193,6 +195,7 @@ public class GUI extends Application{
      */
     private static boolean sjekkFodselsNr(String fodselsNr) {
       try {
+        
          // dag
         int dag1 = Integer.parseInt(new String("" + fodselsNr.charAt(0)));
         int dag2 = Integer.parseInt(new String("" + fodselsNr.charAt(1)));

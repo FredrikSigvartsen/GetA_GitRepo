@@ -7,6 +7,7 @@ package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
 import forsikringsprogram.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
@@ -24,7 +25,7 @@ import javafx.scene.layout.*;
 public class RegistrerSkadeLayout extends GridPane {
 
     private Kunderegister kundeRegister;
-    private Button registrerKnapp, tomFelterKnapp;
+    private Button registrerKnapp;
     private TextArea skadeBeskrivelseInput, vitneKontaktInput;
     private TextField fodselsNrInput, takstInput, erstatningsOutput, tidspunktInput;
     private ChoiceBox skadetypeInput;
@@ -94,7 +95,9 @@ public class RegistrerSkadeLayout extends GridPane {
      * Henter tekst 
      */
     private void registrerSkademelding(){
-        if( !sjekkFelter() )
+        if( !felterErFylt() )
+            return;
+        if( !regexErOk())
             return;
         try{
         String fodselsNr = fodselsNrInput.getText();
@@ -108,10 +111,8 @@ public class RegistrerSkadeLayout extends GridPane {
        Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt ); 
        
        String melding = kundeRegister.registrerSkademelding(skade, fodselsNr);
-            System.out.println(melding);
         
-            
-        if( kundeRegister.finnKunde(fodselsNr) == null)
+       if( kundeRegister.finnKunde(fodselsNr) == null)
            return;
         setFelterTomme();
         }// end of try
@@ -126,13 +127,13 @@ public class RegistrerSkadeLayout extends GridPane {
     /**
      * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn. 
      */
-    private boolean sjekkFelter(){
+    private boolean felterErFylt(){
         if( fodselsNrInput.getText().trim().isEmpty()){
             visFyllInnMelding("fødselsnummer");
             return false;
         }
         
-        else if( skadetypeInput.getValue().equals(null)  ){
+        else if( skadetypeInput.getValue() == null  ){
             visFyllInnMelding("skadetype");
             return false;
         }
@@ -147,7 +148,7 @@ public class RegistrerSkadeLayout extends GridPane {
             return false;
         }
         
-        else if( datoInput.getValue().equals(null) ){
+        else if( datoInput.getValue() == null ){
             visFyllInnMelding( "dato for skaden");
             return false;
         }
@@ -162,7 +163,34 @@ public class RegistrerSkadeLayout extends GridPane {
             return false;
         }
         return true;
-    }// end of method sjekkFelter()
+    }// end of method felterErFylt()
+    
+    /**
+     * Sjekker alle input-feltene for riktig format. Viser brukeren en melding om hva som er fylt inn feil. 
+     * @return False hvis formatet er feil, og true hvis alt er OK. 
+     */
+    private boolean regexErOk(){
+        
+        if( ! (GUI.sjekkRegex( "^\\d{11}$", fodselsNrInput.getText() ) ) ){
+            GUI.visInputFeilMelding("OBS! Fødselsnummer inneholder 11 sifre.", "For å kunne registrere en skademelding må du fylle inn et eksisterende fødselsnummer"
+                                    + " med 11 sifre");
+            return false;
+        }
+        else if( !( GUI.sjekkRegex( GUI.VALUTA_REGEX, takstInput.getText() ) ) ){
+            GUI.visInputFeilMelding("OBS! Taksten er i feil format", "For å kunne registrere en skademelding, må du fylle inn riktig takst for skaden. Angis i antall kroner.");
+            return false;
+        }
+        else if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoInput.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+            System.out.println( datoInput.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) );
+            GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne registrere en skademelding, må du fylle inn dato for skaden. Angis f.eks i dd/mm/åååå");
+            return false; 
+        }
+        else if( ! (GUI.sjekkRegex( GUI.TIDSPUNKT_REGEX, tidspunktInput.getText() ) ) ){
+            GUI.visInputFeilMelding("OBS! Tidspunkt er i feil format", "For å kunne registrere en skademelding, må du fylle inn riktig tidspunkt for skaden. Angis i timer:minutter");
+            return false;
+        }
+        return true;
+    }// end of method regexErOk()
     
     /**
      * Tømmer alle feltene i registreringen av skademelding
