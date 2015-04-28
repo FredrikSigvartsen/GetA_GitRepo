@@ -6,6 +6,7 @@
 package Brukergrensesnitt.kundebehandling;
 
 import forsikringsprogram.*;
+import Brukergrensesnitt.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
@@ -292,117 +293,108 @@ public class TegnforsikringsLayout extends GridPane{
         //reiseforsikringFelter.add(tegnForsikring, 0, 2, 2, 1);
     }//End of method BoligforsikringFeilter
     
-    public void registrerForsikring(){
+    public static void visInputFeilMelding(String titel, String innhold){
+        Alert melding = new Alert(AlertType.INFORMATION);
+        melding.setTitle(titel);
+        melding.setContentText(innhold);
+        melding.showAndWait();
+    }
+    
+    private void registrerBilforsikring(){
+        String fodselsnr = this.fodselsnr.getText();
+        String betingelser = this.betingelser.getText();
+        String registreringsnr = this.registreringsnr.getText();
+        String merke = this.merke.getText();
+        String modell = this.modell.getText();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+        int registreringsar = Integer.parseInt(this.registreringsar.getText());
+        int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
+        int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
+        if(registreringsnr.trim().equals("") || merke.trim().equals("") || modell.trim().equals(""))
+            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
+        else{
+            Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
+            registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
+            registrertLabel = new Label(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
+            add(registrertLabel, 1, 8, 2, 1);
+        }
+    }
+    
+    private void registrerBatforsikring(){
+        String fodselsnr = this.fodselsnr.getText();
+        String betingelser = this.betingelser.getText();
+        String batRegistreringsnr = this.batRegistreringsnr.getText();
+        String batMerke = this.batMerke.getText();
+        String batModell = this.batModell.getText();
+        String motorType = this.motorType.getText();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+        int arsmodell = Integer.parseInt(this.arsmodell.getText());
+        int motorStyrke = Integer.parseInt(this.motorStyrke.getText());
+        if(batRegistreringsnr.trim().equals("") || batMerke.trim().equals("") || batModell.trim().equals("") || motorType.trim().equals(""))
+            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
+        else{
+            Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
+                    batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
+            registrertLabel = new Label(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
+            add(registrertLabel, 1, 8, 2, 1);
+        }
+    }
+    
+    private void registrerBoligforsikring(){
+        String fodselsnr = this.fodselsnr.getText();
+        String betingelser = this.betingelser.getText();
+        String gateAdresse = this.gateAdresse.getText();
+        String boligType = this.boligType.getText();
+        String byggemateriale = this.byggemateriale.getText();
+        String standard = this.standard.getText();
+        String postnr = this.postnr.getText();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+        int byggear = Integer.parseInt(this.byggear.getText());
+        int antallKVM = Integer.parseInt(this.antallKVM.getText());
+        if(gateAdresse.trim().equals("") || boligType.trim().equals("") || byggemateriale.trim().equals("") || standard.trim().equals("") || postnr.trim().equals(""))
+            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
+        else{
+            Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
+                    gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
+            registrertLabel = new Label(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
+            add(registrertLabel, 1, 8, 2, 1);
+        }
+    }
+    
+    private void registrerReiseforsikring(){
+        String fodselsnr = this.fodselsnr.getText();
+        String betingelser = this.betingelser.getText();
+        String omrade = this.omrade.getText();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+        if(omrade.trim().equals(""))
+            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
+        else{
+            Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
+            registrertLabel = new Label(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
+            add(registrertLabel, 1, 8, 2, 1);
+        }
+    }
+    
+    private void registrerForsikring(){
         try{
-            String fodselsnr = this.fodselsnr.getText();
-            double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
-            String betingelser = this.betingelser.getText();
-            ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr);
-            Alert fyllInnAltMelding = new Alert(AlertType.WARNING);
-            fyllInnAltMelding.setTitle("Feil i Inntasting");
-            fyllInnAltMelding.setHeaderText("Tomme felter");
-            fyllInnAltMelding.setContentText("Venligst fyll inn alle feltene");
             switch (forsikringsTypeString){
                 case "bilforsikring":
-                    try{
-                        String registreringsnr = this.registreringsnr.getText();
-                        String merke = this.merke.getText();
-                        String modell = this.modell.getText();
-                        int registreringsar = Integer.parseInt(this.registreringsar.getText());
-                        int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
-                        int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
-
-
-                        if(registreringsnr.trim().equals("") || merke.trim().equals("") || modell.trim().equals(""))
-                            fyllInnAltMelding.showAndWait();
-                        else{
-                            Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
-                            registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-                            registrertLabel = new Label(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
-                            add(registrertLabel, 1, 8, 2, 1);
-                            System.out.println( kunde.visForsikringsliste() );
-                        }
-                    }
-                    catch(NumberFormatException nfe){
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Feil i Inntasting");
-                        alert.setHeaderText("Feil tallformat");
-                        alert.setContentText("Fyll inn kun tall i feltene: Registreringsår, Kjørelengde og Pris per KM\n" + nfe.getMessage());
-                        alert.showAndWait();
-                    }
+                    registrerBilforsikring();
                     break;
                 case "batforsikring":
-                    try{
-                        String batRegistreringsnr = this.batRegistreringsnr.getText();
-                        String batMerke = this.batMerke.getText();
-                        String batModell = this.batModell.getText();
-                        String motorType = this.motorType.getText();
-                        int arsmodell = Integer.parseInt(this.arsmodell.getText());
-                        int motorStyrke = Integer.parseInt(this.motorStyrke.getText());
-                        if(batRegistreringsnr.trim().equals("") || batMerke.trim().equals("") || batModell.trim().equals("") || motorType.trim().equals(""))
-                            fyllInnAltMelding.showAndWait();
-                        else{
-                            Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
-                                    batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
-                            registrertLabel = new Label(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
-                            add(registrertLabel, 1, 8, 2, 1);
-                            System.out.println( kunde.visForsikringsliste() );
-                        }
-                    }
-                    catch(NumberFormatException nfe){
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Feil i Inntasting");
-                        alert.setHeaderText("Feil tallformat");
-                        alert.setContentText("Fyll inn kun tall i feltene: Årsmodell og Motor styrke\n" + nfe.getMessage());
-                        alert.showAndWait();
-                    }
+                    registrerBatforsikring();
                     break;
                 case "boligforsikring":
-                    try{
-                        String gateAdresse = this.gateAdresse.getText();
-                        String boligType = this.boligType.getText();
-                        String byggemateriale = this.byggemateriale.getText();
-                        String standard = this.standard.getText();
-                        String postnr = this.postnr.getText();
-                        int byggear = Integer.parseInt(this.byggear.getText());
-                        int antallKVM = Integer.parseInt(this.antallKVM.getText());
-                        if(gateAdresse.trim().equals("") || boligType.trim().equals("") || byggemateriale.trim().equals("") || standard.trim().equals("") || postnr.trim().equals(""))
-                            fyllInnAltMelding.showAndWait();
-                        else{
-                            Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
-                                    gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
-                            registrertLabel = new Label(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
-                            add(registrertLabel, 1, 8, 2, 1);
-                            System.out.println( kunde.visForsikringsliste() );
-                        }
-                    }
-                    catch(NumberFormatException nfe){
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Feil i Inntasting");
-                        alert.setHeaderText("Feil tallformat");
-                        alert.setContentText("Fyll inn kun tall i feltene: Byggeår og AntallKVM\n" + nfe.getMessage());
-                        alert.showAndWait();
-                    }
+                    registrerBoligforsikring();
                     break;
                 case "reiseforsikring":
-                    String omrade = this.omrade.getText();
-                    if(omrade.trim().equals(""))
-                        fyllInnAltMelding.showAndWait();
-                    else{
-                        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
-                        registrertLabel = new Label(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
-                        add(registrertLabel, 1, 8, 2, 1);
-                        System.out.println( kunde.visForsikringsliste() );
-                    }
+                    registrerReiseforsikring();
                     break;
             }
         }
-        catch(NumberFormatException nfe){
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Feil i Inntasting");
-            alert.setHeaderText("Feil tallformat");
-            alert.setContentText("Fyll inn kun tall i forsikringsbeløp feltet\n" + nfe.getMessage());
-            alert.showAndWait();
+        catch(NumberFormatException | NullPointerException e){
+            GUI.visProgramFeilMelding(e);
+            return;
         }
     }
     

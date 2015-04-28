@@ -39,9 +39,12 @@ public class KundePane extends BorderPane{
         kundebehandlingsFaner();
         opprettLayout();
         //this.kundeRegister = register;
-    }
+    }//end of constructor
+    
+    /**
+     * Oppretter og setter de ulike layoutene under Kundebehandling
+     */
     public void opprettLayout(){
-        
         kundebehandlingsMeny = kundebehandlingsFaner();
         registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister);
         kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister);
@@ -52,7 +55,12 @@ public class KundePane extends BorderPane{
         //Setter plassering
         setTop(kundebehandlingsMeny);
         setCenter(kundeRegistreringsPane);
-    }
+    }//end of method opprettLayout()
+    
+    /**
+     * Oppretter fanekortene for Kundebehandlings fanen
+     * @return 
+     */
     public HBox kundebehandlingsFaner(){
         HBox box = new HBox();
         kundebehandlingsPanel = new TabPane();
@@ -79,7 +87,7 @@ public class KundePane extends BorderPane{
         box.getChildren().add(kundebehandlingsPanel);
         
         return box;
-    }
+    }//end of method kundebehandlingsFaner()
     
     public void tabLytter(){
         kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
@@ -103,7 +111,7 @@ public class KundePane extends BorderPane{
                 setCenter(kundeRegistreringsPane);
             }
         });
-    }
+    }//end of method tabLytter()
     
     
     
@@ -121,4 +129,4 @@ public class KundePane extends BorderPane{
     /*public Button getRegistrer(){
         return registrerKunde;
     }*/
-}
+}//end of class KundePane()

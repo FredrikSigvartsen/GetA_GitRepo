@@ -26,8 +26,11 @@ public class RegistrerKundeLayout extends GridPane{
         kundeRegistreringSkjema();
         registrerLytter();
         this.kundeRegister = register;
-    }
+    }//end of construnctor
     
+    /**
+     * Oppretter skjema for registrering av kunde
+     */
     public void kundeRegistreringSkjema(){
         
         registrerKunde = new Button("Registrer");
