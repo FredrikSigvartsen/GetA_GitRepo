@@ -12,6 +12,7 @@ import forsikringsprogram.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.*;
 import javafx.geometry.Insets;
 
 /**
@@ -52,11 +53,22 @@ public class KundePane extends BorderPane{
         sioppPane = new SioppforsikringsLayout(kundeRegister, output);
         sokPane = new KundesokLayout(kundeRegister, output);
         
+        //registrerSkademeldingLayout.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
+        //RegistrerKundeLayout.setConstraints(kundeRegistreringsPane, 2, 8);
+        //kundeRegistreringsPane.setColumnSpan(kundeRegistreringsPane, 1);
+        //kundeRegistreringsPane.setMaxWidth(GUI.getSkjermBredde() / 2);
+        //kundeRegistreringsPane.setMinWidth(GUI.getSkjermBredde() / 10);
+        //kundeRegistreringsPane.setHalignment(kundeRegistreringsPane, HPos.LEFT);
+        //forsikringsPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
+        //sioppPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
+        //sokPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
+        
+        
         //Setter plassering
         setTop(kundebehandlingsMeny);
         setCenter(kundeRegistreringsPane);
-//        setRight(output);
-        setMargin(output, new Insets(40));
+        setRight(output);
+        //setMargin(output, new Insets(40));
     }//end of method opprettLayout()
     
     /**
@@ -124,8 +136,8 @@ public class KundePane extends BorderPane{
                 .maxWidth(getSkjermBredde() / 1.1)
                 .minHeight(getSkjermHoyde() / 4)
                 .maxHeight(getSkjermHoyde() / 4)
+                .wrapText(true)
                 .build();
-        output.setWrapText(true);
         return output;
     }
 }//end of class KundePane
