@@ -6,10 +6,13 @@
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
+import static Brukergrensesnitt.GUI.getSkjermBredde;
+import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 
 /**
  *
@@ -29,10 +32,9 @@ public class KundePane extends BorderPane{
     private Kunderegister kundeRegister;
     private TextArea output;
         
-    public KundePane(Kunderegister register, TextArea output) {
+    public KundePane(Kunderegister register) {
         super();
         kundeRegister = register;
-        this.output = output;
         kundebehandlingsFaner();
         opprettLayout();
         //this.kundeRegister = register;
@@ -43,6 +45,7 @@ public class KundePane extends BorderPane{
      */
     public void opprettLayout(){
         kundebehandlingsMeny = kundebehandlingsFaner();
+        output = output();
         registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister, output);
         kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister, output);
         forsikringsPane = new TegnforsikringsLayout(kundeRegister, output);
@@ -52,6 +55,8 @@ public class KundePane extends BorderPane{
         //Setter plassering
         setTop(kundebehandlingsMeny);
         setCenter(kundeRegistreringsPane);
+//        setRight(output);
+        setMargin(output, new Insets(40));
     }//end of method opprettLayout()
     
     /**
@@ -113,4 +118,14 @@ public class KundePane extends BorderPane{
         });
     }//end of method tabLytter()
         
+    private TextArea output(){
+        TextArea output = output = TextAreaBuilder.create()
+                .minWidth(getSkjermBredde() / 1.1)
+                .maxWidth(getSkjermBredde() / 1.1)
+                .minHeight(getSkjermHoyde() / 4)
+                .maxHeight(getSkjermHoyde() / 4)
+                .build();
+        output.setWrapText(true);
+        return output;
+    }
 }//end of class KundePane

@@ -60,22 +60,14 @@ public class GUI extends Application{
     private Scene scene;
     private static Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
     private HBox faneMeny;
-    private TextArea output;
     private TabPane fanePanel;
     private KundePane kundeLayout;
     private Kunderegister kundeRegister;
     
-    
     @Override
     public void start(Stage primaryStage) throws Exception{
         lesFraFil();
-        output = TextAreaBuilder.create()
-                .minWidth(getSkjermBredde())
-                .maxWidth(getSkjermBredde())
-                .minHeight(getSkjermHoyde() / 4)
-                .maxHeight(getSkjermHoyde() / 4)
-                .build();
-        kundeLayout = new KundePane( kundeRegister, output );
+        kundeLayout = new KundePane( kundeRegister);
         faneMeny();
         kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
@@ -306,7 +298,7 @@ public class GUI extends Application{
      * @return skjermbredde/2
      */
     public static double getSkjermBredde(){
-        return (double)opplosning.getWidth() / 2;
+        return (double)opplosning.getWidth() / 1.1;
     }
     
     /**
@@ -314,8 +306,9 @@ public class GUI extends Application{
      * @return skjermhøyde / 1,3
      */
     public static double getSkjermHoyde(){
-        return (double)opplosning.getHeight() / 1.3;
+        return (double)opplosning.getHeight() / 1.2;
     }
+    
     public static void main(String[] args) {
         // TODO code application logic here
         Application.launch(args);
