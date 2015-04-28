@@ -30,7 +30,6 @@ public class RegistrerSkadeLayout extends GridPane {
     private TextField fodselsNrInput, takstInput, erstatningsOutput, tidspunktInput;
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
-//    private String fodselsNr, skadetype, takst, skadeBeskrivelse, datoIntruffet, tidspunktInntruffet, erstatningsbeløp, vitneKontakt;
     
     public RegistrerSkadeLayout(Kunderegister register, TextArea output){
         opprettRegisteringLayout();
@@ -55,15 +54,12 @@ public class RegistrerSkadeLayout extends GridPane {
         registrerKnapp = new Button("Registrer skademelding");
         registrerKnapp.setPadding(GUI.PADDING);
         registrerKnapp.setOnAction( new EventHandler<ActionEvent>(){ 
-        
             public void handle( ActionEvent e){
                 registrerSkademelding();
             }
         });
         
-       
-        
-        //Kolonne 1
+       //Kolonne 1
         add( new Label("Kundens fødselsnummer:"), 1, 1);
         add( fodselsNrInput, 1, 2);
         add( new Label("Skadetype:"), 1, 3);
@@ -110,8 +106,7 @@ public class RegistrerSkadeLayout extends GridPane {
         String vitneKontakt = vitneKontaktInput.getText();
         
        Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt ); 
-       
-       String melding = kundeRegister.registrerSkademelding(skade, fodselsNr);
+       output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
         
        if( kundeRegister.finnKunde(fodselsNr) == null)
            return;
