@@ -22,12 +22,12 @@ public class KundesokLayout extends GridPane{
     
     private Kunderegister kundeRegister;
     private TitledPane sokFodselsNrLayout, sokNavnLayout, sokForsikringstypeLayout, sokSkadeNrLayout, sokSkadetypeLayout;
-    private TextArea utskriftsomraade;
+    private TextArea output;
     private TextField fodselsNrInput, fornavnInput, etternavnInput, skadeNrInput;
     private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp;
     private ChoiceBox forsikringstypeInput, skadetypeInput;
     
-    public KundesokLayout(Kunderegister register){
+    public KundesokLayout(Kunderegister register, TextArea output){
         super();
         this.kundeRegister = register;
         opprettLayout();
@@ -51,7 +51,7 @@ public class KundesokLayout extends GridPane{
         sokSkadetypeLayout = new TitledPane( "Skadetype", sokSkadetype() );
         sokSkadetypeLayout.setExpanded(false);
         
-        utskriftsomraade = tekstOmraade();
+        output = tekstOmraade();
         
         Label skadeLabel = new Label("Søk på skademeldinger med");
         Label kundeLabel = new Label("Søk på kunder med");
@@ -65,7 +65,7 @@ public class KundesokLayout extends GridPane{
         addRow(5, skadeLabel );
         addRow(6, sokSkadeNrLayout );
         addRow(7, sokSkadetypeLayout );
-        addRow(8, utskriftsomraade);
+        addRow(8, output);
         
         setBorder(GUI.KANTLINJE);
         setPadding(GUI.PADDING);
@@ -209,10 +209,10 @@ public class KundesokLayout extends GridPane{
             String fodselsNr = fodselsNrInput.getText();
             ForsikringsKunde kunden = kundeRegister.finnKunde( fodselsNr );
             if(kunden == null){
-               utskriftsomraade.setText("Kunden med dette fødselsnummer finnes ikke i vårt system.");
+               output.setText("Kunden med dette fødselsnummer finnes ikke i vårt system.");
                return;
             }
-            utskriftsomraade.setText("Følgende kunde funnet i systemet:" + kunden.toString());
+            output.setText("Følgende kunde funnet i systemet:" + kunden.toString());
             return;
         }
         catch(NullPointerException npe){
@@ -239,10 +239,10 @@ public class KundesokLayout extends GridPane{
             String etternavn = etternavnInput.getText();
             ForsikringsKunde kunden = kundeRegister.finnKunde(fornavn, etternavn);
             if( kunden == null){
-                utskriftsomraade.setText( fornavn + " " + etternavn + " finnes ikke i systemet vårt." ) ;
+                output.setText( fornavn + " " + etternavn + " finnes ikke i systemet vårt." ) ;
                 return;
             }
-            utskriftsomraade.setText( "Følgende kunde funnet i systemet:" + kunden.toString() ) ;
+            output.setText( "Følgende kunde funnet i systemet:" + kunden.toString() ) ;
             return;
         }
         catch(NullPointerException npe){
@@ -265,14 +265,14 @@ public class KundesokLayout extends GridPane{
             List<Forsikring> forsikringer = kundeRegister.finnForsikringer(forsikringstype);
         
             if(forsikringer.isEmpty()){
-               utskriftsomraade.setText("Finnes ingen forsikringer av typen " + forsikringstype);
+               output.setText("Finnes ingen forsikringer av typen " + forsikringstype);
                return;
             }
             ListIterator<Forsikring> iter = forsikringer.listIterator();
             while(iter.hasNext()){
-                utskriftsomraade.appendText( iter.next().toString());
+                output.appendText( iter.next().toString());
             }
-        }// end of try
+        }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
             return;
@@ -293,10 +293,10 @@ public class KundesokLayout extends GridPane{
             
             Skademelding skademeldingen = kundeRegister.finnSkademeldinger(skadeNr);
             if( skademeldingen == null){
-                utskriftsomraade.setText("Skademelding nr." + skadeNr + " finnes ikke i vårt system.");
+                output.setText("Skademelding nr." + skadeNr + " finnes ikke i vårt system.");
                 return;
             }
-            utskriftsomraade.setText("Følgende skademelding funnet:" + skademeldingen.toString());
+            output.setText("Følgende skademelding funnet:" + skademeldingen.toString());
         }
         catch( NumberFormatException | NullPointerException nfe){
             GUI.visProgramFeilMelding(nfe);
@@ -317,11 +317,11 @@ public class KundesokLayout extends GridPane{
             
             List<Skademelding> skademeldinger = kundeRegister.finnSkademeldinger(skadetype);
             if(skademeldinger.isEmpty()){
-                utskriftsomraade.setText("Det finnes ingen skademeldinger av typen " + skadetype);
+                output.setText("Det finnes ingen skademeldinger av typen " + skadetype);
                 return;
             }
             
-        }// end of try
+        }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
             return;

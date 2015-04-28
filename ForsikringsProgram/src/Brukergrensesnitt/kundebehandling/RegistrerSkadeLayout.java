@@ -26,15 +26,16 @@ public class RegistrerSkadeLayout extends GridPane {
 
     private Kunderegister kundeRegister;
     private Button registrerKnapp;
-    private TextArea skadeBeskrivelseInput, vitneKontaktInput;
+    private TextArea skadeBeskrivelseInput, vitneKontaktInput, output;
     private TextField fodselsNrInput, takstInput, erstatningsOutput, tidspunktInput;
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
 //    private String fodselsNr, skadetype, takst, skadeBeskrivelse, datoIntruffet, tidspunktInntruffet, erstatningsbeløp, vitneKontakt;
     
-    public RegistrerSkadeLayout(Kunderegister register){
+    public RegistrerSkadeLayout(Kunderegister register, TextArea output){
         opprettRegisteringLayout();
         this.kundeRegister = register;
+        this.output = output;
     }
     
     private void opprettRegisteringLayout(){

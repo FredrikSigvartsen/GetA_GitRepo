@@ -32,6 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.layout.*;
 import static javafx.scene.layout.BorderStroke.THIN;
 import static javafx.scene.layout.BorderStrokeStyle.SOLID;
@@ -59,6 +60,7 @@ public class GUI extends Application{
     private Scene scene;
     private static Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
     private HBox faneMeny;
+    private TextArea output;
     private TabPane fanePanel;
     private KundePane kundeLayout;
     private Kunderegister kundeRegister;
@@ -67,7 +69,13 @@ public class GUI extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         lesFraFil();
-        kundeLayout = new KundePane( kundeRegister );
+        output = TextAreaBuilder.create()
+                .minWidth(getSkjermBredde())
+                .maxWidth(getSkjermBredde())
+                .minHeight(getSkjermHoyde() / 4)
+                .maxHeight(getSkjermHoyde() / 4)
+                .build();
+        kundeLayout = new KundePane( kundeRegister, output );
         faneMeny();
         kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();

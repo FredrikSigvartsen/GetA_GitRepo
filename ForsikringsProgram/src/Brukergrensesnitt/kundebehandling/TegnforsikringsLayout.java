@@ -30,20 +30,27 @@ public class TegnforsikringsLayout extends GridPane{
             betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, registreringsarLabel, 
             kjorelengdeLabel, prisPerKmLabel, batRegistreringsnrLabel, batMerkeLabel, batModellLabel, 
             arsmodellLabel, motorTypeLabel, motorStyrkeLabel, gateAdresseLabel, postnrLabel, byggearLabel, 
-            boligTypeLabel, byggematerialeLabel, standardLabel, antallKVMLabel, omradeLabel, registrertLabel;
+            boligTypeLabel, byggematerialeLabel, standardLabel, antallKVMLabel, omradeLabel;
     private Button tegnForsikring;
     private ComboBox forsikringsType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString = "";
+    private TextArea output;
     
-    public TegnforsikringsLayout(Kunderegister register){
+    public TegnforsikringsLayout(Kunderegister register, TextArea output){
         tegnForsikringsSkjema();
         comboLytter();
         tegnForsikringLytter();
         this.kundeRegister = register;
-    }
+        this.output = output;
+    }//end of constructor
     
+    /**
+     * Oppretter de felles input feltene i skjema for tegning av forsikring
+     * og kaller på metodene som oppretter de inputfeltene som er unike for 
+     * hver enkelt forsikring
+     */
     private void tegnForsikringsSkjema(){
         bilforsikringsFelter();
         batforsikringsFelter();
@@ -51,7 +58,7 @@ public class TegnforsikringsLayout extends GridPane{
         reiseforsikringsFelter();
         
         
-        tegnForsikring = new Button("Tegn forsiring");
+        tegnForsikring = new Button("Tegn forsikring");
         
         fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
@@ -90,8 +97,11 @@ public class TegnforsikringsLayout extends GridPane{
         add(betingelser, 2, 5);
         GridPane.setHalignment(tegnForsikring, HPos.CENTER);
         add(tegnForsikring, 1, 7, 2, 1);
-    }
+    }//end of method tegnForsikringsSkjema()
     
+    /**
+     * Oppretter de feltene som er unike for bilforsikring
+     */
     private void bilforsikringsFelter(){
         bilforsikringFelter = new GridPane();
         
@@ -145,8 +155,11 @@ public class TegnforsikringsLayout extends GridPane{
         bilforsikringFelter.add(kjorelengde, 1, 5);
         bilforsikringFelter.add(prisPerKmLabel, 0, 6);
         bilforsikringFelter.add(prisPerKm, 1, 6);
-    }//End of method BilforsikringFeilter
+    }//End of method bilforsikringFelter()
     
+    /**
+     * Oppretter de feltene som er unike for båtforsikring
+     */
     private void batforsikringsFelter(){
         batforsikringFelter = new GridPane();
         
@@ -202,6 +215,9 @@ public class TegnforsikringsLayout extends GridPane{
         batforsikringFelter.add(motorStyrke, 1, 6);
     }//End of method BatforsikringFelter
     
+    /**
+     * Oppretter de feltene som er unike for boligforsikring
+     */
     private void boligforsikringsFelter(){
         boligforsikringFelter = new GridPane();
         
@@ -265,6 +281,9 @@ public class TegnforsikringsLayout extends GridPane{
         boligforsikringFelter.add(antallKVM, 1, 7);
     }//End of method BoligforsikringFeilter
     
+    /**
+     * Oppretter de feltene som er unike for reiseforsikring
+     */
     private void reiseforsikringsFelter(){
         reiseforsikringFelter = new GridPane();
         
@@ -281,13 +300,9 @@ public class TegnforsikringsLayout extends GridPane{
         reiseforsikringFelter.add(omrade, 1, 1);
     }//End of method BoligforsikringFeilter
     
-    public static void visInputFeilMelding(String titel, String innhold){
-        Alert melding = new Alert(AlertType.INFORMATION);
-        melding.setTitle(titel);
-        melding.setContentText(innhold);
-        melding.showAndWait();
-    }
-    
+    /**
+     * Registrerer en bilforsikring når metoden kalles
+     */
     private void registrerBilforsikring(){
         String fodselsnr = this.fodselsnr.getText();
         String betingelser = this.betingelser.getText();
@@ -298,16 +313,15 @@ public class TegnforsikringsLayout extends GridPane{
         int registreringsar = Integer.parseInt(this.registreringsar.getText());
         int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
         int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
-        if(registreringsnr.trim().equals("") || merke.trim().equals("") || modell.trim().equals(""))
-            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
-        else{
-            Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
-            registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-            registrertLabel = new Label(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
-            add(registrertLabel, 1, 8, 2, 1);
-        }
-    }
+        Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
+        registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
+        output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
+        add(output, 1, 8, 2, 1);
+    }//end of method registrerBilforsikring()
     
+    /**
+     * Registrerer en båtforsikring når metoden kalls
+     */
     private void registrerBatforsikring(){
         String fodselsnr = this.fodselsnr.getText();
         String betingelser = this.betingelser.getText();
@@ -318,16 +332,15 @@ public class TegnforsikringsLayout extends GridPane{
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
         int arsmodell = Integer.parseInt(this.arsmodell.getText());
         int motorStyrke = Integer.parseInt(this.motorStyrke.getText());
-        if(batRegistreringsnr.trim().equals("") || batMerke.trim().equals("") || batModell.trim().equals("") || motorType.trim().equals(""))
-            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
-        else{
-            Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
-                    batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
-            registrertLabel = new Label(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
-            add(registrertLabel, 1, 8, 2, 1);
-        }
-    }
+        Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
+                batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
+        output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
+        add(output, 1, 8, 2, 1);
+    }//end of method registrerBatforsikring()
     
+    /**
+     * Registrerer en boligforsikring når metoden kalles
+     */
     private void registrerBoligforsikring(){
         String fodselsnr = this.fodselsnr.getText();
         String betingelser = this.betingelser.getText();
@@ -339,69 +352,145 @@ public class TegnforsikringsLayout extends GridPane{
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
         int byggear = Integer.parseInt(this.byggear.getText());
         int antallKVM = Integer.parseInt(this.antallKVM.getText());
-        if(gateAdresse.trim().equals("") || boligType.trim().equals("") || byggemateriale.trim().equals("") || standard.trim().equals("") || postnr.trim().equals(""))
-            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
-        else{
-            Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
-                    gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
-            registrertLabel = new Label(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
-            add(registrertLabel, 1, 8, 2, 1);
-        }
-    }
+        Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
+                gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
+        output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
+        add(output, 1, 8, 2, 1);
+    }//end of method registrerBoligforsikring()
     
+    /**
+     * Registrerer en reiseforsikring når metoden kalles
+     */
     private void registrerReiseforsikring(){
         String fodselsnr = this.fodselsnr.getText();
         String betingelser = this.betingelser.getText();
         String omrade = this.omrade.getText();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
-        if(omrade.trim().equals(""))
-            visInputFeilMelding("Feil i inntasting", "Venligst fyll inn alle felter");
-        else{
-            Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
-            registrertLabel = new Label(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
-            add(registrertLabel, 1, 8, 2, 1);
-        }
-    }
+        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
+        output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
+        add(output, 1, 8, 2, 1);
+    }//end of method registrerReiseforsikring
     
-    /*private boolean sjekkFelter(){
+    
+    /**
+     * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn.
+     * @return Returnerer true om alle feltene er fylt inn, og false om noe mangler
+     */
+    private boolean sjekkFelter(){
         if( fodselsnr.getText().trim().isEmpty()){
-            visFyllInnMelding("fødselsnummer");
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
             return false;
         }
         
-        else if( skadetypeInput.getValue().equals(null)  ){
-            visFyllInnMelding("skadetype");
+        else if( betingelser.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
             return false;
         }
         
-        else if( takstInput.getText().trim().isEmpty()){
-            visFyllInnMelding( "takst");
+        else if( forsikringsbelop.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn forsikringsbeløp");
             return false;
         }
         
-        else if( skadeBeskrivelseInput.getText().trim().isEmpty()){
-            visFyllInnMelding("beskrivelse av skaden");
-            return false;
+        switch (forsikringsTypeString){
+            case "bilforsikring":
+                if( registreringsnr.getText().trim().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
+                    return false;
+                }
+                else if( merke.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
+                    return false;
+                }
+                else if( modell.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
+                    return false;
+                }
+                else if( registreringsar.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
+                    return false;
+                }
+                else if( kjorelengde.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
+                    return false;
+                }
+                else if( prisPerKm.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
+                    return false;
+                }
+                return true;
+            case "batforsikring":
+                if( batRegistreringsnr.getText().trim().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
+                    return false;
+                }
+                else if( batMerke.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
+                    return false;
+                }
+                else if( batModell.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
+                    return false;
+                }
+                else if( arsmodell.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn årsmodell");
+                    return false;
+                }
+                else if( motorType.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motortype");
+                    return false;
+                }
+                else if( motorStyrke.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
+                    return false;
+                }
+                return true;
+            case "boligforsikring":
+                if( gateAdresse.getText().trim().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
+                    return false;
+                }
+                else if( boligType.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
+                    return false;
+                }
+                else if( byggemateriale.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
+                    return false;
+                }
+                else if( standard.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
+                    return false;
+                }
+                else if( postnr.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
+                    return false;
+                }
+                else if( byggear.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn byggeår");
+                    return false;
+                }
+                else if( antallKVM.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
+                    return false;
+                }
+                return true;
+            case "reiseforsikring":
+                if( omrade.getText().isEmpty()){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
+                    return false;
+                }
+                return true;
         }
-        
-        else if( datoInput.getValue().equals(null) ){
-            visFyllInnMelding( "dato for skaden");
-            return false;
-        }
-        
-        else if( tidspunktInput.getText().trim().isEmpty()){
-            visFyllInnMelding( "tidspunkt for skaden");
-            return false;
-        }
-        
-        else if( vitneKontaktInput.getText().trim().isEmpty()){
-            visFyllInnMelding( "kontaktinfo til eventuelle vitner", "Finnes det ingen vitner, skriv dette.");
-            return false;
-        }
-        return true;
-    }// end of method sjekkFelter()*/
+        return false;
+    }// end of method sjekkFelter()
     
+    /**
+     * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
+     */
     private void registrerForsikring(){
+        if(!sjekkFelter())
+                return;
         try{
             switch (forsikringsTypeString){
                 case "bilforsikring":

@@ -5,16 +5,11 @@
  */
 package Brukergrensesnitt.kundebehandling;
 
-import Brukergrensesnitt.GUI;
-import Brukergrensesnitt.kundebehandling.RegistrerSkadeLayout;
+import Brukergrensesnitt.*;
 import forsikringsprogram.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
-import static javafx.scene.layout.BorderStroke.*;
-import static javafx.scene.layout.BorderStrokeStyle.SOLID;
-import static javafx.scene.paint.Color.DARKGRAY;
 
 /**
  *
@@ -32,10 +27,12 @@ public class KundePane extends BorderPane{
     private KundesokLayout sokPane;
     private RegistrerSkadeLayout registrerSkademeldingLayout;
     private Kunderegister kundeRegister;
+    private TextArea output;
         
-    public KundePane(Kunderegister register) {
+    public KundePane(Kunderegister register, TextArea output) {
         super();
         kundeRegister = register;
+        this.output = output;
         kundebehandlingsFaner();
         opprettLayout();
         //this.kundeRegister = register;
@@ -46,11 +43,11 @@ public class KundePane extends BorderPane{
      */
     public void opprettLayout(){
         kundebehandlingsMeny = kundebehandlingsFaner();
-        registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister);
-        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister);
-        forsikringsPane = new TegnforsikringsLayout(kundeRegister);
-        sioppPane = new SioppforsikringsLayout(kundeRegister);
-        sokPane = new KundesokLayout(kundeRegister);
+        registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister, output);
+        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister, output);
+        forsikringsPane = new TegnforsikringsLayout(kundeRegister, output);
+        sioppPane = new SioppforsikringsLayout(kundeRegister, output);
+        sokPane = new KundesokLayout(kundeRegister, output);
         
         //Setter plassering
         setTop(kundebehandlingsMeny);
@@ -89,6 +86,9 @@ public class KundePane extends BorderPane{
         return box;
     }//end of method kundebehandlingsFaner()
     
+    /**
+     * Legger til en litter på fanekortene i kundebehandlingsPanelet
+     */
     public void tabLytter(){
         kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
         switch (t1.getText()) {
@@ -112,21 +112,5 @@ public class KundePane extends BorderPane{
             }
         });
     }//end of method tabLytter()
-    
-    
-    
-    
-    /*
-    
-    /*public VBox getBox(){
-        return kundeBox;
-    }
-    
-    /*public TabPane getFaner(){
-        return kundebehandlingsPanel;
-    }*/
-    
-    /*public Button getRegistrer(){
-        return registrerKunde;
-    }*/
-}//end of class KundePane()
+        
+}//end of class KundePane

@@ -18,16 +18,21 @@ import javafx.scene.layout.*;
 public class SioppforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, avtalenr;    
-    private Label fodselsnrLabel, avtalenrLabel, sagtOppLabel;
+    private Label fodselsnrLabel, avtalenrLabel;
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
+    private TextArea output;
     
-    public SioppforsikringsLayout(Kunderegister register){
+    public SioppforsikringsLayout(Kunderegister register, TextArea output){
         siOppForsikringsSkjema();
-        registrerLytter();
+        siOppLytter();
         this.kundeRegister = register;
-    }
+        this.output = output;
+    }//end of constructor
     
+    /**
+     * Oppretter skjema for oppsigelse av forsiking
+     */
     public void siOppForsikringsSkjema(){
         
         siOppForsikring = new Button("Si opp forsikring");
@@ -52,8 +57,11 @@ public class SioppforsikringsLayout extends GridPane{
         add(avtalenr, 2, 2);
         GridPane.setHalignment(siOppForsikring, HPos.CENTER);
         add(siOppForsikring, 1, 3, 2, 1);
-    }
+    }//end of methd siOppForsikringsSkjema()
     
+    /**
+     * Validerer inputfelter for å så registrere forsikrings oppsigelsen
+     */
     public void siOppForsikring(){
         try{
             String fodselsnr = this.fodselsnr.getText();
@@ -66,8 +74,8 @@ public class SioppforsikringsLayout extends GridPane{
                 fyllInnAltMelding.showAndWait();
             }
             kundeRegister.siOppForsikring(fodselsnr, avtalenr);
-            sagtOppLabel = new Label(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
-            add(sagtOppLabel, 1, 8, 2, 1);
+            output.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
+            add(output, 1, 8, 2, 1);
         }
         catch(NumberFormatException nfe){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -76,11 +84,15 @@ public class SioppforsikringsLayout extends GridPane{
             alert.setContentText("Venligs fyll inn kun tall\n" + nfe.getMessage());
             alert.showAndWait();
         }
-    }
+    }//end of class siOppForsikring()
     
-    private void registrerLytter(){
+    /**
+     * Legger til en lytter på siOppForsikring knappen
+     */
+    private void siOppLytter(){
         siOppForsikring.setOnAction((ActionEvent event) -> {
             siOppForsikring();
         });
-    }
-}
+    }//end of method siOppLytter()
+    
+}//end of class SioppforsikringsLayout

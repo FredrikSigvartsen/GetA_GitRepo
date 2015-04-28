@@ -18,14 +18,16 @@ import forsikringsprogram.*;
 public class RegistrerKundeLayout extends GridPane{
     
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
-    private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel, registrertLabel;
+    private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel;
     private Button registrerKunde;
     private Kunderegister kundeRegister;
+    private TextArea output;
     
-    public RegistrerKundeLayout(Kunderegister register){
+    public RegistrerKundeLayout(Kunderegister register, TextArea output){
         kundeRegistreringSkjema();
         registrerLytter();
         this.kundeRegister = register;
+        this.output = output;
     }//end of construnctor
     
     /**
@@ -87,8 +89,11 @@ public class RegistrerKundeLayout extends GridPane{
         add(fodselsnr, 2, 6);
         GridPane.setHalignment(registrerKunde, HPos.CENTER);
         add(registrerKunde, 1, 7, 2, 1);
-    }
+    }//end of method kundeRegistreringsSkjema()
     
+    /**
+     * leser inn og kontrolerer inputene fra bruker og registrerer kunden
+     */
     public void registrerKunde(){
         String fornavn = this.fornavn.getText();
         String etternavn = this.etternavn.getText();
@@ -106,23 +111,26 @@ public class RegistrerKundeLayout extends GridPane{
         else{
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
             if(kundeRegister.finnKunde(fodselsnr) != null){
-                getChildren().remove(registrertLabel);
-                registrertLabel = new Label("Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
-                add(registrertLabel, 1, 8, 2, 1);
+                getChildren().remove(output);
+                output.setText("Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
+                add(output, 1, 8, 2, 1);
             }
             else{
-                getChildren().remove(registrertLabel);
+                getChildren().remove(output);
                 kundeRegister.registrerKunde(kunde);
-                registrertLabel = new Label(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
-                add(registrertLabel, 1, 8, 3, 1);
+                output.setText(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
+                add(output, 1, 8, 3, 1);
             }
-            System.out.println( kundeRegister.toString() );
         }
-    }
+    }//end of method registrerKunde()
     
+    /**
+     * lytteren til registrerKunde knappen
+     */
     private void registrerLytter(){
         registrerKunde.setOnAction((ActionEvent event) -> {
             registrerKunde();
         });
-    }
-}
+    }//end of method registrerLytter()
+    
+}//end of class RegistrerKundeLayout
