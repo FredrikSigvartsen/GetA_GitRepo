@@ -95,8 +95,6 @@ public class TegnforsikringsLayout extends GridPane{
     private void bilforsikringsFelter(){
         bilforsikringFelter = new GridPane();
         
-        //tegnForsikring = new Button("Tegn bilforsikring");
-        
         registreringsnrLabel = new Label("Registreringsnr:");
         registreringsnr = TextFieldBuilder.create()
                    .minWidth(100)
@@ -147,13 +145,10 @@ public class TegnforsikringsLayout extends GridPane{
         bilforsikringFelter.add(kjorelengde, 1, 5);
         bilforsikringFelter.add(prisPerKmLabel, 0, 6);
         bilforsikringFelter.add(prisPerKm, 1, 6);
-        //bilforsikringFelter.add(tegnForsikring, 0, 7, 2, 1);
     }//End of method BilforsikringFeilter
     
     private void batforsikringsFelter(){
         batforsikringFelter = new GridPane();
-        
-        //tegnForsikring = new Button("Tegn båtforsikring");
         
         batRegistreringsnrLabel = new Label("Registreringsnr:");
         batRegistreringsnr = TextFieldBuilder.create()
@@ -205,13 +200,10 @@ public class TegnforsikringsLayout extends GridPane{
         batforsikringFelter.add(motorType, 1, 5);
         batforsikringFelter.add(motorStyrkeLabel, 0, 6);
         batforsikringFelter.add(motorStyrke, 1, 6);
-        //batforsikringFelter.add(tegnForsikring, 0, 7, 2, 1);
-    }//End of method BatforsikringFeilter
+    }//End of method BatforsikringFelter
     
     private void boligforsikringsFelter(){
         boligforsikringFelter = new GridPane();
-        
-        //tegnForsikring = new Button("Tegn boligforsikring");
         
         gateAdresseLabel = new Label("Adresse:");
         gateAdresse = TextFieldBuilder.create()
@@ -271,13 +263,10 @@ public class TegnforsikringsLayout extends GridPane{
         boligforsikringFelter.add(standard, 1, 6);
         boligforsikringFelter.add(antallKVMLabel, 0, 7);
         boligforsikringFelter.add(antallKVM, 1, 7);
-        //boligforsikringFelter.add(tegnForsikring, 0, 8, 2, 1);
     }//End of method BoligforsikringFeilter
     
     private void reiseforsikringsFelter(){
         reiseforsikringFelter = new GridPane();
-        
-        //tegnForsikring = new Button("Tegn reiseforsikring");
         
         omradeLabel = new Label("Område:");
         omrade = TextFieldBuilder.create()
@@ -290,7 +279,6 @@ public class TegnforsikringsLayout extends GridPane{
         reiseforsikringFelter.setHgap(10);
         reiseforsikringFelter.add(omradeLabel, 0, 1);
         reiseforsikringFelter.add(omrade, 1, 1);
-        //reiseforsikringFelter.add(tegnForsikring, 0, 2, 2, 1);
     }//End of method BoligforsikringFeilter
     
     public static void visInputFeilMelding(String titel, String innhold){
@@ -374,6 +362,44 @@ public class TegnforsikringsLayout extends GridPane{
             add(registrertLabel, 1, 8, 2, 1);
         }
     }
+    
+    /*private boolean sjekkFelter(){
+        if( fodselsnr.getText().trim().isEmpty()){
+            visFyllInnMelding("fødselsnummer");
+            return false;
+        }
+        
+        else if( skadetypeInput.getValue().equals(null)  ){
+            visFyllInnMelding("skadetype");
+            return false;
+        }
+        
+        else if( takstInput.getText().trim().isEmpty()){
+            visFyllInnMelding( "takst");
+            return false;
+        }
+        
+        else if( skadeBeskrivelseInput.getText().trim().isEmpty()){
+            visFyllInnMelding("beskrivelse av skaden");
+            return false;
+        }
+        
+        else if( datoInput.getValue().equals(null) ){
+            visFyllInnMelding( "dato for skaden");
+            return false;
+        }
+        
+        else if( tidspunktInput.getText().trim().isEmpty()){
+            visFyllInnMelding( "tidspunkt for skaden");
+            return false;
+        }
+        
+        else if( vitneKontaktInput.getText().trim().isEmpty()){
+            visFyllInnMelding( "kontaktinfo til eventuelle vitner", "Finnes det ingen vitner, skriv dette.");
+            return false;
+        }
+        return true;
+    }// end of method sjekkFelter()*/
     
     private void registrerForsikring(){
         try{
