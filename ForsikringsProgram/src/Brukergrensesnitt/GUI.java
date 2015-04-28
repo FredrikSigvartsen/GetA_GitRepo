@@ -49,8 +49,9 @@ public class GUI extends Application{
     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
     public static final Insets PADDING = new Insets(10);
     
-    public static final String TIDSPUNKT_REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
-    public static final String NAVN_REGEX = "[A-Z][a-zA-Z æøåÆØÅ]*$";
+    public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+    public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ]*$";
+    public static final String DATO_REGEX = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
     
     private Stage stage;
     private Scene scene;
@@ -66,8 +67,7 @@ public class GUI extends Application{
     public void skrivTilFil() {
         
         try(ObjectOutputStream utfil = new ObjectOutputStream(
-                new FileOutputStream("liste.dta")))
-        {
+                new FileOutputStream("liste.dta"))){
             utfil.writeObject(kundeRegister);
             utfil.writeInt(Forsikring.getNesteNr());
             utfil.writeInt(Skademelding.getNesteNr());
