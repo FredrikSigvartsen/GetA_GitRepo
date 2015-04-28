@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt.kundebehandling;
 
+import Brukergrensesnitt.GUI;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
@@ -92,23 +93,55 @@ public class RegistrerKundeLayout extends GridPane{
     }//end of method kundeRegistreringsSkjema()
     
     /**
+     * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
+     */
+    private boolean sjekkFelter(){
+        if( fornavn.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fornavn");
+            return false;
+        }
+        
+        if( etternavn.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn etternavn");
+            return false;
+        }
+        
+        if( adresse.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn adresse");
+            return false;
+        }
+        
+        if( postnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn postnummer");
+            return false;
+        }
+        
+        if( poststed.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn poststed");
+            return false;
+        }
+        
+        if( fodselsnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
+            return false;
+        }
+        return true;
+    }//end of method sjekkFelter()
+    
+    /**
      * leser inn og kontrolerer inputene fra bruker og registrerer kunden
      */
     public void registrerKunde(){
-        String fornavn = this.fornavn.getText();
-        String etternavn = this.etternavn.getText();
-        String adresse = this.adresse.getText();
-        String poststed = this.poststed.getText();
-        String postnr = this.postnr.getText();
-        String fodselsnr = this.fodselsnr.getText();
-        if(fornavn.trim().equals("") || etternavn.trim().equals("") || adresse.trim().equals("") || poststed.trim().equals("") || postnr.trim().equals("") || fodselsnr.trim().equals("")){
-            Alert fyllInnAltMelding = new Alert(Alert.AlertType.WARNING);
-            fyllInnAltMelding.setTitle("Feil i Inntasting");
-            fyllInnAltMelding.setHeaderText("Tomme felter");
-            fyllInnAltMelding.setContentText("Venligst fyll inn alle feltene");
-            fyllInnAltMelding.showAndWait();
+        if(!sjekkFelter()){
+            return;
         }
-        else{
+        try{
+            String fornavn = this.fornavn.getText().trim();
+            String etternavn = this.etternavn.getText().trim();
+            String adresse = this.adresse.getText().trim();
+            String poststed = this.poststed.getText().trim();
+            String postnr = this.postnr.getText().trim();
+            String fodselsnr = this.fodselsnr.getText().trim();
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
             if(kundeRegister.finnKunde(fodselsnr) != null){
                 getChildren().remove(output);
@@ -121,6 +154,10 @@ public class RegistrerKundeLayout extends GridPane{
                 output.setText(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
                 add(output, 1, 8, 3, 1);
             }
+        }
+        catch(NumberFormatException | NullPointerException e){
+            GUI.visProgramFeilMelding(e);
+            return;
         }
     }//end of method registrerKunde()
     
