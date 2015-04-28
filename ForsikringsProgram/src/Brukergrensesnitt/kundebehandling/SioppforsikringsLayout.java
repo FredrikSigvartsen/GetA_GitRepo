@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt.kundebehandling;
 
+import Brukergrensesnitt.GUI;
 import forsikringsprogram.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
@@ -60,29 +61,34 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of methd siOppForsikringsSkjema()
     
     /**
+     * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
+     */
+    private boolean sjekkFelter(){
+        if( fodselsnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
+            return false;
+        }
+        if( avtalenr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn avtalenummer");
+            return false;
+        }
+        return true;
+    }//end of method sjekkFelter()
+    
+    /**
      * Validerer inputfelter for å så registrere forsikrings oppsigelsen
      */
     public void siOppForsikring(){
         try{
-            String fodselsnr = this.fodselsnr.getText();
-            int avtalenr = Integer.parseInt(this.avtalenr.getText());
-            if(fodselsnr.trim().equals("") || this.avtalenr.getText().trim().equals("")){
-                Alert fyllInnAltMelding = new Alert(Alert.AlertType.WARNING);
-                fyllInnAltMelding.setTitle("Feil i Inntasting");
-                fyllInnAltMelding.setHeaderText("Tomme felter");
-                fyllInnAltMelding.setContentText("Venligst fyll inn alle feltene");
-                fyllInnAltMelding.showAndWait();
-            }
+            String fodselsnr = this.fodselsnr.getText().trim();
+            int avtalenr = Integer.parseInt(this.avtalenr.getText().trim());
             kundeRegister.siOppForsikring(fodselsnr, avtalenr);
             output.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
             add(output, 1, 8, 2, 1);
         }
-        catch(NumberFormatException nfe){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feil i Inntasting");
-            alert.setHeaderText("Feil tallformat");
-            alert.setContentText("Venligs fyll inn kun tall\n" + nfe.getMessage());
-            alert.showAndWait();
+        catch(NumberFormatException | NullPointerException e){
+            GUI.visProgramFeilMelding(e);
+            return;
         }
     }//end of class siOppForsikring()
     

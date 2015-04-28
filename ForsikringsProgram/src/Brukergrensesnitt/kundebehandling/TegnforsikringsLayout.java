@@ -304,18 +304,19 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en bilforsikring når metoden kalles
      */
     private void registrerBilforsikring(){
-        String fodselsnr = this.fodselsnr.getText();
-        String betingelser = this.betingelser.getText();
-        String registreringsnr = this.registreringsnr.getText();
-        String merke = this.merke.getText();
-        String modell = this.modell.getText();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
-        int registreringsar = Integer.parseInt(this.registreringsar.getText());
-        int kjorelengde = Integer.parseInt(this.kjorelengde.getText());
-        int prisPerKm = Integer.parseInt(this.prisPerKm.getText());
+        String fodselsnr = this.fodselsnr.getText().trim();
+        String betingelser = this.betingelser.getText().trim();
+        String registreringsnr = this.registreringsnr.getText().trim();
+        String merke = this.merke.getText().trim();
+        String modell = this.modell.getText().trim();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        int registreringsar = Integer.parseInt(this.registreringsar.getText().trim());
+        int kjorelengde = Integer.parseInt(this.kjorelengde.getText().trim());
+        int prisPerKm = Integer.parseInt(this.prisPerKm.getText().trim());
         Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
         registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
         output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
+        getChildren().remove(output);
         add(output, 1, 8, 2, 1);
     }//end of method registrerBilforsikring()
     
@@ -323,18 +324,19 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en båtforsikring når metoden kalls
      */
     private void registrerBatforsikring(){
-        String fodselsnr = this.fodselsnr.getText();
-        String betingelser = this.betingelser.getText();
-        String batRegistreringsnr = this.batRegistreringsnr.getText();
-        String batMerke = this.batMerke.getText();
-        String batModell = this.batModell.getText();
-        String motorType = this.motorType.getText();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
-        int arsmodell = Integer.parseInt(this.arsmodell.getText());
-        int motorStyrke = Integer.parseInt(this.motorStyrke.getText());
+        String fodselsnr = this.fodselsnr.getText().trim();
+        String betingelser = this.betingelser.getText().trim();
+        String batRegistreringsnr = this.batRegistreringsnr.getText().trim();
+        String batMerke = this.batMerke.getText().trim();
+        String batModell = this.batModell.getText().trim();
+        String motorType = this.motorType.getText().trim();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        int arsmodell = Integer.parseInt(this.arsmodell.getText().trim());
+        int motorStyrke = Integer.parseInt(this.motorStyrke.getText().trim());
         Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
                 batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
         output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
+        getChildren().remove(output);
         add(output, 1, 8, 2, 1);
     }//end of method registrerBatforsikring()
     
@@ -342,19 +344,20 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en boligforsikring når metoden kalles
      */
     private void registrerBoligforsikring(){
-        String fodselsnr = this.fodselsnr.getText();
-        String betingelser = this.betingelser.getText();
-        String gateAdresse = this.gateAdresse.getText();
-        String boligType = this.boligType.getText();
-        String byggemateriale = this.byggemateriale.getText();
-        String standard = this.standard.getText();
-        String postnr = this.postnr.getText();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
-        int byggear = Integer.parseInt(this.byggear.getText());
-        int antallKVM = Integer.parseInt(this.antallKVM.getText());
+        String fodselsnr = this.fodselsnr.getText().trim();
+        String betingelser = this.betingelser.getText().trim();
+        String gateAdresse = this.gateAdresse.getText().trim();
+        String boligType = this.boligType.getText().trim();
+        String byggemateriale = this.byggemateriale.getText().trim();
+        String standard = this.standard.getText().trim();
+        String postnr = this.postnr.getText().trim();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        int byggear = Integer.parseInt(this.byggear.getText().trim());
+        int antallKVM = Integer.parseInt(this.antallKVM.getText().trim());
         Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
                 gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
         output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
+        getChildren().remove(output);
         add(output, 1, 8, 2, 1);
     }//end of method registrerBoligforsikring()
     
@@ -362,12 +365,13 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en reiseforsikring når metoden kalles
      */
     private void registrerReiseforsikring(){
-        String fodselsnr = this.fodselsnr.getText();
-        String betingelser = this.betingelser.getText();
-        String omrade = this.omrade.getText();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText());
+        String fodselsnr = this.fodselsnr.getText().trim();
+        String betingelser = this.betingelser.getText().trim();
+        String omrade = this.omrade.getText().trim();
+        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
         output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
+        getChildren().remove(output);
         add(output, 1, 8, 2, 1);
     }//end of method registrerReiseforsikring
     
@@ -486,6 +490,16 @@ public class TegnforsikringsLayout extends GridPane{
     }// end of method sjekkFelter()
     
     /**
+     * Sjekker om kunden er totalkunde, og viser et meldingsvindu når kunden blir totalkunde
+     */
+    private void erTotalKunde(){
+        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
+        if(kunde.blirTotalKunde()){
+            GUI.visInputFeilMelding("Total kunde", kunde.getEtternavn() +", " + kunde.getFornavn() + " har nå blitt total kunde!");
+        }
+    }//end of method erTotalKunde()
+    
+    /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
      */
     private void registrerForsikring(){
@@ -495,15 +509,19 @@ public class TegnforsikringsLayout extends GridPane{
             switch (forsikringsTypeString){
                 case "bilforsikring":
                     registrerBilforsikring();
+                    erTotalKunde();
                     break;
                 case "batforsikring":
                     registrerBatforsikring();
+                    erTotalKunde();
                     break;
                 case "boligforsikring":
                     registrerBoligforsikring();
+                    erTotalKunde();
                     break;
                 case "reiseforsikring":
                     registrerReiseforsikring();
+                    erTotalKunde();
                     break;
             }
         }
@@ -511,9 +529,12 @@ public class TegnforsikringsLayout extends GridPane{
             GUI.visProgramFeilMelding(e);
             return;
         }
-    }
+    }//end of method registrerForsikring()
     
-    
+    /**
+     * Legger til en lytter til forsikringsType comboboxen, og legger til de
+     * korrekte inputfeltene for den forsikringstypen
+     */
     private void comboLytter(){
         forsikringsType.valueProperty().addListener(new ChangeListener<String>(){
             @Override
@@ -546,11 +567,15 @@ public class TegnforsikringsLayout extends GridPane{
                 }
             }
         });
-    }
+    }//end of method comboLytter()
     
+    /**
+     * Legger til en lytter på tegnForsikring knappen
+     */
     private void tegnForsikringLytter(){
         tegnForsikring.setOnAction((ActionEvent event) -> {
             registrerForsikring();
         });
-    }
-}
+    }//end of method tengForsikringsLytter()
+    
+}//end of class TegnforsikringsLayout
