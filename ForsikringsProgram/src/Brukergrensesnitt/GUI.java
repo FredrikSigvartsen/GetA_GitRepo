@@ -52,6 +52,8 @@ public class GUI extends Application{
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ]*$";
     public static final String DATO_REGEX = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
+    public static final String VALUTA_REGEX = "^\\d+(\\.\\d{1,2})?$";     
+    public static final String POSTNR_REGEX = "^\\d{4}$";
     
     private Stage stage;
     private Scene scene;
@@ -61,6 +63,40 @@ public class GUI extends Application{
     private KundePane kundeLayout;
     private Kunderegister kundeRegister;
     
+    
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        lesFraFil();
+        kundeLayout = new KundePane( kundeRegister );
+        faneMeny();
+        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
+        //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
+        stage = primaryStage;
+        stage.setTitle("Forsikringsprogram");
+        BorderPane layout = new BorderPane();
+        layout.setTop(faneMeny);
+        layout.setCenter(kundeLayout);
+        
+        scene = new Scene(layout, getSkjermBredde(), getSkjermHoyde());
+        stage.setScene(scene);
+        stage.show();
+        stage.setOnCloseRequest((WindowEvent t) -> {
+            skrivTilFil();
+        } );
+        
+        fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
+            switch (t1.getText()) {
+                case "Kundebehandling":
+                    layout.setCenter(kundeLayout);
+                    break;
+                case "Økonomi":
+                    break;
+                case "Statistikk":
+                    break;
+            }
+        });
+    }// end of method start()
+  
     /**
      * Skriver til fil.
      */
@@ -105,47 +141,6 @@ public class GUI extends Application{
         }
     }// end of method lesFraFil()
     
-    /**
-     * Viser en feilmelding forårsaket av en exception.
-     * @param e er det unntaktet som har oppstått.
-     */
-    public static void visProgramFeilMelding( Exception e){
-        Alert varsel = new Alert( ERROR);
-        varsel.setTitle("Programfeil");
-        varsel.setHeaderText("Programfeil. Kontakt IT-Ansvarlig");
-        varsel.setContentText( e.getLocalizedMessage());
-        
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        String exceptionTekst = sw.toString();
-        
-        TextArea tekstomraade = new TextArea(exceptionTekst);
-        tekstomraade.setEditable(false);
-        tekstomraade.setWrapText(true);
-        tekstomraade.setMaxWidth( Double.MAX_VALUE);
-        tekstomraade.setMaxHeight( Double.MAX_VALUE);
-        GridPane.setVgrow( tekstomraade, Priority.ALWAYS);
-        GridPane.setHgrow( tekstomraade, Priority.ALWAYS);
-        
-        GridPane expInnhold = new GridPane();
-        expInnhold.setMaxWidth( Double.MAX_VALUE);
-        expInnhold.add( new Label("Programfeilen skyldtes:"), 0, 0);
-        expInnhold.add( tekstomraade, 0, 0);
-        
-        varsel.getDialogPane().setExpandableContent(expInnhold);
-        
-        varsel.showAndWait();
-    }// end of method visFeilMelding()
-    
-    public static double getSkjermBredde(){
-        return (double)opplosning.getWidth() / 2;
-    }
-    
-    public static double getSkjermHoyde(){
-        return (double)opplosning.getHeight() / 1.3;
-    }
-    
     public void faneMeny(){
         faneMeny = new HBox();
         fanePanel = new TabPane();
@@ -166,39 +161,6 @@ public class GUI extends Application{
         faneMeny.getChildren().add(fanePanel);
     }// end of method faneMeny()
    
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        lesFraFil();
-        kundeLayout = new KundePane( kundeRegister );
-        faneMeny();
-        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
-        //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
-        stage = primaryStage;
-        stage.setTitle("Forsikringsprogram");
-        BorderPane layout = new BorderPane();
-        layout.setTop(faneMeny);
-        layout.setCenter(kundeLayout);
-        
-        scene = new Scene(layout, getSkjermBredde(), getSkjermHoyde());
-        stage.setScene(scene);
-        stage.show();
-        stage.setOnCloseRequest((WindowEvent t) -> {
-            skrivTilFil();
-        } );
-        
-        fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
-            switch (t1.getText()) {
-                case "Kundebehandling":
-                    layout.setCenter(kundeLayout);
-                    break;
-                case "Økonomi":
-                    break;
-                case "Statistikk":
-                    break;
-            }
-        });
-    }// end of method start()
-  
     /**
      * En metode som sjekker om teksten stemmer overens med regexen man sender med. 
      * @param regex Sender med et regulært uttrykk 
@@ -211,10 +173,6 @@ public class GUI extends Application{
         
         return regMatch.matches();
     }// end of method sjekkRegex
-    
-    public Kunderegister getKundeRegister(){
-        return kundeRegister;
-    }
     
     /**
      * 
@@ -279,6 +237,74 @@ public class GUI extends Application{
       }// end of catch
     }// end of method sjekkFodselsNr(String birthNumber)
 
+    /**
+     * Viser en varsel-melding som brukes til å fortelle brukeren at det er gjort noe feil, og brukeren må trykke OK for å fortsette. 
+     * @param tittel Tittel på varsel-vinduet
+     * @param innhold Innholdet i varsel-vinduet
+     */
+    public static void visInputFeilMelding(String tittel, String innhold){
+        Alert melding = new Alert(Alert.AlertType.INFORMATION);
+        melding.setTitle(tittel);
+        melding.setContentText(innhold);
+        melding.showAndWait();
+    }// end of method visInputFeilMelding(String tittel, String innhold)
+    
+    
+    /**
+     * Viser en feilmelding forårsaket av en exception.
+     * @param e er det unntaktet som har oppstått.
+     */
+    public static void visProgramFeilMelding( Exception e){
+        Alert varsel = new Alert( ERROR);
+        varsel.setTitle("Programfeil");
+        varsel.setHeaderText("Programfeil. Kontakt IT-Ansvarlig");
+        varsel.setContentText( e.getLocalizedMessage());
+        
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String exceptionTekst = sw.toString();
+        
+        TextArea tekstomraade = new TextArea(exceptionTekst);
+        tekstomraade.setEditable(false);
+        tekstomraade.setWrapText(true);
+        tekstomraade.setMaxWidth( Double.MAX_VALUE);
+        tekstomraade.setMaxHeight( Double.MAX_VALUE);
+        GridPane.setVgrow( tekstomraade, Priority.ALWAYS);
+        GridPane.setHgrow( tekstomraade, Priority.ALWAYS);
+        
+        GridPane expInnhold = new GridPane();
+        expInnhold.setMaxWidth( Double.MAX_VALUE);
+        expInnhold.add( new Label("Programfeilen skyldtes:"), 0, 0);
+        expInnhold.add( tekstomraade, 0, 0);
+        
+        varsel.getDialogPane().setExpandableContent(expInnhold);
+        
+        varsel.showAndWait();
+    }// end of method visFeilMelding()
+    
+    /**
+     * 
+     * @return Kunderegisteret brukt i GUI-klassen. 
+     */
+    public Kunderegister getKundeRegister(){
+        return kundeRegister;
+    }
+    /**
+     * 
+     * @return skjermbredde/2
+     */
+    public static double getSkjermBredde(){
+        return (double)opplosning.getWidth() / 2;
+    }
+    
+    /**
+     * 
+     * @return skjermhøyde / 1,3
+     */
+    public static double getSkjermHoyde(){
+        return (double)opplosning.getHeight() / 1.3;
+    }
     public static void main(String[] args) {
         // TODO code application logic here
         Application.launch(args);
