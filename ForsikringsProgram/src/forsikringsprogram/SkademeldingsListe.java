@@ -21,6 +21,47 @@ public class SkademeldingsListe implements Serializable {
         skademeldingsListe = new ArrayList<>();
     }
     
+    public List<Skademelding> listeMedSkademeldingAvType(String skadetype) {
+        ListIterator<Skademelding> iter = skademeldingsListe.listIterator();
+        List<Skademelding> ny = new ArrayList<>();
+        
+        switch (skadetype) {
+            case "Båt":
+                while(iter.hasNext()) {
+                    Skademelding skademelding = iter.next();
+                    if(skademelding.getSkadeType().equals(skadetype)) {
+                        ny.add(skademelding);
+                    }
+                }   
+                break;
+            case "Reise":
+                while(iter.hasNext()) {
+                    Skademelding skademelding = iter.next();
+                    if(skademelding.getSkadeType().equals(skadetype)) {
+                        ny.add(skademelding);
+                    }
+                }   
+                break;
+            case "Bolig":
+                while(iter.hasNext()) {
+                    Skademelding skademelding = iter.next();
+                    if(skademelding.getSkadeType().equals(skadetype)) {
+                        ny.add(skademelding);
+                    }
+                }   
+                break;
+            case "Bil":
+                while(iter.hasNext()) {
+                    Skademelding skademelding = iter.next();
+                    if(skademelding.getSkadeType().equals(skadetype)) {
+                        ny.add(skademelding);
+                    }
+                }   
+                break;
+        }
+        return ny;
+    }
+    
     /* Sender med en skademelding som parameterer, og legger denne til i listen. Hvis skademeldingen blir lagt til i listen, returnerer metoden true. Hvis dette ikke går, returnerer
      metoden false. */
     public boolean registrerSkademelding(Skademelding skade){
