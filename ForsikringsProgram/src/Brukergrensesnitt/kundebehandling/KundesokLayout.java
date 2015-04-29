@@ -6,9 +6,13 @@
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.GUI;
+import static Brukergrensesnitt.GUI.getSkjermBredde;
+import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
 import java.util.List;
 import java.util.ListIterator;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.*;
 import javafx.scene.control.*;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
@@ -27,7 +31,7 @@ public class KundesokLayout extends GridPane{
     private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp;
     private ChoiceBox forsikringstypeInput, skadetypeInput;
     
-    public KundesokLayout(Kunderegister register, TextArea output){
+    public KundesokLayout(Kunderegister register){
         super();
         this.kundeRegister = register;
         opprettLayout();
@@ -51,7 +55,7 @@ public class KundesokLayout extends GridPane{
         sokSkadetypeLayout = new TitledPane( "Skadetype", sokSkadetype() );
         sokSkadetypeLayout.setExpanded(false);
         
-        output = tekstOmraade();
+        output = output();
         
         Label skadeLabel = new Label("Søk på skademeldinger med");
         Label kundeLabel = new Label("Søk på kunder med");
@@ -188,14 +192,6 @@ public class KundesokLayout extends GridPane{
         varsel.showAndWait();
     }// end of method visFyllInnMelding() med en parameter
     
-    private TextArea tekstOmraade(){
-        TextArea utskrift = new TextArea();
-        utskrift.setPadding(GUI.PADDING);
-        
-        return utskrift;
-    }// end of method tekstOmraade()
-    
-    
     //Kontroll-metodene: 
     
      private void finnKundeMedFodselsNr(){
@@ -330,4 +326,37 @@ public class KundesokLayout extends GridPane{
             return;
         }
     }// end of method finnSkademeldingerMedSkadeType()
+    
+    private TextArea output(){
+        TextArea output = output = TextAreaBuilder.create()
+                .minWidth(getSkjermBredde() / 3)
+                .maxWidth(getSkjermBredde() / 3)
+                .minHeight(getSkjermHoyde() / 2)
+                .maxHeight(getSkjermHoyde() / 2)
+                .wrapText(true)
+                .editable(false)
+                .build();
+        output.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+        @Override
+        public void changed(
+          ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
+            if (t1 != null && t1.getNode() instanceof Region) {
+                Region r = (Region) t1.getNode();
+                r.setBackground(Background.EMPTY);
+
+                r.getChildrenUnmodifiable().stream().
+                        filter(n -> n instanceof Region).
+                        map(n -> (Region) n).
+                        forEach(n -> n.setBackground(Background.EMPTY));
+
+                r.getChildrenUnmodifiable().stream().
+                        filter(n -> n instanceof Control).
+                        map(n -> (Control) n).
+                        forEach(c -> c.skinProperty().addListener(this)); // *
+            }
+        }
+    });
+        return output;
+    }
 }// end of class SokLayout

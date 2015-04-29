@@ -26,15 +26,14 @@ public class RegistrerSkadeLayout extends GridPane {
 
     private Kunderegister kundeRegister;
     private Button registrerKnapp;
-    private TextArea skadeBeskrivelseInput, vitneKontaktInput, output;
+    private TextArea skadeBeskrivelseInput, vitneKontaktInput;
     private TextField fodselsNrInput, takstInput, erstatningsOutput, tidspunktInput;
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
     
-    public RegistrerSkadeLayout(Kunderegister register, TextArea output){
+    public RegistrerSkadeLayout(Kunderegister register){
         opprettRegisteringLayout();
         this.kundeRegister = register;
-        this.output = output;
     }
     
     private void opprettRegisteringLayout(){
@@ -106,7 +105,6 @@ public class RegistrerSkadeLayout extends GridPane {
         String vitneKontakt = vitneKontaktInput.getText();
         
        Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt ); 
-       output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
         
        if( kundeRegister.finnKunde(fodselsNr) == null)
            return;
