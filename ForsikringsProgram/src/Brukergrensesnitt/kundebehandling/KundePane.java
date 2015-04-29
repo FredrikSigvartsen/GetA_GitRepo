@@ -75,7 +75,7 @@ public class KundePane extends BorderPane{
         //setMargin(kundeRegistreringsPane, new Insets(1, 1, 1, 1));
         //kundeRegistreringsPane.setMaxWidth(1000);
         //output.setMaxWidth(10);
-        kundeRegistreringsPane.setMaxWidth(250);
+        //kundeRegistreringsPane.setMaxWidth(250);
         setCenter(kundeRegistreringsPane);
         setAlignment(kundeRegistreringsPane, Pos.TOP_LEFT);
         //getLeft().maxWidth(1);
