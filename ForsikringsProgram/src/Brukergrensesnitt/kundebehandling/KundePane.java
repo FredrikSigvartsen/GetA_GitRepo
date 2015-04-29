@@ -14,6 +14,8 @@ import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
+import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.RED;
 
 /**
  *
@@ -52,6 +54,10 @@ public class KundePane extends BorderPane{
         forsikringsPane = new TegnforsikringsLayout(kundeRegister, output);
         sioppPane = new SioppforsikringsLayout(kundeRegister, output);
         sokPane = new KundesokLayout(kundeRegister, output);
+        //kundeRegistreringsPane.setLayoutX(0.1);
+        //kundeRegistreringsPane.setLayoutY(0.1);
+        //kundeRegistreringsPane.add(output, 3, 1, 1, 7);
+        //forsikringsPane.add(output, 3, 1, 1, 8);
         
         //registrerSkademeldingLayout.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
         //RegistrerKundeLayout.setConstraints(kundeRegistreringsPane, 2, 8);
@@ -66,9 +72,17 @@ public class KundePane extends BorderPane{
         
         //Setter plassering
         setTop(kundebehandlingsMeny);
+        //setMargin(kundeRegistreringsPane, new Insets(1, 1, 1, 1));
+        //kundeRegistreringsPane.setMaxWidth(1000);
+        //output.setMaxWidth(10);
+        kundeRegistreringsPane.setMaxWidth(250);
         setCenter(kundeRegistreringsPane);
-        setRight(output);
+        setAlignment(kundeRegistreringsPane, Pos.TOP_LEFT);
+        //getLeft().maxWidth(1);
+        
         //setMargin(output, new Insets(40));
+        setRight(output);
+        setAlignment(output, Pos.TOP_LEFT);
     }//end of method opprettLayout()
     
     /**
@@ -132,12 +146,16 @@ public class KundePane extends BorderPane{
         
     private TextArea output(){
         TextArea output = output = TextAreaBuilder.create()
-                .minWidth(getSkjermBredde() / 1.1)
-                .maxWidth(getSkjermBredde() / 1.1)
+                .minWidth(getSkjermBredde() / 7)
+                .maxWidth(getSkjermBredde() / 7)
                 .minHeight(getSkjermHoyde() / 4)
                 .maxHeight(getSkjermHoyde() / 4)
                 .wrapText(true)
+                .editable(false)
+                //.style("-fx-text-fill: red")
+                //.style("-fx-background-color: red")
                 .build();
+        output.setBackground(new Background( new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
         return output;
     }
 }//end of class KundePane
