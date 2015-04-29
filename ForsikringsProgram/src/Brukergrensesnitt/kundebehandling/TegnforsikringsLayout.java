@@ -35,14 +35,12 @@ public class TegnforsikringsLayout extends GridPane{
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString;
-    private TextArea output;
     
-    public TegnforsikringsLayout(Kunderegister register, TextArea output){
+    public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
         comboLytter();
         tegnForsikringLytter();
         this.kundeRegister = register;
-        this.output = output;
     }//end of constructor
     
     /**
@@ -317,9 +315,9 @@ public class TegnforsikringsLayout extends GridPane{
         int prisPerKm = Integer.parseInt(this.prisPerKm.getText().trim());
         Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
         registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-        output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerBilforsikring()
     
     /**
@@ -337,9 +335,9 @@ public class TegnforsikringsLayout extends GridPane{
         int motorStyrke = Integer.parseInt(this.motorStyrke.getText().trim());
         Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
                 batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
-        output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerBatforsikring()
     
     /**
@@ -358,9 +356,9 @@ public class TegnforsikringsLayout extends GridPane{
         int antallKVM = Integer.parseInt(this.antallKVM.getText().trim());
         Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
                 gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
-        output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerBoligforsikring()
     
     /**
@@ -372,9 +370,9 @@ public class TegnforsikringsLayout extends GridPane{
         String omrade = this.omrade.getText().trim();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
-        output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerReiseforsikring
     
     

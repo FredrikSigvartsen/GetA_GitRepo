@@ -25,11 +25,9 @@ public class RegistrerKundeLayout extends GridPane{
             fornavnFeil, etternavnFeil, adresseFeil, postnrFeil, poststedFeil, fodselsnrFeil;
     private Button registrerKunde;
     private Kunderegister kundeRegister;
-    private TextArea output;
     private String adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$";
     
-    public RegistrerKundeLayout(Kunderegister register, TextArea output){
-        this.output = output;
+    public RegistrerKundeLayout(Kunderegister register){
         kundeRegistreringSkjema();
         registrerLytter();
         this.kundeRegister = register;
@@ -203,15 +201,15 @@ public class RegistrerKundeLayout extends GridPane{
             String fodselsnr = this.fodselsnr.getText().trim();
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
             if(kundeRegister.finnKunde(fodselsnr) != null){
-                getChildren().remove(output);
-                output.setText("Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
-                add(output, 1, 8, 2, 1);
+                //getChildren().remove(output);
+                //output.setText("Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
+                //add(output, 1, 8, 2, 1);
             }
             else{
-                getChildren().remove(output);
+                //getChildren().remove(output);
                 kundeRegister.registrerKunde(kunde);
-                output.setText(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
-                add(output, 1, 8, 3, 1);
+                //output.setText(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
+                //add(output, 1, 8, 3, 1);
             }
         }
         catch(NumberFormatException | NullPointerException e){

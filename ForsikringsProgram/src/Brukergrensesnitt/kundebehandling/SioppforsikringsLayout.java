@@ -22,13 +22,11 @@ public class SioppforsikringsLayout extends GridPane{
     private Label fodselsnrLabel, avtalenrLabel, siOppLabel;
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
-    private TextArea output;
     
-    public SioppforsikringsLayout(Kunderegister register, TextArea output){
+    public SioppforsikringsLayout(Kunderegister register){
         siOppForsikringsSkjema();
         siOppLytter();
         this.kundeRegister = register;
-        this.output = output;
     }//end of constructor
     
     /**
