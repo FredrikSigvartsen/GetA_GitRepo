@@ -13,7 +13,6 @@ import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.*;
 import javafx.scene.layout.*;
 
 /**
@@ -24,18 +23,18 @@ public class TegnforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, forsikringsbelop, betingelser, registreringsnr, 
             merke, modell, registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
-            batModell, arsmodell, motorType, motorStyrke, gateAdresse, postnr, byggear, boligType,
-            byggemateriale, standard, antallKVM, omrade;    
+            batModell, arsmodell, motorStyrke, gateAdresse, postnr, byggear,
+            byggemateriale, antallKVM, omrade;    
     private Label fodselsnrLabel, forsikringstypeLabel, forsikringsbelopLabel, 
             betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, registreringsarLabel, 
             kjorelengdeLabel, prisPerKmLabel, batRegistreringsnrLabel, batMerkeLabel, batModellLabel, 
             arsmodellLabel, motorTypeLabel, motorStyrkeLabel, gateAdresseLabel, postnrLabel, byggearLabel, 
             boligTypeLabel, byggematerialeLabel, standardLabel, antallKVMLabel, omradeLabel;
     private Button tegnForsikring;
-    private ComboBox forsikringsType;
+    private ComboBox forsikringsType, boligType, boligStandard, motorType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
-    private String forsikringsTypeString = "";
+    private String forsikringsTypeString;
     private TextArea output;
     
     public TegnforsikringsLayout(Kunderegister register, TextArea output){
@@ -71,7 +70,7 @@ public class TegnforsikringsLayout extends GridPane{
         ObservableList<String> forsikringer = FXCollections.observableArrayList(
                                               "Bilforsikring", "Båtforsikring",
                                               "Boligforsikring", "Reiseforsikring");
-        forsikringsType.setItems(forsikringer);;
+        forsikringsType.setItems(forsikringer);
         
         forsikringsbelopLabel = new Label("Forsikringsbeløp:");
         forsikringsbelop = TextFieldBuilder.create()
@@ -187,11 +186,12 @@ public class TegnforsikringsLayout extends GridPane{
                    .maxWidth(100)
                    .build();
                 
-        motorTypeLabel = new Label("Motortype:");
-        motorType = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
-                   .build();
+        motorType = new ComboBox();
+        motorTypeLabel = new Label("Forsikrings type:");
+        ObservableList<String> motortyper = FXCollections.observableArrayList(
+                                              "Utenbords", "Innenbords",
+                                              "Seil");
+        motorType.setItems(motortyper);
                 
         motorStyrkeLabel = new Label("Motorkraft:");
         motorStyrke = TextFieldBuilder.create()
@@ -239,11 +239,12 @@ public class TegnforsikringsLayout extends GridPane{
                    .maxWidth(100)
                    .build();
                 
-        boligTypeLabel = new Label("Boligtype:");
-        boligType = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
-                   .build();
+        boligType = new ComboBox();
+        boligTypeLabel = new Label("Forsikrings type:");
+        ObservableList<String> boligtyper = FXCollections.observableArrayList(
+                                              "Enebolig", "Tomannsbolig",
+                                              "Rekkehus", "Leilighet");
+        boligType.setItems(boligtyper);
                 
         byggematerialeLabel = new Label("Byggemateriale:");
         byggemateriale = TextFieldBuilder.create()
@@ -251,11 +252,12 @@ public class TegnforsikringsLayout extends GridPane{
                    .maxWidth(100)
                    .build();
                 
-        standardLabel = new Label("Standard:");
-        standard = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
-                   .build();
+        boligStandard = new ComboBox();
+        standardLabel = new Label("Forsikrings type:");
+        ObservableList<String> standarder = FXCollections.observableArrayList(
+                                              "Dårlig", "Middels",
+                                              "God");
+        boligStandard.setItems(standarder);
         
         antallKVMLabel = new Label("Antall KVM:");
         antallKVM = TextFieldBuilder.create()
@@ -276,7 +278,7 @@ public class TegnforsikringsLayout extends GridPane{
         boligforsikringFelter.add(byggematerialeLabel, 0, 5);
         boligforsikringFelter.add(byggemateriale, 1, 5);
         boligforsikringFelter.add(standardLabel, 0, 6);
-        boligforsikringFelter.add(standard, 1, 6);
+        boligforsikringFelter.add(boligStandard, 1, 6);
         boligforsikringFelter.add(antallKVMLabel, 0, 7);
         boligforsikringFelter.add(antallKVM, 1, 7);
     }//End of method BoligforsikringFeilter
@@ -321,7 +323,7 @@ public class TegnforsikringsLayout extends GridPane{
     }//end of method registrerBilforsikring()
     
     /**
-     * Registrerer en båtforsikring når metoden kalls
+     * Registrerer en båtforsikring når metoden kalles
      */
     private void registrerBatforsikring(){
         String fodselsnr = this.fodselsnr.getText().trim();
@@ -329,7 +331,7 @@ public class TegnforsikringsLayout extends GridPane{
         String batRegistreringsnr = this.batRegistreringsnr.getText().trim();
         String batMerke = this.batMerke.getText().trim();
         String batModell = this.batModell.getText().trim();
-        String motorType = this.motorType.getText().trim();
+        String motorType = (String) this.motorType.getValue();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         int arsmodell = Integer.parseInt(this.arsmodell.getText().trim());
         int motorStyrke = Integer.parseInt(this.motorStyrke.getText().trim());
@@ -347,9 +349,9 @@ public class TegnforsikringsLayout extends GridPane{
         String fodselsnr = this.fodselsnr.getText().trim();
         String betingelser = this.betingelser.getText().trim();
         String gateAdresse = this.gateAdresse.getText().trim();
-        String boligType = this.boligType.getText().trim();
+        String boligType = (String) this.boligType.getValue();
         String byggemateriale = this.byggemateriale.getText().trim();
-        String standard = this.standard.getText().trim();
+        String standard = (String) this.boligStandard.getValue();
         String postnr = this.postnr.getText().trim();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         int byggear = Integer.parseInt(this.byggear.getText().trim());
@@ -440,7 +442,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn årsmodell");
                     return false;
                 }
-                else if( motorType.getText().isEmpty()){
+                else if( motorType.getValue() == null){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motortype");
                     return false;
                 }
@@ -454,7 +456,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
                     return false;
                 }
-                else if( boligType.getText().isEmpty()){
+                else if( boligType.getValue() == null){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
                     return false;
                 }
@@ -462,7 +464,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
                     return false;
                 }
-                else if( standard.getText().isEmpty()){
+                else if( boligStandard.getValue() == null){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
                     return false;
                 }
