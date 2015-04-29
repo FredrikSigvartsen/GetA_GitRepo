@@ -9,13 +9,12 @@ import Brukergrensesnitt.*;
 import static Brukergrensesnitt.GUI.getSkjermBredde;
 import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
-import javafx.scene.paint.Color;
-import static javafx.scene.paint.Color.RED;
 
 /**
  *
@@ -33,7 +32,6 @@ public class KundePane extends BorderPane{
     private KundesokLayout sokPane;
     private RegistrerSkadeLayout registrerSkademeldingLayout;
     private Kunderegister kundeRegister;
-    private TextArea output;
         
     public KundePane(Kunderegister register) {
         super();
@@ -48,41 +46,22 @@ public class KundePane extends BorderPane{
      */
     public void opprettLayout(){
         kundebehandlingsMeny = kundebehandlingsFaner();
-        output = output();
-        registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister, output);
-        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister, output);
-        forsikringsPane = new TegnforsikringsLayout(kundeRegister, output);
-        sioppPane = new SioppforsikringsLayout(kundeRegister, output);
-        sokPane = new KundesokLayout(kundeRegister, output);
-        //kundeRegistreringsPane.setLayoutX(0.1);
-        //kundeRegistreringsPane.setLayoutY(0.1);
-        //kundeRegistreringsPane.add(output, 3, 1, 1, 7);
-        //forsikringsPane.add(output, 3, 1, 1, 8);
-        
-        //registrerSkademeldingLayout.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
-        //RegistrerKundeLayout.setConstraints(kundeRegistreringsPane, 2, 8);
-        //kundeRegistreringsPane.setColumnSpan(kundeRegistreringsPane, 1);
-        //kundeRegistreringsPane.setMaxWidth(GUI.getSkjermBredde() / 2);
-        //kundeRegistreringsPane.setMinWidth(GUI.getSkjermBredde() / 10);
-        //kundeRegistreringsPane.setHalignment(kundeRegistreringsPane, HPos.LEFT);
-        //forsikringsPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
-        //sioppPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
-        //sokPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
+        registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister);
+        registrerSkademeldingLayout.autosize();
+//        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister);
+        kundeRegistreringsPane.autosize();
+//        forsikringsPane = new TegnforsikringsLayout(kundeRegister);
+        forsikringsPane.autosize();
+//        sioppPane = new SioppforsikringsLayout(kundeRegister);
+        sioppPane.autosize();
+        sokPane = new KundesokLayout(kundeRegister);
+        sokPane.autosize();
         
         
         //Setter plassering
         setTop(kundebehandlingsMeny);
-        //setMargin(kundeRegistreringsPane, new Insets(1, 1, 1, 1));
-        //kundeRegistreringsPane.setMaxWidth(1000);
-        //output.setMaxWidth(10);
-        //kundeRegistreringsPane.setMaxWidth(250);
         setCenter(kundeRegistreringsPane);
-        setAlignment(kundeRegistreringsPane, Pos.TOP_LEFT);
-        //getLeft().maxWidth(1);
-        
-        //setMargin(output, new Insets(40));
-        setRight(output);
-        setAlignment(output, Pos.TOP_LEFT);
+        setMargin(kundeRegistreringsPane, new Insets(40));
     }//end of method opprettLayout()
     
     /**
@@ -125,37 +104,30 @@ public class KundePane extends BorderPane{
         switch (t1.getText()) {
             case "Kunderegistrering":
                 setCenter(kundeRegistreringsPane);
+                setMargin(kundeRegistreringsPane, new Insets(40));
                 break;
             case "Tegn forsikring":
                 setCenter(forsikringsPane);
+                setMargin(forsikringsPane, new Insets(40));
                 break;
             case "Si opp forsikring":
                 setCenter(sioppPane);
+                setMargin(sioppPane, new Insets(40));
                 break;
             case "Søk":   
                 setCenter(sokPane);
+                setMargin(sokPane, new Insets(40));
                 break;
             case "Registrer skademelding":
                 setCenter(registrerSkademeldingLayout);
+                setMargin(registrerSkademeldingLayout, new Insets(40));
                 break;
             default:
                 setCenter(kundeRegistreringsPane);
+                setMargin(kundeRegistreringsPane, new Insets(40));
             }
         });
     }//end of method tabLytter()
         
-    private TextArea output(){
-        TextArea output = output = TextAreaBuilder.create()
-                .minWidth(getSkjermBredde() / 7)
-                .maxWidth(getSkjermBredde() / 7)
-                .minHeight(getSkjermHoyde() / 4)
-                .maxHeight(getSkjermHoyde() / 4)
-                .wrapText(true)
-                .editable(false)
-                //.style("-fx-text-fill: red")
-                //.style("-fx-background-color: red")
-                .build();
-        output.setBackground(new Background( new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        return output;
-    }
+    
 }//end of class KundePane
