@@ -162,6 +162,32 @@ public class GUI extends Application{
     }// end of method faneMeny()
    
     /**
+     * sjekker teksten skrevet inn i nyverdi mot regex
+     * @param feilLabel-Labelen med * som skal endres på
+     * @param nyverdi-den nye String verdien fra lytteren som kaller på metoden
+     * @param melding
+     * @param regex
+     * @return 
+     */
+    public static boolean sjekkRegEx(Label feilLabel, String nyverdi, String melding, String regex){
+        if(regex == null){
+            if(!(nyverdi.trim().isEmpty()) && sjekkRegexFodselsNr(nyverdi)){
+                feilLabel.setText("");
+                return true;
+            }
+            feilLabel.setText(melding);
+        }
+        else{
+            if(!(nyverdi.trim().isEmpty()) && sjekkRegex(regex, nyverdi)){
+                feilLabel.setText("");
+                return true;
+            }
+            feilLabel.setText(melding);
+        }
+        return false;
+    }//end of method sjekkRegEx()
+    
+    /**
      * En metode som sjekker om teksten stemmer overens med regexen man sender med. 
      * @param regex Sender med et regulært uttrykk 
      * @param sjekk Teksten som skal valideres for det regulære uttrykket.

@@ -187,7 +187,7 @@ public class TegnforsikringsLayout extends GridPane{
                    .build();
                 
         motorType = new ComboBox();
-        motorTypeLabel = new Label("Forsikrings type:");
+        motorTypeLabel = new Label("Motor type:");
         ObservableList<String> motortyper = FXCollections.observableArrayList(
                                               "Utenbords", "Innenbords",
                                               "Seil");
@@ -240,7 +240,7 @@ public class TegnforsikringsLayout extends GridPane{
                    .build();
                 
         boligType = new ComboBox();
-        boligTypeLabel = new Label("Forsikrings type:");
+        boligTypeLabel = new Label("Bolig type:");
         ObservableList<String> boligtyper = FXCollections.observableArrayList(
                                               "Enebolig", "Tomannsbolig",
                                               "Rekkehus", "Leilighet");
@@ -253,7 +253,7 @@ public class TegnforsikringsLayout extends GridPane{
                    .build();
                 
         boligStandard = new ComboBox();
-        standardLabel = new Label("Forsikrings type:");
+        standardLabel = new Label("Standard:");
         ObservableList<String> standarder = FXCollections.observableArrayList(
                                               "Dårlig", "Middels",
                                               "God");
