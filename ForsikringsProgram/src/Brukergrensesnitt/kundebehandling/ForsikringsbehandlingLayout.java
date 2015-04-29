@@ -5,14 +5,19 @@
  */
 package Brukergrensesnitt.kundebehandling;
 
+import Brukergrensesnitt.kundebehandling.*;
+import Brukergrensesnitt.GUI;
+import forsikringsprogram.*;
+import javafx.scene.layout.GridPane;
+
 /**
  *
  * @author Jens
  */
-public class ForsikringsbehandlingLayout {
-    /*private Kunderegister register;
+public class ForsikringsbehandlingLayout extends GridPane {
+    private Kunderegister kundeRegister;
     
     public ForsikringsbehandlingLayout(Kunderegister register){
-        
-    }*/
+        this.kundeRegister = register;
+    }
 }
