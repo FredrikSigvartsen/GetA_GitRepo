@@ -117,60 +117,34 @@ public class RegistrerKundeLayout extends GridPane{
     }//end of method kundeRegistreringsSkjema()
     
     /**
-     * sjekker teksten skrevet inn i nyverdi mot regex
-     * @param feilLabel-Labelen med * som skal endres på
-     * @param nyverdi-den nye String verdien fra lytteren som kaller på metoden
-     * @param melding
-     * @param regex
-     * @return 
-     */
-    private boolean sjekkRegEx(Label feilLabel, String nyverdi, String melding, String regex){
-        if(regex == null){
-            if(!(nyverdi.trim().isEmpty()) && GUI.sjekkRegexFodselsNr(nyverdi)){
-                feilLabel.setText("");
-                return true;
-            }
-            feilLabel.setText(melding);
-        }
-        else{
-            if(!(nyverdi.trim().isEmpty()) && GUI.sjekkRegex(regex, nyverdi)){
-                feilLabel.setText("");
-                return true;
-            }
-            feilLabel.setText(melding);
-        }
-        return false;
-    }//end of method sjekkRegEx()
-    
-    /**
      * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
      * @return Returnerer true om alle feltene godkjennes av regexen
      */
     private boolean tekstFeltLyttere(){
         fornavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            sjekkRegEx(fornavnFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+            GUI.sjekkRegEx(fornavnFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
         });
         
         etternavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            sjekkRegEx(etternavnFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+            GUI.sjekkRegEx(etternavnFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
         });
         
         adresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            sjekkRegEx(adresseFeil, nyverdi, "Skriv inn kun bokstaver eller tall", adresseRegEx);
+            GUI.sjekkRegEx(adresseFeil, nyverdi, "Skriv inn kun bokstaver eller tall", adresseRegEx);
         });
         
         postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            sjekkRegEx(postnrFeil, nyverdi, "Skriv inn kun fire tall", GUI.POSTNR_REGEX);
+            GUI.sjekkRegEx(postnrFeil, nyverdi, "Skriv inn kun fire tall", GUI.POSTNR_REGEX);
         });
         
         poststed.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            sjekkRegEx(poststedFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+            GUI.sjekkRegEx(poststedFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
         });
         
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnr", null);
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnr", null);
         });
-        return fornavnFeil.getText().isEmpty() || etternavnFeil.getText().isEmpty() || adresseFeil.getText().isEmpty() || postnrFeil.getText().isEmpty() || poststedFeil.getText().isEmpty() || fodselsnrFeil.getText().isEmpty();
+        return fornavnFeil.getText().equals("") && etternavnFeil.getText().equals("") && adresseFeil.getText().equals("") && postnrFeil.getText().equals("") && poststedFeil.getText().equals("") && fodselsnrFeil.getText().equals("");
     }//end of method sjekkFelterRegEx()
         
     /**
