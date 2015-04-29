@@ -26,6 +26,54 @@ public class Kunderegister implements Serializable {
     
     //Kundebehandling 
     
+    // selskapets totale utbetaling av erstatninger i løpet av et år
+    public double alleUtbetalteErstatninger() {
+        Iterator<ForsikringsKunde> iter = kunderegister.iterator();
+        double sum = 0;
+        while(iter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = iter.next();
+            sum += gjeldendeKunde.getUtbetalteErstatninger();
+        }
+        return sum;
+    }
+    
+    //selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år
+    public void ting() {
+        //DENNE ER VRIEN FREDRIK
+    }
+    
+    //selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet
+    public double utbetalingTilKunde(String fodselsNr) {
+        ForsikringsKunde kunde = finnKunde(fodselsNr);
+        if(kunde == null)
+            return -1; //Fant ikke kunden
+        return kunde.getUtbetalteErstatninger();
+    }
+    
+    //selskapets totale forsikringspremieinntekter i løpet av et år
+    public double aarligInntekt() {
+        Iterator<ForsikringsKunde> iter = kunderegister.iterator();
+        double sum = 0;
+        while(iter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = iter.next();
+            sum += gjeldendeKunde.getAarligUtbetaling();
+        }
+        return sum;
+    }
+    
+    //selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år
+    public void ting3() {
+        //DENNE ER VRIEN FREDRIK
+    }
+    
+    //selskapets forsikringspremieinntekter på en gitt forsikringskunde i løpet av kundeforholdet
+    public double inntektFraKunde(String fodselsNr) {
+        ForsikringsKunde kunde = finnKunde(fodselsNr);
+        if(kunde == null)
+            return -1; //Fant ikke kunden
+        return kunde.getAarligUtbetaling();
+    }
+    
     /**
      * Registrerer en ny kunde. 
      * @param ny ForsikringsKunde som blir lagt til i systemet. 
