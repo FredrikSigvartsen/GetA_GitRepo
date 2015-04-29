@@ -19,16 +19,14 @@ import javafx.scene.layout.*;
 public class SioppforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, avtalenr;    
-    private Label fodselsnrLabel, avtalenrLabel;
+    private Label fodselsnrLabel, avtalenrLabel, siOppLabel;
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
-    private TextArea output;
     
-    public SioppforsikringsLayout(Kunderegister register, TextArea output){
+    public SioppforsikringsLayout(Kunderegister register){
         siOppForsikringsSkjema();
         siOppLytter();
         this.kundeRegister = register;
-        this.output = output;
     }//end of constructor
     
     /**
@@ -40,14 +38,14 @@ public class SioppforsikringsLayout extends GridPane{
         
         fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         avtalenrLabel = new Label("Avtalenr:");
         avtalenr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         setVgap(10);
@@ -82,9 +80,11 @@ public class SioppforsikringsLayout extends GridPane{
         try{
             String fodselsnr = this.fodselsnr.getText().trim();
             int avtalenr = Integer.parseInt(this.avtalenr.getText().trim());
-            kundeRegister.siOppForsikring(fodselsnr, avtalenr);
-            output.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
-            add(output, 1, 8, 2, 1);
+            siOppLabel = new Label("");
+            siOppLabel.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
+            add(siOppLabel, 1, 4, 1, 2);
+            //output.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
+            //add(output, 1, 8, 2, 1);
         }
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);

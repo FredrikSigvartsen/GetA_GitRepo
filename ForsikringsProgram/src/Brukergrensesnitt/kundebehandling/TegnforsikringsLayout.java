@@ -35,14 +35,12 @@ public class TegnforsikringsLayout extends GridPane{
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString;
-    private TextArea output;
     
-    public TegnforsikringsLayout(Kunderegister register, TextArea output){
+    public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
         comboLytter();
         tegnForsikringLytter();
         this.kundeRegister = register;
-        this.output = output;
     }//end of constructor
     
     /**
@@ -61,8 +59,8 @@ public class TegnforsikringsLayout extends GridPane{
         
         fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         forsikringsType = new ComboBox();
@@ -74,14 +72,14 @@ public class TegnforsikringsLayout extends GridPane{
         
         forsikringsbelopLabel = new Label("Forsikringsbeløp:");
         forsikringsbelop = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         betingelserLabel = new Label("Betingelser:");
         betingelser = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         setVgap(10);
@@ -106,38 +104,38 @@ public class TegnforsikringsLayout extends GridPane{
         
         registreringsnrLabel = new Label("Registreringsnr:");
         registreringsnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         merkeLabel = new Label("Merke:");
         merke = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         modellLabel = new Label("Modell:");
         modell = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         registreringsarLabel = new Label("Registreringsår:");
         registreringsar = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         kjorelengdeLabel = new Label("Kjørelengde:");
         kjorelengde = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         prisPerKmLabel = new Label("Pris per KM:");
         prisPerKm = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         bilforsikringFelter.setVgap(10);
@@ -164,30 +162,30 @@ public class TegnforsikringsLayout extends GridPane{
         
         batRegistreringsnrLabel = new Label("Registreringsnr:");
         batRegistreringsnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         batMerkeLabel = new Label("Merke:");
         batMerke = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         batModellLabel = new Label("Modell:");
         batModell = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         arsmodellLabel = new Label("Årsmodell:");
         arsmodell = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         motorType = new ComboBox();
-        motorTypeLabel = new Label("Forsikrings type:");
+        motorTypeLabel = new Label("Motor type:");
         ObservableList<String> motortyper = FXCollections.observableArrayList(
                                               "Utenbords", "Innenbords",
                                               "Seil");
@@ -195,8 +193,8 @@ public class TegnforsikringsLayout extends GridPane{
                 
         motorStyrkeLabel = new Label("Motorkraft:");
         motorStyrke = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         batforsikringFelter.setVgap(10);
@@ -223,24 +221,24 @@ public class TegnforsikringsLayout extends GridPane{
         
         gateAdresseLabel = new Label("Adresse:");
         gateAdresse = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         postnrLabel = new Label("Postnr:");
         postnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         byggearLabel = new Label("Byggeår:");
         byggear = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         boligType = new ComboBox();
-        boligTypeLabel = new Label("Forsikrings type:");
+        boligTypeLabel = new Label("Bolig type:");
         ObservableList<String> boligtyper = FXCollections.observableArrayList(
                                               "Enebolig", "Tomannsbolig",
                                               "Rekkehus", "Leilighet");
@@ -248,12 +246,12 @@ public class TegnforsikringsLayout extends GridPane{
                 
         byggematerialeLabel = new Label("Byggemateriale:");
         byggemateriale = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
                 
         boligStandard = new ComboBox();
-        standardLabel = new Label("Forsikrings type:");
+        standardLabel = new Label("Standard:");
         ObservableList<String> standarder = FXCollections.observableArrayList(
                                               "Dårlig", "Middels",
                                               "God");
@@ -261,8 +259,8 @@ public class TegnforsikringsLayout extends GridPane{
         
         antallKVMLabel = new Label("Antall KVM:");
         antallKVM = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         boligforsikringFelter.setVgap(10);
@@ -291,8 +289,8 @@ public class TegnforsikringsLayout extends GridPane{
         
         omradeLabel = new Label("Område:");
         omrade = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
         
@@ -317,9 +315,9 @@ public class TegnforsikringsLayout extends GridPane{
         int prisPerKm = Integer.parseInt(this.prisPerKm.getText().trim());
         Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
         registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-        output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerBilforsikring()
     
     /**
@@ -337,9 +335,9 @@ public class TegnforsikringsLayout extends GridPane{
         int motorStyrke = Integer.parseInt(this.motorStyrke.getText().trim());
         Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
                 batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
-        output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerBatforsikring()
     
     /**
@@ -358,9 +356,9 @@ public class TegnforsikringsLayout extends GridPane{
         int antallKVM = Integer.parseInt(this.antallKVM.getText().trim());
         Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
                 gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
-        output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerBoligforsikring()
     
     /**
@@ -372,9 +370,9 @@ public class TegnforsikringsLayout extends GridPane{
         String omrade = this.omrade.getText().trim();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
-        output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
-        getChildren().remove(output);
-        add(output, 1, 8, 2, 1);
+        //output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
+        //getChildren().remove(output);
+        //add(output, 1, 8, 2, 1);
     }//end of method registrerReiseforsikring
     
     

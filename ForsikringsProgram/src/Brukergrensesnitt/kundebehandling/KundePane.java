@@ -9,13 +9,12 @@ import Brukergrensesnitt.*;
 import static Brukergrensesnitt.GUI.getSkjermBredde;
 import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
-import javafx.scene.paint.Color;
-import static javafx.scene.paint.Color.RED;
 
 /**
  *
@@ -32,8 +31,8 @@ public class KundePane extends BorderPane{
     private SioppforsikringsLayout sioppPane;
     private KundesokLayout sokPane;
     private RegistrerSkadeLayout registrerSkademeldingLayout;
+    private ForsikringsbehandlingLayout forsikringsBehandlingLayout;
     private Kunderegister kundeRegister;
-    private TextArea output;
         
     public KundePane(Kunderegister register) {
         super();
@@ -48,41 +47,24 @@ public class KundePane extends BorderPane{
      */
     public void opprettLayout(){
         kundebehandlingsMeny = kundebehandlingsFaner();
-        output = output();
-        registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister, output);
-        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister, output);
-        forsikringsPane = new TegnforsikringsLayout(kundeRegister, output);
-        sioppPane = new SioppforsikringsLayout(kundeRegister, output);
-        sokPane = new KundesokLayout(kundeRegister, output);
-        //kundeRegistreringsPane.setLayoutX(0.1);
-        //kundeRegistreringsPane.setLayoutY(0.1);
-        //kundeRegistreringsPane.add(output, 3, 1, 1, 7);
-        //forsikringsPane.add(output, 3, 1, 1, 8);
         
-        //registrerSkademeldingLayout.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
-        //RegistrerKundeLayout.setConstraints(kundeRegistreringsPane, 2, 8);
-        //kundeRegistreringsPane.setColumnSpan(kundeRegistreringsPane, 1);
-        //kundeRegistreringsPane.setMaxWidth(GUI.getSkjermBredde() / 2);
-        //kundeRegistreringsPane.setMinWidth(GUI.getSkjermBredde() / 10);
-        //kundeRegistreringsPane.setHalignment(kundeRegistreringsPane, HPos.LEFT);
-        //forsikringsPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
-        //sioppPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
-        //sokPane.setConstraints(kundeRegistreringsPane, 2, 8, 1, 1);
+        forsikringsBehandlingLayout = new ForsikringsbehandlingLayout(kundeRegister);
+        registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister);
+        registrerSkademeldingLayout.autosize();
+//        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister);
+        //kundeRegistreringsPane.autosize();
+//        forsikringsPane = new TegnforsikringsLayout(kundeRegister);
+        //forsikringsPane.autosize();
+//        sioppPane = new SioppforsikringsLayout(kundeRegister);
+        //sioppPane.autosize();
+        sokPane = new KundesokLayout(kundeRegister);
+        sokPane.autosize();
         
         
         //Setter plassering
         setTop(kundebehandlingsMeny);
-        //setMargin(kundeRegistreringsPane, new Insets(1, 1, 1, 1));
-        //kundeRegistreringsPane.setMaxWidth(1000);
-        //output.setMaxWidth(10);
-        //kundeRegistreringsPane.setMaxWidth(250);
-        setCenter(kundeRegistreringsPane);
-        setAlignment(kundeRegistreringsPane, Pos.TOP_LEFT);
-        //getLeft().maxWidth(1);
-        
-        //setMargin(output, new Insets(40));
-        setRight(output);
-        setAlignment(output, Pos.TOP_LEFT);
+        setCenter(forsikringsBehandlingLayout);
+        setMargin(forsikringsBehandlingLayout, new Insets(40));
     }//end of method opprettLayout()
     
     /**
@@ -96,14 +78,14 @@ public class KundePane extends BorderPane{
         kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde()*2);
         
         
-        Tab registrerFane = new Tab("Kunderegistrering");
-        kundebehandlingsPanel.getTabs().add(registrerFane);
+        Tab forsikringsBehandlingFane = new Tab("Forsikrings behandling");
+        kundebehandlingsPanel.getTabs().add(forsikringsBehandlingFane);
         
-        Tab forsikringsFane = new Tab("Tegn forsikring");
+        /*Tab forsikringsFane = new Tab("Tegn forsikring");
         kundebehandlingsPanel.getTabs().add(forsikringsFane);
         
         Tab sioppForsikringsFane = new Tab("Si opp forsikring");
-        kundebehandlingsPanel.getTabs().add(sioppForsikringsFane);
+        kundebehandlingsPanel.getTabs().add(sioppForsikringsFane);*/
         
         Tab registrerSkademeldingFane = new Tab("Registrer skademelding");
         kundebehandlingsPanel.getTabs().add(registrerSkademeldingFane);
@@ -123,39 +105,32 @@ public class KundePane extends BorderPane{
     public void tabLytter(){
         kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
         switch (t1.getText()) {
-            case "Kunderegistrering":
-                setCenter(kundeRegistreringsPane);
+            case "Forsikrings behandling":
+                setCenter(forsikringsBehandlingLayout);
+                setMargin(forsikringsBehandlingLayout, new Insets(40));
                 break;
-            case "Tegn forsikring":
+            /*case "Tegn forsikring":
                 setCenter(forsikringsPane);
+                setMargin(forsikringsPane, new Insets(40));
                 break;
             case "Si opp forsikring":
                 setCenter(sioppPane);
-                break;
+                setMargin(sioppPane, new Insets(40));
+                break;*/
             case "Søk":   
                 setCenter(sokPane);
+                setMargin(sokPane, new Insets(40));
                 break;
             case "Registrer skademelding":
                 setCenter(registrerSkademeldingLayout);
+                setMargin(registrerSkademeldingLayout, new Insets(40));
                 break;
             default:
-                setCenter(kundeRegistreringsPane);
+                setCenter(forsikringsBehandlingLayout);
+                setMargin(forsikringsBehandlingLayout, new Insets(40));
             }
         });
     }//end of method tabLytter()
         
-    private TextArea output(){
-        TextArea output = output = TextAreaBuilder.create()
-                .minWidth(getSkjermBredde() / 7)
-                .maxWidth(getSkjermBredde() / 7)
-                .minHeight(getSkjermHoyde() / 4)
-                .maxHeight(getSkjermHoyde() / 4)
-                .wrapText(true)
-                .editable(false)
-                //.style("-fx-text-fill: red")
-                //.style("-fx-background-color: red")
-                .build();
-        output.setBackground(new Background( new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        return output;
-    }
+    
 }//end of class KundePane

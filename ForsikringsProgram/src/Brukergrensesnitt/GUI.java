@@ -49,6 +49,7 @@ public class GUI extends Application{
     
     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
     public static final Insets PADDING = new Insets(10);
+    public static final int TEKSTFELT_BREDDE = 150;
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ]*$";
@@ -161,6 +162,32 @@ public class GUI extends Application{
         faneMeny.getChildren().add(fanePanel);
     }// end of method faneMeny()
    
+    /**
+     * sjekker teksten skrevet inn i nyverdi mot regex
+     * @param feilLabel-Labelen med * som skal endres på
+     * @param nyverdi-den nye String verdien fra lytteren som kaller på metoden
+     * @param melding
+     * @param regex
+     * @return 
+     */
+    public static boolean sjekkRegEx(Label feilLabel, String nyverdi, String melding, String regex){
+        if(regex == null){
+            if(!(nyverdi.trim().isEmpty()) && sjekkRegexFodselsNr(nyverdi)){
+                feilLabel.setText("");
+                return true;
+            }
+            feilLabel.setText(melding);
+        }
+        else{
+            if(!(nyverdi.trim().isEmpty()) && sjekkRegex(regex, nyverdi)){
+                feilLabel.setText("");
+                return true;
+            }
+            feilLabel.setText(melding);
+        }
+        return false;
+    }//end of method sjekkRegEx()
+    
     /**
      * En metode som sjekker om teksten stemmer overens med regexen man sender med. 
      * @param regex Sender med et regulært uttrykk 
