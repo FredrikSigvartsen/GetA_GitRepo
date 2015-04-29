@@ -45,44 +45,44 @@ public class RegistrerKundeLayout extends GridPane{
         
         fornavnLabel = new Label("Fornavn:");
         fornavn = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         fornavnFeil = new Label("*");
         
         etternavnLabel = new Label("Etternavn:");
         etternavn = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         etternavnFeil = new Label("*");
         
         adresseLabel = new Label("Adresse:");
         adresse = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         adresseFeil = new Label("*");
         
         postnrLabel = new Label("Postnummer:");
         postnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         postnrFeil = new Label("*");
         
         
         poststedLabel = new Label("Poststed:");
         poststed = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         poststedFeil = new Label("*");
         
         fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
-                   .minWidth(100)
-                   .maxWidth(100)
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         fodselsnrFeil = new Label("*");
         
@@ -209,7 +209,7 @@ public class RegistrerKundeLayout extends GridPane{
             }
             else{
                 getChildren().remove(output);
-                //kundeRegister.registrerKunde(kunde);
+                kundeRegister.registrerKunde(kunde);
                 output.setText(kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
                 add(output, 1, 8, 3, 1);
             }
