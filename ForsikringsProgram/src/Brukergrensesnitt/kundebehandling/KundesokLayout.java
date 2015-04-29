@@ -121,7 +121,7 @@ public class KundesokLayout extends GridPane{
         GridPane forsikringLayout = new GridPane();
         
         forsikringstypeInput = new ChoiceBox();
-        forsikringstypeInput.getItems().addAll("Boligforsikring", "Båtforsikring", "Bilforsikring", "Reiseforsikring");
+        forsikringstypeInput.getItems().addAll("Bolig", "Båt", "Bil", "Reise");
         sokForsikringstypeKnapp = new Button("Søk");
         sokForsikringstypeKnapp.setOnAction((ActionEvent e) -> {
             finnForsikringer();
@@ -163,7 +163,7 @@ public class KundesokLayout extends GridPane{
         GridPane skadetypeLayout = new GridPane();
         
         skadetypeInput = new ChoiceBox();
-        skadetypeInput.getItems().addAll("Boligskade", "Båtskade", "Bilskade", "Reiseskade");
+        skadetypeInput.getItems().addAll("Bolig", "Båt", "Bil", "Reise");
         sokSkadetypeKnapp = new Button("Søk");
         sokSkadetypeKnapp.setOnAction((ActionEvent e) -> {
             finnSkademeldingerMedSkadeType();
@@ -275,7 +275,6 @@ public class KundesokLayout extends GridPane{
         }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
-            return;
         }
     }// end of method finnForsikringer()
     
@@ -319,6 +318,10 @@ public class KundesokLayout extends GridPane{
             if(skademeldinger.isEmpty()){
                 output.setText("Det finnes ingen skademeldinger av typen " + skadetype);
                 return;
+            }
+            ListIterator<Skademelding> iter = skademeldinger.listIterator();
+            while(iter.hasNext()){
+                output.appendText( iter.next().toString());
             }
             
         }// end of try// end of try

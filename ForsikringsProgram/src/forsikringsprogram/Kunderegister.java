@@ -111,7 +111,17 @@ public class Kunderegister implements Serializable {
      * @return 
      */
     public List<Skademelding> finnSkademeldinger( String skadetype ){
-        return null;
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Skademelding> nyListe = new ArrayList<>();
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer().listeMedForsikringAvType(skadetype) != null) {
+                nyListe.addAll(kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype));
+            }
+        }
+        
+        return nyListe;
     }// end of method finnSkademeldinger(skadetype)
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
@@ -138,7 +148,17 @@ public class Kunderegister implements Serializable {
      * @return 
      */
     public List<Forsikring> finnForsikringer( String forsikringstype ){
-        return null;
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Forsikring> nyListe = new ArrayList<>();
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
+                nyListe.addAll(kunde.getForsikringer().listeMedForsikringAvType(forsikringstype));
+            }
+        }
+        
+        return nyListe;
     }// end of method finnForsikringer( forsikringstype )
     
     /**
