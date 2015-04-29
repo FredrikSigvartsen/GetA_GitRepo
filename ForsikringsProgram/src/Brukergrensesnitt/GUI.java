@@ -49,6 +49,7 @@ public class GUI extends Application{
     
     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
     public static final Insets PADDING = new Insets(10);
+    public static final int TEKSTFELT_BREDDE = 150;
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ]*$";
