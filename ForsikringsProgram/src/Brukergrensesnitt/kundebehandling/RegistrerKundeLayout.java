@@ -21,8 +21,7 @@ import javafx.beans.value.ObservableValue;
 public class RegistrerKundeLayout extends GridPane{
     
     private TextField fornavn, etternavn, adresse, postnr, poststed, fodselsnr;    
-    private Label fornavnLabel, etternavnLabel, adresseLabel, postnrLabel, poststedLabel, fodselsnrLabel,
-            fornavnFeil, etternavnFeil, adresseFeil, postnrFeil, poststedFeil, fodselsnrFeil;
+    private Label fornavnFeil, etternavnFeil, adresseFeil, postnrFeil, poststedFeil, fodselsnrFeil;
     private Button registrerKunde;
     private Kunderegister kundeRegister;
     private String adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$";
@@ -41,28 +40,25 @@ public class RegistrerKundeLayout extends GridPane{
         
         registrerKunde = new Button("Registrer");
         
-        fornavnLabel = new Label("Fornavn:");
+        
         fornavn = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         fornavnFeil = new Label("*");
         
-        etternavnLabel = new Label("Etternavn:");
         etternavn = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         etternavnFeil = new Label("*");
         
-        adresseLabel = new Label("Adresse:");
         adresse = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         adresseFeil = new Label("*");
         
-        postnrLabel = new Label("Postnummer:");
         postnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
@@ -70,14 +66,12 @@ public class RegistrerKundeLayout extends GridPane{
         postnrFeil = new Label("*");
         
         
-        poststedLabel = new Label("Poststed:");
         poststed = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         poststedFeil = new Label("*");
         
-        fodselsnrLabel = new Label("Fødselsnummer:");
         fodselsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
@@ -87,30 +81,31 @@ public class RegistrerKundeLayout extends GridPane{
         setVgap(10);
         setHgap(10);
         //legger til kolonne 1
-        add(fornavnLabel, 1, 1);
-        add(etternavnLabel, 1, 2);
-        add(adresseLabel, 1, 3);
-        add(postnrLabel, 1, 4);
-        add(poststedLabel, 1, 5);
-        add(fodselsnrLabel, 1, 6);
+        add(new Label("Registrering av kunde:"), 1, 1);
+        add(new Label("Fornavn:"), 1, 2);
+        add(new Label("Etternavn:"), 1, 3);
+        add(new Label("Adresse:"), 1, 4);
+        add(new Label("Postnummer:"), 1, 5);
+        add(new Label("Poststed:"), 1, 6);
+        add(new Label("Fødselsnummer:"), 1, 7);
         GridPane.setHalignment(registrerKunde, HPos.CENTER);
-        add(registrerKunde, 1, 7, 2, 1);
+        add(registrerKunde, 1, 8, 2, 1);
         
         //legger til kolonne 2
-        add(fornavn, 2, 1);
-        add(etternavn, 2, 2);
-        add(adresse, 2, 3);
-        add(postnr, 2, 4);
-        add(poststed, 2, 5);
-        add(fodselsnr, 2, 6);
+        add(fornavn, 2, 2);
+        add(etternavn, 2, 3);
+        add(adresse, 2, 4);
+        add(postnr, 2, 5);
+        add(poststed, 2, 6);
+        add(fodselsnr, 2, 7);
         
         //legger til kolonne 3
-        add(fornavnFeil, 3, 1);
-        add(etternavnFeil, 3, 2);
-        add(adresseFeil, 3, 3);
-        add(postnrFeil, 3, 4);
-        add(poststedFeil, 3, 5);
-        add(fodselsnrFeil, 3, 6);
+        add(fornavnFeil, 3, 2);
+        add(etternavnFeil, 3, 3);
+        add(adresseFeil, 3, 4);
+        add(postnrFeil, 3, 5);
+        add(poststedFeil, 3, 6);
+        add(fodselsnrFeil, 3, 7);
         
     }//end of method kundeRegistreringsSkjema()
     
@@ -140,10 +135,10 @@ public class RegistrerKundeLayout extends GridPane{
         });
         
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnr", null);
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer", null);
         });
         return fornavnFeil.getText().equals("") && etternavnFeil.getText().equals("") && adresseFeil.getText().equals("") && postnrFeil.getText().equals("") && poststedFeil.getText().equals("") && fodselsnrFeil.getText().equals("");
-    }//end of method sjekkFelterRegEx()
+    }//end of method tekstFeltLyttere()
         
     /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type

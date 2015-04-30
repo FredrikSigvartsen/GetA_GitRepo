@@ -7,6 +7,7 @@ package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.GUI;
 import forsikringsprogram.*;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
@@ -19,7 +20,7 @@ import javafx.scene.layout.*;
 public class SioppforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, avtalenr;    
-    private Label fodselsnrLabel, avtalenrLabel, siOppLabel;
+    private Label siOppLabel, fodselsnrFeil, avtalenrFeil;
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
     
@@ -27,6 +28,7 @@ public class SioppforsikringsLayout extends GridPane{
         siOppForsikringsSkjema();
         siOppLytter();
         this.kundeRegister = register;
+        tekstFeltLyttere();
     }//end of constructor
     
     /**
@@ -36,27 +38,52 @@ public class SioppforsikringsLayout extends GridPane{
         
         siOppForsikring = new Button("Si opp forsikring");
         
-        fodselsnrLabel = new Label("Fødselsnummer:");
+        
         fodselsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
+        fodselsnrFeil = new Label("*");
         
-        avtalenrLabel = new Label("Avtalenr:");
         avtalenr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
+        avtalenrFeil = new Label("*");
         
         setVgap(10);
         setHgap(10);
-        add(fodselsnrLabel, 1, 1);
-        add(fodselsnr, 2, 1);
-        add(avtalenrLabel, 1, 2);
-        add(avtalenr, 2, 2);
+        
+        //legger til kolonne 1
+        add(new Label("Oppsigelse av forsikring:"), 1, 1);
+        add(new Label("Fødselsnummer:"), 1, 2);
+        add(new Label("Avtalenr:"), 1, 3);
         GridPane.setHalignment(siOppForsikring, HPos.CENTER);
-        add(siOppForsikring, 1, 3, 2, 1);
+        add(siOppForsikring, 1, 4, 2, 1);
+        
+        //legger til kolonne 2
+        add(fodselsnr, 2, 2);
+        add(avtalenr, 2, 3);
+        
+        //legger til kolonne 3
+        add(fodselsnrFeil, 3, 2);
+        add(avtalenrFeil, 3, 3);
     }//end of methd siOppForsikringsSkjema()
+    
+    /**
+     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean tekstFeltLyttere(){
+        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fodselsnummer", null);
+        });
+        
+        avtalenr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(avtalenrFeil, nyverdi, "Skriv inn bare tall", GUI.POSTNR_REGEX);
+        });
+        return fodselsnrFeil.getText().equals("") && avtalenrFeil.getText().equals("");
+    }//end of method sjekkFelterRegEx()
     
     /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
