@@ -92,7 +92,7 @@ public class ForsikringsKunde implements Serializable{
         ny.setErstatningsbelopLikTakst();
         this.utbetaltErstatning = ny.getTakst();
         
-        return "Skademelding er nå registrert på " + etternavn + ", " + fornavn + ". Utbetaling er på vei.";
+        return "Skademelding nr. " + ny.getSkadeNr() + " er nå registrert på " + etternavn + ", " + fornavn + ". Utbetaling er på vei.";
     } // end of method registrerSkademelding(Skademelding)
     
     // Legger til en forsikring i kundens Forsikringsliste. Returverdien indikerer om det gikk, eller om hva som gikk galt. Se Forsikringsliste.Forsikring()
