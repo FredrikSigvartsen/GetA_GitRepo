@@ -105,7 +105,7 @@ public class Skademelding implements Serializable {
         return this.takst;
     }
 
-    public double getErstatningsbeløp() {
+    public double getErstatningsbelop() {
         return erstatningsbelop;
     }
    

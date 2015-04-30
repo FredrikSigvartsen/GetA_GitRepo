@@ -38,8 +38,21 @@ public class Kunderegister implements Serializable {
     }
     
     //selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år
-    public void ting() {
-        //DENNE ER VRIEN FREDRIK
+    public double utbetaltErstatningAvType(String forsikringstype) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Skademelding> smListe = new ArrayList<>();
+        double sum = 0;
+        while(kIter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = kIter.next();
+            if(gjeldendeKunde.getSkademeldinger() != null) {
+                smListe = gjeldendeKunde.getSkademeldinger().listeMedSkademeldingAvType(forsikringstype);
+                ListIterator<Skademelding> sIter = smListe.listIterator();
+                while(sIter.hasNext()) {
+                    sum += sIter.next().getErstatningsbelop();
+                }
+            }
+        }
+        return sum;
     }
     
     //selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet
@@ -62,8 +75,21 @@ public class Kunderegister implements Serializable {
     }
     
     //selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år
-    public void ting3() {
-        //DENNE ER VRIEN FREDRIK
+    public double inntektFraForsikringstype(String forsikringstype) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Forsikring> fListe = new ArrayList<>();
+        double sum = 0;
+        while(kIter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = kIter.next();
+            if(gjeldendeKunde.getForsikringer() != null) {
+                fListe = gjeldendeKunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
+                ListIterator<Forsikring> fIter = fListe.listIterator();
+                while(fIter.hasNext()) {
+                    sum += fIter.next().getForsikringsPremie();
+                }
+            }
+        }
+        return sum;
     }
     
     //selskapets forsikringspremieinntekter på en gitt forsikringskunde i løpet av kundeforholdet

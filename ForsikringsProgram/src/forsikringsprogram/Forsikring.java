@@ -42,6 +42,10 @@ public abstract class Forsikring implements Serializable{
         return avtaleNr;
     }
     
+    public double getForsikringsPremie() {
+        return this.forsikringsPremie;
+    }
+    
     public void setForsikringsPremie(int x) {
         this.forsikringsPremie = x;////////////Må finne priser
     }

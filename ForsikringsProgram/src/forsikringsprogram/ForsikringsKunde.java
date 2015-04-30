@@ -88,10 +88,10 @@ public class ForsikringsKunde implements Serializable{
             return "Kunden har ikke forsikring på " + ( ny.getSkadeType() ).toLowerCase() +"en sin, i vårt selskap";
         if(!skademeldinger.registrerSkademelding(ny))
             return "Feil i registrering av skademelding. Kontakt IT-ansvarlig.";
-        if(forsikringer.harRiktigForsikring(ny.getSkadeType())) {
-            ny.setErstatningsbelopLikTakst();
-            this.utbetaltErstatning = ny.getTakst();
-        }
+        
+        ny.setErstatningsbelopLikTakst();
+        this.utbetaltErstatning = ny.getTakst();
+        
         return "Skademelding er nå registrert på " + etternavn + ", " + fornavn + ". Utbetaling er på vei.";
     } // end of method registrerSkademelding(Skademelding)
     
