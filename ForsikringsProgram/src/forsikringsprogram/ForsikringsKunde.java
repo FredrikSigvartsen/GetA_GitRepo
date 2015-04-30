@@ -90,7 +90,7 @@ public class ForsikringsKunde implements Serializable{
             return "Feil i registrering av skademelding. Kontakt IT-ansvarlig.";
         
         ny.setErstatningsbelopLikTakst();
-        this.utbetaltErstatning = ny.getTakst();
+        this.utbetaltErstatning += ny.getTakst();
         
         return "Skademelding nr. " + ny.getSkadeNr() + " er nå registrert på " + etternavn + ", " + fornavn + ". Utbetaling er på vei.";
     } // end of method registrerSkademelding(Skademelding)
