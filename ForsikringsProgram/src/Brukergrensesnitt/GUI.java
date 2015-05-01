@@ -57,7 +57,7 @@ public class GUI extends Application{
     public static final String VALUTA_REGEX = "^\\d+(\\.\\d{1,2})?$";     
     public static final String POSTNR_REGEX = "^\\d{4}$";
     
-    private Stage stage;
+    private static Stage stage;
     private Scene scene;
     private static Dimension opplosning = Toolkit.getDefaultToolkit().getScreenSize();
     private HBox faneMeny;
@@ -326,6 +326,10 @@ public class GUI extends Application{
      */
     public static double getSkjermBredde(){
         return (double)opplosning.getWidth() / 1.1;
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
     
     /**

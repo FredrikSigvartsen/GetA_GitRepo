@@ -1,11 +1,11 @@
 package forsikringsprogram;
 
 
-import java.awt.*;
+import java.io.File;
 import java.io.Serializable;
 import java.text.*;
 import java.util.*;
-import javax.swing.*;
+import java.util.List;
 
 /*
  En skademelding er i "forsikringssystemet" viktig, da det for forsikringsselskapet er viktig å kunne generere utbetalinger på bakgrunn av informasjonen om kunden
@@ -26,10 +26,11 @@ public class Skademelding implements Serializable {
     private String vitneKontakt; // Kontaktinformasjon om vitner
     private double takst;           // Taksteringsbeløp for skaden
     private double erstatningsbelop;
+    private List<File> bilder;
     private SimpleDateFormat formaterDato;
 
     
-    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt) {
+    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt, List<File> bilder) {
         
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
@@ -37,6 +38,7 @@ public class Skademelding implements Serializable {
         this.takst = takst;
         this.inntruffetTidspunkt = inntruffetTidspunkt;
         this.inntruffetDato = inntruffetDato;
+        this.bilder = bilder;
         skadeNr = nesteNr++;
         formaterDato = new SimpleDateFormat("dd/MM/yyyy");
     }
@@ -45,7 +47,7 @@ public class Skademelding implements Serializable {
     // Redefinerer toString() for å få en bedre utskriftsform av objekter av type Skademelding. 
    @Override
     public String toString(){
-        String skademelding = "\n\n\nSkademelding nr." + skadeNr + "\n------------------------------------------------------------\n"
+        String skademelding = "\n\n\nSkademelding nr." + skadeNr + "\n---------------------------------------------------\n"
                 + "Skadetype  :  " + skadeType 
                 + "\nBeskrivelse av skaden:\n" + beskrivelse
                 + "\nTaksteringsbeløp:  " + takst
@@ -107,6 +109,10 @@ public class Skademelding implements Serializable {
 
     public double getErstatningsbelop() {
         return erstatningsbelop;
+    }
+
+    public List<File> getBilder() {
+        return bilder;
     }
    
    

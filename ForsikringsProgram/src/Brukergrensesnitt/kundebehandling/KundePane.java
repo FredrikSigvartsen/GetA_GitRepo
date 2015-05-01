@@ -51,12 +51,6 @@ public class KundePane extends BorderPane{
         forsikringsBehandlingLayout = new ForsikringsbehandlingLayout(kundeRegister);
         registrerSkademeldingLayout = new RegistrerSkadeLayout(kundeRegister);
         registrerSkademeldingLayout.autosize();
-//        kundeRegistreringsPane = new RegistrerKundeLayout(kundeRegister);
-        //kundeRegistreringsPane.autosize();
-//        forsikringsPane = new TegnforsikringsLayout(kundeRegister);
-        //forsikringsPane.autosize();
-//        sioppPane = new SioppforsikringsLayout(kundeRegister);
-        //sioppPane.autosize();
         sokPane = new KundesokLayout(kundeRegister);
         sokPane.autosize();
         
@@ -78,14 +72,8 @@ public class KundePane extends BorderPane{
         kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde()*2);
         
         
-        Tab forsikringsBehandlingFane = new Tab("Forsikrings behandling");
+        Tab forsikringsBehandlingFane = new Tab("Behandle forsikringer");
         kundebehandlingsPanel.getTabs().add(forsikringsBehandlingFane);
-        
-        /*Tab forsikringsFane = new Tab("Tegn forsikring");
-        kundebehandlingsPanel.getTabs().add(forsikringsFane);
-        
-        Tab sioppForsikringsFane = new Tab("Si opp forsikring");
-        kundebehandlingsPanel.getTabs().add(sioppForsikringsFane);*/
         
         Tab registrerSkademeldingFane = new Tab("Registrer skademelding");
         kundebehandlingsPanel.getTabs().add(registrerSkademeldingFane);
@@ -105,18 +93,10 @@ public class KundePane extends BorderPane{
     public void tabLytter(){
         kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
         switch (t1.getText()) {
-            case "Forsikrings behandling":
+            case "Behandle forsikringer":
                 setCenter(forsikringsBehandlingLayout);
                 setMargin(forsikringsBehandlingLayout, new Insets(40));
                 break;
-            /*case "Tegn forsikring":
-                setCenter(forsikringsPane);
-                setMargin(forsikringsPane, new Insets(40));
-                break;
-            case "Si opp forsikring":
-                setCenter(sioppPane);
-                setMargin(sioppPane, new Insets(40));
-                break;*/
             case "Søk":   
                 setCenter(sokPane);
                 setMargin(sokPane, new Insets(40));

@@ -9,14 +9,20 @@ import Brukergrensesnitt.GUI;
 import static Brukergrensesnitt.GUI.getSkjermBredde;
 import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.*;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import static javafx.scene.text.Font.font;
 
 /**
  *
@@ -28,8 +34,13 @@ public class KundesokLayout extends GridPane{
     private TitledPane sokFodselsNrLayout, sokNavnLayout, sokForsikringstypeLayout, sokSkadeNrLayout, sokSkadetypeLayout;
     private TextArea output;
     private TextField fodselsNrInput, fornavnInput, etternavnInput, skadeNrInput;
-    private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp;
+    private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp;
     private ChoiceBox forsikringstypeInput, skadetypeInput;
+    private GridPane sokLayout, outputLayout, bildeviserLayout;
+    private ImageView gjeldendeBildeviser;
+    private Skademelding gjeldendeSkademelding;
+    private List<Image> skadeBilder;
+    
     
     public KundesokLayout(Kunderegister register){
         super();
@@ -38,42 +49,183 @@ public class KundesokLayout extends GridPane{
         
     }// end of constructor
     
+    /**
+     * Oppretter utseende på layoutet. 
+     */
     private void opprettLayout(){
+        sokLayout = sokLayout();
+        outputLayout = outputLayout();
+        bildeviserLayout = bildeviserLayout();
+        bildeviserLayout.setVisible(true);
+        
+        addColumn(1, sokLayout);
+        addColumn(2, outputLayout);
+        addColumn(3, bildeviserLayout);
+        
+        setHgap(40);
+        setVgap(20);
+        setMargin(outputLayout, new Insets(40, 0, 0, 0)); 
+        setPadding( new Insets(30, 20, 30, 50) ) ;
+        
+    } // end of method opprettLayout()
+    
+    /**
+     * Alle søk-outputs havner i output-layoutet. 
+     * @return GridPane-layout for behandling av outputs av søk-funksjonene
+     */
+    private GridPane outputLayout(){
+        GridPane returOutput = new GridPane();
+        output = output();
+        
+        returOutput.addRow(1, output);
+        return returOutput;
+    }// end of method outputLayout()
+    
+    private GridPane bildeviserLayout(){
+        GridPane returLayout = new GridPane();
+        returLayout.setVisible(false);
+        gjeldendeBildeviser = imageViewer();
+        HBox knappedisplay = visBildeKnappeDisplay();
+        
+        
+        sokSkadeNrKnapp.setOnAction((ActionEvent e) -> {
+            skadeBilder = behandleBilder();
+        });
+        
+        returLayout.addRow(1, gjeldendeBildeviser);
+        returLayout.addRow(2, knappedisplay);
+        
+        
+        returLayout.setVgap(15);
+        returLayout.setHgap(15);
+        return returLayout;
+    } // end of method bildeviserLayout()
+    /**
+     * 
+     * @return 
+     */
+    private GridPane sokLayout(){
+        GridPane returLayout = new GridPane();
         
         sokFodselsNrLayout = new TitledPane( "Fødselsnummer", sokFodselsNr() );
         sokFodselsNrLayout.setExpanded(false);
+        sokFodselsNrLayout.setOnMouseClicked((MouseEvent t) -> {
+            settUtvidet(sokFodselsNrLayout);
+        });
         
         sokNavnLayout = new TitledPane( "Navn", sokNavn() );
         sokNavnLayout.setExpanded(false);
+        sokNavnLayout.setOnMouseClicked((MouseEvent t) -> {
+            settUtvidet(sokNavnLayout);
+        });
         
         sokForsikringstypeLayout = new TitledPane( "Forsikringstype", sokForsikringstype() );
         sokForsikringstypeLayout.setExpanded(false);
+        sokForsikringstypeLayout.setOnMouseClicked((MouseEvent t) -> {
+            settUtvidet(sokForsikringstypeLayout);
+        });
         
         sokSkadeNrLayout = new TitledPane( "Skademelding nummer", sokSkadeNr() );
         sokSkadeNrLayout.setExpanded(false);
+        sokSkadeNrLayout.setOnMouseClicked((MouseEvent t) -> {
+            settUtvidet(sokSkadeNrLayout);
+        });
         
         sokSkadetypeLayout = new TitledPane( "Skadetype", sokSkadetype() );
         sokSkadetypeLayout.setExpanded(false);
+        sokSkadetypeLayout.setOnMouseClicked((MouseEvent t) -> {
+            settUtvidet(sokSkadetypeLayout);
+        });
         
-        output = output();
+        
         
         Label skadeLabel = new Label("Søk på skademeldinger med");
+        skadeLabel.setFont( font(22.5) );
+        skadeLabel.setUnderline(true);
         Label kundeLabel = new Label("Søk på kunder med");
-        skadeLabel.setPadding(GUI.PADDING);
-        kundeLabel.setPadding(GUI.PADDING);
+        kundeLabel.setFont( font(22.5) );
+        kundeLabel.setUnderline(true);
         
-        addRow(1, kundeLabel );
-        addRow(2, sokFodselsNrLayout );
-        addRow(3, sokNavnLayout );
-        addRow(4, sokForsikringstypeLayout );
-        addRow(5, skadeLabel );
-        addRow(6, sokSkadeNrLayout );
-        addRow(7, sokSkadetypeLayout );
-        addRow(8, output);
+        returLayout.addRow(1,  kundeLabel );
+        returLayout.setMargin( kundeLabel, new Insets(4, 0, 10, 0));
+        returLayout.addRow(2,  sokFodselsNrLayout );
+        returLayout.addRow(3,  sokNavnLayout );
+        returLayout.addRow(4,  sokForsikringstypeLayout );
+        returLayout.addRow(5,  skadeLabel );
+        returLayout.setMargin( skadeLabel, new Insets(4, 0, 10, 0));
+        returLayout.addRow(6,  sokSkadeNrLayout );
+        returLayout.addRow(7,  sokSkadetypeLayout );
         
-        setBorder(GUI.KANTLINJE);
-        setPadding(GUI.PADDING);
-    } // end of method opprettLayout()
+        returLayout.setMinHeight(GUI.getSkjermHoyde());
+        returLayout.setMaxHeight(GUI.getSkjermHoyde());
+        returLayout.setPrefHeight(GUI.getSkjermHoyde());
+        returLayout.setVgap(10);
+        returLayout.setHgap(20);
+        return returLayout;
+    }// end of method returLayout()
+
+    
+    private HBox visBildeKnappeDisplay(){
+        HBox returKnapper = new HBox();
+        
+        nesteBildeKnapp = new Button("Neste");
+        nesteBildeKnapp.setOnAction((ActionEvent e) -> {
+            nesteBilde();
+        });
+        
+        forrigeBildeKnapp = new Button("Forrige");
+        forrigeBildeKnapp.setOnAction((ActionEvent e) -> {
+            forrigeBilde();
+        });
+        
+        
+        returKnapper.setHgrow(nesteBildeKnapp, Priority.ALWAYS);
+        returKnapper.setHgrow(forrigeBildeKnapp, Priority.ALWAYS);
+        nesteBildeKnapp.setMaxWidth(100);
+        forrigeBildeKnapp.setMaxWidth(100);
+        returKnapper.getChildren().addAll(nesteBildeKnapp, forrigeBildeKnapp);
+        returKnapper.setSpacing(100);
+        
+        return returKnapper;
+    } // end of method visBildeKnappeDisplay()
+    
+    private void nesteBilde(){
+        ListIterator<Image> iter = skadeBilder.listIterator(skadeBilder.indexOf( gjeldendeBildeviser.getImage() ));
+        if(iter.hasNext())
+            gjeldendeBildeviser.setImage( iter.next());
+    }
+    private void forrigeBilde(){
+        
+    }
+    private List<Image> behandleBilder(){
+        List<File> filBilder = gjeldendeSkademelding.getBilder();
+        skadeBilder = new ArrayList<>();
+        
+        ListIterator<File> iter = filBilder.listIterator();
+        while(iter.hasNext()){
+            try {
+                Image gjeldendeBilde = new Image (iter.next().toURI().toURL().toString() );
+                skadeBilder.add(gjeldendeBilde);
+            } catch (MalformedURLException ex) {
+                GUI.visProgramFeilMelding(ex);
+            }// end of try-catch
+        }// end of while
+        return skadeBilder;
+    }// end of method behandleBilder()
+        
+    /**
+     * 
+     * @return 
+     */
+    private ImageView imageViewer(){
+        ImageView returViser = new ImageView();
+        
+        returViser.setSmooth(true);
+        returViser.setFitWidth(GUI.getSkjermBredde() / 2.5);
+        returViser.setFitHeight(GUI.getSkjermHoyde() / 2);
+        
+        return returViser;
+    }// end of method imageViewer()
     
     /**
      * Et layout hvor bruekren kan søke opp kunder med fødselsnummer.
@@ -92,6 +244,8 @@ public class KundesokLayout extends GridPane{
         fodsel.addRow( 1, new Label("Fødselsnummeret til kunden:"));
         fodsel.addRow( 2, fodselsNrInput);
         fodsel.addRow( 3, sokKnapp );
+        fodsel.setHgap(10);
+        fodsel.setVgap(10);
         
         return fodsel;
     } // end of sokFodselsNr()
@@ -111,11 +265,10 @@ public class KundesokLayout extends GridPane{
         navnLayout.add( new Label("Etternavn:"), 2, 1);
         navnLayout.add( etternavnInput, 2, 2);
         navnLayout.add( sokNavnKnapp, 1, 3);
-        
+        navnLayout.setHgap(10);
+        navnLayout.setVgap(10);
         return navnLayout;
     } // end of sokNavn()
-    
-    
     
     /**
      * 
@@ -134,6 +287,8 @@ public class KundesokLayout extends GridPane{
         forsikringLayout.add( new Label("Type forsikring:"), 1, 1);
         forsikringLayout.add( forsikringstypeInput, 1, 2);
         forsikringLayout.add( sokForsikringstypeKnapp, 2, 2);
+        forsikringLayout.setHgap(10);
+        forsikringLayout.setVgap(10);
             
         return forsikringLayout;
     }// end of method sokForsikringstype() 
@@ -155,6 +310,8 @@ public class KundesokLayout extends GridPane{
         skadeLayout.add( new Label("Skadenummer:"), 1, 1);
         skadeLayout.add( skadeNrInput, 1, 2);
         skadeLayout.add( sokSkadeNrKnapp, 2, 2);
+        skadeLayout.setHgap(10);
+        skadeLayout.setVgap(10);
         return skadeLayout;
     } // end of method sokSkadeNr()
     
@@ -173,10 +330,11 @@ public class KundesokLayout extends GridPane{
             finnSkademeldingerMedSkadeType();
         });
         
-        skadetypeLayout.add( new Label("Skadetype:"), 1, 1);
+        skadetypeLayout.add( new Label("Velg skadetype:"), 1, 1);
         skadetypeLayout.add( skadetypeInput, 1, 2);
         skadetypeLayout.add( sokSkadetypeKnapp, 2, 2);
-        
+        skadetypeLayout.setHgap(10);
+        skadetypeLayout.setVgap(10);
         return skadetypeLayout;
     }// end of method sokSkadetype()
     
@@ -275,7 +433,7 @@ public class KundesokLayout extends GridPane{
     }// end of method finnForsikringer()
     
     /**
-     * Finner skademeldingen med riktig type skadenummer. 
+     * Finner gjeldendeSkademelding med riktig type skadenummer. 
      */
     private void finnSkadeMedSkadeNr(){
         if( skadeNrInput.getText().trim().isEmpty()){
@@ -286,12 +444,17 @@ public class KundesokLayout extends GridPane{
         try{
             int skadeNr = Integer.parseInt(skadeNrInput.getText());
             
-            Skademelding skademeldingen = kundeRegister.finnSkademeldinger(skadeNr);
-            if( skademeldingen == null){
+            gjeldendeSkademelding = kundeRegister.finnSkademeldinger(skadeNr);
+            if( gjeldendeSkademelding == null){
                 output.setText("Skademelding nr." + skadeNr + " finnes ikke i vårt system.");
                 return;
             }
-            output.setText("Følgende skademelding funnet:" + skademeldingen.toString());
+            output.setText("Følgende skademelding funnet:" + gjeldendeSkademelding.toString());
+            bildeviserLayout.setVisible(true);
+            skadeBilder = behandleBilder();
+        if( gjeldendeSkademelding.getBilder() == null){
+            bildeviserLayout.addRow(1, new Label("Ingen bilder lagt til i denne skademeldingen."));
+        }
         }
         catch( NumberFormatException | NullPointerException nfe){
             GUI.visProgramFeilMelding(nfe);
@@ -328,35 +491,37 @@ public class KundesokLayout extends GridPane{
     }// end of method finnSkademeldingerMedSkadeType()
     
     private TextArea output(){
-        TextArea output = output = TextAreaBuilder.create()
-                .minWidth(getSkjermBredde() / 3)
-                .maxWidth(getSkjermBredde() / 3)
-                .minHeight(getSkjermHoyde() / 2)
-                .maxHeight(getSkjermHoyde() / 2)
-                .wrapText(true)
-                .editable(false)
-                .build();
-        output.skinProperty().addListener(new ChangeListener<Skin<?>>() {
-
-        @Override
-        public void changed(
-          ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
-            if (t1 != null && t1.getNode() instanceof Region) {
-                Region r = (Region) t1.getNode();
-                r.setBackground(Background.EMPTY);
-
-                r.getChildrenUnmodifiable().stream().
-                        filter(n -> n instanceof Region).
-                        map(n -> (Region) n).
-                        forEach(n -> n.setBackground(Background.EMPTY));
-
-                r.getChildrenUnmodifiable().stream().
-                        filter(n -> n instanceof Control).
-                        map(n -> (Control) n).
-                        forEach(c -> c.skinProperty().addListener(this)); // *
-            }
+        TextArea returOutput = new TextArea();
+                returOutput.setMinWidth(getSkjermBredde() / 3.5);
+                returOutput.setMaxWidth(getSkjermBredde() / 3.5);
+                returOutput.setPrefWidth(getSkjermBredde() / 3.5);
+                returOutput.setMinHeight(getSkjermHoyde() / 2);
+                returOutput.setPrefHeight(getSkjermHoyde() / 2);
+                returOutput.setMaxHeight(getSkjermHoyde() / 2);
+                returOutput.setWrapText(true);
+                returOutput.setEditable(false);
+                returOutput.setBackground(Background.EMPTY) ;
+                returOutput.selectRange(20, 20);
+        return returOutput;
+    }// end of method output()
+    
+    private void settUtvidet(TitledPane layout){
+        // sokFodselsNrLayout, sokNavnLayout, sokForsikringstypeLayout, sokSkadeNrLayout, sokSkadetypeLayout
+        if( ! ( layout.equals(sokFodselsNrLayout) ) && sokFodselsNrLayout.isExpanded() ){
+            sokFodselsNrLayout.setExpanded(false);
         }
-    });
-        return output;
+        else if( ! ( layout.equals(sokNavnLayout) ) && sokNavnLayout.isExpanded() ){
+            sokNavnLayout.setExpanded(false);
+        }
+        else if( ! ( layout.equals(sokForsikringstypeLayout) ) && sokForsikringstypeLayout.isExpanded() ){
+            sokForsikringstypeLayout.setExpanded(false);
+        }
+        else if( ! ( layout.equals(sokSkadeNrLayout) ) && sokSkadeNrLayout.isExpanded() ){
+            sokSkadeNrLayout.setExpanded(false);
+        }
+        else if( ! ( layout.equals(sokSkadetypeLayout) ) && sokSkadetypeLayout.isExpanded() ){
+            sokSkadetypeLayout.setExpanded(false);
+        }
+        layout.setExpanded(layout.isExpanded());
     }
 }// end of class SokLayout
