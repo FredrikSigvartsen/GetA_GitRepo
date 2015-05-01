@@ -45,6 +45,9 @@ public class TegnforsikringsLayout extends GridPane{
         tekstFeltLyttere();
     }//end of constructor
     
+    
+    //Fjern meg!
+    
     /**
      * Oppretter de felles input feltene i skjema for tegning av forsikring
      * og kaller på metodene som oppretter de inputfeltene som er unike for 
