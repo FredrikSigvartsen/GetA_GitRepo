@@ -20,7 +20,7 @@ import javafx.scene.layout.*;
 public class SioppforsikringsLayout extends GridPane{
     
     private TextField fodselsnr, avtalenr;    
-    private Label siOppLabel, fodselsnrFeil, avtalenrFeil;
+    private Label fodselsnrFeil, avtalenrFeil;
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
     
@@ -107,11 +107,7 @@ public class SioppforsikringsLayout extends GridPane{
         try{
             String fodselsnr = this.fodselsnr.getText().trim();
             int avtalenr = Integer.parseInt(this.avtalenr.getText().trim());
-            siOppLabel = new Label("");
-            siOppLabel.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
-            add(siOppLabel, 1, 4, 1, 2);
-            //output.setText(kundeRegister.siOppForsikring(fodselsnr, avtalenr));
-            //add(output, 1, 8, 2, 1);
+            GUI.visInputFeilMelding("Forsikring sagt opp", kundeRegister.siOppForsikring(fodselsnr, avtalenr));
         }
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);

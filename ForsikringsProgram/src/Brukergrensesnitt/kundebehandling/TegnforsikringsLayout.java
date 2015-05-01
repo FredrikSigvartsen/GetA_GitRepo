@@ -34,15 +34,20 @@ public class TegnforsikringsLayout extends GridPane{
     private ComboBox forsikringsType, boligType, boligStandard, motorType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
-    private String forsikringsTypeString = "";
-    private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$";
+    private String forsikringsTypeString;
+    private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$", adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$";
     
     public TegnforsikringsLayout(Kunderegister register){
+        //forsikringsTypeString = "bilforsikring";
         tegnForsikringsSkjema();
+        tekstFeltLyttere();
+        bilTekstFeltLyttere();
+        batTekstFeltLyttere();
+        boligTekstFeltLyttere();
+        reiseTekstFeltLyttere();
         comboLytter();
         tegnForsikringLytter();
         this.kundeRegister = register;
-        tekstFeltLyttere();
     }//end of constructor
     
     
@@ -106,9 +111,9 @@ public class TegnforsikringsLayout extends GridPane{
         add(tegnForsikring, 1, 7, 2, 1);
         
         //legger til kolonne 3
-        add(fodselsnrFeil, 3, 2);
-        add(forsikringsbelopFeil, 3, 4);
-        add(betingelserFeil, 3, 5);
+        add(fodselsnrFeil, 3, 2, 3, 1);
+        add(forsikringsbelopFeil, 3, 4, 4, 1);
+        add(betingelserFeil, 3, 5, 4, 1);
     }//end of method tegnForsikringsSkjema()
     
     /**
@@ -173,12 +178,12 @@ public class TegnforsikringsLayout extends GridPane{
         bilforsikringFelter.add(prisPerKm, 1, 6);
         
         //legger til kolonne 2
-        bilforsikringFelter.add(registreringsnrFeil, 2, 1);
-        bilforsikringFelter.add(merkeFeil, 2, 2);
-        bilforsikringFelter.add(modellFeil, 2, 3);
-        bilforsikringFelter.add(registreringsarFeil, 2, 4);
-        bilforsikringFelter.add(kjorelengdeFeil, 2, 5);
-        bilforsikringFelter.add(prisPerKmFeil, 2, 6);
+        bilforsikringFelter.add(registreringsnrFeil, 2, 1, 3, 1);
+        bilforsikringFelter.add(merkeFeil, 2, 2, 3, 1);
+        bilforsikringFelter.add(modellFeil, 2, 3, 3, 1);
+        bilforsikringFelter.add(registreringsarFeil, 2, 4, 3, 1);
+        bilforsikringFelter.add(kjorelengdeFeil, 2, 5, 3, 1);
+        bilforsikringFelter.add(prisPerKmFeil, 2, 6, 3, 1);
     }//End of method bilforsikringFelter()
     
     /**
@@ -422,112 +427,6 @@ public class TegnforsikringsLayout extends GridPane{
         GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
     }//end of method registrerReiseforsikring
     
-    private boolean tekstFeltLyttere(){
-        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn etGyldig fødselsnummer", null);
-        });
-        
-        betingelser.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(betingelserFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
-        });
-        
-        forsikringsbelop.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
-        });
-        
-        /*switch (forsikringsTypeString){
-            case "bilforsikring":
-                registreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-                    GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et Gyldig registreringsnr", registreringsNrRegEx);
-                });
-                /*else if( merke.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
-                    return false;
-                }
-                else if( modell.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
-                    return false;
-                }
-                else if( registreringsar.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
-                    return false;
-                }
-                else if( kjorelengde.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
-                    return false;
-                }
-                else if( prisPerKm.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
-                    return false;
-                }
-                return true;
-            case "batforsikring":
-                if( batRegistreringsnr.getText().trim().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
-                    return false;
-                }
-                else if( batMerke.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
-                    return false;
-                }
-                else if( batModell.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
-                    return false;
-                }
-                else if( arsmodell.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn årsmodell");
-                    return false;
-                }
-                else if( motorType.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motortype");
-                    return false;
-                }
-                else if( motorStyrke.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
-                    return false;
-                }
-                return true;
-            case "boligforsikring":
-                if( gateAdresse.getText().trim().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
-                    return false;
-                }
-                else if( boligType.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
-                    return false;
-                }
-                else if( byggemateriale.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
-                    return false;
-                }
-                else if( boligStandard.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
-                    return false;
-                }
-                else if( postnr.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
-                    return false;
-                }
-                else if( byggear.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn byggeår");
-                    return false;
-                }
-                else if( antallKVM.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
-                    return false;
-                }
-                return true;
-            case "reiseforsikring":
-                if( omrade.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
-                    return false;
-                }
-                return true;
-        }*/
-        //return fornavnFeil.getText().equals("") && etternavnFeil.getText().equals("") && adresseFeil.getText().equals("") && postnrFeil.getText().equals("") && poststedFeil.getText().equals("") && fodselsnrFeil.getText().equals("");
-        return false;
-    }//end of method tekstFeltLyttere()*/
-    
     /**
      * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn.
      * @return Returnerer true om alle feltene er fylt inn, og false om noe mangler
@@ -574,7 +473,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
                     return false;
                 }
-                if(!tekstFeltLyttere()){
+                if(!tekstFeltLyttere() && !bilTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -604,7 +503,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
                     return false;
                 }
-                if(!tekstFeltLyttere()){
+                if(!tekstFeltLyttere() && !batTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -638,7 +537,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
                     return false;
                 }
-                if(!tekstFeltLyttere()){
+                if(!tekstFeltLyttere() && !boligTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -648,7 +547,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
                     return false;
                 }
-                if(!tekstFeltLyttere()){
+                if(!tekstFeltLyttere() && !reiseTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -736,6 +635,126 @@ public class TegnforsikringsLayout extends GridPane{
             }
         });
     }//end of method comboLytter()
+    
+    /**
+     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean tekstFeltLyttere(){
+        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer", null);
+        });
+        
+        betingelser.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(betingelserFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+        
+        forsikringsbelop.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+        });
+        
+        return fodselsnrFeil.getText().isEmpty() && betingelserFeil.getText().isEmpty() && forsikringsbelopFeil.getText().isEmpty();
+    }//end of method tekstFeltLyttere()
+    
+    
+    /**
+     * Sjekker bilinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean bilTekstFeltLyttere(){
+        registreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr", registreringsNrRegEx);
+        });
+
+        merke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(merkeFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        modell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        registreringsar.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(registreringsarFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
+        });
+
+        kjorelengde.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(kjorelengdeFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+        });
+
+        prisPerKm.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(prisPerKmFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+        });
+        return registreringsnrFeil.getText().isEmpty() && merkeFeil.getText().isEmpty() && modellFeil.getText().isEmpty() && 
+               registreringsarFeil.getText().isEmpty() && kjorelengdeFeil.getText().isEmpty() && prisPerKmFeil.getText().isEmpty();
+    }
+    
+    /**
+     * Sjekker båtinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean batTekstFeltLyttere(){
+        batRegistreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(batRegistreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr", registreringsNrRegEx);
+        });
+
+        batMerke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(batMerkeFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        batModell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(batModellFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        arsmodell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(arsmodellFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
+        });
+
+        motorStyrke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(motorStyrkeFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+        });
+        return batRegistreringsnrFeil.getText().isEmpty() && batMerkeFeil.getText().isEmpty() && batModellFeil.getText().isEmpty() && 
+               arsmodellFeil.getText().isEmpty() && motorStyrkeFeil.getText().isEmpty();
+    }
+    
+    /**
+     * Sjekker boliginput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean boligTekstFeltLyttere(){
+        gateAdresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(gateAdresseFeil, nyverdi, "Skriv inn kun bokstaver og tall", adresseRegEx);
+        });
+
+        byggemateriale.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(byggematerialeFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(postnrFeil, nyverdi, "Skriv inn fire tall", GUI.POSTNR_REGEX);
+        });
+
+        byggear.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(byggearFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
+        });
+
+        antallKVM.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", GUI.POSTNR_REGEX);
+        });
+        return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
+               byggearFeil.getText().isEmpty() && antallKVM.getText().isEmpty();
+    }
+    
+    /**
+     * Sjekker resieinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean reiseTekstFeltLyttere(){
+        omrade.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(omradeFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+        });
+        return omradeFeil.getText().isEmpty();
+    }
     
     /**
      * Legger til en lytter på tegnForsikring knappen
