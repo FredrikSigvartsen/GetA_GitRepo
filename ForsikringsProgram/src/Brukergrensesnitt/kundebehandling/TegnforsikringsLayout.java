@@ -34,14 +34,15 @@ public class TegnforsikringsLayout extends GridPane{
     private ComboBox forsikringsType, boligType, boligStandard, motorType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
     private Kunderegister kundeRegister;
-    private String forsikringsTypeString;
-    private String forsikringsbelopRegEx = "\"^\\\\d{2-7}$\"";
+    private String forsikringsTypeString = "";
+    private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$";
     
     public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
         comboLytter();
         tegnForsikringLytter();
         this.kundeRegister = register;
+        tekstFeltLyttere();
     }//end of constructor
     
     /**
@@ -363,9 +364,7 @@ public class TegnforsikringsLayout extends GridPane{
         int prisPerKm = Integer.parseInt(this.prisPerKm.getText().trim());
         Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
         registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-        //output.setText(kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
-        //getChildren().remove(output);
-        //add(output, 1, 8, 2, 1);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
     }//end of method registrerBilforsikring()
     
     /**
@@ -383,9 +382,8 @@ public class TegnforsikringsLayout extends GridPane{
         int motorStyrke = Integer.parseInt(this.motorStyrke.getText().trim());
         Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
                 batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
-        //output.setText(kundeRegister.tegnForsikring(batforsikring, fodselsnr));
-        //getChildren().remove(output);
-        //add(output, 1, 8, 2, 1);
+        kundeRegister.tegnForsikring(batforsikring, fodselsnr);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(batforsikring, fodselsnr));
     }//end of method registrerBatforsikring()
     
     /**
@@ -404,9 +402,8 @@ public class TegnforsikringsLayout extends GridPane{
         int antallKVM = Integer.parseInt(this.antallKVM.getText().trim());
         Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
                 gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
-        //output.setText(kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
-        //getChildren().remove(output);
-        //add(output, 1, 8, 2, 1);
+        kundeRegister.tegnForsikring(boligforsikring, fodselsnr);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
     }//end of method registrerBoligforsikring()
     
     /**
@@ -418,12 +415,11 @@ public class TegnforsikringsLayout extends GridPane{
         String omrade = this.omrade.getText().trim();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
-        //output.setText(kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
-        //getChildren().remove(output);
-        //add(output, 1, 8, 2, 1);
+        kundeRegister.tegnForsikring(reiseforsikring, fodselsnr);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
     }//end of method registrerReiseforsikring
     
-    /*private boolean tekstFeltLyttere(){
+    private boolean tekstFeltLyttere(){
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
             GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn etGyldig fødselsnummer", null);
         });
@@ -436,12 +432,12 @@ public class TegnforsikringsLayout extends GridPane{
             GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
         });
         
-        switch (forsikringsTypeString){
+        /*switch (forsikringsTypeString){
             case "bilforsikring":
                 registreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-                    GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn et Gyldig registreringsnr", forsikringsbelopRegEx);
+                    GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et Gyldig registreringsnr", registreringsNrRegEx);
                 });
-                else if( merke.getText().isEmpty()){
+                /*else if( merke.getText().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
                     return false;
                 }
@@ -524,8 +520,9 @@ public class TegnforsikringsLayout extends GridPane{
                     return false;
                 }
                 return true;
-        }
-        return fornavnFeil.getText().equals("") && etternavnFeil.getText().equals("") && adresseFeil.getText().equals("") && postnrFeil.getText().equals("") && poststedFeil.getText().equals("") && fodselsnrFeil.getText().equals("");
+        }*/
+        //return fornavnFeil.getText().equals("") && etternavnFeil.getText().equals("") && adresseFeil.getText().equals("") && postnrFeil.getText().equals("") && poststedFeil.getText().equals("") && fodselsnrFeil.getText().equals("");
+        return false;
     }//end of method tekstFeltLyttere()*/
     
     /**
@@ -574,6 +571,10 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
                     return false;
                 }
+                if(!tekstFeltLyttere()){
+                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
+                    return false;
+                }
                 return true;
             case "batforsikring":
                 if( batRegistreringsnr.getText().trim().isEmpty()){
@@ -598,6 +599,10 @@ public class TegnforsikringsLayout extends GridPane{
                 }
                 else if( motorStyrke.getText().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
+                    return false;
+                }
+                if(!tekstFeltLyttere()){
+                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
                 return true;
@@ -630,10 +635,18 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
                     return false;
                 }
+                if(!tekstFeltLyttere()){
+                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
+                    return false;
+                }
                 return true;
             case "reiseforsikring":
                 if( omrade.getText().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
+                    return false;
+                }
+                if(!tekstFeltLyttere()){
+                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
                 return true;
