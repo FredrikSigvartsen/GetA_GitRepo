@@ -739,7 +739,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         antallKVM.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", GUI.POSTNR_REGEX);
+            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
         });
         return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
                byggearFeil.getText().isEmpty() && antallKVM.getText().isEmpty();
