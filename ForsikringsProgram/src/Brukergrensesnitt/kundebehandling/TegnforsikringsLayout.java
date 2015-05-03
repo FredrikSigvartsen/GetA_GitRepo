@@ -473,7 +473,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
                     return false;
                 }
-                if(!tekstFeltLyttere() && !bilTekstFeltLyttere()){
+                else if(!tekstFeltLyttere() || !bilTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -503,7 +503,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
                     return false;
                 }
-                if(!tekstFeltLyttere() && !batTekstFeltLyttere()){
+                else if(!tekstFeltLyttere() || !batTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -537,7 +537,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
                     return false;
                 }
-                if(!tekstFeltLyttere() && !boligTekstFeltLyttere()){
+                else if(!tekstFeltLyttere() || !boligTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
@@ -547,7 +547,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
                     return false;
                 }
-                if(!tekstFeltLyttere() && !reiseTekstFeltLyttere()){
+                else if(!tekstFeltLyttere() || !reiseTekstFeltLyttere()){
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
