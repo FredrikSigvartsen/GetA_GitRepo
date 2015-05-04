@@ -190,7 +190,7 @@ public class Kunderegister implements Serializable {
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getForsikringer().listeMedForsikringAvType(skadetype) != null) {
+            if(kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype) != null) {
                 nyListe.addAll(kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype));
             }
         }
@@ -221,14 +221,14 @@ public class Kunderegister implements Serializable {
      * @param forsikringstype
      * @return 
      */
-    public List<Forsikring> finnForsikringer( String forsikringstype ){
+    public List<ForsikringsKunde> finnForsikringer( String forsikringstype ){
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
-        List<Forsikring> nyListe = new ArrayList<>();
+        List<ForsikringsKunde> nyListe = new ArrayList<>();
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
-                nyListe.addAll(kunde.getForsikringer().listeMedForsikringAvType(forsikringstype));
+            if(kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
+                nyListe.add(kunde);
             }
         }
         

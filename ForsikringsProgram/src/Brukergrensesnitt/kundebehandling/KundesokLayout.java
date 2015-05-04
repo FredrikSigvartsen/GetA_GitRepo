@@ -416,13 +416,13 @@ public class KundesokLayout extends GridPane{
         try{
             String forsikringstype = forsikringstypeInput.getValue().toString();
         
-            List<Forsikring> forsikringer = kundeRegister.finnForsikringer(forsikringstype);
+            List<ForsikringsKunde> forsikringer = kundeRegister.finnForsikringer(forsikringstype);
         
             if(forsikringer.isEmpty()){
                output.setText("Finnes ingen forsikringer av typen " + forsikringstype);
                return;
             }
-            ListIterator<Forsikring> iter = forsikringer.listIterator();
+            ListIterator<ForsikringsKunde> iter = forsikringer.listIterator();
             while(iter.hasNext()){
                 output.appendText( iter.next().toString());
             }

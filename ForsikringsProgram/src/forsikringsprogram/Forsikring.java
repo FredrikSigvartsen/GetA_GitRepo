@@ -68,6 +68,7 @@ public abstract class Forsikring implements Serializable{
         return nesteNr;
     }
     
+    @Override
     public String toString() {
         return "\nForsikringsavtale nr." + avtaleNr + "\n-------------------------------------------\n" +
                "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
