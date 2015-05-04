@@ -15,6 +15,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.*;
 
 /**
  *
@@ -33,6 +34,7 @@ public class TegnforsikringsLayout extends GridPane{
     private Button tegnForsikring;
     private ComboBox forsikringsType, boligType, boligStandard, motorType;
     private GridPane bilforsikringFelter, batforsikringFelter, boligforsikringFelter, reiseforsikringFelter;
+    private StackPane bilforsikringStackPane;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString;
     private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$", adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$";
@@ -49,9 +51,6 @@ public class TegnforsikringsLayout extends GridPane{
         tegnForsikringLytter();
         this.kundeRegister = register;
     }//end of constructor
-    
-    
-    //Fjern meg!
     
     /**
      * Oppretter de felles input feltene i skjema for tegning av forsikring
@@ -95,27 +94,33 @@ public class TegnforsikringsLayout extends GridPane{
         setVgap(10);
         setHgap(10);
         
+        Label tegnForsikringLabel = new Label("Tegning av forsikring:");
+        tegnForsikringLabel.setFont(GUI.OVERSKRIFT);
         //legger til kolonne 1
-        add(new Label("Tegning av forsikring:"), 1, 1);
+        add(tegnForsikringLabel, 1, 1);
         add(new Label("Fødselsnummer:"), 1, 2);
         add(new Label("Forsikrings type:"), 1, 3);
         add(new Label("Forsikringsbeløp:"), 1, 4);
         add(new Label("Betingelser:"), 1, 5);
+        setHalignment(tegnForsikring, HPos.CENTER);
+        add(tegnForsikring, 1, 12, 2, 1);
         
         //legger til kolonne 2
         add(fodselsnr, 2, 2);
         add(forsikringsType, 2, 3);
         add(forsikringsbelop, 2, 4);
         add(betingelser, 2, 5);
-        setHalignment(tegnForsikring, HPos.CENTER);
-        add(tegnForsikring, 1, 7, 2, 1);
         
         //legger til kolonne 3
         add(fodselsnrFeil, 3, 2, 3, 1);
         add(forsikringsbelopFeil, 3, 4, 4, 1);
         add(betingelserFeil, 3, 5, 4, 1);
     }//end of method tegnForsikringsSkjema()
-    
+    /*
+    private void fjernUnikeFelter(){
+        
+    }
+    */
     /**
      * Oppretter de feltene som er unike for bilforsikring
      */
@@ -162,7 +167,7 @@ public class TegnforsikringsLayout extends GridPane{
         bilforsikringFelter.setHgap(10);
         
         //legger til kolonne 0
-        bilforsikringFelter.add(new Label("Registreringsnr:             "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
+        bilforsikringFelter.add(new Label("Registreringsnr:                         "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
         bilforsikringFelter.add(new Label("Merke:"), 0, 2);
         bilforsikringFelter.add(new Label("Modell:"), 0, 3);
         bilforsikringFelter.add(new Label("Registreringsår:"), 0, 4);
@@ -178,12 +183,37 @@ public class TegnforsikringsLayout extends GridPane{
         bilforsikringFelter.add(prisPerKm, 1, 6);
         
         //legger til kolonne 2
-        bilforsikringFelter.add(registreringsnrFeil, 2, 1, 3, 1);
-        bilforsikringFelter.add(merkeFeil, 2, 2, 3, 1);
-        bilforsikringFelter.add(modellFeil, 2, 3, 3, 1);
-        bilforsikringFelter.add(registreringsarFeil, 2, 4, 3, 1);
-        bilforsikringFelter.add(kjorelengdeFeil, 2, 5, 3, 1);
-        bilforsikringFelter.add(prisPerKmFeil, 2, 6, 3, 1);
+        bilforsikringFelter.add(registreringsnrFeil, 2, 1);
+        bilforsikringFelter.add(merkeFeil, 2, 2);
+        bilforsikringFelter.add(modellFeil, 2, 3);
+        bilforsikringFelter.add(registreringsarFeil, 2, 4);
+        bilforsikringFelter.add(kjorelengdeFeil, 2, 5);
+        bilforsikringFelter.add(prisPerKmFeil, 2, 6);
+        
+        /*
+        //legger til kolonne 0
+        add(new Label("Registreringsnr:"), 1, 6);
+        add(new Label("Merke:"), 1, 7);
+        add(new Label("Modell:"), 1, 8);
+        add(new Label("Registreringsår:"), 1, 9);
+        add(new Label("Kjørelengde:"), 1, 10);
+        add(new Label("Pris per KM:"), 1, 11);
+        
+        //legger til kolonn 1
+        add(registreringsnr, 2, 6);
+        add(merke, 2, 7);
+        add(modell, 2, 8);
+        add(registreringsar, 2, 9);
+        add(kjorelengde, 2, 10);
+        add(prisPerKm, 2, 11);
+        
+        //legger til kolonne 2
+        add(registreringsnrFeil, 3, 6);
+        add(merkeFeil, 3, 7);
+        add(modellFeil, 3, 8);
+        add(registreringsarFeil, 3, 9);
+        add(kjorelengdeFeil, 3, 10);
+        add(prisPerKmFeil, 3, 11);*/
     }//End of method bilforsikringFelter()
     
     /**
@@ -231,7 +261,7 @@ public class TegnforsikringsLayout extends GridPane{
         //legger til kolonne 0
         batforsikringFelter.setVgap(10);
         batforsikringFelter.setHgap(10);
-        batforsikringFelter.add(new Label("Registreringsnr:             "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
+        batforsikringFelter.add(new Label("Registreringsnr:                         "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
         batforsikringFelter.add(new Label("Merke:"), 0, 2);
         batforsikringFelter.add(new Label("Modell:"), 0, 3);
         batforsikringFelter.add(new Label("Årsmodell:"), 0, 4);
@@ -306,7 +336,7 @@ public class TegnforsikringsLayout extends GridPane{
         boligforsikringFelter.setHgap(10);
         
         //legger til kolonne 0
-        boligforsikringFelter.add(new Label("Adresse:                        "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
+        boligforsikringFelter.add(new Label("Adresse:                                     "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
         boligforsikringFelter.add(new Label("Postnr:"), 0, 2);
         boligforsikringFelter.add(new Label("Byggeår:"), 0, 3);
         boligforsikringFelter.add(new Label("Bolig type:"), 0, 4);
@@ -348,7 +378,7 @@ public class TegnforsikringsLayout extends GridPane{
         reiseforsikringFelter.setHgap(10);
         
         //legger til kolonne 0
-        reiseforsikringFelter.add(new Label("Område:                        "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
+        reiseforsikringFelter.add(new Label("Område:                                    "), 0, 1);//mellomrom legges til for å få riktig plassering av felten i forhold til parent GridPaneen
         
         //legger til kolonne 1
         reiseforsikringFelter.add(omrade, 1, 1);
@@ -742,7 +772,7 @@ public class TegnforsikringsLayout extends GridPane{
             GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
         });
         return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
-               byggearFeil.getText().isEmpty() && antallKVM.getText().isEmpty();
+               byggearFeil.getText().isEmpty() && antallKVMFeil.getText().isEmpty();
     }
     
     /**

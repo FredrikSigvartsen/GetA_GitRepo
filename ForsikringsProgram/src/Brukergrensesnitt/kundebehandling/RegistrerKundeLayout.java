@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import forsikringsprogram.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.text.*;
 
 /**
  *
@@ -80,8 +81,11 @@ public class RegistrerKundeLayout extends GridPane{
         
         setVgap(10);
         setHgap(10);
+        
+        Label registrerKundeLabel = new Label("Registrering av kunde:");
+        registrerKundeLabel.setFont(GUI.OVERSKRIFT);
         //legger til kolonne 1
-        add(new Label("Registrering av kunde:"), 1, 1);
+        add(registrerKundeLabel, 1, 1);
         add(new Label("Fornavn:"), 1, 2);
         add(new Label("Etternavn:"), 1, 3);
         add(new Label("Adresse:"), 1, 4);

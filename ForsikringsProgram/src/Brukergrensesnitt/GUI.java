@@ -33,10 +33,13 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextAreaBuilder;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import static javafx.scene.layout.BorderStroke.THIN;
 import static javafx.scene.layout.BorderStrokeStyle.SOLID;
 import static javafx.scene.paint.Color.DARKGRAY;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -50,6 +53,7 @@ public class GUI extends Application{
     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
     public static final Insets PADDING = new Insets(10);
     public static final int TEKSTFELT_BREDDE = 150;
+    public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 16);
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ]*$";
@@ -74,6 +78,7 @@ public class GUI extends Application{
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
         layout.setCenter(kundeLayout);
