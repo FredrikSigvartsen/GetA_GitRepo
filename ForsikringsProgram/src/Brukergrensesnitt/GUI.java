@@ -77,7 +77,11 @@ public class GUI extends Application{
         kundeLayout.tabLytter();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
+<<<<<<< HEAD
         stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png../bilder/../../../")));
+=======
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
+>>>>>>> 160d24984a05c9a5af6dd90afad504948b0b3329
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
         layout.setCenter(kundeLayout);

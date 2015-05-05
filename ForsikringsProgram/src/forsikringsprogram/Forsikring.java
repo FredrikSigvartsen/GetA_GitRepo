@@ -59,6 +59,14 @@ public abstract class Forsikring implements Serializable{
         this.opphorsDato = Calendar.getInstance();
         this.aktivForsikring = false;
     }
+    
+    public Calendar getOpphorsDato() {
+        return this.opphorsDato;
+    }
+    
+    public boolean getAktivForsikring() {
+        return this.aktivForsikring;
+    }
 
     public static void setNesteNr(int nesteNr) {
         Forsikring.nesteNr = nesteNr;

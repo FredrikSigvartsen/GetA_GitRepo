@@ -29,6 +29,17 @@ public class Forsikringsliste implements Serializable {
         f.opphorForsikring();
     }
     
+    public boolean harAktiveForsikringer() {
+        ListIterator<Forsikring> iter = liste.listIterator();
+        boolean ok = false;
+        
+        while(iter.hasNext()) {
+            if(iter.next().getAktivForsikring())
+                ok = true;
+        }
+        return ok;
+    }
+    
     public List<Forsikring> listeMedForsikringAvType(String konstant) {
         ListIterator<Forsikring> iter = liste.listIterator();
         List<Forsikring> ny = new ArrayList<>();

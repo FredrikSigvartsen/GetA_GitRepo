@@ -70,13 +70,13 @@ public class RegistrerSkadeLayout extends GridPane {
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         Label filLastetOpp = new Label();
-        bilder = new ArrayList<>();
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
         lastOppFilKnapp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                    bilder = new ArrayList<>();
                     FileChooser filvelger = new FileChooser();
                     filvelger.getExtensionFilters().add(
                             new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.gif") );
