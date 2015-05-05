@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ListIterator;
 import javafx.event.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 import javafx.scene.image.Image;
@@ -41,7 +42,8 @@ public class KundesokLayout extends GridPane{
     private Skademelding gjeldendeSkademelding;
     private List<Image> skadeBilder;
     private HBox knappedisplay;
-    private Label ingenbilder;
+    private Label ingenbilder, antallBilder;
+    private int indeks;
     
     
     public KundesokLayout(Kunderegister register){
@@ -168,7 +170,7 @@ public class KundesokLayout extends GridPane{
     
     private HBox visBildeKnappeDisplay(){
         HBox returKnapper = new HBox();
-        
+        antallBilder = new Label();
         nesteBildeKnapp = new Button("Neste");
         nesteBildeKnapp.setOnAction((ActionEvent e) -> {
             nesteBilde();
@@ -184,8 +186,9 @@ public class KundesokLayout extends GridPane{
         returKnapper.setHgrow(forrigeBildeKnapp, Priority.ALWAYS);
         nesteBildeKnapp.setMaxWidth(100);
         forrigeBildeKnapp.setMaxWidth(100);
-        returKnapper.getChildren().addAll(nesteBildeKnapp, forrigeBildeKnapp);
+        returKnapper.getChildren().addAll(forrigeBildeKnapp, antallBilder, nesteBildeKnapp);
         returKnapper.setSpacing(100);
+        returKnapper.setAlignment(Pos.CENTER);
         
         return returKnapper;
     } // end of method visBildeKnappeDisplay()
@@ -198,6 +201,7 @@ public class KundesokLayout extends GridPane{
         if(iter.hasNext()){
             Image nesteBilde = iter.next();
             imageviewer.setImage( nesteBilde );
+            antallBilder.setText( ++indeks +"/" + skadeBilder.size() );
         }
     }// end of method nesteBilde()
     
@@ -209,6 +213,7 @@ public class KundesokLayout extends GridPane{
         if(iter.hasPrevious()){
             Image forrigeBilde = iter.previous();
             imageviewer.setImage( forrigeBilde );
+            antallBilder.setText( --indeks +"/" + skadeBilder.size() );
         }
     }// end of method forrigeBilde()
     
@@ -219,6 +224,7 @@ public class KundesokLayout extends GridPane{
     private List<Image> behandleBilder(){
         List<File> filBilder = gjeldendeSkademelding.getBilder();
         List<Image> returBilder = new ArrayList<>();
+        indeks = 1;
         
         
         ListIterator<File> iter = filBilder.listIterator();
@@ -231,6 +237,7 @@ public class KundesokLayout extends GridPane{
             }// end of try-catch
         }// end of while
         imageviewer.setImage( returBilder.get(0) );
+        antallBilder.setText(indeks +"/" + returBilder.size() );
         return returBilder;
     }// end of method behandleBilder()
         
@@ -249,8 +256,8 @@ public class KundesokLayout extends GridPane{
     }// end of method imageViewer()
     
     /**
-     * Et layout hvor bruekren kan søke opp kunder med fødselsnummer.
-     * @return et GridPane layout med kundesøk. 
+     * Et layout hvor brukeren kan søke opp kunder med fødselsnummer.
+     * @return Et GridPane layout med kundesøk. 
      */
     private GridPane sokFodselsNr(){
         GridPane fodsel = new GridPane();
@@ -272,6 +279,10 @@ public class KundesokLayout extends GridPane{
         return fodsel;
     } // end of sokFodselsNr()
     
+    /**
+     * Et layout hvor brukeren kan søke opp kunder med navn. 
+     * @return Et GridPane layout med kundesøk med navn. 
+     */
     private GridPane sokNavn(){
         GridPane navnLayout = new GridPane();
         
