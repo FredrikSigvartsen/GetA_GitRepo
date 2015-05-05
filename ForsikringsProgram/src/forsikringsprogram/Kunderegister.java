@@ -190,13 +190,37 @@ public class Kunderegister implements Serializable {
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype) != null) {
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype) != null) {
                 nyListe.addAll(kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype));
             }
         }
         
         return nyListe;
     }// end of method finnSkademeldinger(skadetype)
+    
+    public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max){
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Skademelding> nyListe = new ArrayList<>();
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().finnSkademeldinger(min, max) != null)
+                nyListe.addAll(kunde.getSkademeldinger().finnSkademeldinger(min, max));
+        }
+        return nyListe;
+    }
+    
+    public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType){
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Skademelding> nyListe = new ArrayList<>();
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().finnSkademeldinger(min, max, skademeldingsType) != null)
+                nyListe.addAll(kunde.getSkademeldinger().finnSkademeldinger(min, max, skademeldingsType));
+        }
+        return nyListe;
+    }
     
     /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
        Se Forsikringsliste.registrerForsikring()*/
@@ -227,7 +251,7 @@ public class Kunderegister implements Serializable {
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
+            if(kunde.getForsikringer() != null && kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
                 nyListe.add(kunde);
             }
         }
