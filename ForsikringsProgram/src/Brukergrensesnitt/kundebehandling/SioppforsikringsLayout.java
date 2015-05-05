@@ -80,11 +80,11 @@ public class SioppforsikringsLayout extends GridPane{
      */
     private boolean tekstFeltLyttere(){
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fodselsnummer", null);
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fodselsnummer(11 siffer)", null);
         });
         
         avtalenr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(avtalenrFeil, nyverdi, "Skriv inn bare tall", avtaleNrRegEx);
+            GUI.sjekkRegEx(avtalenrFeil, nyverdi, "Skriv inn et eksisterende avtalenummer(1-4 siffer)", avtaleNrRegEx);
         });
         return fodselsnrFeil.getText().isEmpty() && avtalenrFeil.getText().isEmpty();
     }//end of method sjekkFelterRegEx()

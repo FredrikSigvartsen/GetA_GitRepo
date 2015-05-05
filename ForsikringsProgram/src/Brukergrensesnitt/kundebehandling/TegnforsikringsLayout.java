@@ -672,7 +672,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private boolean tekstFeltLyttere(){
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer (11 siffer)", null);
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fødselsnummer (11 siffer)", null);
         });
         
         betingelser.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
