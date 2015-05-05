@@ -115,6 +115,8 @@ public class RegistrerSkadeLayout extends GridPane {
         fodselsNrInput = mellomStorInput();
         takstInput = mellomStorInput();
         erstatningsOutput = mellomStorInput();
+        erstatningsOutput.setEditable(false);
+        
         tidspunktInput = litenInput();
         skadeBeskrivelseInput = storInput();
         vitneKontaktInput = storInput();
@@ -174,28 +176,27 @@ public class RegistrerSkadeLayout extends GridPane {
             return;
         try{
             
-        String fodselsNr = fodselsNrInput.getText();
-        if( kundeRegister.finnKunde(fodselsNr) == null)
-           return;
+            String fodselsNr = fodselsNrInput.getText().trim();
+            if( kundeRegister.finnKunde(fodselsNr) == null){
+                 output.setText("Det finnes ingen kunder med fødselsnummer: " + fodselsNr);
+                return;
+            }
         
-        String skadetype = skadetypeInput.getValue().toString();
-        double takst = Double.parseDouble(takstInput.getText());
-        String skadeBeskrivelse = skadeBeskrivelseInput.getText();
-        Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), datoInput.getValue().getMonthValue()-1, datoInput.getValue().getDayOfMonth() );
-        String tidspunkt = tidspunktInput.getText();
-        String vitneKontakt = vitneKontaktInput.getText();
+            String skadetype = skadetypeInput.getValue().toString();
+            double takst = Double.parseDouble(takstInput.getText().trim());
+            String skadeBeskrivelse = skadeBeskrivelseInput.getText().trim();
+            Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), datoInput.getValue().getMonthValue()-1, datoInput.getValue().getDayOfMonth() );
+            String tidspunkt = tidspunktInput.getText().trim();
+            String vitneKontakt = vitneKontaktInput.getText().trim();
         
-       Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bilder ); 
-       output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
-       
-        setFelterTomme();
+            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bilder ); 
+            output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
+            setFelterTomme();
         }// end of try
-        
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
             return;
-        }
-        
+        }//end of try-catch
     }// end of method knappeLytter()
     
     /**

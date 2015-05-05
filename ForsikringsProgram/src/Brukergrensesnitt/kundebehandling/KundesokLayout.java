@@ -37,9 +37,11 @@ public class KundesokLayout extends GridPane{
     private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp;
     private ChoiceBox forsikringstypeInput, skadetypeInput;
     private GridPane sokLayout, outputLayout, bildeviserLayout;
-    private ImageView gjeldendeBildeviser;
+    private ImageView imageviewer;
     private Skademelding gjeldendeSkademelding;
     private List<Image> skadeBilder;
+    private HBox knappedisplay;
+    private Label ingenbilder;
     
     
     public KundesokLayout(Kunderegister register){
@@ -56,7 +58,6 @@ public class KundesokLayout extends GridPane{
         sokLayout = sokLayout();
         outputLayout = outputLayout();
         bildeviserLayout = bildeviserLayout();
-        bildeviserLayout.setVisible(true);
         
         addColumn(1, sokLayout);
         addColumn(2, outputLayout);
@@ -84,16 +85,16 @@ public class KundesokLayout extends GridPane{
     private GridPane bildeviserLayout(){
         GridPane returLayout = new GridPane();
         returLayout.setVisible(false);
-        gjeldendeBildeviser = imageViewer();
-        HBox knappedisplay = visBildeKnappeDisplay();
+        imageviewer = imageViewer();
+        knappedisplay = visBildeKnappeDisplay();
         
+        ingenbilder = new Label("Ingen bilder lagt til i denne skademeldingen.") ;
+        ingenbilder.setFont( font(22));
+        bildeviserLayout.setMargin( ingenbilder, new Insets(40, 0 , 0, 0)  );
         
-        sokSkadeNrKnapp.setOnAction((ActionEvent e) -> {
-            skadeBilder = behandleBilder();
-        });
-        
-        returLayout.addRow(1, gjeldendeBildeviser);
-        returLayout.addRow(2, knappedisplay);
+        returLayout.addRow( 1, ingenbilder  );
+        returLayout.addRow(2, imageviewer);
+        returLayout.addRow(3, knappedisplay);
         
         
         returLayout.setVgap(15);
@@ -189,28 +190,48 @@ public class KundesokLayout extends GridPane{
         return returKnapper;
     } // end of method visBildeKnappeDisplay()
     
+    /**
+     * Lager en iterator som starter der det nåværende bilde er i listen, og hvis det er flere bilder, setter vi neste bildet i imageviewer.
+     */
     private void nesteBilde(){
-        ListIterator<Image> iter = skadeBilder.listIterator(skadeBilder.indexOf( gjeldendeBildeviser.getImage() ));
-        if(iter.hasNext())
-            gjeldendeBildeviser.setImage( iter.next());
-    }
+        ListIterator<Image> iter = skadeBilder.listIterator(skadeBilder.indexOf(imageviewer.getImage() ) + 1 );
+        if(iter.hasNext()){
+            Image nesteBilde = iter.next();
+            imageviewer.setImage( nesteBilde );
+        }
+    }// end of method nesteBilde()
+    
+    /**
+     * Lager en iterator som starter der det nåværende bilde er i listen, og hvis lista ikke starter på første plass i lista, setter vi forrige bildet i imageviewer.
+     */
     private void forrigeBilde(){
-        
-    }
+        ListIterator<Image> iter = skadeBilder.listIterator(  skadeBilder.indexOf(imageviewer.getImage() )  );
+        if(iter.hasPrevious()){
+            Image forrigeBilde = iter.previous();
+            imageviewer.setImage( forrigeBilde );
+        }
+    }// end of method forrigeBilde()
+    
+    /**
+     * Behandler bilder fra en liste av filer til en liste av bilder. Returnerer Denne listen.
+     * @return En liste av bilder lagt til i skademeldingen.
+     */
     private List<Image> behandleBilder(){
         List<File> filBilder = gjeldendeSkademelding.getBilder();
-        skadeBilder = new ArrayList<>();
+        List<Image> returBilder = new ArrayList<>();
+        
         
         ListIterator<File> iter = filBilder.listIterator();
         while(iter.hasNext()){
             try {
                 Image gjeldendeBilde = new Image (iter.next().toURI().toURL().toString() );
-                skadeBilder.add(gjeldendeBilde);
+                returBilder.add(gjeldendeBilde);
             } catch (MalformedURLException ex) {
                 GUI.visProgramFeilMelding(ex);
             }// end of try-catch
         }// end of while
-        return skadeBilder;
+        imageviewer.setImage( returBilder.get(0) );
+        return returBilder;
     }// end of method behandleBilder()
         
     /**
@@ -221,8 +242,8 @@ public class KundesokLayout extends GridPane{
         ImageView returViser = new ImageView();
         
         returViser.setSmooth(true);
-        returViser.setFitWidth(GUI.getSkjermBredde() / 2.5);
-        returViser.setFitHeight(GUI.getSkjermHoyde() / 2);
+        returViser.setFitWidth(GUI.getSkjermBredde() / 3.5);
+        returViser.setFitHeight(GUI.getSkjermHoyde() / 3);
         
         return returViser;
     }// end of method imageViewer()
@@ -239,6 +260,7 @@ public class KundesokLayout extends GridPane{
         sokKnapp.setOnAction((ActionEvent e) -> {
             finnKundeMedFodselsNr();
             fodselsNrInput.setText("");
+            bildeviserLayout.setVisible(false);
         });
         
         fodsel.addRow( 1, new Label("Fødselsnummeret til kunden:"));
@@ -258,6 +280,7 @@ public class KundesokLayout extends GridPane{
         sokNavnKnapp = new Button("Søk");
         sokNavnKnapp.setOnAction((ActionEvent e) -> {
             finnKundeMedNavn();
+            bildeviserLayout.setVisible(false);
         });
         
         navnLayout.add( new Label("Fornavn:"), 1 , 1);
@@ -281,7 +304,8 @@ public class KundesokLayout extends GridPane{
         forsikringstypeInput.getItems().addAll("Bolig", "Båt", "Bil", "Reise");
         sokForsikringstypeKnapp = new Button("Søk");
         sokForsikringstypeKnapp.setOnAction((ActionEvent e) -> {
-            finnForsikringer();
+            finnKunderMedForsikringstype();
+            bildeviserLayout.setVisible(false);
         });
         
         forsikringLayout.add( new Label("Type forsikring:"), 1, 1);
@@ -305,6 +329,7 @@ public class KundesokLayout extends GridPane{
         sokSkadeNrKnapp = new Button("Søk");
         sokSkadeNrKnapp.setOnAction((ActionEvent e) -> {
             finnSkadeMedSkadeNr();
+            
         });
         
         skadeLayout.add( new Label("Skadenummer:"), 1, 1);
@@ -328,6 +353,8 @@ public class KundesokLayout extends GridPane{
         sokSkadetypeKnapp = new Button("Søk");
         sokSkadetypeKnapp.setOnAction((ActionEvent e) -> {
             finnSkademeldingerMedSkadeType();
+            bildeviserLayout.setVisible(false);
+            
         });
         
         skadetypeLayout.add( new Label("Velg skadetype:"), 1, 1);
@@ -352,6 +379,9 @@ public class KundesokLayout extends GridPane{
     
     //Kontroll-metodene: 
     
+    /**
+      * Finner en kunde med fødselsnummer. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
+      */
      private void finnKundeMedFodselsNr(){
         
         if( fodselsNrInput.getText().trim().isEmpty()){
@@ -376,7 +406,7 @@ public class KundesokLayout extends GridPane{
     }// end of method finnKundeMedFodselsNr()
      
      /**
-      * 
+      * Finner en kunde med fornavn og etternavn. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
       */
     private void finnKundeMedNavn(){
         if( fornavnInput.getText().trim().isEmpty()){
@@ -406,9 +436,9 @@ public class KundesokLayout extends GridPane{
     }// end of method finnKundeMedNavn()
     
     /**
-     * Finner alle forsikringer av typen brukeren velger. 
+     * Finner alle kunder med forsikring av typen brukeren velger. 
      */
-    private void finnForsikringer(){
+    private void finnKunderMedForsikringstype(){
         if(forsikringstypeInput.getValue() == null){
             visMelding("Velg forsikringstype.","Velg hvilken type forsikringer du vil søke på");
             return;
@@ -430,10 +460,10 @@ public class KundesokLayout extends GridPane{
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
         }
-    }// end of method finnForsikringer()
+    }// end of method finnKunderMedForsikringstype()
     
     /**
-     * Finner gjeldendeSkademelding med riktig type skadenummer. 
+     * Finner skademelding med riktig type skadenummer, og skriver ut informasjon om denne i output-vinduet. Hvis skademeldingen har bilder, blir dette vist. 
      */
     private void finnSkadeMedSkadeNr(){
         if( skadeNrInput.getText().trim().isEmpty()){
@@ -445,21 +475,33 @@ public class KundesokLayout extends GridPane{
             int skadeNr = Integer.parseInt(skadeNrInput.getText());
             
             gjeldendeSkademelding = kundeRegister.finnSkademeldinger(skadeNr);
+            
+            //Hvis skademeldingen ikke finnes. 
             if( gjeldendeSkademelding == null){
+                bildeviserLayout.setVisible(false);
                 output.setText("Skademelding nr." + skadeNr + " finnes ikke i vårt system.");
                 return;
             }
-            output.setText("Følgende skademelding funnet:" + gjeldendeSkademelding.toString());
             bildeviserLayout.setVisible(true);
-            skadeBilder = behandleBilder();
-        if( gjeldendeSkademelding.getBilder() == null){
-            bildeviserLayout.addRow(1, new Label("Ingen bilder lagt til i denne skademeldingen."));
-        }
-        }
+            
+            //Hvis skademeldingen ikke har noen bilder. 
+            if( gjeldendeSkademelding.getBilder().isEmpty()){
+                ingenbilder.setVisible(true);
+                knappedisplay.setVisible(false);
+                imageviewer.setVisible(false);
+            
+            }else{
+                skadeBilder = behandleBilder();
+                ingenbilder.setVisible(false);
+                knappedisplay.setVisible(true);
+                imageviewer.setVisible(true);
+            }
+            output.setText("Følgende skademelding funnet:" + gjeldendeSkademelding.toString());
+        }// end of try
         catch( NumberFormatException | NullPointerException nfe){
             GUI.visProgramFeilMelding(nfe);
             return;
-        }
+        }// end of try-catch
     }// end of method finnSkadeMedSkadeNr()
     
     /**
