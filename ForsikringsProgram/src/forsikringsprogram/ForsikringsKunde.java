@@ -41,7 +41,7 @@ public class ForsikringsKunde implements Serializable{
         this.fodselsNr = fodselsNr;
         
         this.totalKunde = false;
-        this.erForsikringsKunde = true;
+        this.erForsikringsKunde = false;
         this.skademeldinger = new SkademeldingsListe();
         this.forsikringer = new Forsikringsliste();
     }// end of constructor
@@ -111,8 +111,9 @@ public class ForsikringsKunde implements Serializable{
         } else if(ny instanceof Boligforsikring) {
             leggTilForsikringspremie(Forsikring.BOLIGPREMIE);
         }
+        setErForsikringsKunde(true);
                 
-        return "Forsikring nr." + ny.getAvtaleNr() + " er nå registrert på " + etternavn + ", " + fornavn + ".";
+        return "Forsikring nr. " + ny.getAvtaleNr() + " er nå registrert på " + etternavn + ", " + fornavn + ".";
     } // end of method registrerForsikring(Forsikring)
 
     //Sier opp kundens forsikring med gitt avtalenummer. Returverdi indikerer om det gikk, eller hva som gikk galt.
@@ -123,7 +124,12 @@ public class ForsikringsKunde implements Serializable{
         if(forsikringen.getOpphorsDato() != null)
             return "Denne forsikringen er allerede opphørt";
         forsikringen.opphorForsikring();
-        return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString() ;
+        if(!forsikringer.harAktiveForsikringer()) {
+            setErForsikringsKunde(false);
+            return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString() + 
+                   "\n\nDenne kunden har ikke lenger noen aktive forsikringer, og er ikke lenger kunde.";
+        }
+        return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString();
     }// end of method siOppForsikring(avtaleNr)
     
     
