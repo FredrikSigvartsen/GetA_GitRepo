@@ -8,7 +8,6 @@ package Brukergrensesnitt.kundebehandling;
 import Brukergrensesnitt.*;
 import forsikringsprogram.*;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,10 +16,10 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import static javafx.scene.control.Alert.AlertType.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import static javafx.scene.text.Font.font;
 import javafx.stage.FileChooser;
@@ -40,7 +39,7 @@ public class RegistrerSkadeLayout extends GridPane {
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
     private Label output;
-    private List<File> bilder;
+    private List<File> bildefiler;
     
     public RegistrerSkadeLayout(Kunderegister register){
         opprettRegisteringLayout();
@@ -70,7 +69,8 @@ public class RegistrerSkadeLayout extends GridPane {
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         Label filLastetOpp = new Label();
-        bilder = new ArrayList<>();
+        List<File> lokalBilder = new ArrayList<>();
+        bildefiler = lokalBilder;
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
@@ -86,7 +86,7 @@ public class RegistrerSkadeLayout extends GridPane {
                         filLastetOpp.setText( "Bilde ikke lastet opp.");
                     }//end of if
                     else{
-                        if(bilder.add(valgtFil))
+                        if(lokalBilder.add(valgtFil))
                             filLastetOpp.setText(  valgtFil.getName() + " er lagt til, og vil bli registrert på denne skademeldingen.");
                         else
                             filLastetOpp.setText( "Feil i opplasting.\nBilde vil ikke bli registrert med denne skademeldingen."
@@ -94,6 +94,7 @@ public class RegistrerSkadeLayout extends GridPane {
                     }// end of else
             } // end of overriding method handle()
         }); // end of inner anonymous class
+        
         
         //Kolonne 1
         returLayout.add( lastOppOverskrift, 1, 1);
@@ -104,7 +105,6 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.setHgap(20);
         return returLayout;
     }// end of method bildeOpplastning()
-    
     /**
      * Her foregår registreringen av en skademelding
      * @return Layout for registrering av skademelding. 
@@ -132,6 +132,7 @@ public class RegistrerSkadeLayout extends GridPane {
         registrerKnapp = new Button("Registrer skademelding");
         registrerKnapp.setOnAction((ActionEvent e) -> {
             registrerSkademelding();
+            bildefiler.clear();
         });
         
         //Kolonne 1
@@ -184,14 +185,15 @@ public class RegistrerSkadeLayout extends GridPane {
         
             String skadetype = skadetypeInput.getValue().toString();
             double takst = Double.parseDouble(takstInput.getText().trim());
-            String skadeBeskrivelse = skadeBeskrivelseInput.getText().trim();
+            String skadeBeskrivelse = skadeBeskrivelseInput.getText();
             Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), datoInput.getValue().getMonthValue()-1, datoInput.getValue().getDayOfMonth() );
             String tidspunkt = tidspunktInput.getText().trim();
-            String vitneKontakt = vitneKontaktInput.getText().trim();
+            String vitneKontakt = vitneKontaktInput.getText();
         
-            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bilder ); 
+            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bildefiler ); 
             output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
             setFelterTomme();
+            
         }// end of try
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);

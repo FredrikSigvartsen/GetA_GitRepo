@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 import javafx.event.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,7 +36,7 @@ public class KundesokLayout extends GridPane{
     private TitledPane sokFodselsNrLayout, sokNavnLayout, sokForsikringstypeLayout, sokSkadeNrLayout, sokSkadetypeLayout;
     private TextArea output;
     private TextField fodselsNrInput, fornavnInput, etternavnInput, skadeNrInput;
-    private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp;
+    private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp, visStorreKnapp;
     private ChoiceBox forsikringstypeInput, skadetypeInput;
     private GridPane sokLayout, outputLayout, bildeviserLayout;
     private ImageView imageviewer;
@@ -94,9 +95,20 @@ public class KundesokLayout extends GridPane{
         ingenbilder.setFont( font(22));
         bildeviserLayout.setMargin( ingenbilder, new Insets(40, 0 , 0, 0)  );
         
+        visStorreKnapp = new Button("Forstørr");
+        visStorreKnapp.setAlignment(Pos.CENTER);
+        visStorreKnapp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                    visStorreKnapp.setVisible(false);
+                    visStorreBilde(returLayout, imageviewer);
+            } // end of overriding method handle()
+        }); // end of inner anonymous class
+        
         returLayout.addRow( 1, ingenbilder  );
         returLayout.addRow(2, imageviewer);
         returLayout.addRow(3, knappedisplay);
+        returLayout.addRow(4, visStorreKnapp);
         
         
         returLayout.setVgap(15);
@@ -192,6 +204,25 @@ public class KundesokLayout extends GridPane{
         
         return returKnapper;
     } // end of method visBildeKnappeDisplay()
+    
+    
+    private void visStorreBilde(GridPane layout, ImageView bildeviser){
+        Alert varsel = new Alert(Alert.AlertType.NONE);
+        varsel.setTitle("Bildegalleri for skademelding");
+        varsel.setHeaderText(null);
+        varsel.setContentText(null);
+        
+        
+        
+        varsel.getDialogPane().setContent(bildeviserLayout);
+        varsel.showAndWait()
+                .ifPresent((ButtonType response) -> {
+                    if(response == ButtonType.CLOSE || response == ButtonType.CANCEL || response == ButtonType.FINISH){
+                        varsel.close();
+                        visStorreKnapp.setVisible(true);
+                    }
+        });
+    }// end of method visStorreBilde()
     
     /**
      * Lager en iterator som starter der det nåværende bilde er i listen, og hvis det er flere bilder, setter vi neste bildet i imageviewer.
