@@ -120,6 +120,8 @@ public class ForsikringsKunde implements Serializable{
         Forsikring forsikringen = forsikringer.finnForsikringer(avtaleNr);
         if(forsikringen == null)
             return "Kunden har ingen forsikring med dette avtalenummeret.";
+        if(forsikringen.getOpphorsDato() != null)
+            return "Denne forsikringen er allerede opphørt";
         forsikringen.opphorForsikring();
         return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString() ;
     }// end of method siOppForsikring(avtaleNr)
