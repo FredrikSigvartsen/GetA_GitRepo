@@ -74,11 +74,10 @@ public class GUI extends Application{
         lesFraFil();
         kundeLayout = new KundePane( kundeRegister);
         faneMeny();
-        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
-        //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
+        kundeLayout.tabLytter();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png../bilder/../../../")));
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
         layout.setCenter(kundeLayout);

@@ -105,6 +105,17 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of method sjekkFelter()
     
     /**
+     * Tømmer alle tekstfelter og setter regEx labelne til *
+     */
+    private void setTommeFelter(){
+        fodselsnr.clear();
+        avtalenr.clear();
+        
+        avtalenrFeil.setText("*");
+        fodselsnrFeil.setText("*");
+    }//end of method stTommeFelter()
+    
+    /**
      * Validerer inputfelter for å så registrere forsikrings oppsigelsen
      */
     public void siOppForsikring(){
@@ -112,6 +123,7 @@ public class SioppforsikringsLayout extends GridPane{
             String fodselsnr = this.fodselsnr.getText().trim();
             int avtalenr = Integer.parseInt(this.avtalenr.getText().trim());
             GUI.visInputFeilMelding("Forsikring sagt opp", kundeRegister.siOppForsikring(fodselsnr, avtalenr));
+            setTommeFelter();
         }
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);

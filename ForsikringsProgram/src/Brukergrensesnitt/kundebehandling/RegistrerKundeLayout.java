@@ -186,6 +186,25 @@ public class RegistrerKundeLayout extends GridPane{
     }//end of method sjekkFelter()
     
     /**
+     * Tømmer alle tekstfelter og setter regEx labelne til *
+     */
+    private void setTommeFelter(){
+        fornavn.clear();
+        etternavn.clear();
+        adresse.clear();
+        postnr.clear();
+        poststed.clear();
+        fodselsnr.clear();
+        
+        fornavnFeil.setText("*");
+        etternavnFeil.setText("*");
+        adresseFeil.setText("*");
+        postnrFeil.setText("*");
+        poststedFeil.setText("*");
+        fodselsnrFeil.setText("*");
+    }//end of method stTommeFelter()
+    
+    /**
      * leser inn og kontrolerer inputene fra bruker og registrerer kunden
      */
     public void registrerKunde(){
@@ -206,6 +225,7 @@ public class RegistrerKundeLayout extends GridPane{
             else{
                 kundeRegister.registrerKunde(kunde);
                 GUI.visInputFeilMelding("Kunde registrert", kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
+                setTommeFelter();
             }
         }
         catch(NumberFormatException | NullPointerException e){
