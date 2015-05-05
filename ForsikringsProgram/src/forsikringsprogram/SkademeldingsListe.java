@@ -125,9 +125,13 @@ public class SkademeldingsListe implements Serializable {
     
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType){
         List<Skademelding> liste = finnSkademeldinger(min,max);
-        liste.retainAll( finnSkademeldinger(skademeldingsType));
-        
-        return liste;
+        if(liste != null) {
+            if(finnSkademeldinger(skademeldingsType) != null) {
+                liste.retainAll( finnSkademeldinger(skademeldingsType));
+                return liste;
+            }
+        }
+        return null;
     }// end of method finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType)
     
     
