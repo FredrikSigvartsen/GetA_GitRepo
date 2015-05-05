@@ -119,11 +119,11 @@ public class RegistrerKundeLayout extends GridPane{
      */
     private boolean tekstFeltLyttere(){
         fornavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fornavnFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+            GUI.sjekkRegEx(fornavnFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
         });
         
         etternavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(etternavnFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+            GUI.sjekkRegEx(etternavnFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
         });
         
         adresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
@@ -135,11 +135,11 @@ public class RegistrerKundeLayout extends GridPane{
         });
         
         poststed.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(poststedFeil, nyverdi, "Skriv inn kun bokstaver,\n med stor forbokstav", GUI.NAVN_REGEX);
+            GUI.sjekkRegEx(poststedFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
         });
         
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer", null);
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer (11 siffer)", null);
         });
         return fornavnFeil.getText().isEmpty() && etternavnFeil.getText().isEmpty() && adresseFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && poststedFeil.getText().isEmpty() && fodselsnrFeil.getText().isEmpty();
     }//end of method tekstFeltLyttere()

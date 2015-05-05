@@ -23,6 +23,7 @@ public class SioppforsikringsLayout extends GridPane{
     private Label fodselsnrFeil, avtalenrFeil;
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
+    private String avtaleNrRegEx = "^[0-9]{1,4}$";
     
     public SioppforsikringsLayout(Kunderegister register){
         siOppForsikringsSkjema();
@@ -82,9 +83,9 @@ public class SioppforsikringsLayout extends GridPane{
         });
         
         avtalenr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(avtalenrFeil, nyverdi, "Skriv inn bare tall", GUI.POSTNR_REGEX);
+            GUI.sjekkRegEx(avtalenrFeil, nyverdi, "Skriv inn bare tall", avtaleNrRegEx);
         });
-        return fodselsnrFeil.getText().equals("") && avtalenrFeil.getText().equals("");
+        return fodselsnrFeil.getText().isEmpty() && avtalenrFeil.getText().isEmpty();
     }//end of method sjekkFelterRegEx()
     
     /**
