@@ -115,6 +115,9 @@ public class TegnforsikringsLayout extends GridPane{
         add(betingelserFeil, 3, 5, 4, 1);
     }//end of method tegnForsikringsSkjema()
     
+    /**
+     * fjerner alle labeler og tekstfelt for de felter som er unike for de forskjeldinge forsikringstypene
+     */
     private void fjernUnikeFelter(){
         getChildren().removeAll(registreringsnrLabel, merkeLabel, modellLabel, 
             registreringsarLabel, kjorelengdeLabel,prisPerKmLabel, batRegistreringsnrLabel,
@@ -128,7 +131,7 @@ public class TegnforsikringsLayout extends GridPane{
             batMerkeFeil, batModellFeil, arsmodellFeil, motorStyrkeFeil, gateAdresseFeil,
             postnrFeil, byggearFeil,byggematerialeFeil, antallKVMFeil, omradeFeil, 
             motorType, boligType, boligStandard);
-    }
+    }//end of method fjernUnikeFelter()
     
     /**
      * Oppretter de feltene som er unike for bilforsikring

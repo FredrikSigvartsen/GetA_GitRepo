@@ -84,6 +84,7 @@ public class RegistrerKundeLayout extends GridPane{
         
         Label registrerKundeLabel = new Label("Registrering av kunde:");
         registrerKundeLabel.setFont(GUI.OVERSKRIFT);
+        
         //legger til kolonne 1
         add(registrerKundeLabel, 1, 1, 2, 1);
         add(new Label("Fornavn:"), 1, 2);
