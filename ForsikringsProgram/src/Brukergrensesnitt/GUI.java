@@ -78,8 +78,6 @@ public class GUI extends Application{
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png../bilder/../../../")));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);

@@ -42,9 +42,9 @@ public class ForsikringsbehandlingLayout extends GridPane {
         kundeRegistrering = new RegistrerKundeLayout(kundeRegister);
         kundeRegistrering.setBorder(kunderegistreringskant);
         
-        kundeRegistrering.setMinWidth( GUI.getSkjermBredde() / 3);
-        kundeRegistrering.setMaxWidth( GUI.getSkjermBredde() / 3);
-        kundeRegistrering.setPrefWidth( GUI.getSkjermBredde() / 3);
+        kundeRegistrering.setMinWidth( GUI.getSkjermBredde() / 2.7);
+        kundeRegistrering.setMaxWidth( GUI.getSkjermBredde() / 2.7);
+        kundeRegistrering.setPrefWidth( GUI.getSkjermBredde() / 2.7);
         
         kundeRegistrering.setMinHeight( GUI.getSkjermHoyde() / 2);
         kundeRegistrering.setPrefHeight( GUI.getSkjermHoyde() / 2);
@@ -55,9 +55,9 @@ public class ForsikringsbehandlingLayout extends GridPane {
         tegnForsikring = new TegnforsikringsLayout(kundeRegister);
         tegnForsikring.setBorder(tegnforsikringskant);
         
-        tegnForsikring.setMinWidth( GUI.getSkjermBredde() / 3);
-        tegnForsikring.setMaxWidth( GUI.getSkjermBredde() / 3);
-        tegnForsikring.setPrefWidth( GUI.getSkjermBredde() / 3);
+        tegnForsikring.setMinWidth( GUI.getSkjermBredde() / 2.7);
+        tegnForsikring.setMaxWidth( GUI.getSkjermBredde() / 2.7);
+        tegnForsikring.setPrefWidth( GUI.getSkjermBredde() / 2.7);
         
         tegnForsikring.setMinHeight( GUI.getSkjermHoyde() / 1.54);
         tegnForsikring.setMaxHeight( GUI.getSkjermHoyde() / 1.54);
@@ -68,9 +68,9 @@ public class ForsikringsbehandlingLayout extends GridPane {
         sioppForsikring = new SioppforsikringsLayout(kundeRegister);
         sioppForsikring.setBorder(sioppforsikringskant);
         
-        sioppForsikring.setMinWidth( GUI.getSkjermBredde() / 3);
-        sioppForsikring.setMaxWidth( GUI.getSkjermBredde() / 3);
-        sioppForsikring.setPrefWidth( GUI.getSkjermBredde() / 3);
+        sioppForsikring.setMinWidth( GUI.getSkjermBredde() / 2.7);
+        sioppForsikring.setMaxWidth( GUI.getSkjermBredde() / 2.7);
+        sioppForsikring.setPrefWidth( GUI.getSkjermBredde() / 2.7);
         
         sioppForsikring.setMinHeight( GUI.getSkjermHoyde() / 4);
         sioppForsikring.setMaxHeight( GUI.getSkjermHoyde() / 4);  

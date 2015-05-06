@@ -12,11 +12,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.*;
-
 /**
  *
  * @author Jens
@@ -43,7 +40,7 @@ public class TegnforsikringsLayout extends GridPane{
     private String forsikringsTypeString;
     private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$", 
             batRegistreringsNrRegEx = "^[A-Z]{3}[0-9]{3}$" , adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$", 
-            modellRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$", prisPerKmRegEx = "^[0-9]{1,4}$";
+            modellRegEx = "^[a-zA-Z æøåÆØÅ0-9\\s]*$", prisPerKmRegEx = "^[0-9]{1,4}$";
     
     public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
@@ -720,7 +717,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         modell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", modellRegEx);
+            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn bokstaver eller tall", modellRegEx);
         });
 
         registreringsar.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
