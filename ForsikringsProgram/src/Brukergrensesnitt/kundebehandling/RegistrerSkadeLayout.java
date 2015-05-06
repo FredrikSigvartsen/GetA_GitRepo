@@ -38,8 +38,9 @@ public class RegistrerSkadeLayout extends GridPane {
     private GridPane bildeLayout, registreringsLayout;
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
-    private Label output;
+    private Label output, filLastetOpp;
     private List<File> bildefiler;
+    private int antallBilder;
     
     public RegistrerSkadeLayout(Kunderegister register){
         opprettRegisteringLayout();
@@ -68,14 +69,14 @@ public class RegistrerSkadeLayout extends GridPane {
         lastOppOverskrift.setFont( font(22.5));
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
-        Label filLastetOpp = new Label();
+        filLastetOpp = new Label();
+        
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
         lastOppFilKnapp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                    
                     FileChooser filvelger = new FileChooser();
                     filvelger.getExtensionFilters().add(
                             new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.gif") );
@@ -86,7 +87,8 @@ public class RegistrerSkadeLayout extends GridPane {
                     }//end of if
                     else{
                         if(bildefiler.add(valgtFil))
-                            filLastetOpp.setText(  valgtFil.getName() + " er lagt til,\n og vil bli registrert på denne skademeldingen.");
+                            filLastetOpp.setText(  valgtFil.getName() + " er lagt til\nBildet vil bli registrert på denne skademeldingen."
+                                                                      + "\nDu har nå lagt til " + ++antallBilder + " bilde(r)");
                         else
                             filLastetOpp.setText( "Feil i opplasting.\nBilde vil ikke bli registrert med denne skademeldingen."
                                     + " prøv på nytt");
@@ -133,7 +135,7 @@ public class RegistrerSkadeLayout extends GridPane {
             if(registrerSkademelding()){
                bildefiler = new ArrayList<>();            
                setFelterTomme();
-               output.setText("");
+               filLastetOpp.setText("");
             }
             else
                 output.setText("Skademelding ikke registrert. Prøv igjen ved å fylle inn feltene i riktig format, som du fikk beskjed om i varsel-vinduet.");
