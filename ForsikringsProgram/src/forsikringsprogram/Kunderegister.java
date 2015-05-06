@@ -259,6 +259,34 @@ public class Kunderegister implements Serializable {
         return nyListe;
     }// end of method finnForsikringer( forsikringstype )
     
+    //Returnerer antall forsikringer av gitt type
+    public int antallForsikringAvType(String forsikringstype, String aarstall) {
+        int aar = Integer.parseInt(aarstall);
+        Calendar dato = Calendar.getInstance();
+        dato.set(aar - 1, 12, 31);
+        
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null && kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
+                List<Forsikring> liste = kunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
+                Iterator<Forsikring> fIter = liste.iterator();
+                while(fIter.hasNext()) {
+                    Forsikring forsikring = fIter.next();
+                    if(forsikring.getOpprettelsesDato().after(dato)) {
+                        dato.set(aar + 2,1,1);
+                        if(forsikring.getOpprettelsesDato().before(dato)) {
+                            sum += kunde.getForsikringer().listeMedForsikringAvType(forsikringstype).size();
+                        }
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
     /**
      * 
      * @return 
