@@ -95,29 +95,16 @@ public class KundesokLayout extends GridPane{
         ingenbilder.setFont( font(22));
         bildeviserLayout.setMargin( ingenbilder, new Insets(40, 0 , 0, 0)  );
         
-        visStorreKnapp = new Button("Forstørr");
-        visStorreKnapp.setAlignment(Pos.CENTER);
-        visStorreKnapp.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                    visStorreKnapp.setVisible(false);
-                    visStorreBilde(returLayout, imageviewer);
-            } // end of overriding method handle()
-        }); // end of inner anonymous class
-        
         returLayout.addRow( 1, ingenbilder  );
         returLayout.addRow(2, imageviewer);
         returLayout.addRow(3, knappedisplay);
-        returLayout.addRow(4, visStorreKnapp);
-        
-        
         returLayout.setVgap(15);
         returLayout.setHgap(15);
         return returLayout;
     } // end of method bildeviserLayout()
     /**
      * 
-     * @return 
+     * @return Et Layout for diverse søk-metoder. 
      */
     private GridPane sokLayout(){
         GridPane returLayout = new GridPane();
@@ -179,7 +166,10 @@ public class KundesokLayout extends GridPane{
         return returLayout;
     }// end of method returLayout()
 
-    
+    /**
+     * Bildedisplay for navigering mellom bilder
+     * @return Et horisontalt display med knapper for navigering mellom bilder, og en label som viser hvor man er i bildelista.
+     */
     private HBox visBildeKnappeDisplay(){
         HBox returKnapper = new HBox();
         antallBilder = new Label();
@@ -204,25 +194,6 @@ public class KundesokLayout extends GridPane{
         
         return returKnapper;
     } // end of method visBildeKnappeDisplay()
-    
-    
-    private void visStorreBilde(GridPane layout, ImageView bildeviser){
-        Alert varsel = new Alert(Alert.AlertType.NONE);
-        varsel.setTitle("Bildegalleri for skademelding");
-        varsel.setHeaderText(null);
-        varsel.setContentText(null);
-        
-        
-        
-        varsel.getDialogPane().setContent(bildeviserLayout);
-        varsel.showAndWait()
-                .ifPresent((ButtonType response) -> {
-                    if(response == ButtonType.CLOSE || response == ButtonType.CANCEL || response == ButtonType.FINISH){
-                        varsel.close();
-                        visStorreKnapp.setVisible(true);
-                    }
-        });
-    }// end of method visStorreBilde()
     
     /**
      * Lager en iterator som starter der det nåværende bilde er i listen, og hvis det er flere bilder, setter vi neste bildet i imageviewer.
@@ -274,7 +245,7 @@ public class KundesokLayout extends GridPane{
         
     /**
      * 
-     * @return 
+     * @return Et imageview med passende størrelse. 
      */
     private ImageView imageViewer(){
         ImageView returViser = new ImageView();
@@ -425,7 +396,7 @@ public class KundesokLayout extends GridPane{
       * Finner en kunde med fødselsnummer. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
       */
      private void finnKundeMedFodselsNr(){
-        
+        output.setText("");
         if( fodselsNrInput.getText().trim().isEmpty()){
           visMelding("Fyll inn fødselsnummer.", "Fyll inn fødselsnummeret til kunden du vil søke opp.");
           return;
@@ -451,6 +422,7 @@ public class KundesokLayout extends GridPane{
       * Finner en kunde med fornavn og etternavn. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
       */
     private void finnKundeMedNavn(){
+        output.setText("");
         if( fornavnInput.getText().trim().isEmpty()){
             visMelding("Fyll inn fornavn.", "Skriv inn fornavnet på kunden du vil søke på.");
             return;
@@ -481,6 +453,7 @@ public class KundesokLayout extends GridPane{
      * Finner alle kunder med forsikring av typen brukeren velger. 
      */
     private void finnKunderMedForsikringstype(){
+        output.setText("");
         if(forsikringstypeInput.getValue() == null){
             visMelding("Velg forsikringstype.","Velg hvilken type forsikringer du vil søke på");
             return;
@@ -508,6 +481,7 @@ public class KundesokLayout extends GridPane{
      * Finner skademelding med riktig type skadenummer, og skriver ut informasjon om denne i output-vinduet. Hvis skademeldingen har bilder, blir dette vist. 
      */
     private void finnSkadeMedSkadeNr(){
+        output.setText("");
         if( skadeNrInput.getText().trim().isEmpty()){
             visMelding("Fyll inn skadenummer", "Skriv inn skadenummeret på den skaden du vil søke opp");
             return;
@@ -550,6 +524,7 @@ public class KundesokLayout extends GridPane{
      * Finner alle skademeldinger av type brukeren velger. 
      */
     private void finnSkademeldingerMedSkadeType(){
+        output.setText("");
         if(skadetypeInput.getValue() == null){
             visMelding("Velg skadetype.", "Velg hvilken type skademeldinger du vil søke opp");
             return;

@@ -49,7 +49,7 @@ public class RegistrerSkadeLayout extends GridPane {
     private void opprettRegisteringLayout(){
         bildeLayout = bildeOpplastning();
         registreringsLayout = registreringLayout();
-        
+        bildefiler = new ArrayList<>();
         addColumn( 1, registreringsLayout);
         addColumn( 2, bildeLayout);
         setPadding(new Insets(30, 20, 30, 50));
@@ -69,14 +69,13 @@ public class RegistrerSkadeLayout extends GridPane {
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         Label filLastetOpp = new Label();
-        List<File> lokalBilder = new ArrayList<>();
-        bildefiler = lokalBilder;
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
         lastOppFilKnapp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                    
                     FileChooser filvelger = new FileChooser();
                     filvelger.getExtensionFilters().add(
                             new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.gif") );
@@ -86,8 +85,8 @@ public class RegistrerSkadeLayout extends GridPane {
                         filLastetOpp.setText( "Bilde ikke lastet opp.");
                     }//end of if
                     else{
-                        if(lokalBilder.add(valgtFil))
-                            filLastetOpp.setText(  valgtFil.getName() + " er lagt til, og vil bli registrert på denne skademeldingen.");
+                        if(bildefiler.add(valgtFil))
+                            filLastetOpp.setText(  valgtFil.getName() + " er lagt til,\n og vil bli registrert på denne skademeldingen.");
                         else
                             filLastetOpp.setText( "Feil i opplasting.\nBilde vil ikke bli registrert med denne skademeldingen."
                                     + " prøv på nytt");
@@ -131,8 +130,13 @@ public class RegistrerSkadeLayout extends GridPane {
         //Knappen i layoutet med en lytter koblet til som kjører metode registrerSkademelding()
         registrerKnapp = new Button("Registrer skademelding");
         registrerKnapp.setOnAction((ActionEvent e) -> {
-            registrerSkademelding();
-            bildefiler.clear();
+            if(registrerSkademelding()){
+               bildefiler = new ArrayList<>();            
+               setFelterTomme();
+               output.setText("");
+            }
+            else
+                output.setText("Skademelding ikke registrert. Prøv igjen ved å fylle inn feltene i riktig format, som du fikk beskjed om i varsel-vinduet.");
         });
         
         //Kolonne 1
@@ -170,17 +174,17 @@ public class RegistrerSkadeLayout extends GridPane {
     /**
      * Henter tekst 
      */
-    private void registrerSkademelding(){
+    private boolean registrerSkademelding(){
         if( !felterErFylt() )
-            return;
+            return false;
         if( !regexErOk())
-            return;
+            return false;
         try{
             
             String fodselsNr = fodselsNrInput.getText().trim();
             if( kundeRegister.finnKunde(fodselsNr) == null){
                  output.setText("Det finnes ingen kunder med fødselsnummer: " + fodselsNr);
-                return;
+                return false;
             }
         
             String skadetype = skadetypeInput.getValue().toString();
@@ -192,13 +196,13 @@ public class RegistrerSkadeLayout extends GridPane {
         
             Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bildefiler ); 
             output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
-            setFelterTomme();
             
         }// end of try
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
-            return;
+            return false;
         }//end of try-catch
+        return true;
     }// end of method knappeLytter()
     
     /**
