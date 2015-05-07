@@ -5,6 +5,7 @@
  */
 package Brukergrensesnitt;
 
+import Brukergrensesnitt.Statistikk.StatistikkPane;
 import Brukergrensesnitt.kundebehandling.KundePane;
 import Brukergrensesnitt.kundebehandling.TegnforsikringsLayout;
 import forsikringsprogram.*;
@@ -98,6 +99,7 @@ public class GUI extends Application{
                 case "Økonomi":
                     break;
                 case "Statistikk":
+                    layout.setCenter(new StatistikkPane(kundeRegister));
                     break;
             }
         });

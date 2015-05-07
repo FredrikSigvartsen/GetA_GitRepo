@@ -64,6 +64,10 @@ public abstract class Forsikring implements Serializable{
         return this.opphorsDato;
     }
     
+    public Calendar getOpprettelsesDato() {
+        return this.opprettelsesDato;
+    }
+    
     public boolean getAktivForsikring() {
         return this.aktivForsikring;
     }
