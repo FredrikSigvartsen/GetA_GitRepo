@@ -35,7 +35,8 @@ public class KundesokLayout extends GridPane{
     private TitledPane sokFodselsNrLayout, sokNavnLayout, sokForsikringstypeLayout, sokSkadeNrLayout, sokSkadetypeLayout;
     private TextArea output;
     private TextField fodselsNrInput, fornavnInput, etternavnInput, skadeNrInput;
-    private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp;
+    private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp,
+                    navnVisForsikringerKnapp, navnVisSkademeldingKnapp, fodselsNrVisForsikringKnapp, fodselsNrVisSkademeldingKnapp;
     private ChoiceBox forsikringstypeInput, skadetypeInput;
     private GridPane sokLayout, outputLayout, bildeviserLayout;
     private ImageView imageviewer;
@@ -266,19 +267,38 @@ public class KundesokLayout extends GridPane{
         sokKnapp = new Button("Søk");
         sokKnapp.setOnAction((ActionEvent e) -> {
             finnKundeMedFodselsNr();
-            fodselsNrInput.setText("");
             bildeviserLayout.setVisible(false);
+            setSynligVisKnapper(true);
+        });
+        fodselsNrVisForsikringKnapp = new Button("Vis forsikringer");
+        fodselsNrVisForsikringKnapp.setVisible(false);
+        fodselsNrVisForsikringKnapp.setOnAction((ActionEvent e) -> {
+            visKundeForsikringerFodselsNr();
         });
         
-        fodsel.addRow( 1, new Label("Fødselsnummeret til kunden:"));
-        fodsel.addRow( 2, fodselsNrInput);
-        fodsel.addRow( 3, sokKnapp );
+        
+        fodsel.add( new Label("Fødselsnummeret til kunden:"), 1 , 1);
+        fodsel.add( fodselsNrInput, 1 , 2);
+        fodsel.add( sokKnapp, 1 , 3 );
+        fodsel.add( fodselsNrVisForsikringKnapp, 1 , 4 );
         fodsel.setHgap(10);
         fodsel.setVgap(10);
         
         return fodsel;
     } // end of sokFodselsNr()
     
+    /**
+     * Vis kunden sitt fødselsnummer når brukeren velger å søke opp en kunde med fødselsnummer.
+     */
+    private void visKundeForsikringerFodselsNr(){
+        String fodselsNr = fodselsNrInput.getText();
+        ForsikringsKunde kunden = kundeRegister.finnKunde(fodselsNr);
+        Forsikringsliste kundensForsikringer = kunden.getForsikringer();
+        if( kundensForsikringer.erTom())
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen forsikringer.");
+        else
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende forsikringer:" + kundensForsikringer.toString());
+    }// end of method visKundeForsikringerFodselsNr()
     /**
      * Et layout hvor brukeren kan søke opp kunder med navn. 
      * @return Et GridPane layout med kundesøk med navn. 
@@ -393,11 +413,11 @@ public class KundesokLayout extends GridPane{
     /**
       * Finner en kunde med fødselsnummer. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
       */
-     private void finnKundeMedFodselsNr(){
+     private boolean finnKundeMedFodselsNr(){
         output.setText("");
         if( fodselsNrInput.getText().trim().isEmpty()){
           visMelding("Fyll inn fødselsnummer.", "Fyll inn fødselsnummeret til kunden du vil søke opp.");
-          return;
+          return false;
         }
         
         try{
@@ -405,29 +425,29 @@ public class KundesokLayout extends GridPane{
             ForsikringsKunde kunden = kundeRegister.finnKunde( fodselsNr );
             if(kunden == null){
                output.setText("Kunden med dette fødselsnummer finnes ikke i vårt system.");
-               return;
+               return false;
             }
             output.setText("Følgende kunde funnet i systemet:" + kunden.toString());
-            return;
+            return true;
         }
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
-            return;
+            return false;
         }
     }// end of method finnKundeMedFodselsNr()
      
      /**
       * Finner en kunde med fornavn og etternavn. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
       */
-    private void finnKundeMedNavn(){
+    private boolean finnKundeMedNavn(){
         output.setText("");
         if( fornavnInput.getText().trim().isEmpty()){
             visMelding("Fyll inn fornavn.", "Skriv inn fornavnet på kunden du vil søke på.");
-            return;
+            return false;
         }
         else if( etternavnInput.getText().trim().isEmpty()){
             visMelding("Fyll inn etternavn", "Skriv inn etternavnet på kunden du vil søke på");
-            return;
+            return false;
         }
         
         try{
@@ -436,14 +456,14 @@ public class KundesokLayout extends GridPane{
             ForsikringsKunde kunden = kundeRegister.finnKunde(fornavn, etternavn);
             if( kunden == null){
                 output.setText( fornavn + " " + etternavn + " finnes ikke i systemet vårt." ) ;
-                return;
+                return false;
             }
             output.setText( "Følgende kunde funnet i systemet:" + kunden.toString() ) ;
-            return;
+            return true;
         }
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
-            return;
+            return false;
         }
     }// end of method finnKundeMedNavn()
     
@@ -459,16 +479,17 @@ public class KundesokLayout extends GridPane{
         try{
             String forsikringstype = forsikringstypeInput.getValue().toString();
         
-            List<ForsikringsKunde> forsikringer = kundeRegister.finnForsikringer(forsikringstype);
+            List<ForsikringsKunde> kunderMedGittForsikringstype = kundeRegister.finnForsikringer(forsikringstype);
         
-            if(forsikringer.isEmpty()){
-               output.setText("Finnes ingen forsikringer av typen " + forsikringstype);
+            if(kunderMedGittForsikringstype.isEmpty()){
+               output.setText("\n\nFinnes ingen forsikringer av typen " + forsikringstype);
                return;
             }
-            ListIterator<ForsikringsKunde> iter = forsikringer.listIterator();
+            ListIterator<ForsikringsKunde> iter = kunderMedGittForsikringstype.listIterator();
             while(iter.hasNext()){
-                output.appendText( iter.next().toString());
-            }
+                ForsikringsKunde gjeldendeKunde = iter.next();
+                output.appendText( gjeldendeKunde.toString() + "\nHar forsikring av type: " + forsikringstype);
+            }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
@@ -510,7 +531,9 @@ public class KundesokLayout extends GridPane{
                 knappedisplay.setVisible(true);
                 imageviewer.setVisible(true);
             }
-            output.setText("Følgende skademelding funnet:" + gjeldendeSkademelding.toString());
+            ForsikringsKunde skademeldingEier =  kundeRegister.finnKunde(skadeNr);
+            output.setText("Følgende skademelding funnet:" + gjeldendeSkademelding.toString() + "\nSkademeldingen er registrert på:  " + 
+                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
         }// end of try
         catch( NumberFormatException | NullPointerException nfe){
             GUI.visProgramFeilMelding(nfe);
@@ -539,8 +562,13 @@ public class KundesokLayout extends GridPane{
             while(iter.hasNext()){
                 Skademelding iterSkademelding = iter.next();
                 output.appendText( iterSkademelding.toString());
-            }
-            
+                //Legger til tekst om hvem skademeldingen er registrert på
+                ForsikringsKunde skademeldingEier = kundeRegister.finnKunde( iterSkademelding.getSkadeNr());
+                if(skademeldingEier != null){
+                    output.appendText("\nSkademeldingen er registrert på:  " + 
+                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
+                }
+            }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
@@ -582,4 +610,15 @@ public class KundesokLayout extends GridPane{
         }
         layout.setExpanded(layout.isExpanded());
     }
+    
+    /**
+     * Metoden har til hensikt å skjule knappene "Vis forsikringer" og "Vis skademeldingerer"
+     * @param skjulte En parameter som tilsier om knappene skal være skjult eller ikke.
+     */
+    private void setSynligVisKnapper(boolean skjulte){
+        fodselsNrVisForsikringKnapp.setVisible(skjulte);
+        navnVisForsikringerKnapp.setVisible(skjulte);
+        navnVisSkademeldingKnapp.setVisible(skjulte);
+        fodselsNrVisSkademeldingKnapp.setVisible(skjulte);
+    }// end of method skjulKnapper
 }// end of class SokLayout
