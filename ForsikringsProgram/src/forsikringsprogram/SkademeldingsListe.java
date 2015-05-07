@@ -70,6 +70,13 @@ public class SkademeldingsListe implements Serializable {
         return skademeldingsListe.add(skade);
     } // end of method registrerSkademelding()
     
+    /**
+     * Sjekker om SkademeldingsListe til kunden er tom.
+     * @return En boolsk verdi som tilsier om listen SkademeldingsListe'n er tom. 
+     */
+    public boolean erTom(){
+        return skademeldingsListe.isEmpty();
+    }//end of method erTom()
     public Skademelding finnSkademeldinger(int skadeNr){
         ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         

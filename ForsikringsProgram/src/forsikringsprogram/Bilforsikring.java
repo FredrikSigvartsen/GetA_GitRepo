@@ -34,12 +34,12 @@ public class Bilforsikring extends Forsikring implements Serializable {
     @Override
     public String toString() {
         return super.toString() + 
-               "\nRegistrerings nr: " + this.registreringsNr + 
-               "\nMerke: " + this.merke +
-               "\nModell: " + this.modell +
-               "\nRegistrerings år: " + this.registreringsAar +
-               "\nKjørelengde: " + this.kjoreLengdeKm + " km" +
-               "\nPris pr. km: " + this.prisPrKm + 
-               "\nBonus: " + this.bonusIprosent + "%";
+               "\n Registrerings nr: " + this.registreringsNr + 
+               "\n Merke: " + this.merke +
+               "\n Modell: " + this.modell +
+               "\n Registrerings år: " + this.registreringsAar +
+               "\n Kjørelengde: " + this.kjoreLengdeKm + " km" +
+               "\n Pris pr. km: " + this.prisPrKm + 
+               "\n Bonus: " + this.bonusIprosent + "%";
     }
 }//end of class Bilforsikring

@@ -16,6 +16,13 @@ public class Forsikringsliste implements Serializable {
         liste = new ArrayList<>();
     }
     
+    /**
+     * Sjekker om listen med forsikringer har en eller flere forsikringer.
+     * @return En boolsk verdi som tilsier om listen er tom eller ikke.
+     */
+    public boolean erTom(){
+        return liste.isEmpty();
+    }//end of method erTom()
     /*Setter inn en forsikring i listen. Returnerer false hvis man sender med et object som er null, for å unngå tomme plasser i ArrayList'en,
       eller om det ble returnert false i listen sin add-metode. Returnerer også false hvis forsikringen allerede er tegnet. Returnerer true hvis forsikringen ble lagt til i listen. 
     */
@@ -153,12 +160,8 @@ public class Forsikringsliste implements Serializable {
         
         while(iter.hasNext()) {
             output += iter.next().toString();
-            if(iter.hasNext()) {
+            if(iter.hasNext()) 
                 output += "\n";
-                for(int i = 0; i < 82; i++)
-                    output += "-";
-                output += "\n";
-            }
         }//end of while
         return output;
     }// end of method toString()

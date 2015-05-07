@@ -82,11 +82,13 @@ public abstract class Forsikring implements Serializable{
     
     @Override
     public String toString() {
-        return "\nForsikringsavtale nr." + avtaleNr + "\n-------------------------------------------\n" +
-               "Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
-               "\nAvtale opphørt: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
-               "\nBetingelse: " + this.betingelser +
-               "\nForsikringspremie: " + this.forsikringsPremie +
-               "\nForsikringsbeløp: " + this.forsikringsBelop;
+        return "\n---------------------------------------" + 
+               "\n Forsikringsavtale nr." + avtaleNr + 
+               "\n---------------------------------------" +
+               "\n Opprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
+               "\n Avtale opphørt: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
+               "\n Betingelse: " + this.betingelser +
+               "\n Forsikringspremie: " + this.forsikringsPremie +
+               "\n Forsikringsbeløp: " + this.forsikringsBelop;
     }
 }//end of class Forsikring

@@ -33,11 +33,11 @@ public class Baatforsikring extends Forsikring implements Serializable{
     @Override
     public String toString() {
         return super.toString() + 
-               "\nRegistrerings nr: " + this.registreringsNr + 
-               "\nÅrsmodell: " + this.aarsmodell +
-               "\nMotorstyrke: " + this.motorstyrke + " hk" +
-               "\nMerke: " + this.merke + 
-               "\nModell: " + this.modell +
-               "\nMotortype: " + this.motortype;
+               "\n Registrerings nr: " + this.registreringsNr + 
+               "\n Årsmodell: " + this.aarsmodell +
+               "\n Motorstyrke: " + this.motorstyrke + " HK" +
+               "\n Merke: " + this.merke + 
+               "\n Modell: " + this.modell +
+               "\n Motortype: " + this.motortype;
     }
 }//end of class Baatforsikring

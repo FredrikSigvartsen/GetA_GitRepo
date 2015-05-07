@@ -151,6 +151,25 @@ public class Kunderegister implements Serializable {
        return null;
     } // finnKunde(String fornavn, String etternavn)
     
+    /**
+     * Finner en kunde i registeret som har en skademelding med gitt skademeldingsnummer. 
+     * @param skadeNr Nummeret på den skademeldingen som er registrert på kunden
+     * @return ForsikringsKunde med denne skademeldingen.
+     */
+    public ForsikringsKunde finnKunde(int skadeNr){
+        if(skadeNr < 1)
+            return null;
+        
+        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
+        while(iterator.hasNext()){
+            ForsikringsKunde gjeldendeKunde = iterator.next();
+            SkademeldingsListe kundensSkademeldinger = gjeldendeKunde.getSkademeldinger();
+            if( !( kundensSkademeldinger.erTom() ) && !( kundensSkademeldinger.finnSkademeldinger(skadeNr) == null ) )
+                return gjeldendeKunde; 
+        }// end of while-løkke
+        return null;
+    }// end of method finnKunde(skadeNr)
+    
     
     /**
      * Registrerer en skademelding på en kunde som har fødselsnummer lik den andre parameteren. 
@@ -183,7 +202,6 @@ public class Kunderegister implements Serializable {
         }// end of while
         return null;
     }// end of method finnSkademeldinger(int skadeNr)
-    
     
     /**
      * 
@@ -257,7 +275,7 @@ public class Kunderegister implements Serializable {
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getForsikringer() != null && kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
+            if( !( kunde.getForsikringer().erTom() ) && kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
                 nyListe.add(kunde);
             }
         }
