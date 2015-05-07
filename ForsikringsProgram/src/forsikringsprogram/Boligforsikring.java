@@ -34,12 +34,12 @@ public class Boligforsikring extends Forsikring implements Serializable {
     @Override
     public String toString() {
         return super.toString() + 
-               "\nGate adresse: " + this.gateAdresse +
-               "\nPost nr: " + this.postNr + 
-               "\nBolig type: " + this.boligType +
-               "\nByggemateriale: " + this.byggeMateriale +
-               "\nStandard: " + this.standard +
-               "\nBygg år: " + this.byggAar +
-               "\nKvadratmeter: " + this.antallKvm;
+               "\n Gate adresse: " + this.gateAdresse +
+               "\n Post nr: " + this.postNr + 
+               "\n Bolig type: " + this.boligType +
+               "\n Byggemateriale: " + this.byggeMateriale +
+               "\n Standard: " + this.standard +
+               "\n Bygg år: " + this.byggAar +
+               "\n Kvadratmeter: " + this.antallKvm;
     }
 }//end of class Boligforsikring

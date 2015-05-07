@@ -47,14 +47,17 @@ public class Skademelding implements Serializable {
     // Redefinerer toString() for å få en bedre utskriftsform av objekter av type Skademelding. 
    @Override
     public String toString(){
-        String skademelding = "\n\n\nSkademelding nr." + skadeNr + "\n---------------------------------------------------\n"
-                + "Skadetype  :  " + skadeType 
-                + "\nBeskrivelse av skaden:\n" + beskrivelse
-                + "\nTaksteringsbeløp:  " + takst
-                + "\nErstatningsbeløp:  " + erstatningsbelop
-                + "\nKontakt til vitne:  " + vitneKontakt
-                + "\nDato for inntruffet skade:  " + formaterDato.format(inntruffetDato.getTime())
-                + "\nAnslått tid for inntruffet skade:  " + inntruffetTidspunkt;
+        String skademelding = 
+                "\n\n---------------------------------------------------"
+                + "\n Skademelding nr." + skadeNr  
+                + "\n---------------------------------------------------"
+                + "\n Skadetype  :  " + skadeType 
+                + "\n Beskrivelse av skaden:\n " + beskrivelse
+                + "\n Taksteringsbeløp:  " + takst
+                + "\n Erstatningsbeløp:  " + erstatningsbelop
+                + "\n Kontakt til vitne:  " + vitneKontakt
+                + "\n Dato for inntruffet skade:  " + formaterDato.format(inntruffetDato.getTime())
+                + "\n Anslått tid for inntruffet skade:  " + inntruffetTidspunkt;
         
        return skademelding;
     }//end of method toString()

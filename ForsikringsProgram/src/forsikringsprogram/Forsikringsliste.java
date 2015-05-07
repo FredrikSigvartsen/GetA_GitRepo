@@ -160,12 +160,8 @@ public class Forsikringsliste implements Serializable {
         
         while(iter.hasNext()) {
             output += iter.next().toString();
-            if(iter.hasNext()) {
+            if(iter.hasNext()) 
                 output += "\n";
-                for(int i = 0; i < 82; i++)
-                    output += "-";
-                output += "\n";
-            }
         }//end of while
         return output;
     }// end of method toString()
