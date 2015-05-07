@@ -41,8 +41,9 @@ public class SoylediagramLayout extends GridPane{
         pane = new GridPane();
         pane.setAlignment(CENTER);
         this.aarLabel = new Label("År: ");
-        opprettComboBox();
+        setHgap(120);
         opprettSoylediagram("2015");
+        opprettComboBox();
     }//end of construnctor
     
     public void opprettSoylediagram(String aarstall) {
@@ -53,6 +54,7 @@ public class SoylediagramLayout extends GridPane{
         xAkse.setLabel("Forsikringstype");       
         yAkse.setLabel("Antall");    
         
+        sbc.getData().clear();
         XYChart.Series serie1 = new XYChart.Series();
         serie1.setName(aarstall);
         serie1.getData().add(new XYChart.Data(Forsikring.BAAT, kundeRegister.antallForsikringAvType(Forsikring.BAAT, aarstall)));
@@ -63,7 +65,7 @@ public class SoylediagramLayout extends GridPane{
         sbc.getData().add(serie1);
         sbc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         sbc.setCategoryGap(40);
-        add(sbc,1,1);
+        add(sbc,1,2);
     }
     
     public void opprettComboBox() {
@@ -75,6 +77,7 @@ public class SoylediagramLayout extends GridPane{
         this.cb.valueProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+                sbc.getData().clear();
                 getChildren().remove(sbc);
                 opprettSoylediagram((String) t1);
                 }
@@ -85,6 +88,6 @@ public class SoylediagramLayout extends GridPane{
         this.pane.add(this.aarLabel,1,1);
         this.pane.add(this.cb,2,1);
         GridPane.setHalignment(this.pane, HPos.CENTER);
-        add(this.pane, 1,2);
+        add(this.pane, 1,1);
     }
 }   

@@ -42,9 +42,9 @@ public class GrafLayout extends GridPane{
         
         pane = new GridPane();
         pane.setAlignment(CENTER);
+        opprettGrafMedAlle();
         opprettKnapp();
         opprettComboBox();
-        opprettGrafMedAlle();
     }//end of construnctor
     
     public void opprettGrafMedAlle() {
@@ -103,7 +103,7 @@ public class GrafLayout extends GridPane{
         
         this.lc.getData().addAll(serie1, serie2, serie3);
         this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(lc,1,1);
+        add(lc,1,2);
     }
     
     public void opprettForsikringsGraf() {
@@ -131,7 +131,7 @@ public class GrafLayout extends GridPane{
         
         this.lc.getData().add(serie2);
         this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(this.lc,1,1);
+        add(this.lc,1,2);
     }
     
     public void opprettSkademeldingGraf() {
@@ -159,7 +159,7 @@ public class GrafLayout extends GridPane{
         
         this.lc.getData().add(serie1);
         this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(this.lc,1,1);
+        add(this.lc,1,2);
     }
     
     public void opprettKundeGraf() {
@@ -187,7 +187,7 @@ public class GrafLayout extends GridPane{
         
         this.lc.getData().add(serie3);
         this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(this.lc,1,1);
+        add(this.lc,1,2);
     }
     
     public void opprettKnapp() {
@@ -229,6 +229,7 @@ public class GrafLayout extends GridPane{
         this.cb.valueProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+                lc.getData().clear();
                 getChildren().remove(lc);
                 switch ((String) t1) {
                     case "Forsikringer":
@@ -249,6 +250,6 @@ public class GrafLayout extends GridPane{
         
         this.pane.add(this.cb,1,1);
         GridPane.setHalignment(this.pane, HPos.CENTER);
-        add(this.pane, 1,2);
+        add(this.pane, 1,1);
     }
 }   

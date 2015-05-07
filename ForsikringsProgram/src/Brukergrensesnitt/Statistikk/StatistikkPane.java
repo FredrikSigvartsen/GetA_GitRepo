@@ -27,7 +27,6 @@ public class StatistikkPane extends GridPane {
         soylediagram = new SoylediagramLayout(kundeRegister);
         graf = new GrafLayout(kundeRegister);
         opprettLayout();
-        //this.kundeRegister = register;
     }//end of constructor
     
     /**
@@ -36,5 +35,6 @@ public class StatistikkPane extends GridPane {
     public void opprettLayout(){
         add(soylediagram,1,1);
         add(graf,2,1);
+        setVgap(70);
     }//end of method opprettLayout()   
 }//end of class KundePane
