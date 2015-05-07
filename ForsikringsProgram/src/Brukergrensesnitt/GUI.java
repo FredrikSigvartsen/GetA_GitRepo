@@ -5,8 +5,7 @@
  */
 package Brukergrensesnitt;
 
-import Brukergrensesnitt.kundebehandling.KundePane;
-import Brukergrensesnitt.kundebehandling.TegnforsikringsLayout;
+import Brukergrensesnitt.kundebehandling.*;
 import forsikringsprogram.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -53,7 +52,7 @@ public class GUI extends Application{
     public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
     public static final Insets PADDING = new Insets(10);
     public static final int TEKSTFELT_BREDDE = 150;
-    public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 16);
+    public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 20);
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ.-]*$";
@@ -67,12 +66,14 @@ public class GUI extends Application{
     private HBox faneMeny;
     private TabPane fanePanel;
     private KundePane kundeLayout;
+    private OkonomiPane okonomiLayout;
     private Kunderegister kundeRegister;
     
     @Override
     public void start(Stage primaryStage) throws Exception{
         lesFraFil();
         kundeLayout = new KundePane( kundeRegister);
+        okonomiLayout = new OkonomiPane(kundeRegister);
         faneMeny();
         kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
@@ -81,7 +82,7 @@ public class GUI extends Application{
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("../../bilder/logo.png")));
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
-        layout.setCenter(kundeLayout);
+        layout.setCenter(okonomiLayout);
         
         scene = new Scene(layout, getSkjermBredde() / 1.1, getSkjermHoyde() / 1.2);
         stage.setScene(scene);

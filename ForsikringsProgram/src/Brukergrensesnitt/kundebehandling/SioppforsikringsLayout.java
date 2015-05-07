@@ -55,7 +55,7 @@ public class SioppforsikringsLayout extends GridPane{
         setVgap(10);
         setHgap(10);
         
-        Label siOppForsikringLabel = new Label("Oppsigelse av forsikring:");
+        Label siOppForsikringLabel = new Label("Oppsigelse av forsikring");
         siOppForsikringLabel.setFont(GUI.OVERSKRIFT);
         
         //legger til kolonne 1

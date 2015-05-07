@@ -89,7 +89,7 @@ public class TegnforsikringsLayout extends GridPane{
         setVgap(10);
         setHgap(10);
         
-        Label tegnForsikringLabel = new Label("Tegning av forsikring:");
+        Label tegnForsikringLabel = new Label("Tegning av forsikring");
         tegnForsikringLabel.setFont(GUI.OVERSKRIFT);
         //legger til kolonne 1
         add(tegnForsikringLabel, 1, 1, 2, 1);
