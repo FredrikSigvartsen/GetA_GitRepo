@@ -136,6 +136,7 @@ public class RegistrerSkadeLayout extends GridPane {
                bildefiler = new ArrayList<>();            
                setFelterTomme();
                filLastetOpp.setText("");
+               antallBilder = 0;
             }
             else
                 output.setText("Skademelding ikke registrert. Prøv igjen ved å fylle inn feltene i riktig format, som du fikk beskjed om i varsel-vinduet.");

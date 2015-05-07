@@ -14,7 +14,6 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.function.Consumer;
 import javafx.event.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -538,7 +537,8 @@ public class KundesokLayout extends GridPane{
             }
             ListIterator<Skademelding> iter = skademeldinger.listIterator();
             while(iter.hasNext()){
-                output.appendText( iter.next().toString());
+                Skademelding iterSkademelding = iter.next();
+                output.appendText( iterSkademelding.toString());
             }
             
         }// end of try// end of try
