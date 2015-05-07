@@ -34,8 +34,6 @@ public class SoylediagramLayout extends GridPane{
     private GridPane pane;
     private Label aarLabel;
     private ComboBox cb;
-    private CategoryAxis xAkse;
-    private NumberAxis yAkse;
     private Kunderegister kundeRegister;
     
     public SoylediagramLayout(Kunderegister register) {
@@ -48,8 +46,8 @@ public class SoylediagramLayout extends GridPane{
     }//end of construnctor
     
     public void opprettSoylediagram(String aarstall) {
-        xAkse = new CategoryAxis();
-        yAkse = new NumberAxis();
+        CategoryAxis xAkse = new CategoryAxis();
+        NumberAxis yAkse = new NumberAxis();
         sbc = new StackedBarChart<>(xAkse, yAkse);
         sbc.setTitle("Antall forsikringer");
         xAkse.setLabel("Forsikringstype");       

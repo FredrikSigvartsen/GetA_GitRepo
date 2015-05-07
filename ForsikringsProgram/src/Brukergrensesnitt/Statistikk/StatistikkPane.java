@@ -15,8 +15,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class StatistikkPane extends BorderPane {
+public class StatistikkPane extends GridPane {
     
+    private GrafLayout graf;
     private SoylediagramLayout soylediagram;
     private Kunderegister kundeRegister;
         
@@ -24,6 +25,7 @@ public class StatistikkPane extends BorderPane {
         super();
         kundeRegister = register;
         soylediagram = new SoylediagramLayout(kundeRegister);
+        graf = new GrafLayout(kundeRegister);
         opprettLayout();
         //this.kundeRegister = register;
     }//end of constructor
@@ -32,6 +34,7 @@ public class StatistikkPane extends BorderPane {
      * Oppretter og setter de ulike layoutene under Kundebehandling
      */
     public void opprettLayout(){
-        setCenter(soylediagram);
+        add(soylediagram,1,1);
+        add(graf,2,1);
     }//end of method opprettLayout()   
 }//end of class KundePane
