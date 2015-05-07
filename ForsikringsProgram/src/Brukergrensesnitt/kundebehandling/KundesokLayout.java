@@ -605,11 +605,6 @@ public class KundesokLayout extends GridPane{
             ListIterator<Skademelding> iter = skademeldinger.listIterator();
             output.setText("\n Følgende skademeldinger er av type " + skadetype + " :");
             while(iter.hasNext()){
-<<<<<<< HEAD
-                output.appendText( iter.next().toString());
-            }
-            
-=======
                 Skademelding iterSkademelding = iter.next();
                 output.appendText( iterSkademelding.toString());
                 //Legger til tekst om hvem skademeldingen er registrert på
@@ -619,7 +614,6 @@ public class KundesokLayout extends GridPane{
                     skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\n Fødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
                 }
             }// end of while
->>>>>>> Okonomi_1.0
         }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
