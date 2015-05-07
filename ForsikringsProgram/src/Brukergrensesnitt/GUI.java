@@ -56,7 +56,7 @@ public class GUI extends Application{
     public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 16);
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-    public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ-.]*$";
+    public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ.-]*$";
     public static final String DATO_REGEX = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
     public static final String VALUTA_REGEX = "^\\d+(\\.\\d{1,2})?$";     
     public static final String POSTNR_REGEX = "^\\d{4}$";
