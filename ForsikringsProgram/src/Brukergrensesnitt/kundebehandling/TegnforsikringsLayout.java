@@ -40,7 +40,7 @@ public class TegnforsikringsLayout extends GridPane{
     private String forsikringsTypeString;
     private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$", 
             batRegistreringsNrRegEx = "^[A-Z]{3}[0-9]{3}$" , adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$", 
-            modellRegEx = "^[a-zA-Z æøåÆØÅ0-9\\s]*$", prisPerKmRegEx = "^[0-9]{1,4}$";
+            modellRegEx = "^[a-zA-Z æøåÆØÅ0-9\\s-]*$", prisPerKmRegEx = "^[0-9]{1,4}$";
     
     public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
@@ -526,6 +526,8 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private void erTotalKunde(){
         ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
+        if(kunde == null)
+            return;
         if(kunde.blirTotalKunde()){
             GUI.visInputFeilMelding("Total kunde", kunde.getEtternavn() +", " + kunde.getFornavn() + " har nå blitt total kunde!");
         }

@@ -56,7 +56,7 @@ public class GUI extends Application{
     public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 16);
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-    public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ]*$";
+    public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ-.]*$";
     public static final String DATO_REGEX = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
     public static final String VALUTA_REGEX = "^\\d+(\\.\\d{1,2})?$";     
     public static final String POSTNR_REGEX = "^\\d{4}$";
@@ -78,12 +78,12 @@ public class GUI extends Application{
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
+        //stage.getIcons().add(new Image(getClass().getResourceAsStream("../../bilder/logo.png")));
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
         layout.setCenter(kundeLayout);
         
-        scene = new Scene(layout, getSkjermBredde(), getSkjermHoyde());
+        scene = new Scene(layout, getSkjermBredde() / 1.1, getSkjermHoyde() / 1.2);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest((WindowEvent t) -> {
@@ -330,7 +330,7 @@ public class GUI extends Application{
      * @return skjermbredde/2
      */
     public static double getSkjermBredde(){
-        return (double)opplosning.getWidth() / 1.1;
+        return (double)opplosning.getWidth();
     }
 
     public static Stage getStage() {
@@ -342,7 +342,7 @@ public class GUI extends Application{
      * @return skjermhøyde / 1,3
      */
     public static double getSkjermHoyde(){
-        return (double)opplosning.getHeight() / 1.2;
+        return (double)opplosning.getHeight();
     }
     
     public static void main(String[] args) {

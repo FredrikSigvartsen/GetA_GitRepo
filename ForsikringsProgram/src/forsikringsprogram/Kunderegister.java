@@ -17,7 +17,13 @@ public class Kunderegister implements Serializable {
 
             @Override
             public int compare(ForsikringsKunde f1, ForsikringsKunde f2) {
-                return f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn());
+                int x = f1.getEtternavn().compareToIgnoreCase(f2.getEtternavn());
+                if(x == 0) {
+                    x = f1.getFornavn().compareToIgnoreCase(f2.getFornavn());
+                    if(x == 0)
+                        x = f1.getFodselsNr().compareToIgnoreCase(f2.getFodselsNr());
+                }
+                return x;
             }
         };
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 

@@ -219,14 +219,18 @@ public class RegistrerKundeLayout extends GridPane{
             String postnr = this.postnr.getText().trim();
             String fodselsnr = this.fodselsnr.getText().trim();
             ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
+            
             if(kundeRegister.finnKunde(fodselsnr) != null){
                 GUI.visInputFeilMelding("Feil ved registrering av kunde","Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
+                return;
             }
-            else{
-                kundeRegister.registrerKunde(kunde);
-                GUI.visInputFeilMelding("Kunde registrert", kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
-                setTommeFelter();
+            if( ! (kundeRegister.registrerKunde(kunde) ) ){
+                GUI.visInputFeilMelding("OBS! Feil i registrering.", "Kunden ble ikke registrert grunnet feil i registrering.\nKontakt IT-ansvarlig.");
+                return;
             }
+            GUI.visInputFeilMelding("Kunde registrert", kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
+            setTommeFelter();
+            
         }
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
