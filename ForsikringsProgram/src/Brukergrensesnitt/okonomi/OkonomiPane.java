@@ -312,9 +312,9 @@ public class OkonomiPane extends GridPane{
     /**
      * Sjekker om startdatoen er før slutt datoen
      */
-    /*private void erStartDatoForSluttDato(DatePicker dato1, DatePicker dato2){
-        return dato1.getValue().isAfter(dato2.getValue());
-    }*/
+    private boolean erStartDatoForSluttDato(Calendar startDato, Calendar sluttDato){
+        return sluttDato.after(startDato);
+    }//end of method erStartDatoForFluttDato
     
     /**
      * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
@@ -440,33 +440,74 @@ public class OkonomiPane extends GridPane{
             return;
         }
         try{
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy"); 
             RadioButton valg = (RadioButton) gruppe.getSelectedToggle();
             switch(valg.getId()){
                 case "utbetalingerAlle":
+                    Calendar startDatoAlle = new GregorianCalendar( datoStartAlle.getValue().getYear(), datoStartAlle.getValue().getMonthValue()-1, datoStartAlle.getValue().getDayOfMonth() );
+                    Calendar sluttDatoAlle = new GregorianCalendar( datoSluttAlle.getValue().getYear(), datoSluttAlle.getValue().getMonthValue()-1, datoSluttAlle.getValue().getDayOfMonth() );
+                    if(!erStartDatoForSluttDato(startDatoAlle, sluttDatoAlle)){
+                        GUI.visInputFeilMelding("OBS! Dato er i feil format", "Sluttdato må være senere en Startdato!");
+                        break;
+                    }
                     double utbetalingAlle = kundeRegister.alleUtbetalteErstatninger();
-                    //Calendar forsteDato = new GregorianCalendar( datoStart.getValue().getYear(), datoStart.getValue().getMonthValue()-1, datoStart.getValue().getDayOfMonth() );
-                    //Calendar andreDato = new GregorianCalendar( datoSlutt.getValue().getYear(), datoSlutt.getValue().getMonthValue()-1, datoSlutt.getValue().getDayOfMonth() );
-                    //SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy"); 
-                    //String startDatoString = sdf.format(forsteDato);
-                    //String sluttDatoString = sdf.format(andreDato);
-                    
-                    output.setText("Alle utbetalingene utgjør " + utbetalingAlle + "kr.");
+                    String startDatoAlleString = sdf.format(startDatoAlle.getTime());
+                    String sluttDatoAlleString = sdf.format(sluttDatoAlle.getTime());
+                    output.setText("Alle utbetalingene fra " + startDatoAlleString + " til " + sluttDatoAlleString + " utgjør " + utbetalingAlle + "kr.");
                     break;
                 case "utbetalingerType":
+                    Calendar startDatoType = new GregorianCalendar( datoStartType.getValue().getYear(), datoStartType.getValue().getMonthValue()-1, datoStartType.getValue().getDayOfMonth() );
+                    Calendar sluttDatoType = new GregorianCalendar( datoSluttType.getValue().getYear(), datoSluttType.getValue().getMonthValue()-1, datoSluttType.getValue().getDayOfMonth() );
+                    if(!erStartDatoForSluttDato(startDatoType, sluttDatoType)){
+                        GUI.visInputFeilMelding("OBS! Dato er i feil format", "Sluttdato må være senere en Startdato!");
+                        break;
+                    }
                     String forsikringsType = (String) this.forsikringsType.getValue();
                     double utbetalingType = kundeRegister.utbetaltErstatningAvType(forsikringsType);
-                    output.setText("Utgiftene for " + forsikringsType + " er " + utbetalingType + "kr.");
+                    String startDatoTypeString = sdf.format(startDatoType.getTime());
+                    String sluttDatoTypeString = sdf.format(sluttDatoType.getTime());
+                    output.setText("Utgiftene for " + forsikringsType + " fra " + startDatoTypeString + " til " + sluttDatoTypeString + " er " + utbetalingType + "kr.");
                     break;
                 case "utbetalingerKunde":
+                    Calendar startDatoKunde = new GregorianCalendar( datoStartKunde.getValue().getYear(), datoStartKunde.getValue().getMonthValue()-1, datoStartKunde.getValue().getDayOfMonth() );
+                    Calendar sluttDatoKunde = new GregorianCalendar( datoSluttKunde.getValue().getYear(), datoSluttKunde.getValue().getMonthValue()-1, datoSluttKunde.getValue().getDayOfMonth() );
+                    if(!erStartDatoForSluttDato(startDatoKunde, sluttDatoKunde)){
+                        GUI.visInputFeilMelding("OBS! Dato er i feil format", "Sluttdato må være senere en Startdato!");
+                        break;
+                    }
                     String fodselsnr = this.fodselsnr.getText().trim();
                     double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnr);
-                    output.setText("Utbetalingene til " + fodselsnr + " er " + utbetalingKunde + "kr.");
+                    String startDatoKundeString = sdf.format(startDatoKunde.getTime());
+                    String sluttDatoKundeString = sdf.format(sluttDatoKunde.getTime());
+                    output.setText("Utbetalingene til " + fodselsnr + " fra " + startDatoKundeString + " til " + startDatoKundeString + " er " + utbetalingKunde + "kr.");
                     break;
                 case "inntektAlle":
                     break;
                 case "inntektType":
+                    Calendar startDatoTypeInntekt = new GregorianCalendar( datoStartType.getValue().getYear(), datoStartType.getValue().getMonthValue()-1, datoStartType.getValue().getDayOfMonth() );
+                    Calendar sluttDatoTypeInntekt = new GregorianCalendar( datoSluttType.getValue().getYear(), datoSluttType.getValue().getMonthValue()-1, datoSluttType.getValue().getDayOfMonth() );
+                    if(!erStartDatoForSluttDato(startDatoTypeInntekt, sluttDatoTypeInntekt)){
+                        GUI.visInputFeilMelding("OBS! Dato er i feil format", "Sluttdato må være senere en Startdato!");
+                        break;
+                    }
+                    String forsikringsTypeInntekt = (String) this.forsikringsType.getValue();
+                    double inntektType = kundeRegister.inntinntektFraForsikringstype(forsikringsTypeInntekt, startDatoTypeInntekt, sluttDatoTypeInntekt);
+                    String startDatoTypeInntektString = sdf.format(startDatoTypeInntekt.getTime());
+                    String sluttDatoTypeInntektString = sdf.format(sluttDatoTypeInntekt.getTime());
+                    output.setText("Inntektene for " + forsikringsTypeInntekt + " fra " + startDatoTypeInntektString + " til " + sluttDatoTypeInntektString + " er " + inntektType + "kr.");
                     break;
                 case "inntektKunde":
+                    Calendar startDatoKundeInntekt = new GregorianCalendar( datoStartKunde.getValue().getYear(), datoStartKunde.getValue().getMonthValue()-1, datoStartKunde.getValue().getDayOfMonth() );
+                    Calendar sluttDatoKundeInntekt = new GregorianCalendar( datoSluttKunde.getValue().getYear(), datoSluttKunde.getValue().getMonthValue()-1, datoSluttKunde.getValue().getDayOfMonth() );
+                    if(!erStartDatoForSluttDato(startDatoKundeInntekt, sluttDatoKundeInntekt)){
+                        GUI.visInputFeilMelding("OBS! Dato er i feil format", "Sluttdato må være senere en Startdato!");
+                        break;
+                    }
+                    String fodselsnrInntekt = this.fodselsnr.getText().trim();
+                    double inntektFodselsnr = kundeRegister.inntektFraKunde(fodselsnrInntekt);
+                    String startDatoKundeInntektString = sdf.format(startDatoKundeInntekt.getTime());
+                    String sluttDatoKundeInntektString = sdf.format(sluttDatoKundeInntekt.getTime());
+                    output.setText("Inntektene fra " + fodselsnrInntekt + " mellom " + startDatoKundeInntektString + " til " + sluttDatoKundeInntektString + " er " + inntektFodselsnr + "kr.");
                     break;
             }
         }
