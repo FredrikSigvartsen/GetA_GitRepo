@@ -31,30 +31,43 @@ import static javafx.scene.paint.Color.DARKGRAY;
  */
 public class GrafLayout extends GridPane{
     
+    private DatePicker datePickerFra, datePickerTil;
     private ComboBox cb;
     private Button knapp;
-    private GridPane pane;
+    private Label fraLabel, tilLabel, typeLabel, statLabel;
+    private GridPane pane, pane1;
     private LineChart<String,Number> lc;
     private Kunderegister kundeRegister;
     
     public GrafLayout(Kunderegister register) {
-        this.kundeRegister = register;
+        kundeRegister = register;
         
         pane = new GridPane();
         pane.setAlignment(CENTER);
+        pane1 = new GridPane();
+        
+        fraLabel = new Label("Fra dato: ");
+        tilLabel = new Label("Til dato: ");
+        typeLabel = new Label("Type: ");
+        statLabel = new Label("Velg statistikk du vil vise: ");
+        
+        datePickerFra = new DatePicker();
+        datePickerTil = new DatePicker();
+        
         opprettGrafMedAlle();
         opprettKnapp();
         opprettComboBox();
+        opprettKontrollPanel();
     }//end of construnctor
     
     public void opprettGrafMedAlle() {
         
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
-        this.lc = new LineChart<>(xAkse,yAkse);
+        lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
-        this.lc.setTitle("Øking/Minking");
+        lc.setTitle("Øking/Minking");
         
         XYChart.Series serie1 = new XYChart.Series();
         serie1.setName("Skademeldinger");
@@ -101,15 +114,15 @@ public class GrafLayout extends GridPane{
         serie3.getData().add(new XYChart.Data("Nov", 5));
         serie3.getData().add(new XYChart.Data("Des", 16));
         
-        this.lc.getData().addAll(serie1, serie2, serie3);
-        this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
+        lc.getData().addAll(serie1, serie2, serie3);
+        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
     }
     
     public void opprettForsikringsGraf() {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
-        this.lc = new LineChart<>(xAkse,yAkse);
+        lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
         lc.setTitle("Øking/Minking");
@@ -129,15 +142,15 @@ public class GrafLayout extends GridPane{
         serie2.getData().add(new XYChart.Data("Nov", 21));
         serie2.getData().add(new XYChart.Data("Des", 10));
         
-        this.lc.getData().add(serie2);
-        this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(this.lc,1,2);
+        lc.getData().add(serie2);
+        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
+        add(lc,1,2);
     }
     
     public void opprettSkademeldingGraf() {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
-        this.lc = new LineChart<>(xAkse,yAkse);
+        lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
         lc.setTitle("Øking/Minking");
@@ -157,15 +170,15 @@ public class GrafLayout extends GridPane{
         serie1.getData().add(new XYChart.Data("Nov", 29));
         serie1.getData().add(new XYChart.Data("Des", 25));
         
-        this.lc.getData().add(serie1);
-        this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(this.lc,1,2);
+        lc.getData().add(serie1);
+        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
+        add(lc,1,2);
     }
     
     public void opprettKundeGraf() {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
-        this.lc = new LineChart<>(xAkse,yAkse);
+        lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
         lc.setTitle("Øking/Minking");
@@ -185,48 +198,48 @@ public class GrafLayout extends GridPane{
         serie3.getData().add(new XYChart.Data("Nov", 5));
         serie3.getData().add(new XYChart.Data("Des", 16));
         
-        this.lc.getData().add(serie3);
-        this.lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(this.lc,1,2);
+        lc.getData().add(serie3);
+        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
+        add(lc,1,2);
     }
     
     public void opprettKnapp() {
-        this.knapp = new Button("Vis en og en");
+        knapp = new Button("Vis en og en");
         
-        this.knapp.setOnAction((ActionEvent e) -> {
-            if(this.cb.isDisable()) {
-                if(this.cb.getValue().equals("Kunder")) {
+        knapp.setOnAction((ActionEvent e) -> {
+            if(cb.isDisable()) {
+                if(cb.getValue() == null)
+                    cb.setValue("Forsikringer");
+                if(cb.getValue().equals("Kunder")) {
                     getChildren().remove(lc);
                     opprettKundeGraf();
-                } else if(this.cb.getValue().equals("Forsikringer")) {
+                } else if(cb.getValue().equals("Forsikringer")) {
                     getChildren().remove(lc);
                     opprettForsikringsGraf();
-                } else if(this.cb.getValue().equals("Skademeldinger")) {
+                } else if(cb.getValue().equals("Skademeldinger")) {
                     getChildren().remove(lc);
                     opprettSkademeldingGraf();
                 }
                     
-                this.cb.setDisable(false);
-                this.knapp.setText("Vis alle");
+                cb.setDisable(false);
+                knapp.setText("Vis alle");
             }
             else {
                 getChildren().remove(lc);
                 opprettGrafMedAlle();
-                this.cb.setDisable(true);
-                this.knapp.setText("Vis en og en");
+                cb.setDisable(true);
+                knapp.setText("Vis en og en");
             }
         });
-        
-        this.pane.add(this.knapp,2,1);
     }
     
     public void opprettComboBox() {
-        this.cb = new ComboBox();
+        cb = new ComboBox();
         ObservableList<String> forsikringer = FXCollections.observableArrayList(
                                               "Forsikringer", "Skademeldinger",
-                                              "Kunder");
-        this.cb.setItems(forsikringer);
-        this.cb.valueProperty().addListener(new ChangeListener<String>(){
+                                              "Kunder", "Utgifter");
+        cb.setItems(forsikringer);
+        /*cb.valueProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
                 lc.getData().clear();
@@ -244,12 +257,38 @@ public class GrafLayout extends GridPane{
                 }
             }
             
-        });
-        this.cb.setValue("Forsikringer");
-        this.cb.setDisable(true);
+        });*/
+        //cb.setDisable(true);
+    }
+    
+    public void opprettKontrollPanel() {
+        pane1.add(statLabel, 1, 1);
+        pane1.add(cb, 2, 1);
+        GridPane.setHalignment(pane1, HPos.LEFT);
         
-        this.pane.add(this.cb,1,1);
-        GridPane.setHalignment(this.pane, HPos.CENTER);
-        add(this.pane, 1,1);
+        pane.add(fraLabel, 1, 1);
+        pane.add(datePickerFra, 2, 1);
+        GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
+        pane.add(tilLabel, 3, 1);
+        pane.add(datePickerTil, 4, 1);
+        pane.add(pane1, 1, 2, 4, 1);
+        
+        //pane.add(typeLabel, 3, 2);
+        //pane.add(cb, 4, 2);
+        
+        //pane.add(cb,1,2);
+        //pane.add(knapp,2,2);
+        //pane.add(pane1, 1, 2, 4, 1);
+        //GridPane.setHalignment(oppdaterKnapp, HPos.RIGHT);
+        //GridPane.setMargin(oppdaterKnapp, new Insets(5, 0, 0, 20));
+        //pane.add(oppdaterKnapp, 4, 2);
+        
+        GridPane.setHalignment(pane, HPos.CENTER);
+        
+        //pane.setHgap(5);
+        pane.setVgap(5);
+        //pane1.setVgap(5);
+        //pane1.setHgap(5);
+        add(pane, 1, 1);
     }
 }   

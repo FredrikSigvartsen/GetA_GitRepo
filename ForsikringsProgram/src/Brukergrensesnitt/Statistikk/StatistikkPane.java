@@ -14,6 +14,7 @@ import forsikringsprogram.*;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class StatistikkPane extends GridPane {
     
@@ -27,6 +28,7 @@ public class StatistikkPane extends GridPane {
         soylediagram = new SoylediagramLayout(kundeRegister);
         graf = new GrafLayout(kundeRegister);
         opprettLayout();
+        //setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
     }//end of constructor
     
     /**
