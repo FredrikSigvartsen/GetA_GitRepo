@@ -47,6 +47,11 @@ public class Forsikringsliste implements Serializable {
         return ok;
     }
     
+    /**
+     * Finner alle forsikringer i registeret av typen som blir sendt med i parameteren.
+     * @param konstant Hvilken forsikringstype man vil finne forsikringer av. 
+     * @return En liste med forsikringer av type gitt i parameteren. 
+     */
     public List<Forsikring> listeMedForsikringAvType(String konstant) {
         ListIterator<Forsikring> iter = liste.listIterator();
         List<Forsikring> ny = new ArrayList<>();
@@ -138,8 +143,11 @@ public class Forsikringsliste implements Serializable {
         return (antBaat + antReise + antBil + antBolig) >= 3;       
     }
     
-    //Finner en forsikring med avtalenummer lik det tallet man sender med metoden. Returnerer forsikringen hvis forsikringen finnes, returnerer false hvis det ikke finnes,
-    //eller om nummeret man sender med metoden er lavere enn de avtalenumrene som finnes. 
+    /**
+     * Finner en forsikring med gitt avtalenummer
+     * @param avtaleNr Hver forsikring har et unikt avtalenummer, metoden finner en forsikring med gitt avtalenummer.
+     * @return Forsikring som er funnet. 
+     */
     public Forsikring finnForsikringer(int avtaleNr){
         ListIterator<Forsikring> iter = liste.listIterator();
         

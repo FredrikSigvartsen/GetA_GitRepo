@@ -20,6 +20,6 @@ public class Reiseforsikring extends Forsikring implements Serializable {
     @Override
     public String toString() {
         return super.toString() + 
-               "\nOmråde: " + this.omraade;
+               "\n Område: " + this.omraade;
     }
 }//end of class Reiseforsikring

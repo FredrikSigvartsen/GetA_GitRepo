@@ -170,7 +170,40 @@ public class Kunderegister implements Serializable {
         return null;
     }// end of method finnKunde(skadeNr)
     
+    /**
+     * Finner alle kunder med en gitt forsikringstype
+     * @param forsikringstype Metoden finner alle kunder som har en forsikrng av type forsikringstype
+     * @return En liste med ForsikringsKunde'r. Listen er tom hvis det ikke finnes noen kunder med denne forsikringstypen.
+     */
+    public List<ForsikringsKunde> finnKunder( String forsikringstype ){
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<ForsikringsKunde> kundeListe = new ArrayList<>();
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if( !( kunde.getForsikringer().erTom() ) && kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
+                kundeListe.add(kunde);
+            }
+        }// end of while
+        return kundeListe;
+    }// end of method finnKunder( forsikringstype )
     
+    /**
+     * Finner en kunde som har en forsikring med gitt avtaleNr
+     * @param avtaleNr Nummeret på forsikringen kunden vi søker etter er eier av.
+     * @return Funnet ForsikringsKunde, null hvis ikke funnet.
+     */
+    public ForsikringsKunde finnKundeMedAvtaleNr( int avtaleNr){
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        
+        while( kIter.hasNext() ){
+            ForsikringsKunde gjeldendeKunde = kIter.next();
+            if( !( gjeldendeKunde.getForsikringer().erTom() ) && 
+                    gjeldendeKunde.getForsikringer().finnForsikringer(avtaleNr) != null)
+                return gjeldendeKunde;
+        }// end of while
+        return null;
+    }// end of method finnKundeMedAvtaleNr( int avtaleNr)
     /**
      * Registrerer en skademelding på en kunde som har fødselsnummer lik den andre parameteren. 
      * @param skademelding vi vil registrere
@@ -265,23 +298,44 @@ public class Kunderegister implements Serializable {
     }// end of method siOppForsikring(fødselsnr, avtaleNr)
     
     /**
-     * 
-     * @param forsikringstype
-     * @return 
+     * Finner en forsikring med gitt avtalenummer
+     * @param avtaleNr Hver forsikring har et unikt avtalenummer, metoden finner en forsikring med gitt avtalenummer.
+     * @return Forsikring som er funnet. 
      */
-    public List<ForsikringsKunde> finnForsikringer( String forsikringstype ){
+    public Forsikring finnForsikringer( int avtaleNr){
+        if( avtaleNr < 1)
+            return null;
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
-        List<ForsikringsKunde> nyListe = new ArrayList<>();
         
-        while(kIter.hasNext()) {
-            ForsikringsKunde kunde = kIter.next();
-            if( !( kunde.getForsikringer().erTom() ) && kunde.getForsikringer().harRiktigForsikring(forsikringstype)) {
-                nyListe.add(kunde);
-            }
-        }
+        while(kIter.hasNext()){
+            Forsikringsliste kundensForsikringer = kIter.next().getForsikringer();
+            Forsikring gjeldendeForsikring = kundensForsikringer.finnForsikringer(avtaleNr);
+            if( !( kundensForsikringer.erTom()) && gjeldendeForsikring != null)
+                return gjeldendeForsikring;
+        }// end of while
+        return null;
+    }// end of method finnForsikringer(avtaleNr)
+    
+    /**
+     * Finner alle forsikringer i registeret av typen som blir sendt med i parameteren.
+     * @param forsikringstype Hvilken forsikringstype man vil finne forsikringer av. 
+     * @return En liste med forsikringer av type gitt i parameteren. 
+     */
+    public List<Forsikring> finnForsikringer( String forsikringstype ){
+        List<Forsikring> forsikringerAvType = new ArrayList<>();
         
-        return nyListe;
-    }// end of method finnForsikringer( forsikringstype )
+        if(kunderegister.isEmpty())
+            return forsikringerAvType;
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        while( kIter.hasNext() ){
+            Forsikringsliste gjeldendeForsikringer = kIter.next().getForsikringer();
+            if( !( gjeldendeForsikringer.erTom() )){
+                List<Forsikring> kundensForsikringerAvType = gjeldendeForsikringer.listeMedForsikringAvType(forsikringstype);
+                forsikringerAvType.addAll( kundensForsikringerAvType );
+            }// end of if
+        }// end of while
+        return forsikringerAvType;
+    }// end of method finnForsikringer( skadetype )
     
     //Returnerer antall forsikringer av gitt type
     public int antallForsikringAvType(String forsikringstype, String aarstall) {
