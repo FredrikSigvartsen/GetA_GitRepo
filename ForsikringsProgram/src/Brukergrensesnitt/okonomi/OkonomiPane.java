@@ -7,6 +7,10 @@ package Brukergrensesnitt.okonomi;
 
 import Brukergrensesnitt.GUI;
 import forsikringsprogram.Kunderegister;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -46,12 +50,11 @@ import javafx.scene.text.FontWeight;
 public class OkonomiPane extends GridPane{
     private TextField fodselsnr;
     private TextArea output;
-    private DatePicker datoStart, datoSlutt;
-    private Label fodselsnrFeil;
+    private DatePicker datoStartType, datoSluttType, datoStartKunde, datoSluttKunde, datoStartAlle, datoSluttAlle;
     private ComboBox forsikringsType, visningsType;
     private RadioButton utbetalingerAlle, utbetalingerType, utbetalingerKunde, inntektAlle, inntektType, inntektKunde;
     private ToggleGroup gruppe;
-    private Button visOkonomi;
+    private Button alleKnapp, typeKnapp, kundeKnapp;
     private VBox radioKnappBox;
     private TitledPane valgTypePane, valgKundePane, valgAllePane;
     private GridPane typeInnhold, kundeInnhold, alleInnhold;
@@ -62,10 +65,10 @@ public class OkonomiPane extends GridPane{
     public OkonomiPane(Kunderegister register){
         radioKnapper();
         visOkonomiSkjema();
-        //visOkonomiLytter();
         this.kundeRegister = register;
         //tekstFeltLyttere();
         radioKnappLytter();
+        visOkonomiLytter();
     }//end of constructor
     
     /**
@@ -136,7 +139,7 @@ public class OkonomiPane extends GridPane{
     private void typeInnhold(){
         typeInnhold = new GridPane();
         
-        visOkonomi = new Button("Vis økonomi");
+        typeKnapp = new Button("Vis økonomi");
         
         forsikringsType = new ComboBox();
         ObservableList<String> forsikringer = FXCollections.observableArrayList(
@@ -144,9 +147,9 @@ public class OkonomiPane extends GridPane{
                                               "Boligforsikring", "Reiseforsikring");
         forsikringsType.setItems(forsikringer);
         
-        datoStart = new DatePicker();
+        datoStartType = new DatePicker();
         
-        datoSlutt = new DatePicker();
+        datoSluttType = new DatePicker();
         
         typeInnhold.setHgap(10);
         typeInnhold.setVgap(10);
@@ -158,9 +161,9 @@ public class OkonomiPane extends GridPane{
     
         //Legger til tekstfelt
         typeInnhold.add(forsikringsType, 2, 1);
-        typeInnhold.add(datoStart, 4, 1);
-        typeInnhold.add(datoSlutt, 6, 1);
-        typeInnhold.add(visOkonomi, 1, 2, 2, 1);
+        typeInnhold.add(datoStartType, 4, 1);
+        typeInnhold.add(datoSluttType, 6, 1);
+        typeInnhold.add(typeKnapp, 1, 2, 2, 1);
     }//end of method typeInnhold()
     
     /**
@@ -182,16 +185,16 @@ public class OkonomiPane extends GridPane{
     private void kundeInnhold(){
         kundeInnhold = new GridPane();
         
-        visOkonomi = new Button("Vis økonomi");
+        kundeKnapp = new Button("Vis Økonomi");
         
         fodselsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
                    .build();
         
-        datoStart = new DatePicker();
+        datoStartKunde = new DatePicker();
         
-        datoSlutt = new DatePicker();
+        datoSluttKunde = new DatePicker(); //bruk isAfter() for å sammelikne datoer
         
         kundeInnhold.setHgap(10);
         kundeInnhold.setVgap(10);
@@ -203,9 +206,9 @@ public class OkonomiPane extends GridPane{
     
         //Legger til tekstfelt
         kundeInnhold.add(fodselsnr, 2, 1);
-        kundeInnhold.add(datoStart, 4, 1);
-        kundeInnhold.add(datoSlutt, 6, 1);
-        kundeInnhold.add(visOkonomi, 1, 2, 2, 1);
+        kundeInnhold.add(datoStartKunde, 4, 1);
+        kundeInnhold.add(datoSluttKunde, 6, 1);
+        kundeInnhold.add(kundeKnapp, 1, 2, 2, 1);
     }//end of method kundeInnhold()
     
     /**
@@ -227,11 +230,11 @@ public class OkonomiPane extends GridPane{
     private void alleInnhold(){
         alleInnhold = new GridPane();
         
-        visOkonomi = new Button("Vis økonomi");
+        alleKnapp = new Button("Vis økonomi");
         
-        datoStart = new DatePicker();
+        datoStartAlle = new DatePicker();
         
-        datoSlutt = new DatePicker();
+        datoSluttAlle = new DatePicker();
         
         alleInnhold.setHgap(10);
         alleInnhold.setVgap(10);
@@ -241,9 +244,9 @@ public class OkonomiPane extends GridPane{
         alleInnhold.add(new Label("Slutt dato:"), 3, 1);
     
         //Legger til tekstfelt
-        alleInnhold.add(datoStart, 2, 1);
-        alleInnhold.add(datoSlutt, 4, 1);
-        alleInnhold.add(visOkonomi, 1, 2, 2, 1);
+        alleInnhold.add(datoStartAlle, 2, 1);
+        alleInnhold.add(datoSluttAlle, 4, 1);
+        alleInnhold.add(alleKnapp, 1, 2, 2, 1);
     }//end of method alleInnhold()
     
     /**
@@ -293,7 +296,7 @@ public class OkonomiPane extends GridPane{
                 .editable(false)
                 .wrapText(true)
                 .build();
-        
+        output.setFont(tekstStr);
         
         Label visOkonomiLabel = new Label("Økonomi");
         visOkonomiLabel.setFont(GUI.OVERSKRIFT);
@@ -307,24 +310,107 @@ public class OkonomiPane extends GridPane{
     }//end of methd siOppForsikringsSkjema()
     
     /**
+     * Sjekker om startdatoen er før slutt datoen
+     */
+    /*private void erStartDatoForSluttDato(DatePicker dato1, DatePicker dato2){
+        return dato1.getValue().isAfter(dato2.getValue());
+    }*/
+    
+    /**
      * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
      * @return Returnerer true om alle feltene godkjennes av regexen
      */
-    private boolean tekstFeltLyttere(){
-        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fodselsnummer(11 siffer)", null);
-        });
+    private boolean sjekkRegEx(){
+        RadioButton valg = (RadioButton) gruppe.getSelectedToggle();
+        if(valg == utbetalingerType || valg == inntektType){
+            if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoStartType.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+                GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne vise økonomi et et gitt tidsrom må du oppgi en start dato(dd.mm.åååå)");
+                return false;
+            }
+
+            if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoSluttType.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+                GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne vise økonomi et et gitt tidsrom må du oppgi en slutt dato(dd.mm.åååå)");
+                return false;
+            }
+        }
         
-        return fodselsnrFeil.getText().isEmpty();
+        if(valg == utbetalingerKunde || valg == inntektKunde){
+            if(!(GUI.sjekkRegexFodselsNr(fodselsnr.getText()))){
+                GUI.visInputFeilMelding("OBS! Fødselsnummer inneholder 11 sifre.", "For å kunne vise økonomien til en kunde må du fylle inn et eksisterende fødselsnummer med 11 sifre");
+                return false;
+            }
+
+            if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoStartKunde.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+                GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne vise økonomi et et gitt tidsrom må du oppgi en start dato(dd.mm.åååå)");
+                return false;
+            }
+
+            if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoSluttKunde.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+                GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne vise økonomi et et gitt tidsrom må du oppgi en slutt dato(dd.mm.åååå)");
+                return false;
+            }
+        }
+        
+        if(valg == utbetalingerAlle || valg == inntektAlle){
+            if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoStartAlle.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+                GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne vise økonomi et et gitt tidsrom må du oppgi en start dato(dd.mm.åååå)");
+                return false;
+            }
+
+            if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoSluttAlle.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
+                GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne vise økonomi et et gitt tidsrom må du oppgi en slutt dato(dd.mm.åååå)");
+                return false;
+            }
+        }
+        return true;
     }//end of method sjekkFelterRegEx()
     
     /**
-     * Sjekker alle innputfeltene, og viser informasjon om økonomien
+     * Sjekker om det er skrvet inn noe i alle innputfeltene
      */
     private boolean sjekkFelter(){
-        if( fodselsnr.getText().trim().isEmpty()){
-            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
-            return false;
+        RadioButton valg = (RadioButton) gruppe.getSelectedToggle();
+        if(valg == utbetalingerType || valg == inntektType){
+            if( forsikringsType.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst velg en forsikrings type");
+                return false;
+            }
+            if( datoStartType.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn start dato");
+                return false;
+            }
+
+            if( datoSluttType.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn slutt dato");
+                return false;
+            }
+        }
+        
+        if(valg == utbetalingerKunde || valg == inntektKunde){
+            if( fodselsnr.getText().trim().isEmpty()){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
+                return false;
+            }
+            if( datoStartKunde.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn start dato");
+                return false;
+            }
+
+            if( datoSluttKunde.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn slutt dato");
+                return false;
+            }
+        }
+        if(valg == utbetalingerAlle || valg == inntektAlle){
+            if( datoStartAlle.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn start dato");
+                return false;
+            }
+
+            if( datoSluttAlle.getValue() == null){
+                GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn slutt dato");
+                return false;
+            }
         }
         return true;
     }//end of method sjekkFelter()
@@ -335,23 +421,60 @@ public class OkonomiPane extends GridPane{
     private void setTommeFelter(){
         fodselsnr.clear();
         forsikringsType.setValue("");
-        datoStart.setValue(null);
-        datoSlutt.setValue(null);
+        datoStartType.setValue(null);
+        datoSluttType.setValue(null);
+        datoStartKunde.setValue(null);
+        datoSluttKunde.setValue(null);
+        datoStartAlle.setValue(null);
+        datoSluttAlle.setValue(null);
     }//end of method stTommeFelter()
     
     /**
-     * Validerer inputfelter for å så vise informasjonen om økonomien
+     * Viser økonomisk informasjon av valgt type
      */
-    public void visOkonomi(){
-        try{
-            String fodselsnr = this.fodselsnr.getText().trim();
-            setTommeFelter();
-        }
-        catch(NumberFormatException | NullPointerException e){
-            GUI.visProgramFeilMelding(e);
+    private void visOkonomi(){
+        if( !sjekkFelter() ){
             return;
         }
-    }//end of class siOppForsikring()
+        if( !sjekkRegEx() ){
+            return;
+        }
+        try{
+            RadioButton valg = (RadioButton) gruppe.getSelectedToggle();
+            switch(valg.getId()){
+                case "utbetalingerAlle":
+                    double utbetalingAlle = kundeRegister.alleUtbetalteErstatninger();
+                    //Calendar forsteDato = new GregorianCalendar( datoStart.getValue().getYear(), datoStart.getValue().getMonthValue()-1, datoStart.getValue().getDayOfMonth() );
+                    //Calendar andreDato = new GregorianCalendar( datoSlutt.getValue().getYear(), datoSlutt.getValue().getMonthValue()-1, datoSlutt.getValue().getDayOfMonth() );
+                    //SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy"); 
+                    //String startDatoString = sdf.format(forsteDato);
+                    //String sluttDatoString = sdf.format(andreDato);
+                    
+                    output.setText("Alle utbetalingene utgjør " + utbetalingAlle + "kr.");
+                    break;
+                case "utbetalingerType":
+                    String forsikringsType = (String) this.forsikringsType.getValue();
+                    double utbetalingType = kundeRegister.utbetaltErstatningAvType(forsikringsType);
+                    output.setText("Utgiftene for " + forsikringsType + " er " + utbetalingType + "kr.");
+                    break;
+                case "utbetalingerKunde":
+                    String fodselsnr = this.fodselsnr.getText().trim();
+                    double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnr);
+                    output.setText("Utbetalingene til " + fodselsnr + " er " + utbetalingKunde + "kr.");
+                    break;
+                case "inntektAlle":
+                    break;
+                case "inntektType":
+                    break;
+                case "inntektKunde":
+                    break;
+            }
+        }
+        catch( NumberFormatException | NullPointerException e){
+            GUI.visProgramFeilMelding(e);
+            return;
+        }// end of try-catch
+    }//end of method visOkonomi
     
     /**
      * Legger til en lytter på radioknappene
@@ -389,11 +512,19 @@ public class OkonomiPane extends GridPane{
     }//end of method radioKnappLytter()
     
     /**
-     * Legger til en lytter på visOkonpmi knappen
+     * Legger til en lytter på typeKnapp, kundeKnapp og alleKnapp, knappene
      */
     private void visOkonomiLytter(){
-        visOkonomi.setOnAction((ActionEvent event) -> {
+        typeKnapp.setOnAction((ActionEvent event) -> {
+            visOkonomi();
+        });
+        
+        kundeKnapp.setOnAction((ActionEvent event) -> {
+            visOkonomi();
+        });
+        
+        alleKnapp.setOnAction((ActionEvent event) -> {
             visOkonomi();
         });
     }//end of method visOkonomiLytter()
-}
+}//end of class OkonomiPane
