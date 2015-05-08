@@ -87,17 +87,43 @@ public class Kunderegister implements Serializable {
         double sum = 0;
         while(kIter.hasNext()){
             ForsikringsKunde gjeldendeKunde = kIter.next();
-            if(gjeldendeKunde.getForsikringer() != null) {
+            if( ! (gjeldendeKunde.getForsikringer().erTom() ) ) {
                 fListe = gjeldendeKunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
                 ListIterator<Forsikring> fIter = fListe.listIterator();
                 while(fIter.hasNext()) {
                     sum += fIter.next().getForsikringsPremie();
                 }
-            }
-        }
+            }// end of outter if
+        }// end of while
         return sum;
-    }
+    }// end of method inntektFraForsikringstype(String forsikringstype)
     
+    /**
+     * Samler opp inntekter fra alle kunders forsikringer, men bare hvor forsikringen er av forsikringstype, og er i perioden startDato-sluttDato
+     * @param forsikringstype Forsikringstypen for forsikringene man vil se inntekten for
+     * @param startDato På tidsperioden for forsikringene man vil se inntekten for
+     * @param sluttDato På tidsperioden for forsikringene man vil se inntekten for
+     * @return Summen av inntekter 
+     */
+    public double inntinntektFraForsikringstype(String forsikringstype, Calendar startDato, Calendar sluttDato) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Forsikring> fListe = new ArrayList<>();
+        double sum = 0;
+        
+        while(kIter.hasNext()){
+            Forsikringsliste gjeldendeForsikringsliste = kIter.next().getForsikringer();
+            if( ! (gjeldendeForsikringsliste.erTom() ) ) {
+                fListe = gjeldendeForsikringsliste.listeMedForsikringAvType(forsikringstype);
+                ListIterator<Forsikring> fIter = fListe.listIterator();
+                while(fIter.hasNext()) {
+                    Forsikring gjeldendeForsikring = fIter.next();
+                    if( erMellom( startDato, sluttDato, gjeldendeForsikring.getOpprettelsesDato() ))
+                        sum += gjeldendeForsikring.getForsikringsPremie();
+                }// end of inner while
+            }// end of outter if
+        }// end of while
+        return sum;
+    }// end of method inntinntektFraForsikringstype( forsikringstype, startDato, sluttDato)
     //selskapets forsikringspremieinntekter på en gitt forsikringskunde i løpet av kundeforholdet
     public double inntektFraKunde(String fodselsNr) {
         ForsikringsKunde kunde = finnKunde(fodselsNr);
@@ -106,6 +132,20 @@ public class Kunderegister implements Serializable {
         return kunde.getAarligUtbetaling();
     }
     
+    /**
+     * En hjelpemetode for å sjekke om sjekkDato enten er lik, eller ligger i dette tidsintervallet. 
+     * @param start Startdato på tidsperioden vi sjekker.
+     * @param slutt Sluttdato på tidsperioden vi sjekker.
+     * @param sjekkDato Datoen vi sjekker om er i tidsperioden. 
+     * @return En boolsk verdi som tilsier om sjekkDato ligger i dette tidsintervallet. 
+     */
+    public boolean erMellom(Calendar start, Calendar slutt, Calendar sjekkDato){
+       if( sjekkDato.after(start) && sjekkDato.before(slutt))
+            return true;
+        else if( sjekkDato.equals(start) || sjekkDato.equals(slutt))
+            return false;
+        return false;   
+    }// end of method erMellom()
     /**
      * Registrerer en ny kunde. 
      * @param ny ForsikringsKunde som blir lagt til i systemet. 
