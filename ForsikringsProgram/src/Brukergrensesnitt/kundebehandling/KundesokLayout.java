@@ -520,19 +520,19 @@ public class KundesokLayout extends GridPane{
             return;
         }
         try{
-            String forsikringstype = forsikringstypeInput.getValue().toString();
+            String forsikringstype = forsikringstypeInput.getValue().toString().toLowerCase();
         
             List<ForsikringsKunde> kunderMedGittForsikringstype = kundeRegister.finnForsikringer(forsikringstype);
         
             if(kunderMedGittForsikringstype.isEmpty()){
-               output.setText("\n Finnes ingen forsikringer av typen " + forsikringstype);
+               output.setText("\n Finnes ingen forsikringer av typen " + forsikringstype );
                return;
             }
             ListIterator<ForsikringsKunde> iter = kunderMedGittForsikringstype.listIterator();
             output.setText("\n Følgende kunder har " + forsikringstype + "forsikringer:");
             while(iter.hasNext()){
                 ForsikringsKunde gjeldendeKunde = iter.next();
-                output.appendText( gjeldendeKunde.toString() + "\n Har forsikring av type: " + forsikringstype);
+                output.appendText( gjeldendeKunde.toString() + "\n Har forsikring av type: " + forsikringstype );
             }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
@@ -595,11 +595,11 @@ public class KundesokLayout extends GridPane{
             return;
         }
         try{
-            String skadetype = skadetypeInput.getValue().toString();
+            String skadetype = skadetypeInput.getValue().toString().toLowerCase();
             
             List<Skademelding> skademeldinger = kundeRegister.finnSkademeldinger(skadetype);
             if(skademeldinger.isEmpty()){
-                output.setText("\n Det finnes ingen skademeldinger av typen " + skadetype);
+                output.setText("\n Det finnes ingen skademeldinger av typen " + skadetype );
                 return;
             }
             ListIterator<Skademelding> iter = skademeldinger.listIterator();
