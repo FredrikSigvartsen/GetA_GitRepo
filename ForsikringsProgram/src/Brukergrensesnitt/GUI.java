@@ -5,7 +5,9 @@
  */
 package Brukergrensesnitt;
 
+import Brukergrensesnitt.Statistikk.StatistikkPane;
 import Brukergrensesnitt.kundebehandling.*;
+import Brukergrensesnitt.okonomi.OkonomiPane;
 import forsikringsprogram.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -82,7 +84,7 @@ public class GUI extends Application{
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("../../bilder/logo.png")));
         BorderPane layout = new BorderPane();
         layout.setTop(faneMeny);
-        layout.setCenter(okonomiLayout);
+        layout.setCenter(kundeLayout);
         
         scene = new Scene(layout, getSkjermBredde() / 1.1, getSkjermHoyde() / 1.2);
         stage.setScene(scene);
@@ -97,8 +99,10 @@ public class GUI extends Application{
                     layout.setCenter(kundeLayout);
                     break;
                 case "Økonomi":
+                    layout.setCenter(okonomiLayout);
                     break;
                 case "Statistikk":
+                    layout.setCenter(new StatistikkPane(kundeRegister));
                     break;
             }
         });
