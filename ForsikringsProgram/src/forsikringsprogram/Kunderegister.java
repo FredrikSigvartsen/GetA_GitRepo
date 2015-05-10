@@ -1,4 +1,5 @@
 package forsikringsprogram;
+import Brukergrensesnitt.GUI;
 import java.io.Serializable;
 import java.util.*;
 
@@ -377,7 +378,7 @@ public class Kunderegister implements Serializable {
         return forsikringerAvType;
     }// end of method finnForsikringer( skadetype )
     
-    //Returnerer antall forsikringer av gitt type
+    //Returnerer antall forsikringer av gitt type. Brukes til søylediagrammet
     public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
@@ -395,8 +396,267 @@ public class Kunderegister implements Serializable {
                     dato.clear(Calendar.MINUTE);
                     dato.clear(Calendar.SECOND);
                     dato.clear(Calendar.MILLISECOND);
-                    if(erMellom( min, max, dato )) {
+                    if(!dato.before(min) && !dato.after(max)) {
                             sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til søylediagrammet
+    public int antallSkademeldingAvType(String skadeType, Calendar min, Calendar max) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType) != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType);
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar dato = skademelding.getOpprettelsesDato();
+                    dato.clear(Calendar.HOUR);
+                    dato.clear(Calendar.HOUR_OF_DAY);
+                    dato.clear(Calendar.MINUTE);
+                    dato.clear(Calendar.SECOND);
+                    dato.clear(Calendar.MILLISECOND);
+                    if(!dato.before(min) && !dato.after(max)) {
+                            sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int antallForsikringerPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null) {
+                List<Forsikring> liste = kunde.getForsikringer().getListe();
+                Iterator<Forsikring> fIter = liste.iterator();
+                while(fIter.hasNext()) {
+                    Forsikring forsikring = fIter.next();
+                    Calendar fDato = forsikring.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int antallForsikringerPaaDatoMedType(Date dato, String forsikringstype) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null && kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
+                List<Forsikring> liste = kunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
+                Iterator<Forsikring> fIter = liste.iterator();
+                while(fIter.hasNext()) {
+                    Forsikring forsikring = fIter.next();
+                    Calendar fDato = forsikring.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int antallSkademeldingerPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().getListe();
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int antallSkademeldingerPaaDatoMedType(Date dato, String skadeType) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType) != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType);
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int antallKunderPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            
+            Calendar fDato = kunde.getStartDato();
+            fDato.clear(Calendar.HOUR);
+            fDato.clear(Calendar.HOUR_OF_DAY);
+            fDato.clear(Calendar.MINUTE);
+            fDato.clear(Calendar.SECOND);
+            fDato.clear(Calendar.MILLISECOND);
+            if(calendarDato.compareTo(fDato) == 0) {
+                    sum++;
+            } 
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int utgifterPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().getListe();
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum += (int) skademelding.getErstatningsbelop();
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+    
+    //Brukes til grafen
+    public int utgifterPaaDatoMedType(Date dato, String skadeType) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType) != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType);
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum += (int) skademelding.getErstatningsbelop();
                     }
                 }
             }

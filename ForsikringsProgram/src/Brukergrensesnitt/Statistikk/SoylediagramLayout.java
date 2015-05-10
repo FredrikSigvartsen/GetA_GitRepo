@@ -1,18 +1,18 @@
+/**
+ *
+ * @author Elias
+ */
+
 package Brukergrensesnitt.Statistikk;
 
-import Brukergrensesnitt.GUI;
 import forsikringsprogram.Forsikring;
 import forsikringsprogram.Kunderegister;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import static javafx.geometry.Pos.CENTER;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
@@ -24,10 +24,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.paint.Color.DARKGRAY;
 
-/**
- *
- * @author Elias
- */
 public class SoylediagramLayout extends GridPane{
     
     private Calendar calMin, calMax;
@@ -52,7 +48,9 @@ public class SoylediagramLayout extends GridPane{
         tilLabel = new Label("Til dato: ");
         
         datePickerFra = new DatePicker();
+        datePickerFra.setEditable(false);
         datePickerTil = new DatePicker();
+        datePickerTil.setEditable(false);
         
         cb = new ComboBox();
         forsikringer = FXCollections.observableArrayList("Forsikringer", "Skademeldinger");
@@ -94,14 +92,25 @@ public class SoylediagramLayout extends GridPane{
         bc.getData().clear();
         XYChart.Series serie1 = new XYChart.Series();
         serie1.setName(type);
-        serie1.getData().add(new XYChart.Data(Forsikring.BAAT, 
-                                              kundeRegister.antallForsikringAvType(Forsikring.BAAT, min, max)));
-        serie1.getData().add(new XYChart.Data(Forsikring.BIL, 
-                                              kundeRegister.antallForsikringAvType(Forsikring.BIL, min, max)));
-        serie1.getData().add(new XYChart.Data(Forsikring.REISE, 
-                                              kundeRegister.antallForsikringAvType(Forsikring.REISE, min, max)));
-        serie1.getData().add(new XYChart.Data(Forsikring.BOLIG, 
-                                              kundeRegister.antallForsikringAvType(Forsikring.BOLIG, min, max)));
+        if(type.equals("Forsikringer")) {
+            serie1.getData().add(new XYChart.Data(Forsikring.BAAT, 
+                                                  kundeRegister.antallForsikringAvType(Forsikring.BAAT, min, max)));
+            serie1.getData().add(new XYChart.Data(Forsikring.BIL, 
+                                                  kundeRegister.antallForsikringAvType(Forsikring.BIL, min, max)));
+            serie1.getData().add(new XYChart.Data(Forsikring.REISE, 
+                                                  kundeRegister.antallForsikringAvType(Forsikring.REISE, min, max)));
+            serie1.getData().add(new XYChart.Data(Forsikring.BOLIG, 
+                                                  kundeRegister.antallForsikringAvType(Forsikring.BOLIG, min, max)));
+        } else {
+            serie1.getData().add(new XYChart.Data(Forsikring.BAAT, 
+                                                  kundeRegister.antallSkademeldingAvType(Forsikring.BAAT, min, max)));
+            serie1.getData().add(new XYChart.Data(Forsikring.BIL, 
+                                                  kundeRegister.antallSkademeldingAvType(Forsikring.BIL, min, max)));
+            serie1.getData().add(new XYChart.Data(Forsikring.REISE, 
+                                                  kundeRegister.antallSkademeldingAvType(Forsikring.REISE, min, max)));
+            serie1.getData().add(new XYChart.Data(Forsikring.BOLIG, 
+                                                  kundeRegister.antallSkademeldingAvType(Forsikring.BOLIG, min, max)));
+        }
        
         bc.getData().add(serie1);
         bc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
@@ -114,11 +123,11 @@ public class SoylediagramLayout extends GridPane{
         
         oppdaterKnapp.setOnAction((ActionEvent e) -> {
             if(e.getSource() == oppdaterKnapp) {
-                //bc.getData().clear();
-                //getChildren().remove(bc);
+                bc.getData().clear();
+                getChildren().remove(bc);
                 Calendar min = Calendar.getInstance();
                 min.set(datePickerFra.getValue().getYear(), 
-                        datePickerFra.getValue().getMonthValue(), 
+                        datePickerFra.getValue().getMonthValue() - 1, 
                         datePickerFra.getValue().getDayOfMonth()); 
                 min.clear(Calendar.HOUR);
                 min.clear(Calendar.HOUR_OF_DAY);
@@ -128,7 +137,7 @@ public class SoylediagramLayout extends GridPane{
                                                    
                 Calendar max = Calendar.getInstance(); 
                 max.set(datePickerTil.getValue().getYear(),
-                        datePickerTil.getValue().getMonthValue(), 
+                        datePickerTil.getValue().getMonthValue() - 1, 
                         datePickerTil.getValue().getDayOfMonth());
                 max.clear(Calendar.HOUR);
                 max.clear(Calendar.HOUR_OF_DAY);
@@ -137,12 +146,7 @@ public class SoylediagramLayout extends GridPane{
                 max.clear(Calendar.MILLISECOND);
                 
                 String type = cb.getValue().toString();
-                String tekst = "Min: " + min.get(Calendar.YEAR) + "/" + min.get(Calendar.MONTH) + "/" + min.get(Calendar.DAY_OF_MONTH) + 
-                                                    "\nMax: " + max.get(Calendar.YEAR) + "/" + max.get(Calendar.MONTH) + "/" + max.get(Calendar.DAY_OF_MONTH) +
-                                                    "\nType: " + type +
-                                                    "\nMetodekall: " + kundeRegister.antallForsikringAvType(Forsikring.REISE, min, max);
-                GUI.visInputFeilMelding("Hei", tekst);
-                //opprettSoylediagram(type, min, max);
+                opprettSoylediagram(type, min, max);
             }
         });
     }

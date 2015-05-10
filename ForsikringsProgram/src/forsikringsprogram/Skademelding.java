@@ -17,7 +17,7 @@ import java.util.List;
 public class Skademelding implements Serializable {
     
     private static final long serialVersionUID = 765L;
-    private Calendar inntruffetDato;
+    private Calendar inntruffetDato, opprettelsesDato;
     private String inntruffetTidspunkt;
     private String skadeType; 
     private static int nesteNr = 1;
@@ -32,6 +32,7 @@ public class Skademelding implements Serializable {
     
     public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt, List<File> bilder) {
         
+        this.opprettelsesDato = Calendar.getInstance();
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
         this.vitneKontakt = vitneKontakt;
@@ -61,6 +62,10 @@ public class Skademelding implements Serializable {
         
        return skademelding;
     }//end of method toString()
+    
+    public Calendar getOpprettelsesDato() {
+        return this.opprettelsesDato;
+    }
     
 //    
 //    //Set-metoder
