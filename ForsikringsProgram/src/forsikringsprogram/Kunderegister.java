@@ -378,11 +378,7 @@ public class Kunderegister implements Serializable {
     }// end of method finnForsikringer( skadetype )
     
     //Returnerer antall forsikringer av gitt type
-    public int antallForsikringAvType(String forsikringstype, String aarstall) {
-        int aar = Integer.parseInt(aarstall);
-        Calendar dato = Calendar.getInstance();
-        dato.set(aar - 1, 12, 31);
-        
+    public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -393,11 +389,14 @@ public class Kunderegister implements Serializable {
                 Iterator<Forsikring> fIter = liste.iterator();
                 while(fIter.hasNext()) {
                     Forsikring forsikring = fIter.next();
-                    if(forsikring.getOpprettelsesDato().after(dato)) {
-                        dato.set(aar + 2,1,1);
-                        if(forsikring.getOpprettelsesDato().before(dato)) {
-                            sum += kunde.getForsikringer().listeMedForsikringAvType(forsikringstype).size();
-                        }
+                    Calendar dato = forsikring.getOpprettelsesDato();
+                    dato.clear(Calendar.HOUR);
+                    dato.clear(Calendar.HOUR_OF_DAY);
+                    dato.clear(Calendar.MINUTE);
+                    dato.clear(Calendar.SECOND);
+                    dato.clear(Calendar.MILLISECOND);
+                    if(erMellom( min, max, dato )) {
+                            sum++;
                     }
                 }
             }
