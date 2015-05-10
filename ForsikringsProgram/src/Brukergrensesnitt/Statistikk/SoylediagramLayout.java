@@ -78,7 +78,7 @@ public class SoylediagramLayout extends GridPane{
         opprettKnapp();
         opprettKontrollPanel();
         
-        setHgap(120);
+        setHgap(170);
     }//end of construnctor
     
     public void opprettSoylediagram(String type, Calendar min, Calendar max) {
