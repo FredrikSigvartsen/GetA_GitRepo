@@ -689,15 +689,15 @@ public class KundesokLayout extends GridPane{
             return;
         }
         try{
-            String skadetype = skadetypeInput.getValue().toString().toLowerCase();
+            String skadetype = skadetypeInput.getValue().toString();
             
             List<Skademelding> skademeldinger = kundeRegister.finnSkademeldinger(skadetype);
             if(skademeldinger.isEmpty()){
-                output.setText("\n Det finnes ingen skademeldinger av typen " + skadetype );
+                output.setText("\n Det finnes ingen skademeldinger av typen " + skadetype.toLowerCase() );
                 return;
             }
             ListIterator<Skademelding> iter = skademeldinger.listIterator();
-            output.setText("\n Følgende skademeldinger er av type " + skadetype + " :");
+            output.setText("\n Følgende skademeldinger er av type " + skadetype.toLowerCase() + " :");
             while(iter.hasNext()){
                 Skademelding iterSkademelding = iter.next();
                 output.appendText( iterSkademelding.toString());

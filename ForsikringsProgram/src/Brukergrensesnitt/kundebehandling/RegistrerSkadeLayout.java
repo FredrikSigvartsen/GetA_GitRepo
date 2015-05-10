@@ -16,9 +16,7 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import static javafx.scene.control.Alert.AlertType.*;
 import javafx.scene.layout.*;
 import static javafx.scene.text.Font.font;
@@ -26,15 +24,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
- *
- * @author fredrik
+ * Her foregår all interaksjon med brukeren. Her fyller brukeren inn angitte inputs og dette valideres, før det registreres i kunderegisteret. 
+ * @author Fredrik
  */
 public class RegistrerSkadeLayout extends GridPane {
 
     private Kunderegister kundeRegister;
     private Button registrerKnapp, lastOppFilKnapp;
     private TextArea skadeBeskrivelseInput, vitneKontaktInput;
-    private TextField fodselsNrInput, takstInput, erstatningsOutput, tidspunktInput;
+    private TextField fodselsNrInput, takstInput, tidspunktInput;
     private GridPane bildeLayout, registreringsLayout;
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
@@ -42,11 +40,18 @@ public class RegistrerSkadeLayout extends GridPane {
     private List<File> bildefiler;
     private int antallBilder;
     
+    /**
+     * Oppretter hele layoutet.
+     * @param register Kunderegisteret skademeldingen skal registreres i. 
+     */
     public RegistrerSkadeLayout(Kunderegister register){
         opprettRegisteringLayout();
         this.kundeRegister = register;
-    }
+    }// end of constructor
     
+    /**
+     * Oppretter layoutet
+     */
     private void opprettRegisteringLayout(){
         bildeLayout = bildeOpplastning();
         registreringsLayout = registreringLayout();
@@ -56,7 +61,6 @@ public class RegistrerSkadeLayout extends GridPane {
         setPadding(new Insets(30, 20, 30, 50));
         setVgap(10);
         setHgap(20);
-        
     }// end of method opprettRegistreringsLayout
     
     /**
@@ -106,6 +110,7 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.setHgap(20);
         return returLayout;
     }// end of method bildeOpplastning()
+    
     /**
      * Her foregår registreringen av en skademelding
      * @return Layout for registrering av skademelding. 
@@ -115,8 +120,6 @@ public class RegistrerSkadeLayout extends GridPane {
         
         fodselsNrInput = mellomStorInput();
         takstInput = mellomStorInput();
-        erstatningsOutput = mellomStorInput();
-        erstatningsOutput.setEditable(false);
         
         tidspunktInput = litenInput();
         skadeBeskrivelseInput = storInput();
@@ -136,7 +139,7 @@ public class RegistrerSkadeLayout extends GridPane {
                bildefiler = new ArrayList<>();            
                setFelterTomme();
                filLastetOpp.setText("");
-            }
+            }// end of if
             else
                 output.setText("Skademelding ikke registrert. Prøv igjen ved å fylle inn feltene i riktig format, som du fikk beskjed om i varsel-vinduet.");
         });
@@ -158,8 +161,6 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.add( datoInput, 2, 2);
         returLayout.add( new Label("Tidspunkt inntruffet(Timer:Minutter):"), 2, 3);
         returLayout.add( tidspunktInput, 2, 4);
-        returLayout.add( new Label("Erstatningbeløp kunden får utbetalt:"), 2, 5);
-        returLayout.add( erstatningsOutput, 2, 6);
         returLayout.add( new Label("Kontaktinformasjon til eventuelle vitner:"), 2, 7);
         returLayout.add( vitneKontaktInput, 2, 8);
         returLayout.add( output, 2, 9);
@@ -174,7 +175,7 @@ public class RegistrerSkadeLayout extends GridPane {
     }// end of method registreringsLayout()
     
     /**
-     * Henter tekst 
+     * Henter tekst og validerer. Hvis alt valideres, registreres skademeldingen i kunderegisteret, og brukeren får melding avhengig av hva som er feil/galt 
      */
     private boolean registrerSkademelding(){
         if( !felterErFylt() )
@@ -197,7 +198,7 @@ public class RegistrerSkadeLayout extends GridPane {
             String vitneKontakt = vitneKontaktInput.getText();
         
             Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bildefiler ); 
-            output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) );
+            output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) + "\nErstatning utbetalt: kr. " + takst );
             
         }// end of try
         catch(NumberFormatException | NullPointerException e){
@@ -209,6 +210,7 @@ public class RegistrerSkadeLayout extends GridPane {
     
     /**
      * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn. 
+     * @return En boolsk verdi som tilsier om feltene er fylt, eller ikke.
      */
     private boolean felterErFylt(){
         if( fodselsNrInput.getText().trim().isEmpty()){
@@ -285,9 +287,7 @@ public class RegistrerSkadeLayout extends GridPane {
         skadeBeskrivelseInput.setText("");
         datoInput.setValue(null);
         tidspunktInput.setText("");
-        erstatningsOutput.setText("");
         vitneKontaktInput.setText("");
-        
     }// end of method setFelterTomme()
     
     /**
@@ -359,6 +359,10 @@ public class RegistrerSkadeLayout extends GridPane {
         return innskrift;
     } // end of method storreInputOmraade()
     
+    /**
+     * Setter størrelse og skrift. 
+     * @return En label for outputs. 
+     */
     private Label outputLabel(){
         Label nyoutput = new Label();
         nyoutput.setMaxWidth( GUI.getSkjermBredde()/4);
@@ -367,6 +371,4 @@ public class RegistrerSkadeLayout extends GridPane {
         nyoutput.setFont( font(20.00) );
         return nyoutput;
     } // end of method setOutputLabel()
-    
-    
 }// end of class RegistrerSkadeLayout
