@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  *
- * @author Fredrik
+ * @author Fredrik, Elias
  */
 public class Kunderegister implements Serializable {
     
