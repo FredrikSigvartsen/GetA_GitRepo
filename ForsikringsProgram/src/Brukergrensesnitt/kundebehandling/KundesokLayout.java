@@ -564,21 +564,31 @@ public class KundesokLayout extends GridPane{
         
         String fornavn = fornavnInput.getText().trim();
         String etternavn = etternavnInput.getText().trim();
-        
-        if( !( GUI.sjekkRegex(GUI.NAVN_REGEX, fornavn) || !( GUI.sjekkRegex(GUI.NAVN_REGEX, etternavn)) ) ){
-            GUI.visInputFeilMelding("OBS!", "For å kunne søke på en kunde med fornavn og etternavn, må du fylle inn et gyldig navn."
-                                          + " Et gyldig navn består av bokstaver.");
+        if( !( fornavn.isEmpty() ) &&!( GUI.sjekkRegex( GUI.NAVN_REGEX, fornavn)  ) ){
+            GUI.visInputFeilMelding("OBS!", "For å kunne søke på en kunde med fornavn, må du fylle inn et gyldig fornavn."
+                                  + "\nEt gyldig fornavn med starter med stor forbokstav, og består av bokstaver, og kan bestå et fåtall tegn."
+                                  + "\nPrøv igjen med fornavn i gyldig form.");
             return false;
         }// end of if
+        else if( !( etternavn.isEmpty() ) && !( GUI.sjekkRegex( GUI.NAVN_REGEX, etternavn) ) ){
+           GUI.visInputFeilMelding("OBS!", "Etternavn ikke i gyldig format."
+                                 + "\nEt gyldig etternavn starter med stor forbokstav, og består av bokstaver, og kan bestå av et fåtall tegn"
+                                 + "\nPrøv igjen med etternavn i gyldig form.");
+            return false;
+        }// end of else if
         
         try{
-            //Hvis fornavn-felt er tomt skal man søke på etternavn
-            if( fornavn.isEmpty() )
+            //Hvis fornavn-felt er tomt søkes det på etternavn
+            if( fornavn.isEmpty() ){
+                
                 output.setText( visValgAvKunder("Etternavn") );
+            }// end of outter if
             
-            //Hvis etternavn-felt er tomt skal man søke på fornavn
-            else if( etternavn.isEmpty() )
+            //Hvis etternavn-felt er tomt søkes det på fornavn
+            else if( etternavn.isEmpty() ){
+                
                 output.setText( visValgAvKunder("Fornavn") );
+            }// end of outter else
             
             //Hvis begge er fylt, så skal man søke på både fornavn og etternavn
             else if( !( fornavn.isEmpty() ) && !( etternavn.isEmpty() ) )
