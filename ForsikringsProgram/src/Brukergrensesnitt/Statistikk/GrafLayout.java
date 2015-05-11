@@ -33,6 +33,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static javafx.scene.paint.Color.DARKGRAY;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class GrafLayout extends GridPane{
     
@@ -42,11 +44,12 @@ public class GrafLayout extends GridPane{
     private CheckBox cb1,cb2,cb3,cb4;
     private ObservableList<String> forsikringer;
     private Button knapp;
-    private Label fraLabel, tilLabel, typeLabel/*, statLabel*/;
+    private Label fraLabel, tilLabel, typeLabel, beskrivelse;
     private GridPane pane/*, pane1*/, pane2;
     private VBox vbox1;
     private LineChart<String,Number> lc;
     private Kunderegister kundeRegister;
+    private Font tekstStr = Font.font(null, FontWeight.BOLD, 20);
     
     public GrafLayout(Kunderegister register) {
         kundeRegister = register;
@@ -68,7 +71,7 @@ public class GrafLayout extends GridPane{
         fraLabel = new Label("Fra dato: ");
         tilLabel = new Label("Til dato: ");
         typeLabel = new Label("Type: ");
-        //statLabel = new Label("Velg statistikk du vil vise: ");
+        beskrivelse = new Label("Linje-graf");
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
@@ -290,7 +293,7 @@ public class GrafLayout extends GridPane{
      * Oppretter knappen og lytter på den.
      */
     private void opprettKnapp() {
-        knapp = new Button("Oppdater graf");
+        knapp = new Button("Oppdater linje-graf");
         
         knapp.setOnAction((ActionEvent e) -> {
             if(e.getSource() == knapp) {
@@ -387,15 +390,17 @@ public class GrafLayout extends GridPane{
         GridPane.setMargin(knapp, new Insets(5, 0, 0, 20));
         pane2.add(knapp, 1, 2, 2, 1);
         
-        pane.add(fraLabel, 1, 1);
-        pane.add(datePickerFra, 2, 1);
+        beskrivelse.setFont(tekstStr);
+        pane.add(beskrivelse, 1, 1, 4, 1);
+        pane.add(fraLabel, 1, 2);
+        pane.add(datePickerFra, 2, 2);
         GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
-        pane.add(tilLabel, 3, 1);
-        pane.add(datePickerTil, 4, 1);
+        pane.add(tilLabel, 3, 2);
+        pane.add(datePickerTil, 4, 2);
         GridPane.setMargin(vbox1, new Insets(5, 0, 0, 20));
-        pane.add(vbox1, 2, 2);
+        pane.add(vbox1, 2, 3);
         
-        pane.add(pane2, 3, 2,2,1);
+        pane.add(pane2, 3, 3,2,1);
         
         GridPane.setHalignment(pane, HPos.CENTER);
         
