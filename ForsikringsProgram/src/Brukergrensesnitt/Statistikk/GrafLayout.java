@@ -25,6 +25,8 @@ import javafx.geometry.Insets;
 import static javafx.geometry.Pos.CENTER;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import static javafx.scene.layout.BorderStroke.THIN;
@@ -33,6 +35,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static javafx.scene.paint.Color.DARKGRAY;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class GrafLayout extends GridPane{
     
@@ -42,11 +46,15 @@ public class GrafLayout extends GridPane{
     private CheckBox cb1,cb2,cb3,cb4;
     private ObservableList<String> forsikringer;
     private Button knapp;
-    private Label fraLabel, tilLabel, typeLabel/*, statLabel*/;
-    private GridPane pane/*, pane1*/, pane2;
+    private Label fraLabel, tilLabel, typeLabel, beskrivelse;
+    private GridPane pane, pane1, pane2;
     private VBox vbox1;
     private LineChart<String,Number> lc;
     private Kunderegister kundeRegister;
+    private Image bilde;
+    private ImageView iv, iv1;
+    private Tooltip tooltip;
+    private Font tekstStr, tekstStr1;
     
     public GrafLayout(Kunderegister register) {
         kundeRegister = register;
@@ -64,11 +72,32 @@ public class GrafLayout extends GridPane{
         pane.setAlignment(CENTER);
         //pane1 = new GridPane();
         pane2 = new GridPane();
+        pane1 = new GridPane();
         
         fraLabel = new Label("Fra dato: ");
         tilLabel = new Label("Til dato: ");
         typeLabel = new Label("Type: ");
-        //statLabel = new Label("Velg statistikk du vil vise: ");
+        beskrivelse = new Label("Linje-graf");
+        
+        tekstStr = Font.font(null, FontWeight.BOLD, 20);
+        tekstStr1 = Font.font(null, FontWeight.BOLD, 12);
+        
+        bilde = new Image(getClass().getResourceAsStream("/Bilder/info_icon.png"));
+        iv = new ImageView();
+        iv.setImage(bilde);
+        iv.setFitWidth(30);
+        iv.setFitHeight(30);
+        iv1 = new ImageView();
+        iv1.setImage(bilde);
+        iv1.setFitWidth(60);
+        iv1.setFitHeight(60);
+        tooltip = new Tooltip("Linje-grafen viser øking/minking i antall registrerte forsikringer/skademeldinger/kunder " +
+                              "\nog utbetalt erstatninger fra dag til dag i tidsrommet mellom de to datoene." +
+                              "\nVelg datoer, velg type du vil se og oppdater deretter " +
+                              "\nlinjegrafen ved å trykke på knappen.");
+        tooltip.setGraphic(iv1);
+        tooltip.setFont(tekstStr1);
+        Tooltip.install(iv, tooltip);
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
@@ -290,7 +319,7 @@ public class GrafLayout extends GridPane{
      * Oppretter knappen og lytter på den.
      */
     private void opprettKnapp() {
-        knapp = new Button("Oppdater graf");
+        knapp = new Button("Oppdater linje-graf");
         
         knapp.setOnAction((ActionEvent e) -> {
             if(e.getSource() == knapp) {
@@ -387,15 +416,21 @@ public class GrafLayout extends GridPane{
         GridPane.setMargin(knapp, new Insets(5, 0, 0, 20));
         pane2.add(knapp, 1, 2, 2, 1);
         
-        pane.add(fraLabel, 1, 1);
-        pane.add(datePickerFra, 2, 1);
-        GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
-        pane.add(tilLabel, 3, 1);
-        pane.add(datePickerTil, 4, 1);
-        GridPane.setMargin(vbox1, new Insets(5, 0, 0, 20));
-        pane.add(vbox1, 2, 2);
+        pane1.add(beskrivelse, 1, 1);
+        GridPane.setMargin(iv, new Insets(0, 0, 0, 15));
+        pane1.add(iv, 2, 1);
         
-        pane.add(pane2, 3, 2,2,1);
+        beskrivelse.setFont(tekstStr);
+        pane.add(pane1, 1, 1, 4, 1);
+        pane.add(fraLabel, 1, 2);
+        pane.add(datePickerFra, 2, 2);
+        GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
+        pane.add(tilLabel, 3, 2);
+        pane.add(datePickerTil, 4, 2);
+        GridPane.setMargin(vbox1, new Insets(5, 0, 0, 20));
+        pane.add(vbox1, 2, 3);
+        
+        pane.add(pane2, 3, 3,2,1);
         
         GridPane.setHalignment(pane, HPos.CENTER);
         

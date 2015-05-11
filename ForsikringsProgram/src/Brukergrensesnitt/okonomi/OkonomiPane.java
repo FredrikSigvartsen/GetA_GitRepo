@@ -9,26 +9,17 @@ import Brukergrensesnitt.GUI;
 import forsikringsprogram.ForsikringsKunde;
 import forsikringsprogram.Kunderegister;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.control.TitledPane;
@@ -44,7 +35,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 
 /**
@@ -69,7 +59,6 @@ public class OkonomiPane extends GridPane{
         radioKnapper();
         visOkonomiSkjema();
         this.kundeRegister = register;
-        //tekstFeltLyttere();
         radioKnappLytter();
         visOkonomiLytter();
     }//end of constructor
@@ -85,31 +74,37 @@ public class OkonomiPane extends GridPane{
         Label visLabel = new Label("Vis");
         visLabel.setFont(GUI.OVERSKRIFT);
         
+        //Oppretter utbetalingerArlig knappen
         utbetalingerArlig = new RadioButton("Årlig utbetaling");
         utbetalingerArlig.setFont(tekstStr);
         utbetalingerArlig.setId("utbetalingerArlig");
         utbetalingerArlig.setToggleGroup(gruppe);
         
+        //Oppretter utbetalingerType knappen
         utbetalingerType = new RadioButton("Utbetalinger per forsikringstype");
         utbetalingerType.setFont(tekstStr);
         utbetalingerType.setId("utbetalingerType");
         utbetalingerType.setToggleGroup(gruppe);
         
+        //Oppretter utbetalingerKunde knappen
         utbetalingerKunde = new RadioButton("Utbetalinger per kunde");
         utbetalingerKunde.setFont(tekstStr);
         utbetalingerKunde.setId("utbetalingerKunde");
         utbetalingerKunde.setToggleGroup(gruppe);
         
+        //Oppretter inntektArlig knappen
         inntektArlig = new RadioButton("Årlig inntekt");
         inntektArlig.setFont(tekstStr);
         inntektArlig.setId("inntektArlig");
         inntektArlig.setToggleGroup(gruppe);
         
+        //Oppretter inntektType knappen
         inntektType = new RadioButton("Inntekter per forsikringstype");
         inntektType.setFont(tekstStr);
         inntektType.setId("inntektType");
         inntektType.setToggleGroup(gruppe);
         
+        //Oppretter inntektKunde knappen
         inntektKunde = new RadioButton("Inntekter per kunde");
         inntektKunde.setFont(tekstStr);
         inntektKunde.setId("inntektKunde");
@@ -130,8 +125,7 @@ public class OkonomiPane extends GridPane{
         valgTypePane = new TitledPane();
         valgTypePane.setExpanded(false);
         valgTypePane.setContent(typeInnhold);
-        add(valgTypePane, 2, 2);
-        valgTypePane.setOnMouseClicked((MouseEvent t) -> {
+        valgTypePane.setOnMouseClicked((MouseEvent t) -> { //Setter en lytter på Titeld panen slik at den ikke utvider seg før man trykker på den riktige radioknappen
             valgTypePane.setExpanded(false);
         });
     }//end of method valgType()
@@ -152,7 +146,7 @@ public class OkonomiPane extends GridPane{
                                               "Bilforsikring", "Båtforsikring",
                                               "Boligforsikring", "Reiseforsikring");
         forsikringsType.setItems(forsikringer);
-        forsikringsType.setCellFactory(
+        forsikringsType.setCellFactory(                                         //Setter Font typen til innholdet i comboboxen
                 new Callback<ListView<String>, ListCell<String>>() {
                     @Override
                     public ListCell<String> call(ListView<String> param) {
@@ -192,8 +186,7 @@ public class OkonomiPane extends GridPane{
         valgKundePane = new TitledPane();
         valgKundePane.setExpanded(false);
         valgKundePane.setContent(kundeInnhold);
-        add(valgKundePane, 2, 3);
-        valgKundePane.setOnMouseClicked((MouseEvent t) -> {
+        valgKundePane.setOnMouseClicked((MouseEvent t) -> { //Setter en lytter på Titeld panen slik at den ikke utvider seg før man trykker på den riktige radioknappen
             valgKundePane.setExpanded(false);
         });
     }//end of method valgKunde()
@@ -227,7 +220,7 @@ public class OkonomiPane extends GridPane{
     }//end of method kundeInnhold()
     
     /**
-     * Kolapser alle TiteldPanene
+     * Kolapser begge TiteldPanene
      */
     private void ingenUtvidet(){
         valgTypePane.setExpanded(false);
@@ -253,7 +246,7 @@ public class OkonomiPane extends GridPane{
     }//end of method valgUtvidet()
     
     /**
-     * Oppretter skjema for visning av økonomi
+     * Oppretter layouten for visning av økonomi
      */
     public void visOkonomiSkjema(){
         typeInnhold();
@@ -270,6 +263,8 @@ public class OkonomiPane extends GridPane{
         setHgap(10);
         setVgap(10);
         
+        add(valgTypePane, 2, 2);
+        add(valgKundePane, 2, 3);
         add(visOkonomiLabel, 1, 1);
         add(radioKnappBox, 1, 2, 1, 4);
         add(output, 2, 4);
@@ -342,13 +337,17 @@ public class OkonomiPane extends GridPane{
                     break;
                 case "utbetalingerKunde":
                     String fodselsnr = this.fodselsnr.getText().trim();
-                    ForsikringsKunde kunde = kundeRegister.finnKunde(this.fodselsnr.getText().trim());
-                    double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnr);
-                    if(utbetalingKunde == -1){
-                        output.setText("Det er ikke gjort noen utbetalinger til " + kunde.getEtternavn() + ", " + kunde.getFornavn() + ".");
+                    ForsikringsKunde kundeUtbetaling = kundeRegister.finnKunde(this.fodselsnr.getText().trim());
+                    if(kundeUtbetaling == null){
+                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnr);
                         break;
                     }
-                    output.setText("Utbetalingene til " + kunde.getEtternavn() + ", " + kunde.getFornavn() + " er " + utbetalingKunde + "kr.");
+                    double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnr);
+                    if(utbetalingKunde == -1){
+                        output.setText("Det er ikke gjort noen utbetalinger til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + ".");
+                        break;
+                    }
+                    output.setText("Utbetalingene til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + " er " + utbetalingKunde + "kr.");
                     break;
                 case "inntektType":
                     String forsikringsTypeInntekt = (String) this.forsikringsType.getValue();
@@ -361,12 +360,17 @@ public class OkonomiPane extends GridPane{
                     break;
                 case "inntektKunde":
                     String fodselsnrInntekt = this.fodselsnr.getText().trim();
-                    double inntektFodselsnr = kundeRegister.inntektFraKunde(fodselsnrInntekt);
-                    if(inntektFodselsnr == -1){
-                        output.setText("Vi har ingen inntekt fra " + fodselsnrInntekt + ".");
+                    ForsikringsKunde kundeInntekt = kundeRegister.finnKunde(this.fodselsnr.getText().trim());
+                    if(kundeInntekt == null){
+                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnrInntekt);
                         break;
                     }
-                    output.setText("Inntektene fra " + fodselsnrInntekt + " er " + inntektFodselsnr + "kr.");
+                    double inntektFodselsnr = kundeRegister.inntektFraKunde(fodselsnrInntekt);
+                    if(inntektFodselsnr == -1){
+                        output.setText("Vi har ingen inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + ".");
+                        break;
+                    }
+                    output.setText("Inntektene fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + " er " + inntektFodselsnr + "kr.");
                     break;
             }
         }
