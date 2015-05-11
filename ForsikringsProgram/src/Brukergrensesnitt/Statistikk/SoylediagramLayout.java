@@ -17,6 +17,8 @@ import javafx.geometry.Insets;
 import static javafx.geometry.Pos.CENTER;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import static javafx.scene.layout.BorderStroke.THIN;
@@ -24,29 +26,56 @@ import static javafx.scene.layout.BorderStrokeStyle.SOLID;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.paint.Color.DARKGRAY;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class SoylediagramLayout extends GridPane{
     
     private Calendar calMin, calMax;
     private DatePicker datePickerFra, datePickerTil;
     private BarChart<String, Number> bc;
-    private GridPane pane, pane1;
-    private Label typeLabel, fraLabel, tilLabel;
+    private GridPane pane, pane1, pane2;
+    private Label typeLabel, fraLabel, tilLabel, beskrivelse;
     private Button oppdaterKnapp;
     private ComboBox cb;
     private Kunderegister kundeRegister;
     private ObservableList<String> forsikringer;
+    private Tooltip tooltip;
+    private Image bilde;
+    private ImageView iv, iv1;
+    private Font tekstStr, tekstStr1;
     
     public SoylediagramLayout(Kunderegister register) {
         kundeRegister = register;
         pane = new GridPane();
         pane.setAlignment(CENTER);
         pane1 = new GridPane();
+        pane2 = new GridPane();
         //pane1.setAlignment(CENTER);
         
         typeLabel = new Label("Forsikringer/Skademeldinger: ");
         fraLabel = new Label("Fra dato: ");
         tilLabel = new Label("Til dato: ");
+        beskrivelse = new Label("Søylediagram");
+        
+        tekstStr = Font.font(null, FontWeight.BOLD, 20);
+        /*tekstStr1 = Font.font(null, FontWeight.BOLD, 12);
+        
+        bilde = new Image(getClass().getResourceAsStream("/Bilder/info_icon.png"));
+        iv = new ImageView();
+        iv.setImage(bilde);
+        iv.setFitWidth(30);
+        iv.setFitHeight(30);
+        iv1 = new ImageView();
+        iv1.setImage(bilde);
+        iv1.setFitWidth(60);
+        iv1.setFitHeight(60);
+        tooltip = new Tooltip("Søylediagrammet viser antall registrerte forsikringer/skademeldinger i" +
+                              "\ntidsrommet mellom de to datoene. Velg datoer, velg type du vil se, oppdater deretter " +
+                              "\ndiagrammet ved å trykke på knappen.");
+        tooltip.setGraphic(iv1);
+        tooltip.setFont(tekstStr1);
+        Tooltip.install(iv, tooltip);*/
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
@@ -85,7 +114,7 @@ public class SoylediagramLayout extends GridPane{
         opprettKnapp();
         opprettKontrollPanel();
         
-        setHgap(170);
+        setHgap(150);
     }//end of construnctor
     
     /**
@@ -135,7 +164,7 @@ public class SoylediagramLayout extends GridPane{
      * Oppretter og lytter på knappen.
      */
     private void opprettKnapp() {
-        oppdaterKnapp = new Button("Oppdater graf");
+        oppdaterKnapp = new Button("Oppdater søylediagram");
         
         oppdaterKnapp.setOnAction((ActionEvent e) -> {
             if(e.getSource() == oppdaterKnapp) {
@@ -175,7 +204,12 @@ public class SoylediagramLayout extends GridPane{
         pane1.add(cb, 2, 1);
         GridPane.setHalignment(pane1, HPos.LEFT);
         
-        pane.add(new Label("Søylediagram"), 1, 1, 4, 1);
+        beskrivelse.setFont(tekstStr);
+        pane2.add(beskrivelse, 1, 1);
+        /*GridPane.setMargin(iv, new Insets(0, 0, 0, 15));
+        pane2.add(iv, 2, 1);*/
+        
+        pane.add(pane2, 1, 1, 4, 1);
         pane.add(fraLabel, 1, 2);
         pane.add(datePickerFra, 2, 2);
         GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
