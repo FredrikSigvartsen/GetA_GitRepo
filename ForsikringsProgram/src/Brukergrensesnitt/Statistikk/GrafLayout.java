@@ -323,10 +323,6 @@ public class GrafLayout extends GridPane{
     }
     
     public void opprettKontrollPanel() {
-        //pane1.add(cb1, 1, 1);
-        //pane1.add(cb2, 2, 1);
-        //pane1.add(cb3, 3, 1);
-        //pane1.add(cb4, 4, 1);
         
         vbox1.getChildren().addAll(cb1, cb2, cb3, cb4);
         GridPane.setMargin(typeLabel, new Insets(0, 0, 0, 20));
@@ -335,7 +331,6 @@ public class GrafLayout extends GridPane{
         pane2.add(cb, 2, 1);
         GridPane.setMargin(knapp, new Insets(5, 0, 0, 20));
         pane2.add(knapp, 1, 2, 2, 1);
-        //pane2.setAlignment(CENTER);
         
         pane.add(fraLabel, 1, 1);
         pane.add(datePickerFra, 2, 1);
@@ -346,23 +341,11 @@ public class GrafLayout extends GridPane{
         pane.add(vbox1, 2, 2);
         
         pane.add(pane2, 3, 2,2,1);
-   
-       
-        
-        //pane.add(cb,1,2);
-        //pane.add(knapp,2,2);
-        //pane.add(pane1, 1, 2, 4, 1);
-        //GridPane.setHalignment(oppdaterKnapp, HPos.RIGHT);
-        //GridPane.setMargin(oppdaterKnapp, new Insets(5, 0, 0, 20));
-        //pane.add(oppdaterKnapp, 4, 2);
         
         GridPane.setHalignment(pane, HPos.CENTER);
         
-        //pane.setHgap(5);
         pane.setVgap(5);
-        //pane1.setVgap(5);
         pane2.setVgap(5);
-        //pane1.setHgap(5);
         add(pane, 1, 1);
     }
 }
