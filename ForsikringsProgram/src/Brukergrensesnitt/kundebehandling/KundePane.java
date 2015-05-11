@@ -114,18 +114,22 @@ public class KundePane extends BorderPane{
             case "forsikringsbehandling":
                 setCenter(forsikringsBehandlingLayout);
                 setMargin(forsikringsBehandlingLayout, new Insets(40));
+                GUI.setTittel("Forsikringsprogram - Behandle forsikring");
                 break;
             case "sok":   
                 setCenter(sokPane);
                 setMargin(sokPane, new Insets(40));
+                GUI.setTittel("Forsikringsprogram - Søk");
                 break;
             case "skaderegistrering":
                 setCenter(registrerSkademeldingLayout);
                 setMargin(registrerSkademeldingLayout, new Insets(40));
+                GUI.setTittel("Forsikringsprogram - Registrer skademelding");
                 break;
             default:
                 setCenter(forsikringsBehandlingLayout);
                 setMargin(forsikringsBehandlingLayout, new Insets(40));
+                GUI.setTittel("Forsikringsprogram - Behandle forsikring");
             }
         });
     }//end of method tabLytter()

@@ -82,7 +82,7 @@ public class GUI extends Application{
         kundeLayout = new KundePane( kundeRegister);
         okonomiLayout = new OkonomiPane(kundeRegister);
         stage = primaryStage;
-        stage.setTitle("Forsikringsprogram");
+        stage.setTitle("Forsikringsprogram - Behandle forsikring");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("../bilder/logo.png")));
         layout = new BorderPane();
         
@@ -188,12 +188,15 @@ public class GUI extends Application{
             switch (t1.getId()) {
                 case "kundebehandling":
                     layout.setCenter(kundeLayout);
+                    setTittel("Forsikringsprogram - Behandle forsikring");
                     break;
                 case "okonomi":
                     layout.setCenter(okonomiLayout);
+                    setTittel("Forsikringsprogram - Økonomi");
                     break;
                 case "statistikk":
                     layout.setCenter(new StatistikkPane(kundeRegister));
+                    setTittel("Forsikringsprogram - Statistikk");
                     break;
             }
         });
@@ -391,6 +394,10 @@ public class GUI extends Application{
     public static double getSkjermHoyde(){
         return (double)opplosning.getHeight();
     }// end of method getSkjermHoyde()
+    
+    public static void setTittel(String tittel){
+        stage.setTitle(tittel);
+    }
     
     public static void main(String[] args) {
         // TODO code application logic here
