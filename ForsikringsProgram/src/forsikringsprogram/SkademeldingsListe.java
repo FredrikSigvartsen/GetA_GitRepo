@@ -1,26 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forsikringsprogram;
 
 import java.io.Serializable;
 import java.util.*;
 
 /**
- *
- * @author fredr_000
+ * En skademeldingsliste inneholder null eller flere skademeldinger. I denne klassen behandler man søk og registrering av og på skademeldinger. 
+ * @author Fredrik, Elias
  */
 public class SkademeldingsListe implements Serializable {
     
     private static final long serialVersionUID = 567L;
     private List<Skademelding> skademeldingsListe;
     
+    /**
+     * Oppretter en skademeldingsliste, av type ArrayList. 
+     */
     public SkademeldingsListe(){
         skademeldingsListe = new ArrayList<>();
-    }
+    }// end of constructor
     
+    /**
+     * Finner alle skademeldinger som er av typen gitt i parameterlisten.
+     * @param skadetype Skadetypen på skademeldingene vi vil finne
+     * @return En liste med skademeldingene av typen angitt i parameterlisten.
+     */
     public List<Skademelding> listeMedSkademeldingAvType(String skadetype) {
         ListIterator<Skademelding> iter = skademeldingsListe.listIterator();
         List<Skademelding> ny = new ArrayList<>();
@@ -32,7 +35,7 @@ public class SkademeldingsListe implements Serializable {
                     if(skademelding.getSkadeType().equals(skadetype)) {
                         ny.add(skademelding);
                     }
-                }   
+                }// end of while      
                 break;
             case "Reise":
                 while(iter.hasNext()) {
@@ -40,7 +43,7 @@ public class SkademeldingsListe implements Serializable {
                     if(skademelding.getSkadeType().equals(skadetype)) {
                         ny.add(skademelding);
                     }
-                }   
+                }// end of while      
                 break;
             case "Bolig":
                 while(iter.hasNext()) {
@@ -48,7 +51,7 @@ public class SkademeldingsListe implements Serializable {
                     if(skademelding.getSkadeType().equals(skadetype)) {
                         ny.add(skademelding);
                     }
-                }   
+                }// end of while      
                 break;
             case "Bil":
                 while(iter.hasNext()) {
@@ -56,14 +59,17 @@ public class SkademeldingsListe implements Serializable {
                     if(skademelding.getSkadeType().equals(skadetype)) {
                         ny.add(skademelding);
                     }
-                }   
+                }// end of while   
                 break;
-        }
+        }// end of switch-case
         return ny;
-    }
+    }// end of method listeMedSkademeldingAvType(String skadetype)
     
-    /* Sender med en skademelding som parameterer, og legger denne til i listen. Hvis skademeldingen blir lagt til i listen, returnerer metoden true. Hvis dette ikke går, returnerer
-     metoden false. */
+    /**
+     * Sender med en skademelding som parameterer, og legger denne til i listen.
+     * @param skade Skademeldinger som skal registreres i listen.
+     * @return En boolsk verdi som tilsier om dette gikk, eller ikke.
+     */
     public boolean registrerSkademelding(Skademelding skade){
         if(skade == null)
             return false;
@@ -77,6 +83,12 @@ public class SkademeldingsListe implements Serializable {
     public boolean erTom(){
         return skademeldingsListe.isEmpty();
     }//end of method erTom()
+    
+    /** 
+     * Finner en skademelding med skadenummer lik parameteren. 
+     * @param skadeNr på skademeldingen brukeren til programmet vil søke opp.
+     * @return skademeldingen som er funnet. 
+     */
     public Skademelding finnSkademeldinger(int skadeNr){
         ListIterator<Skademelding> iterator = skademeldingsListe.listIterator();
         
@@ -87,8 +99,12 @@ public class SkademeldingsListe implements Serializable {
         }
         return null;
     }// end of method finnSkademeldinger(int skadeNr)
-    /* Vi tenker oss at vi har generelle skader. Derfor sender vi med en tekst som beskriver skademeldingstypen, og sammenligner denne teksten mot alle skademeldingene i listens
-       skademeldingstyper. Og vi returnerer alle skademeldinger som er av denne typen skademelding.  */
+    
+    /**
+     * Metoden finner alle skademeldinger av gitt parameter
+     * @param skademeldingsType Hvilken skadetype man vil finne i listen av skademeldinger.. 
+     * @return En liste med skademeldingen av skadetype
+     */
     public List<Skademelding> finnSkademeldinger(String skademeldingsType){
        List<Skademelding> liste = new ArrayList<>();
         
@@ -98,15 +114,15 @@ public class SkademeldingsListe implements Serializable {
             if( skademeldingsType.equalsIgnoreCase( gjeldeneSkademelding.getSkadeType()) )
                 liste.add (gjeldeneSkademelding);
         }// end of while
-        
         return liste;
     }// end of method finnSkademeldinger(String skademeldingsType)
     
-    
-    /* 
-       Her finner vi alle skademeldinger mellom en gitt tidsperiode. Vi sender med to Calendar objekter som parametre, og vi returnerer en liste med skademeldinger FRA OG MED
-       Calender min TIL OG MED Calendar max. Metoden returnerer null hvis listen er tom, eller hvis et av objektene er null. 
-    */
+    /**
+     * Finner alle skademeldingene innenfor det gitte tidsintervallet som blir angitt i paramaterlisten.
+     * @param min Startdato for tidsintervallet det søkes i
+     * @param max Sluttdato for tidsintervallet det søkes i
+     * @return En liste med alle skademelding mellom datoene min og max.
+     */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max){
         
         if( min == null || max == null)
@@ -128,16 +144,21 @@ public class SkademeldingsListe implements Serializable {
         return liste;
     }// end of method finnSkademeldinger( Calendar min, Calendar max)
     
-    
-    
+    /**
+     * Finner alle skademeldingene innenfor det gitte tidsintervallet, og som er av type skademeldingsType.
+     * @param min Startdato for tidsintervallet det søkes i
+     * @param max Sluttdato for tidsintervallet det søkes i
+     * @param skademeldingsType Hvilken type skademeldinger som skal søkes på
+     * @return En liste med skademeldinger. 
+     */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType){
         List<Skademelding> liste = finnSkademeldinger(min,max);
         if(liste != null) {
             if(finnSkademeldinger(skademeldingsType) != null) {
                 liste.retainAll( finnSkademeldinger(skademeldingsType));
                 return liste;
-            }
-        }
+            } // end of inner if
+        }// end of outter if
         return null;
     }// end of method finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType)
     
@@ -145,7 +166,10 @@ public class SkademeldingsListe implements Serializable {
         return this.skademeldingsListe;
     }
     
-    // Returnerer en utskrift av alle skademeldingene i listen. Returnerer null hvis listen er tom. 
+    /**
+     * 
+     * @return Alle skademldingene i listen.  
+     */
     @Override
     public String toString(){
         
@@ -157,8 +181,11 @@ public class SkademeldingsListe implements Serializable {
         return utskrift;
     }// end of method toString()
     
+    /**
+     * 
+     * @return En liste med alle skademeldingene. 
+     */
     public List<Skademelding> getSkademeldingsListe() {
         return skademeldingsListe;
-    }
-    
+    } // end of method getSkademeldingsListe() 
 }// end of class SkademeldingsListe

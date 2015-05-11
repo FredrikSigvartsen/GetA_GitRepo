@@ -70,19 +70,19 @@ public class GUI extends Application{
     private KundePane kundeLayout;
     private OkonomiPane okonomiLayout;
     private Kunderegister kundeRegister;
+    private BorderPane layout;
     
     @Override
     public void start(Stage primaryStage) throws Exception{
         lesFraFil();
         kundeLayout = new KundePane( kundeRegister);
         okonomiLayout = new OkonomiPane(kundeRegister);
-        faneMeny();
-        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
+        opprettFaneMeny();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("../../bilder/logo.png")));
-        BorderPane layout = new BorderPane();
+        layout = new BorderPane();
         layout.setTop(faneMeny);
         layout.setCenter(kundeLayout);
         
@@ -93,19 +93,6 @@ public class GUI extends Application{
             skrivTilFil();
         } );
         
-        fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
-            switch (t1.getText()) {
-                case "Kundebehandling":
-                    layout.setCenter(kundeLayout);
-                    break;
-                case "Økonomi":
-                    layout.setCenter(okonomiLayout);
-                    break;
-                case "Statistikk":
-                    layout.setCenter(new StatistikkPane(kundeRegister));
-                    break;
-            }
-        });
     }// end of method start()
   
     /**
@@ -152,7 +139,10 @@ public class GUI extends Application{
         }
     }// end of method lesFraFil()
     
-    public void faneMeny(){
+    /**
+     * Oppretter navigasjonsmenyen på toppen av vinduet, og kobler opp lyttere til de forskjellige 'tab'sene. 
+     */
+    public void opprettFaneMeny(){
         faneMeny = new HBox();
         fanePanel = new TabPane();
         fanePanel.setMinWidth(GUI.getSkjermBredde() * 2);
@@ -169,13 +159,30 @@ public class GUI extends Application{
         Tab statistikkFane = new Tab();
         statistikkFane.setText("Statistikk");
         fanePanel.getTabs().add(statistikkFane);
+        
         faneMeny.getChildren().add(fanePanel);
-    }// end of method faneMeny()
+        faneMeny.setHgrow(fanePanel, Priority.ALWAYS);
+        
+        fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
+            switch (t1.getText()) {
+                case "Kundebehandling":
+                    layout.setCenter(kundeLayout);
+                    break;
+                case "Økonomi":
+                    layout.setCenter(okonomiLayout);
+                    break;
+                case "Statistikk":
+                    layout.setCenter(new StatistikkPane(kundeRegister));
+                    break;
+            }
+        });
+        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
+    }// end of method opprettFaneMeny()
    
     /**
-     * sjekker teksten skrevet inn i nyverdi mot regex
+     * Sjekker teksten skrevet inn i nyverdi mot regex
      * @param feilLabel-Labelen med * som skal endres på
-     * @param nyverdi-den nye String verdien fra lytteren som kaller på metoden
+     * @param nyverdi Den nye String verdien fra lytteren som kaller på metoden
      * @param melding
      * @param regex
      * @return 
@@ -213,7 +220,7 @@ public class GUI extends Application{
     
     /**
      * 
-     * @param fodselNr Sender med det fødselsnummeret programmereren vil validere. 
+     * @param fodselNr Sender med det fødselsnummeret som skal valideres opp imot gyldige fødselsnumre.  
      * @return En boolsk verdi som tilsier om fødselsnummeret er validert eller ikke. 
      */
     public static boolean sjekkRegexFodselsNr(String fodselNr) {
@@ -226,7 +233,7 @@ public class GUI extends Application{
     }// end of method sjekkRegexFodselsNr(String fodselsDato)
     
     /**
-     * 
+     * Formelen for sjekking av gyldig fødselsnummer er basert på Wikipedia-artikkelen: http://no.wikipedia.org/wiki/F%C3%B8dselsnummer
      * @param fodselsNr Sjekker om fødselsnummer stemmer overens med norske fødselsnummer. 
      * @return En boolsk verdi som tilsier om fødselsnummeret kan være et norsk fødselsnummer. 
      */
@@ -285,6 +292,7 @@ public class GUI extends Application{
     public static void visInputFeilMelding(String tittel, String innhold){
         Alert melding = new Alert(Alert.AlertType.INFORMATION);
         melding.setTitle(tittel);
+        melding.setHeaderText(null);
         melding.setContentText(innhold);
         melding.showAndWait();
     }// end of method visInputFeilMelding(String tittel, String innhold)
@@ -329,18 +337,23 @@ public class GUI extends Application{
      */
     public Kunderegister getKundeRegister(){
         return kundeRegister;
-    }
+    }// end of method getKundeRegister()
+    
     /**
      * 
      * @return skjermbredde/2
      */
     public static double getSkjermBredde(){
         return (double)opplosning.getWidth();
-    }
+    } // end of method getSkjermBredde()
 
+    /**
+     * 
+     * @return Stage'n som blir brukt. 
+     */
     public static Stage getStage() {
         return stage;
-    }
+    }// end of method getStage()
     
     /**
      * 
@@ -348,7 +361,7 @@ public class GUI extends Application{
      */
     public static double getSkjermHoyde(){
         return (double)opplosning.getHeight();
-    }
+    }// end of method getSkjermHoyde()
     
     public static void main(String[] args) {
         // TODO code application logic here

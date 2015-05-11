@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- *
- * @author Fredrik, Elias
+ * Et kunderegister som består av mange kunder. En kunde har null eller flere skademeldinger og forsikringer. I denne klassen gjør man beregninger på statistikk,
+ * inntekter/utgifter og behandling av kundene med deres forsikringer og skademeldinger.
+ * @author Fredrik
  */
 public class Kunderegister implements Serializable {
     
     private static final long serialVersionUID = 123L;
     private TreeSet<ForsikringsKunde> kunderegister;
     
+    /**
+     * Oppretter kunderegisteret, og sorterer først på etternavn, så fornavn, og så fødselsnummer. 
+     */
     public Kunderegister(){
         // Redefinerer comparatoren til å sortere på etternavn
         SerialiserbarComparator<ForsikringsKunde> comparator = new SerialiserbarComparator<ForsikringsKunde>() {
@@ -30,47 +34,58 @@ public class Kunderegister implements Serializable {
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
     }// end of oonstructor
     
-    
-    //Kundebehandling 
-    
-    // selskapets totale utbetaling av erstatninger i løpet av et år
+    /**
+     * Finner selskapets totale utbetaling av erstatninger i løpet av et år
+     * @return Summen av selskapets totale utbetaling ila et år. 
+     */
     public double alleUtbetalteErstatninger() {
         Iterator<ForsikringsKunde> iter = kunderegister.iterator();
         double sum = 0;
         while(iter.hasNext()){
             ForsikringsKunde gjeldendeKunde = iter.next();
             sum += gjeldendeKunde.getUtbetalteErstatninger();
-        }
+        }// end of while
         return sum;
-    }
+    }// end of method alleUtbetalteErstatninger()
     
-    //selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år
+    /**
+     * Finner selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år
+     * @param forsikringstype Forsikringstypen man vil finne summen av utbetaling av erstatninger for.
+     * @return Summen av ersatningene for de gitte skademeldingene av forsikringstype. 
+     */
     public double utbetaltErstatningAvType(String forsikringstype) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         List<Skademelding> smListe = new ArrayList<>();
         double sum = 0;
         while(kIter.hasNext()){
             ForsikringsKunde gjeldendeKunde = kIter.next();
-            if(gjeldendeKunde.getSkademeldinger() != null) {
+            if( ! (gjeldendeKunde.getSkademeldinger().erTom() ) ) {
                 smListe = gjeldendeKunde.getSkademeldinger().listeMedSkademeldingAvType(forsikringstype);
                 ListIterator<Skademelding> sIter = smListe.listIterator();
                 while(sIter.hasNext()) {
                     sum += sIter.next().getErstatningsbelop();
-                }
-            }
-        }
+                }// end of inner while
+            } // end of if
+        }// end of outter while
         return sum;
-    }
+    }// end of method utbetaltErstatningAvType(String forsikringstype)
     
-    //selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet
+    /**
+     * Finner selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet
+     * @param fodselsNr Fødselsnummeret til kunden man vil finne utbetalingene for.
+     * @return Summen av utbetalingene
+     */
     public double utbetalingTilKunde(String fodselsNr) {
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
             return -1; //Fant ikke kunden
         return kunde.getUtbetalteErstatninger();
-    }
+    }// end of method utbetalingTilKunde()
     
-    //selskapets totale forsikringspremieinntekter i løpet av et år
+    /**
+     * Finner selskapets totale forsikringspremieinntekter i løpet av et år
+     * @return Den årlige inntekten.
+     */
     public double aarligInntekt() {
         Iterator<ForsikringsKunde> iter = kunderegister.iterator();
         double sum = 0;
@@ -79,9 +94,13 @@ public class Kunderegister implements Serializable {
             sum += gjeldendeKunde.getAarligUtbetaling();
         }
         return sum;
-    }
+    }// end of method aarligInntekt()
     
-    //selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år
+    /**
+     * Finner selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år
+     * @param forsikringstype Metoden finner inntekter for angitt forsikringstype
+     * @return Inntekten fra gitt forsikringstype
+     */
     public double inntektFraForsikringstype(String forsikringstype) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         List<Forsikring> fListe = new ArrayList<>();
@@ -106,7 +125,7 @@ public class Kunderegister implements Serializable {
      * @param sluttDato På tidsperioden for forsikringene man vil se inntekten for
      * @return Summen av inntekter 
      */
-    public double inntinntektFraForsikringstype(String forsikringstype, Calendar startDato, Calendar sluttDato) {
+    public double inntektFraForsikringstype(String forsikringstype, Calendar startDato, Calendar sluttDato) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         List<Forsikring> fListe = new ArrayList<>();
         double sum = 0;
@@ -124,14 +143,20 @@ public class Kunderegister implements Serializable {
             }// end of outter if
         }// end of while
         return sum;
-    }// end of method inntinntektFraForsikringstype( forsikringstype, startDato, sluttDato)
-    //selskapets forsikringspremieinntekter på en gitt forsikringskunde i løpet av kundeforholdet
+    }// end of method inntektFraForsikringstype( forsikringstype, startDato, sluttDato)
+    
+    
+    /**
+     * Returner all inntekt registrert på en kunde.
+     * @param fodselsNr Fødselsnummeret på kunden man vil finne inntekten til
+     * @return Inntekten til en kunde
+     */
     public double inntektFraKunde(String fodselsNr) {
         ForsikringsKunde kunde = finnKunde(fodselsNr);
         if(kunde == null)
             return -1; //Fant ikke kunden
         return kunde.getAarligUtbetaling();
-    }
+    }// end of method inntektFraKunde()
     
     /**
      * En hjelpemetode for å sjekke om sjekkDato enten er lik, eller ligger i dette tidsintervallet. 
@@ -144,9 +169,10 @@ public class Kunderegister implements Serializable {
        if( sjekkDato.after(start) && sjekkDato.before(slutt))
             return true;
         else if( sjekkDato.equals(start) || sjekkDato.equals(slutt))
-            return false;
+            return true;
         return false;   
     }// end of method erMellom()
+    
     /**
      * Registrerer en ny kunde. 
      * @param ny ForsikringsKunde som blir lagt til i systemet. 
@@ -278,59 +304,76 @@ public class Kunderegister implements Serializable {
     }// end of method finnSkademeldinger(int skadeNr)
     
     /**
-     * 
-     * @param skadetype
-     * @return 
+     * Metoden finner alle skademeldinger av gitt parameter
+     * @param skadetype Hvilken skadetype man vil finne i registeret. 
+     * @return En liste med skademeldingen av skadetype
      */
     public List<Skademelding> finnSkademeldinger( String skadetype ){
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         List<Skademelding> nyListe = new ArrayList<>();
         
         while(kIter.hasNext()) {
-            ForsikringsKunde kunde = kIter.next();
-            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype) != null) {
-                nyListe.addAll(kunde.getSkademeldinger().listeMedSkademeldingAvType(skadetype));
+            SkademeldingsListe gjeldendeKundesSkademeldinger = kIter.next().getSkademeldinger();
+            if(  !( gjeldendeKundesSkademeldinger.erTom() ) && ! (gjeldendeKundesSkademeldinger.listeMedSkademeldingAvType(skadetype).isEmpty()) ) {
+                nyListe.addAll(gjeldendeKundesSkademeldinger.listeMedSkademeldingAvType(skadetype));
             }
-        }
-        
+        }// end of while
         return nyListe;
     }// end of method finnSkademeldinger(skadetype)
     
+    /**
+     * Finner alle skademeldingene innenfor det gitte tidsintervallet som blir angitt i paramaterlisten.
+     * @param min Startdato for tidsintervallet det søkes i
+     * @param max Sluttdato for tidsintervallet det søkes i
+     * @return En liste med alle skademelding mellom datoene min og max.
+     */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max){
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         List<Skademelding> nyListe = new ArrayList<>();
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().finnSkademeldinger(min, max) != null)
+            if( ! ( kunde.getSkademeldinger().erTom() ) && ! (kunde.getSkademeldinger().finnSkademeldinger(min, max).isEmpty() ))
                 nyListe.addAll(kunde.getSkademeldinger().finnSkademeldinger(min, max));
-        }
+        }// end of while
         return nyListe;
-    }
+    }// end of method finnSkademeldinger( Calendar min, Calendar max)
     
+    /**
+     * Finner alle skademeldingene innenfor det gitte tidsintervallet, og som er av type skademeldingsType.
+     * @param min Startdato for tidsintervallet det søkes i
+     * @param max Sluttdato for tidsintervallet det søkes i
+     * @param skademeldingsType Hvilken type skademeldinger som skal søkes på
+     * @return En liste med skademeldinger. 
+     */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType){
-        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
-        List<Skademelding> nyListe = new ArrayList<>();
-        
-        while(kIter.hasNext()) {
-            ForsikringsKunde kunde = kIter.next();
-            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().finnSkademeldinger(min, max, skademeldingsType) != null)
-                nyListe.addAll(kunde.getSkademeldinger().finnSkademeldinger(min, max, skademeldingsType));
-        }
-        return nyListe;
-    }
+        List<Skademelding> skadeliste = finnSkademeldinger( skademeldingsType );
+        List<Skademelding> datoliste = finnSkademeldinger( min, max );
+        if( skadeliste.retainAll(datoliste))
+            return skadeliste;
+        return skadeliste;
+    }// end of method finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType)
     
-    /* Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsNr. Returverdien indikerer om dette gikk eller ikke.
-       Se Forsikringsliste.registrerForsikring()*/
-    public String tegnForsikring(Forsikring ny, String fodselsNr){
-        ForsikringsKunde kunde = finnKunde(fodselsNr);
+    /**
+     * Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsnummer.
+       Se Forsikringsliste.registrerForsikring()
+     * @param ny Forsikring som skal tegnes.
+     * @param fodselsnummer Til kunden som forsikringen skal tegnes på.
+     * @return En String verdi som indikerer en tekst om hva som gikk galt/greit
+     */
+    public String tegnForsikring(Forsikring ny, String fodselsnummer){
+        ForsikringsKunde kunde = finnKunde(fodselsnummer);
         if(kunde == null)
             return "Det finnes ingen kunder med dette fødselsnummeret.";
         return kunde.registrerForsikring(ny);        
-    }// end of method tegnForsikring
+    }// end of method tegnForsikring()
     
-    //Sier opp en forsikring med gitt avtaleNr, på en gitt kunde med gitt fødselsnummer. Returverdien indikerer om hva som gikk galt, eller om alt gikk bra. 
-    // Se ForsikringsKunde.siOppForsikring
+    /**
+     * Sier opp en forsikring med gitt avtaleNr, på en gitt kunde med gitt fødselsnummer.
+     * @param fdnr Fødselsnummeret til kunden forsikringen er tegnet på
+     * @param avtaleNr Avtalenummeret på forsikringen som skal sies opp
+     * @return En tekst-streng som tilsier hva som gikk bra/galt
+     */
     public String siOppForsikring(String fdnr, int avtaleNr){
         ForsikringsKunde kunden = finnKunde(fdnr);
         if(kunden == null)
@@ -372,6 +415,7 @@ public class Kunderegister implements Serializable {
             Forsikringsliste gjeldendeForsikringer = kIter.next().getForsikringer();
             if( !( gjeldendeForsikringer.erTom() )){
                 List<Forsikring> kundensForsikringerAvType = gjeldendeForsikringer.listeMedForsikringAvType(forsikringstype);
+                ListIterator<Forsikring> fIter = kundensForsikringerAvType.listIterator();
                 forsikringerAvType.addAll( kundensForsikringerAvType );
             }// end of if
         }// end of while
@@ -501,7 +545,7 @@ public class Kunderegister implements Serializable {
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            if(kunde.getForsikringer() != null && kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
+            if( !( kunde.getForsikringer().erTom() ) && ! ( kunde.getForsikringer().listeMedForsikringAvType(forsikringstype).isEmpty() ) ) {
                 List<Forsikring> liste = kunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
                 Iterator<Forsikring> fIter = liste.iterator();
                 while(fIter.hasNext()) {
@@ -705,11 +749,11 @@ public class Kunderegister implements Serializable {
             }//end of outer if  
         }//end of outer while
         return sum;
-    }
+    }// end of method antallForsikringAvType()
     
     /**
      * 
-     * @return 
+     * @return En tekststreng for alle kundene i hele registeret. Altså en samling av alle kundenes opplysninger. 
      */
     @Override
     public String toString(){
