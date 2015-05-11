@@ -119,6 +119,7 @@ public class KundesokLayout extends GridPane{
         sokFodselsNrLayout.setExpanded(false);
         sokFodselsNrLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokFodselsNrLayout);
+            settSynligVisKnapper(false);
             settFelterTomme();
         });
         
@@ -126,6 +127,7 @@ public class KundesokLayout extends GridPane{
         sokNavnLayout.setExpanded(false);
         sokNavnLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokNavnLayout);
+            settSynligVisKnapper(false);
             settFelterTomme();
         });
         
