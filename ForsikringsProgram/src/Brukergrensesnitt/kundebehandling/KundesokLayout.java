@@ -30,8 +30,8 @@ import javafx.scene.layout.*;
 import static javafx.scene.text.Font.font;
 
 /**
- *
- * @author Jens
+ * Et stort utvalg søk-muligheter for brukeren. Her foregår all oppslag i kunderegisteret. Du kan her søke på kunder, skademeldinger og forsikringer. 
+ * @author Fredrik
  */
 public class KundesokLayout extends GridPane{
     
@@ -91,6 +91,10 @@ public class KundesokLayout extends GridPane{
         return returOutput;
     }// end of method outputLayout()
     
+    /**
+     * Bildevise-layout hvis man søker på en spesiell skademelding med avtalenummer. 
+     * @return Et bildeviser-layout
+     */
     private GridPane bildeviserLayout(){
         GridPane returLayout = new GridPane();
         returLayout.setVisible(false);
@@ -108,6 +112,7 @@ public class KundesokLayout extends GridPane{
         returLayout.setHgap(15);
         return returLayout;
     } // end of method bildeviserLayout()
+    
     /**
      * 
      * @return Et Layout for diverse søk-metoder. 
@@ -541,7 +546,9 @@ public class KundesokLayout extends GridPane{
     }// end of method finnKundeMedFodselsNr()
      
      /**
-      * Finner en kunde med fornavn og etternavn. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes.
+      * Finner en kunde med fornavn og etternavn. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes. 
+      * Hvis det finnes flere kunder med samme fornavn og/eller etternavn vil brukeren få muligheten til å velge ut den kunden 
+      * som er interessant å søke opp. 
       */
     private boolean finnKundeMedNavn(){
         output.setText("");
