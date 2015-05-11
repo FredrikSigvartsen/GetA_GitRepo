@@ -114,7 +114,7 @@ public class SoylediagramLayout extends GridPane{
         opprettKnapp();
         opprettKontrollPanel();
         
-        setHgap(150);
+        setHgap(145);
     }//end of construnctor
     
     /**
@@ -157,6 +157,7 @@ public class SoylediagramLayout extends GridPane{
         bc.getData().add(serie1);
         bc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         bc.setCategoryGap(40);
+        GridPane.setMargin(bc, new Insets(25,0,0,0));
         add(bc,1,2);
     }
     
@@ -215,9 +216,10 @@ public class SoylediagramLayout extends GridPane{
         GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
         pane.add(tilLabel, 3, 2);
         pane.add(datePickerTil, 4, 2);
+        GridPane.setMargin(pane1, new Insets(18,0,0,0));
         pane.add(pane1, 1, 3, 4, 1);
         GridPane.setHalignment(oppdaterKnapp, HPos.RIGHT);
-        GridPane.setMargin(oppdaterKnapp, new Insets(5, 0, 0, 20));
+        GridPane.setMargin(oppdaterKnapp, new Insets(21, 0, 0, 20));
         pane.add(oppdaterKnapp, 4, 3);
         
         GridPane.setHalignment(pane, HPos.CENTER);
