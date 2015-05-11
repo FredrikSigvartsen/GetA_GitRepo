@@ -59,7 +59,7 @@ public class SoylediagramLayout extends GridPane{
         beskrivelse = new Label("Søylediagram");
         
         tekstStr = Font.font(null, FontWeight.BOLD, 20);
-        /*tekstStr1 = Font.font(null, FontWeight.BOLD, 12);
+        tekstStr1 = Font.font(null, FontWeight.BOLD, 12);
         
         bilde = new Image(getClass().getResourceAsStream("/Bilder/info_icon.png"));
         iv = new ImageView();
@@ -75,7 +75,7 @@ public class SoylediagramLayout extends GridPane{
                               "\ndiagrammet ved å trykke på knappen.");
         tooltip.setGraphic(iv1);
         tooltip.setFont(tekstStr1);
-        Tooltip.install(iv, tooltip);*/
+        Tooltip.install(iv, tooltip);
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
@@ -206,8 +206,8 @@ public class SoylediagramLayout extends GridPane{
         
         beskrivelse.setFont(tekstStr);
         pane2.add(beskrivelse, 1, 1);
-        /*GridPane.setMargin(iv, new Insets(0, 0, 0, 15));
-        pane2.add(iv, 2, 1);*/
+        GridPane.setMargin(iv, new Insets(0, 0, 0, 15));
+        pane2.add(iv, 2, 1);
         
         pane.add(pane2, 1, 1, 4, 1);
         pane.add(fraLabel, 1, 2);
