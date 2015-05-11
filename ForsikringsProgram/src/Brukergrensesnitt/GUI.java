@@ -77,9 +77,8 @@ public class GUI extends Application{
         lesFraFil();
         kundeLayout = new KundePane( kundeRegister);
         okonomiLayout = new OkonomiPane(kundeRegister);
-        opprettFaneMeny();
-        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
         //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
+        opprettFaneMeny();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("../../bilder/logo.png")));
@@ -140,6 +139,9 @@ public class GUI extends Application{
         }
     }// end of method lesFraFil()
     
+    /**
+     * Oppretter navigasjonsmenyen på toppen av vinduet, og kobler opp lyttere til de forskjellige 'tab'sene. 
+     */
     public void opprettFaneMeny(){
         faneMeny = new HBox();
         fanePanel = new TabPane();
@@ -174,12 +176,13 @@ public class GUI extends Application{
                     break;
             }
         });
+        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
     }// end of method opprettFaneMeny()
    
     /**
-     * sjekker teksten skrevet inn i nyverdi mot regex
+     * Sjekker teksten skrevet inn i nyverdi mot regex
      * @param feilLabel-Labelen med * som skal endres på
-     * @param nyverdi-den nye String verdien fra lytteren som kaller på metoden
+     * @param nyverdi Den nye String verdien fra lytteren som kaller på metoden
      * @param melding
      * @param regex
      * @return 
@@ -217,7 +220,7 @@ public class GUI extends Application{
     
     /**
      * 
-     * @param fodselNr Sender med det fødselsnummeret programmereren vil validere. 
+     * @param fodselNr Sender med det fødselsnummeret som skal valideres opp imot gyldige fødselsnumre.  
      * @return En boolsk verdi som tilsier om fødselsnummeret er validert eller ikke. 
      */
     public static boolean sjekkRegexFodselsNr(String fodselNr) {
@@ -335,6 +338,7 @@ public class GUI extends Application{
     public Kunderegister getKundeRegister(){
         return kundeRegister;
     }// end of method getKundeRegister()
+    
     /**
      * 
      * @return skjermbredde/2
@@ -343,6 +347,10 @@ public class GUI extends Application{
         return (double)opplosning.getWidth();
     } // end of method getSkjermBredde()
 
+    /**
+     * 
+     * @return Stage'n som blir brukt. 
+     */
     public static Stage getStage() {
         return stage;
     }// end of method getStage()
