@@ -161,6 +161,10 @@ public class Forsikringsliste implements Serializable {
         return null;
     }// end of method finnForsikringer(avataleNr)
     
+    public List<Forsikring> getListe() {
+        return this.liste;
+    }
+    
     @Override
     public String toString() {
         ListIterator<Forsikring> iter = liste.listIterator();

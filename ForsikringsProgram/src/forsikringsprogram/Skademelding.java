@@ -16,7 +16,7 @@ import java.util.List;
 public class Skademelding implements Serializable {
     
     private static final long serialVersionUID = 765L;
-    private Calendar inntruffetDato;
+    private Calendar inntruffetDato, opprettelsesDato;
     private String inntruffetTidspunkt;
     private String skadeType; 
     private static int nesteNr = 1;
@@ -39,6 +39,11 @@ public class Skademelding implements Serializable {
      * @param bilder liste av filer, for lagring av flere bilder av skaden.
      */
     public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt, List<File> bilder) {
+<<<<<<< HEAD
+=======
+        
+        this.opprettelsesDato = Calendar.getInstance();
+>>>>>>> Kunderegister-1.0
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
         this.vitneKontakt = vitneKontakt;
@@ -72,9 +77,23 @@ public class Skademelding implements Serializable {
        return skademelding;
     }//end of method toString()
     
+<<<<<<< HEAD
     /**
      * Setter ersatningsbeløpet lik taksten. 
      */
+=======
+    public Calendar getOpprettelsesDato() {
+        return this.opprettelsesDato;
+    }
+    
+//    
+//    //Set-metoder
+//    public void setInntruffetDato(Calendar inntruffetDato) {
+//        this.inntruffetDato = inntruffetDato;
+//    }
+//    
+    
+>>>>>>> Kunderegister-1.0
     public void setErstatningsbelopLikTakst() {
         this.erstatningsbelop = this.takst;
     }// end of method getBilder()

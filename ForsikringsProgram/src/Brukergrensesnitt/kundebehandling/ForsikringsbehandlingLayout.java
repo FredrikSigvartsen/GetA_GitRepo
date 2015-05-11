@@ -46,9 +46,9 @@ public class ForsikringsbehandlingLayout extends GridPane {
         kundeRegistrering.setMaxWidth( GUI.getSkjermBredde() / 3);
         kundeRegistrering.setPrefWidth( GUI.getSkjermBredde() / 3);
         
-        kundeRegistrering.setMinHeight( GUI.getSkjermHoyde() / 3);
-        kundeRegistrering.setPrefHeight( GUI.getSkjermHoyde() / 3);
-        kundeRegistrering.setMaxHeight( GUI.getSkjermHoyde() / 3);
+        kundeRegistrering.setMinHeight( GUI.getSkjermHoyde() / 2.5);
+        kundeRegistrering.setPrefHeight( GUI.getSkjermHoyde() / 2.5);
+        kundeRegistrering.setMaxHeight( GUI.getSkjermHoyde() / 2.5);
         
         
         //Tegn forsikring - layout

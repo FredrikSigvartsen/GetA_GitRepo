@@ -1,7 +1,20 @@
+/**
+ *
+ * @author Elias
+ */
+
 package Brukergrensesnitt.Statistikk;
 
+import Brukergrensesnitt.GUI;
 import forsikringsprogram.Forsikring;
 import forsikringsprogram.Kunderegister;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,272 +31,376 @@ import static javafx.scene.layout.BorderStroke.THIN;
 import static javafx.scene.layout.BorderStrokeStyle.SOLID;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import static javafx.scene.paint.Color.DARKGRAY;
 
-/**
- *
- * @author Elias
- */
 public class GrafLayout extends GridPane{
     
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private DatePicker datePickerFra, datePickerTil;
     private ComboBox cb;
+    private CheckBox cb1,cb2,cb3,cb4;
+    private ObservableList<String> forsikringer;
     private Button knapp;
-    private Label fraLabel, tilLabel, typeLabel, statLabel;
-    private GridPane pane, pane1;
+    private Label fraLabel, tilLabel, typeLabel/*, statLabel*/;
+    private GridPane pane/*, pane1*/, pane2;
+    private VBox vbox1;
     private LineChart<String,Number> lc;
     private Kunderegister kundeRegister;
     
     public GrafLayout(Kunderegister register) {
         kundeRegister = register;
         
+        cb = new ComboBox();
+        forsikringer = FXCollections.observableArrayList(
+                                              "Alle", "Bil", "Bolig",
+                                              "Båt", "Reise");
+        cb.setItems(forsikringer);
+        cb.setValue("Alle");
+        
+        vbox1 = new VBox();
+        
         pane = new GridPane();
         pane.setAlignment(CENTER);
-        pane1 = new GridPane();
+        //pane1 = new GridPane();
+        pane2 = new GridPane();
         
         fraLabel = new Label("Fra dato: ");
         tilLabel = new Label("Til dato: ");
         typeLabel = new Label("Type: ");
-        statLabel = new Label("Velg statistikk du vil vise: ");
+        //statLabel = new Label("Velg statistikk du vil vise: ");
         
         datePickerFra = new DatePicker();
+        datePickerFra.setEditable(false);
+        datePickerFra.setValue(LocalDate.of(2015, 5, 1));
         datePickerTil = new DatePicker();
+        datePickerTil.setEditable(false);
+        datePickerTil.setValue(LocalDate.now());
         
-        opprettGrafMedAlle();
+        opprettCheckBoxer();
+        opprettGraf(opprettForsikringSerie("Alle"));
         opprettKnapp();
-        opprettComboBox();
         opprettKontrollPanel();
     }//end of construnctor
     
-    public void opprettGrafMedAlle() {
-        
+    /**
+     * Oppretter graf med gitt serie.
+     * @param serie 
+     */
+    private void opprettGraf(XYChart.Series serie) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
         lc.setTitle("Øking/Minking");
-        
-        XYChart.Series serie1 = new XYChart.Series();
-        serie1.setName("Skademeldinger");
-        serie1.getData().add(new XYChart.Data("Jan", 23));
-        serie1.getData().add(new XYChart.Data("Feb", 14));
-        serie1.getData().add(new XYChart.Data("Mar", 15));
-        serie1.getData().add(new XYChart.Data("Apr", 24));
-        serie1.getData().add(new XYChart.Data("Mai", 34));
-        serie1.getData().add(new XYChart.Data("Jun", 36));
-        serie1.getData().add(new XYChart.Data("Jul", 22));
-        serie1.getData().add(new XYChart.Data("Aug", 45));
-        serie1.getData().add(new XYChart.Data("Sep", 43));
-        serie1.getData().add(new XYChart.Data("Okt", 17));
-        serie1.getData().add(new XYChart.Data("Nov", 29));
-        serie1.getData().add(new XYChart.Data("Des", 25));
-        
-        XYChart.Series serie2 = new XYChart.Series();
-        serie2.setName("Forsikringer");
-        serie2.getData().add(new XYChart.Data("Jan", 12));
-        serie2.getData().add(new XYChart.Data("Feb", 3));
-        serie2.getData().add(new XYChart.Data("Mar", 8));
-        serie2.getData().add(new XYChart.Data("Apr", 34));
-        serie2.getData().add(new XYChart.Data("Mai", 23));
-        serie2.getData().add(new XYChart.Data("Jun", 50));
-        serie2.getData().add(new XYChart.Data("Jul", 27));
-        serie2.getData().add(new XYChart.Data("Aug", 13));
-        serie2.getData().add(new XYChart.Data("Sep", 26));
-        serie2.getData().add(new XYChart.Data("Okt", 19));
-        serie2.getData().add(new XYChart.Data("Nov", 21));
-        serie2.getData().add(new XYChart.Data("Des", 10));
-        
-        XYChart.Series serie3 = new XYChart.Series();
-        serie3.setName("Kunder");
-        serie3.getData().add(new XYChart.Data("Jan", 7));
-        serie3.getData().add(new XYChart.Data("Feb", 15));
-        serie3.getData().add(new XYChart.Data("Mar", 13));
-        serie3.getData().add(new XYChart.Data("Apr", 21));
-        serie3.getData().add(new XYChart.Data("Mai", 19));
-        serie3.getData().add(new XYChart.Data("Jun", 13));
-        serie3.getData().add(new XYChart.Data("Jul", 7));
-        serie3.getData().add(new XYChart.Data("Aug", 15));
-        serie3.getData().add(new XYChart.Data("Sep", 10));
-        serie3.getData().add(new XYChart.Data("Okt", 11));
-        serie3.getData().add(new XYChart.Data("Nov", 5));
-        serie3.getData().add(new XYChart.Data("Des", 16));
-        
+        lc.getData().add(serie);
+        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
+        add(lc,1,2);
+    }
+    
+    /**
+     * Oppretter graf med de to seriene som er gitt..
+     * @param serie1
+     * @param serie2 
+     */
+    private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2) {
+        CategoryAxis xAkse = new CategoryAxis();
+        NumberAxis yAkse = new NumberAxis();
+        lc = new LineChart<>(xAkse,yAkse);
+        xAkse.setLabel("Måned");       
+        yAkse.setLabel("Antall");   
+        lc.setTitle("Øking/Minking");
+        lc.getData().addAll(serie1, serie2);
+        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
+        add(lc,1,2);
+    }
+    
+    /**
+     * Oppretter graf med de tre seriene som er gitt.
+     * @param serie1
+     * @param serie2
+     * @param serie3 
+     */
+    private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3) {
+        CategoryAxis xAkse = new CategoryAxis();
+        NumberAxis yAkse = new NumberAxis();
+        lc = new LineChart<>(xAkse,yAkse);
+        xAkse.setLabel("Måned");       
+        yAkse.setLabel("Antall");   
+        lc.setTitle("Øking/Minking");
         lc.getData().addAll(serie1, serie2, serie3);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
     }
     
-    public void opprettForsikringsGraf() {
+    /**
+     * Oppretter graf med de fire seriene om er gitt.
+     * @param serie1
+     * @param serie2
+     * @param serie3
+     * @param serie4 
+     */
+    private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3, XYChart.Series serie4) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
         lc.setTitle("Øking/Minking");
-        
-        XYChart.Series serie2 = new XYChart.Series();
-        serie2.setName("Forsikringer");
-        serie2.getData().add(new XYChart.Data("Jan", 12));
-        serie2.getData().add(new XYChart.Data("Feb", 3));
-        serie2.getData().add(new XYChart.Data("Mar", 8));
-        serie2.getData().add(new XYChart.Data("Apr", 34));
-        serie2.getData().add(new XYChart.Data("Mai", 23));
-        serie2.getData().add(new XYChart.Data("Jun", 50));
-        serie2.getData().add(new XYChart.Data("Jul", 27));
-        serie2.getData().add(new XYChart.Data("Aug", 13));
-        serie2.getData().add(new XYChart.Data("Sep", 26));
-        serie2.getData().add(new XYChart.Data("Okt", 19));
-        serie2.getData().add(new XYChart.Data("Nov", 21));
-        serie2.getData().add(new XYChart.Data("Des", 10));
-        
-        lc.getData().add(serie2);
+        lc.getData().addAll(serie1, serie2, serie3, serie4);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
     }
     
-    public void opprettSkademeldingGraf() {
-        CategoryAxis xAkse = new CategoryAxis();
-        NumberAxis yAkse = new NumberAxis();
-        lc = new LineChart<>(xAkse,yAkse);
-        xAkse.setLabel("Måned");       
-        yAkse.setLabel("Antall");   
-        lc.setTitle("Øking/Minking");
+    /**
+     * Oppretter en XYChart.Series over antall registrerte forsikringer med gitt type på de forskjellige datoene.
+     * @param type
+     * @return Returnerer XYChart.Series.
+     */
+    private XYChart.Series opprettForsikringSerie(String type) {
+        List<Date> datoListe = lagDatoListe();
+        ListIterator<Date> iter = datoListe.listIterator();
         
-        XYChart.Series serie1 = new XYChart.Series();
-        serie1.setName("Skademeldinger");
-        serie1.getData().add(new XYChart.Data("Jan", 23));
-        serie1.getData().add(new XYChart.Data("Feb", 14));
-        serie1.getData().add(new XYChart.Data("Mar", 15));
-        serie1.getData().add(new XYChart.Data("Apr", 24));
-        serie1.getData().add(new XYChart.Data("Mai", 34));
-        serie1.getData().add(new XYChart.Data("Jun", 36));
-        serie1.getData().add(new XYChart.Data("Jul", 22));
-        serie1.getData().add(new XYChart.Data("Aug", 45));
-        serie1.getData().add(new XYChart.Data("Sep", 43));
-        serie1.getData().add(new XYChart.Data("Okt", 17));
-        serie1.getData().add(new XYChart.Data("Nov", 29));
-        serie1.getData().add(new XYChart.Data("Des", 25));
+        XYChart.Series serie = new XYChart.Series();
+        serie.setName("Forsikringer");
         
-        lc.getData().add(serie1);
-        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(lc,1,2);
+        if(type.equals("Alle")) {
+            while(iter.hasNext()) {
+                Date dato = iter.next();
+                serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.antallForsikringerPaaDato(dato)));
+            }
+        } else {
+            while(iter.hasNext()) {
+                Date dato = iter.next();
+                serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.antallForsikringerPaaDatoMedType(dato, type)));
+            }
+        }
+        
+        return serie;
     }
     
-    public void opprettKundeGraf() {
-        CategoryAxis xAkse = new CategoryAxis();
-        NumberAxis yAkse = new NumberAxis();
-        lc = new LineChart<>(xAkse,yAkse);
-        xAkse.setLabel("Måned");       
-        yAkse.setLabel("Antall");   
-        lc.setTitle("Øking/Minking");
+    /**
+     * Oppretter en XYChart.Series over antall registrerte skademeldinger med gitt type på de forskjellige datoene.
+     * @param type
+     * @return Returnerer XYChart.Series.
+     */
+    private XYChart.Series opprettSkademeldingSerie(String type) {
+        List<Date> datoListe = lagDatoListe();
+        ListIterator<Date> iter = datoListe.listIterator();
         
-        XYChart.Series serie3 = new XYChart.Series();
-        serie3.setName("Kunder");
-        serie3.getData().add(new XYChart.Data("Jan", 7));
-        serie3.getData().add(new XYChart.Data("Feb", 15));
-        serie3.getData().add(new XYChart.Data("Mar", 13));
-        serie3.getData().add(new XYChart.Data("Apr", 21));
-        serie3.getData().add(new XYChart.Data("Mai", 19));
-        serie3.getData().add(new XYChart.Data("Jun", 13));
-        serie3.getData().add(new XYChart.Data("Jul", 7));
-        serie3.getData().add(new XYChart.Data("Aug", 15));
-        serie3.getData().add(new XYChart.Data("Sep", 10));
-        serie3.getData().add(new XYChart.Data("Okt", 11));
-        serie3.getData().add(new XYChart.Data("Nov", 5));
-        serie3.getData().add(new XYChart.Data("Des", 16));
+        XYChart.Series serie = new XYChart.Series();
+        serie.setName("Skademeldinger");
         
-        lc.getData().add(serie3);
-        lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        add(lc,1,2);
+        if(type.equals("Alle")) {
+            while(iter.hasNext()) {
+                Date dato = iter.next();
+                serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.antallSkademeldingerPaaDato(dato)));
+            }
+        } else {
+            while(iter.hasNext()) {
+                Date dato = iter.next();
+                serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.antallSkademeldingerPaaDatoMedType(dato, type)));
+            }
+        }
+        
+        return serie;
     }
     
-    public void opprettKnapp() {
-        knapp = new Button("Vis en og en");
+    /**
+     * Oppretter en XYChart.Series over antall registrerte kunder på de forskjellige datoene.
+     * @return XYChart.Series.
+     */
+    private XYChart.Series opprettKundeSerie() {
+        List<Date> datoListe = lagDatoListe();
+        ListIterator<Date> iter = datoListe.listIterator();
+        
+        XYChart.Series serie = new XYChart.Series();
+        serie.setName("Kunder");
+        
+        while(iter.hasNext()) {
+            Date dato = iter.next();
+            serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.antallKunderPaaDato(dato)));
+        }
+        
+        return serie;
+    }
+    
+    /**
+     * Oppretter en XYChart.Series over utgifter av gitt type, på de forskjellige datoene.
+     * @param type
+     * @return Reutnerer XYChart.Series.
+     */
+    private XYChart.Series opprettUtgifterSerie(String type) {
+        List<Date> datoListe = lagDatoListe();
+        ListIterator<Date> iter = datoListe.listIterator();
+        
+        XYChart.Series serie = new XYChart.Series();
+        serie.setName("Erstatningskostnader");
+        
+        if(type.equals("Alle")) {
+            while(iter.hasNext()) {
+                Date dato = iter.next();
+                serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.utgifterPaaDato(dato)));
+            }
+        } else {
+            while(iter.hasNext()) {
+                Date dato = iter.next();
+                serie.getData().add(new XYChart.Data(sdf.format(dato), kundeRegister.utgifterPaaDatoMedType(dato, type)));
+            }
+        }
+        
+        return serie;
+    }
+    
+    /**
+     * Lager en liste med Date-objekter utifra Fra-dato og Til-dato satt av bruker.
+     * @return List<Date> 
+     */
+    private List<Date> lagDatoListe() {
+        List<Date> datoListe = new ArrayList<>();
+        
+        Calendar min = Calendar.getInstance();
+        min.set(datePickerFra.getValue().getYear(), 
+                        datePickerFra.getValue().getMonthValue() - 1, 
+                        datePickerFra.getValue().getDayOfMonth()); 
+                min.clear(Calendar.HOUR);
+                min.clear(Calendar.HOUR_OF_DAY);
+                min.clear(Calendar.MINUTE);
+                min.clear(Calendar.SECOND);
+                min.clear(Calendar.MILLISECOND);
+        Calendar max = Calendar.getInstance(); 
+                max.set(datePickerTil.getValue().getYear(),
+                        datePickerTil.getValue().getMonthValue() - 1, 
+                        datePickerTil.getValue().getDayOfMonth());
+                max.clear(Calendar.HOUR);
+                max.clear(Calendar.HOUR_OF_DAY);
+                max.clear(Calendar.MINUTE);
+                max.clear(Calendar.SECOND);
+                max.clear(Calendar.MILLISECOND);
+        
+        while(!min.after(max)) {
+            datoListe.add(min.getTime());
+            min.add(Calendar.DATE, 1);
+        }
+        return datoListe;
+    }
+    
+    /**
+     * Oppretter knappen og lytter på den.
+     */
+    private void opprettKnapp() {
+        knapp = new Button("Oppdater graf");
         
         knapp.setOnAction((ActionEvent e) -> {
-            if(cb.isDisable()) {
-                if(cb.getValue() == null)
-                    cb.setValue("Forsikringer");
-                if(cb.getValue().equals("Kunder")) {
-                    getChildren().remove(lc);
-                    opprettKundeGraf();
-                } else if(cb.getValue().equals("Forsikringer")) {
-                    getChildren().remove(lc);
-                    opprettForsikringsGraf();
-                } else if(cb.getValue().equals("Skademeldinger")) {
-                    getChildren().remove(lc);
-                    opprettSkademeldingGraf();
-                }
-                    
-                cb.setDisable(false);
-                knapp.setText("Vis alle");
-            }
-            else {
-                getChildren().remove(lc);
-                opprettGrafMedAlle();
-                cb.setDisable(true);
-                knapp.setText("Vis en og en");
-            }
-        });
-    }
-    
-    public void opprettComboBox() {
-        cb = new ComboBox();
-        ObservableList<String> forsikringer = FXCollections.observableArrayList(
-                                              "Forsikringer", "Skademeldinger",
-                                              "Kunder", "Utgifter");
-        cb.setItems(forsikringer);
-        /*cb.valueProperty().addListener(new ChangeListener<String>(){
-            @Override
-            public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+            if(e.getSource() == knapp) {
                 lc.getData().clear();
                 getChildren().remove(lc);
-                switch ((String) t1) {
-                    case "Forsikringer":
-                        opprettForsikringsGraf();
-                        break;
-                    case "Skademeldinger":
-                        opprettSkademeldingGraf();
-                        break;
-                    case "Kunder":
-                        opprettKundeGraf();
-                        break;
+                String type = cb.getValue().toString();
+                if(cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type));
+                } else if(!cb1.isSelected() && cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettSkademeldingSerie(type));
+                } else if(!cb1.isSelected() && !cb2.isSelected() && cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettKundeSerie());
+                } else if(!cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettUtgifterSerie(type));
+                } else if(cb1.isSelected() && cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type), 
+                                opprettSkademeldingSerie(type));
+                } else if(cb1.isSelected() && !cb2.isSelected() && cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type),
+                                opprettKundeSerie());
+                } else if(cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type),
+                                opprettUtgifterSerie(type));
+                } else if(!cb1.isSelected() && cb2.isSelected() && cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettSkademeldingSerie(type),
+                                opprettKundeSerie());
+                } else if(!cb1.isSelected() && cb2.isSelected() && !cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettSkademeldingSerie(type),
+                                opprettUtgifterSerie(type));
+                } else if(!cb1.isSelected() && !cb2.isSelected() && cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettKundeSerie(),
+                                opprettUtgifterSerie(type));
+                } else if(cb1.isSelected() && cb2.isSelected() && cb3.isSelected() && !cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type),
+                                opprettSkademeldingSerie(type),
+                                opprettKundeSerie());
+                } else if(cb1.isSelected() && !cb2.isSelected() && cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type),
+                                opprettKundeSerie(),
+                                opprettUtgifterSerie(type));
+                } else if(cb1.isSelected() && cb2.isSelected() && !cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type),
+                                opprettSkademeldingSerie(type),
+                                opprettUtgifterSerie(type));
+                } else if(!cb1.isSelected() && cb2.isSelected() && cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettSkademeldingSerie(type),
+                                opprettKundeSerie(),
+                                opprettUtgifterSerie(type));
+                } else if(cb1.isSelected() && cb2.isSelected() && cb3.isSelected() && cb4.isSelected()) {
+                    opprettGraf(opprettForsikringSerie(type),
+                                opprettSkademeldingSerie(type),
+                                opprettKundeSerie(),
+                                opprettUtgifterSerie(type));
+                } else if(!cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected()) {
+                    GUI.visInputFeilMelding("Feil", "Du må huke av minst en av boksene!");
                 }
             }
-            
-        });*/
-        //cb.setDisable(true);
+        });
+    }   
+    
+    
+    /**
+     * Oppretter CheckBoxer og lytter på dem.
+     */
+    private void opprettCheckBoxer() {
+        cb1 = new CheckBox("Forsikringer");
+        cb1.setSelected(true);
+        cb2 = new CheckBox("Skademeldinger");
+        cb3 = new CheckBox("Kunder");
+        cb3.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) {
+                    cb.setValue("Alle");
+                    cb.setDisable(true);
+                } else {
+                    cb.setDisable(false);
+                }
+            }
+        });
+        cb4 = new CheckBox("Utgifter");
     }
     
-    public void opprettKontrollPanel() {
-        pane1.add(statLabel, 1, 1);
-        pane1.add(cb, 2, 1);
-        GridPane.setHalignment(pane1, HPos.LEFT);
+    /**
+     * Legger alle komponentene inn i "Kontrollpanelet".
+     */
+    private void opprettKontrollPanel() {
+        
+        vbox1.getChildren().addAll(cb1, cb2, cb3, cb4);
+        GridPane.setMargin(typeLabel, new Insets(0, 0, 0, 20));
+        pane2.add(typeLabel, 1, 1);
+        GridPane.setMargin(cb, new Insets(0, 0, 0, 14));
+        pane2.add(cb, 2, 1);
+        GridPane.setMargin(knapp, new Insets(5, 0, 0, 20));
+        pane2.add(knapp, 1, 2, 2, 1);
         
         pane.add(fraLabel, 1, 1);
         pane.add(datePickerFra, 2, 1);
         GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
         pane.add(tilLabel, 3, 1);
         pane.add(datePickerTil, 4, 1);
-        pane.add(pane1, 1, 2, 4, 1);
+        GridPane.setMargin(vbox1, new Insets(5, 0, 0, 20));
+        pane.add(vbox1, 2, 2);
         
-        //pane.add(typeLabel, 3, 2);
-        //pane.add(cb, 4, 2);
-        
-        //pane.add(cb,1,2);
-        //pane.add(knapp,2,2);
-        //pane.add(pane1, 1, 2, 4, 1);
-        //GridPane.setHalignment(oppdaterKnapp, HPos.RIGHT);
-        //GridPane.setMargin(oppdaterKnapp, new Insets(5, 0, 0, 20));
-        //pane.add(oppdaterKnapp, 4, 2);
+        pane.add(pane2, 3, 2,2,1);
         
         GridPane.setHalignment(pane, HPos.CENTER);
         
-        //pane.setHgap(5);
         pane.setVgap(5);
-        //pane1.setVgap(5);
-        //pane1.setHgap(5);
+        pane2.setVgap(5);
         add(pane, 1, 1);
     }
 }

@@ -1,4 +1,5 @@
 package forsikringsprogram;
+import Brukergrensesnitt.GUI;
 import java.io.Serializable;
 import java.util.*;
 
@@ -422,6 +423,7 @@ public class Kunderegister implements Serializable {
     }// end of method finnForsikringer( skadetype )
     
     /**
+<<<<<<< HEAD
      * Statistikk-beregning for antall forsikringer av de forskjellige typene. 
      * @param forsikringstype På forsikringene det skal telles opp antal for.
      * @param aarstall Hvilket år det skal telles opp forsikringer for
@@ -431,7 +433,125 @@ public class Kunderegister implements Serializable {
         int aar = Integer.parseInt(aarstall);
         Calendar dato = Calendar.getInstance();
         dato.set(aar - 1, 12, 31);
+=======
+     * Teller opp antall lagrede forsikringer av gitt type, i tidsrommet mellom min og max.
+     * @param forsikringstype
+     * @param min
+     * @param max
+     * @return Returnerer (int)antall forsikringer av gitt type.
+     */
+    public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+>>>>>>> Kunderegister-1.0
         
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null && kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
+                List<Forsikring> liste = kunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
+                Iterator<Forsikring> fIter = liste.iterator();
+                while(fIter.hasNext()) {
+                    Forsikring forsikring = fIter.next();
+                    Calendar dato = forsikring.getOpprettelsesDato();
+                    dato.clear(Calendar.HOUR);
+                    dato.clear(Calendar.HOUR_OF_DAY);
+                    dato.clear(Calendar.MINUTE);
+                    dato.clear(Calendar.SECOND);
+                    dato.clear(Calendar.MILLISECOND);
+                    if(!dato.before(min) && !dato.after(max)) {
+                            sum++;
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }
+    
+    /**
+     * Teller opp antall skademeldinger av gitt type, i tidsrommet mellom min og max.
+     * @param skadeType
+     * @param min
+     * @param max
+     * @return Returnerer antall skademeldinger av gitt type.
+     */
+    public int antallSkademeldingAvType(String skadeType, Calendar min, Calendar max) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType) != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType);
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar dato = skademelding.getOpprettelsesDato();
+                    dato.clear(Calendar.HOUR);
+                    dato.clear(Calendar.HOUR_OF_DAY);
+                    dato.clear(Calendar.MINUTE);
+                    dato.clear(Calendar.SECOND);
+                    dato.clear(Calendar.MILLISECOND);
+                    if(!dato.before(min) && !dato.after(max)) {
+                            sum++;
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }
+    
+    /**
+     * Teller opp antall forsikringer på gitt dato.
+     * @param dato
+     * @return Returnerer antallet
+     */
+    public int antallForsikringerPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null) {
+                List<Forsikring> liste = kunde.getForsikringer().getListe();
+                Iterator<Forsikring> fIter = liste.iterator();
+                while(fIter.hasNext()) {
+                    Forsikring forsikring = fIter.next();
+                    Calendar fDato = forsikring.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }
+    
+    /**
+     * Teller opp antall forsikringer på gitt dato, med gitt type.
+     * @param dato
+     * @param forsikringstype
+     * @return Returnerer antallet. 
+     */
+    public int antallForsikringerPaaDatoMedType(Date dato, String forsikringstype) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -442,6 +562,7 @@ public class Kunderegister implements Serializable {
                 Iterator<Forsikring> fIter = liste.iterator();
                 while(fIter.hasNext()) {
                     Forsikring forsikring = fIter.next();
+<<<<<<< HEAD
                     if(forsikring.getOpprettelsesDato().after(dato)) {
                         dato.set(aar + 2,1,1);
                         if(forsikring.getOpprettelsesDato().before(dato)) {
@@ -451,6 +572,206 @@ public class Kunderegister implements Serializable {
                 } // end of inner while
             }// end of outter if
         }// end of outter while
+=======
+                    Calendar fDato = forsikring.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }//end of inner if  
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }
+    
+    /**
+     * Teller opp antall skademeldinger på gitt dato.
+     * @param dato
+     * @return Returnerer antallet
+     */
+    public int antallSkademeldingerPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().getListe();
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }//end of inner if  
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }
+    
+    /**
+     * Teller opp antall skademeldinger på gitt dato, med gitt type.
+     * @param dato
+     * @param skadeType
+     * @return Returnerer antallet.
+     */
+    public int antallSkademeldingerPaaDatoMedType(Date dato, String skadeType) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType) != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType);
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum++;
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end og outer while
+        return sum;
+    }
+    
+    /**
+     * Teller opp antall kunder registrert på gitt dato.
+     * @param dato
+     * @return Returnerer antallet.
+     */
+    public int antallKunderPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            
+            Calendar fDato = kunde.getStartDato();
+            fDato.clear(Calendar.HOUR);
+            fDato.clear(Calendar.HOUR_OF_DAY);
+            fDato.clear(Calendar.MINUTE);
+            fDato.clear(Calendar.SECOND);
+            fDato.clear(Calendar.MILLISECOND);
+            if(calendarDato.compareTo(fDato) == 0) {
+                    sum++;
+            }//end of if
+        }//end of while
+        return sum;
+    }
+    
+    /**
+     * Regner sammen utgifter på gitt dato.
+     * @param dato
+     * @return Returnerer summen.
+     */
+    public int utgifterPaaDato(Date dato) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().getListe();
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum += (int) skademelding.getErstatningsbelop();
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }
+    
+    /**
+     * Regner ut utgiftene for en gitt skadetype på en gitt dato.
+     * @param dato
+     * @param skadeType
+     * @return Returnerer summen.
+     */
+    public int utgifterPaaDatoMedType(Date dato, String skadeType) {
+        Calendar calendarDato = Calendar.getInstance();
+        calendarDato.setTime(dato);
+        calendarDato.clear(Calendar.HOUR);
+        calendarDato.clear(Calendar.HOUR_OF_DAY);
+        calendarDato.clear(Calendar.MINUTE);
+        calendarDato.clear(Calendar.SECOND);
+        calendarDato.clear(Calendar.MILLISECOND);
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getSkademeldinger() != null && kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType) != null) {
+                List<Skademelding> liste = kunde.getSkademeldinger().listeMedSkademeldingAvType(skadeType);
+                Iterator<Skademelding> sIter = liste.iterator();
+                while(sIter.hasNext()) {
+                    Skademelding skademelding = sIter.next();
+                    Calendar fDato = skademelding.getOpprettelsesDato();
+                    fDato.clear(Calendar.HOUR);
+                    fDato.clear(Calendar.HOUR_OF_DAY);
+                    fDato.clear(Calendar.MINUTE);
+                    fDato.clear(Calendar.SECOND);
+                    fDato.clear(Calendar.MILLISECOND);
+                    if(calendarDato.compareTo(fDato) == 0) {
+                            sum += (int) skademelding.getErstatningsbelop();
+                    }//end of inner if  
+                }//end of inner while
+            }//end of outer if  
+        }//end of outer while
+>>>>>>> Kunderegister-1.0
         return sum;
     }// end of method antallForsikringAvType()
     
