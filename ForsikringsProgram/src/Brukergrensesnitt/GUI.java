@@ -188,7 +188,7 @@ public class GUI extends Application{
             switch (t1.getId()) {
                 case "kundebehandling":
                     layout.setCenter(kundeLayout);
-                    setTittel("Forsikringsprogram - Behandle forsikring");
+                    setTittel("Forsikringsprogram - Kundebehandling - Behandle forsikring");
                     break;
                 case "okonomi":
                     layout.setCenter(okonomiLayout);

@@ -402,7 +402,7 @@ public class OkonomiPane extends GridPane{
             switch(valg.getId()){
                 case "utbetalingerArlig":
                     double arligUtgifter = kundeRegister.alleUtbetalteErstatninger();
-                    output.setText("Den årlige utgiften er " + arligUtgifter + "kr.");
+                    output.setText("Årets utgift er " + arligUtgifter + "kr.");
                     break;
                 case "utbetalingerType":
                     ingenUtvidet();
@@ -414,7 +414,7 @@ public class OkonomiPane extends GridPane{
                     break;
                 case "inntektArlig":
                     double arligInntekter = kundeRegister.aarligInntekt();
-                    output.setText("Den årlige inntekten er " + arligInntekter + "kr.");
+                    output.setText("Årets utgift er " + arligInntekter + "kr.");
                     break;
                 case "inntektType":
                     ingenUtvidet();
