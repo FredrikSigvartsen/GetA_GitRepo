@@ -83,7 +83,11 @@ public class GrafLayout extends GridPane{
         opprettKontrollPanel();
     }//end of construnctor
     
-    public void opprettGraf(XYChart.Series serie) {
+    /**
+     * Oppretter graf med gitt serie.
+     * @param serie 
+     */
+    private void opprettGraf(XYChart.Series serie) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         lc = new LineChart<>(xAkse,yAkse);
@@ -95,7 +99,12 @@ public class GrafLayout extends GridPane{
         add(lc,1,2);
     }
     
-    public void opprettGraf(XYChart.Series serie1, XYChart.Series serie2) {
+    /**
+     * Oppretter graf med de to seriene som er gitt..
+     * @param serie1
+     * @param serie2 
+     */
+    private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         lc = new LineChart<>(xAkse,yAkse);
@@ -107,7 +116,13 @@ public class GrafLayout extends GridPane{
         add(lc,1,2);
     }
     
-    public void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3) {
+    /**
+     * Oppretter graf med de tre seriene som er gitt.
+     * @param serie1
+     * @param serie2
+     * @param serie3 
+     */
+    private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         lc = new LineChart<>(xAkse,yAkse);
@@ -119,7 +134,14 @@ public class GrafLayout extends GridPane{
         add(lc,1,2);
     }
     
-    public void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3, XYChart.Series serie4) {
+    /**
+     * Oppretter graf med de fire seriene om er gitt.
+     * @param serie1
+     * @param serie2
+     * @param serie3
+     * @param serie4 
+     */
+    private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3, XYChart.Series serie4) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         lc = new LineChart<>(xAkse,yAkse);
@@ -131,7 +153,12 @@ public class GrafLayout extends GridPane{
         add(lc,1,2);
     }
     
-    public XYChart.Series opprettForsikringSerie(String type) {
+    /**
+     * Oppretter en XYChart.Series over antall registrerte forsikringer med gitt type på de forskjellige datoene.
+     * @param type
+     * @return Returnerer XYChart.Series.
+     */
+    private XYChart.Series opprettForsikringSerie(String type) {
         List<Date> datoListe = lagDatoListe();
         ListIterator<Date> iter = datoListe.listIterator();
         
@@ -153,7 +180,12 @@ public class GrafLayout extends GridPane{
         return serie;
     }
     
-    public XYChart.Series opprettSkademeldingSerie(String type) {
+    /**
+     * Oppretter en XYChart.Series over antall registrerte skademeldinger med gitt type på de forskjellige datoene.
+     * @param type
+     * @return Returnerer XYChart.Series.
+     */
+    private XYChart.Series opprettSkademeldingSerie(String type) {
         List<Date> datoListe = lagDatoListe();
         ListIterator<Date> iter = datoListe.listIterator();
         
@@ -175,7 +207,11 @@ public class GrafLayout extends GridPane{
         return serie;
     }
     
-    public XYChart.Series opprettKundeSerie() {
+    /**
+     * Oppretter en XYChart.Series over antall registrerte kunder på de forskjellige datoene.
+     * @return XYChart.Series.
+     */
+    private XYChart.Series opprettKundeSerie() {
         List<Date> datoListe = lagDatoListe();
         ListIterator<Date> iter = datoListe.listIterator();
         
@@ -190,7 +226,12 @@ public class GrafLayout extends GridPane{
         return serie;
     }
     
-    public XYChart.Series opprettUtgifterSerie(String type) {
+    /**
+     * Oppretter en XYChart.Series over utgifter av gitt type, på de forskjellige datoene.
+     * @param type
+     * @return Reutnerer XYChart.Series.
+     */
+    private XYChart.Series opprettUtgifterSerie(String type) {
         List<Date> datoListe = lagDatoListe();
         ListIterator<Date> iter = datoListe.listIterator();
         
@@ -212,7 +253,11 @@ public class GrafLayout extends GridPane{
         return serie;
     }
     
-    public List<Date> lagDatoListe() {
+    /**
+     * Lager en liste med Date-objekter utifra Fra-dato og Til-dato satt av bruker.
+     * @return List<Date> 
+     */
+    private List<Date> lagDatoListe() {
         List<Date> datoListe = new ArrayList<>();
         
         Calendar min = Calendar.getInstance();
@@ -241,7 +286,10 @@ public class GrafLayout extends GridPane{
         return datoListe;
     }
     
-    public void opprettKnapp() {
+    /**
+     * Oppretter knappen og lytter på den.
+     */
+    private void opprettKnapp() {
         knapp = new Button("Oppdater graf");
         
         knapp.setOnAction((ActionEvent e) -> {
@@ -303,7 +351,11 @@ public class GrafLayout extends GridPane{
         });
     }   
     
-    public void opprettCheckBoxer() {
+    
+    /**
+     * Oppretter CheckBoxer og lytter på dem.
+     */
+    private void opprettCheckBoxer() {
         cb1 = new CheckBox("Forsikringer");
         cb1.setSelected(true);
         cb2 = new CheckBox("Skademeldinger");
@@ -322,7 +374,10 @@ public class GrafLayout extends GridPane{
         cb4 = new CheckBox("Utgifter");
     }
     
-    public void opprettKontrollPanel() {
+    /**
+     * Legger alle komponentene inn i "Kontrollpanelet".
+     */
+    private void opprettKontrollPanel() {
         
         vbox1.getChildren().addAll(cb1, cb2, cb3, cb4);
         GridPane.setMargin(typeLabel, new Insets(0, 0, 0, 20));

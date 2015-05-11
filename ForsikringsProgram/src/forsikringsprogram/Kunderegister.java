@@ -378,7 +378,13 @@ public class Kunderegister implements Serializable {
         return forsikringerAvType;
     }// end of method finnForsikringer( skadetype )
     
-    //Returnerer antall forsikringer av gitt type. Brukes til søylediagrammet
+    /**
+     * Teller opp antall lagrede forsikringer av gitt type, i tidsrommet mellom min og max.
+     * @param forsikringstype
+     * @param min
+     * @param max
+     * @return Returnerer (int)antall forsikringer av gitt type.
+     */
     public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
@@ -398,14 +404,20 @@ public class Kunderegister implements Serializable {
                     dato.clear(Calendar.MILLISECOND);
                     if(!dato.before(min) && !dato.after(max)) {
                             sum++;
-                    }
-                }
-            }
-        }
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
         return sum;
     }
     
-    //Brukes til søylediagrammet
+    /**
+     * Teller opp antall skademeldinger av gitt type, i tidsrommet mellom min og max.
+     * @param skadeType
+     * @param min
+     * @param max
+     * @return Returnerer antall skademeldinger av gitt type.
+     */
     public int antallSkademeldingAvType(String skadeType, Calendar min, Calendar max) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
@@ -425,14 +437,18 @@ public class Kunderegister implements Serializable {
                     dato.clear(Calendar.MILLISECOND);
                     if(!dato.before(min) && !dato.after(max)) {
                             sum++;
-                    }
-                }
-            }
-        }
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Teller opp antall forsikringer på gitt dato.
+     * @param dato
+     * @return Returnerer antallet
+     */
     public int antallForsikringerPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -459,14 +475,19 @@ public class Kunderegister implements Serializable {
                     fDato.clear(Calendar.MILLISECOND);
                     if(calendarDato.compareTo(fDato) == 0) {
                             sum++;
-                    }
-                }
-            }
-        }
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Teller opp antall forsikringer på gitt dato, med gitt type.
+     * @param dato
+     * @param forsikringstype
+     * @return Returnerer antallet. 
+     */
     public int antallForsikringerPaaDatoMedType(Date dato, String forsikringstype) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -493,14 +514,18 @@ public class Kunderegister implements Serializable {
                     fDato.clear(Calendar.MILLISECOND);
                     if(calendarDato.compareTo(fDato) == 0) {
                             sum++;
-                    }
-                }
-            }
-        }
+                    }//end of inner if  
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Teller opp antall skademeldinger på gitt dato.
+     * @param dato
+     * @return Returnerer antallet
+     */
     public int antallSkademeldingerPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -527,14 +552,19 @@ public class Kunderegister implements Serializable {
                     fDato.clear(Calendar.MILLISECOND);
                     if(calendarDato.compareTo(fDato) == 0) {
                             sum++;
-                    }
-                }
-            }
-        }
+                    }//end of inner if  
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Teller opp antall skademeldinger på gitt dato, med gitt type.
+     * @param dato
+     * @param skadeType
+     * @return Returnerer antallet.
+     */
     public int antallSkademeldingerPaaDatoMedType(Date dato, String skadeType) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -561,14 +591,18 @@ public class Kunderegister implements Serializable {
                     fDato.clear(Calendar.MILLISECOND);
                     if(calendarDato.compareTo(fDato) == 0) {
                             sum++;
-                    }
-                }
-            }
-        }
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end og outer while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Teller opp antall kunder registrert på gitt dato.
+     * @param dato
+     * @return Returnerer antallet.
+     */
     public int antallKunderPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -591,12 +625,16 @@ public class Kunderegister implements Serializable {
             fDato.clear(Calendar.MILLISECOND);
             if(calendarDato.compareTo(fDato) == 0) {
                     sum++;
-            } 
-        }
+            }//end of if
+        }//end of while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Regner sammen utgifter på gitt dato.
+     * @param dato
+     * @return Returnerer summen.
+     */
     public int utgifterPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -623,14 +661,19 @@ public class Kunderegister implements Serializable {
                     fDato.clear(Calendar.MILLISECOND);
                     if(calendarDato.compareTo(fDato) == 0) {
                             sum += (int) skademelding.getErstatningsbelop();
-                    }
-                }
-            }
-        }
+                    }//end of inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
         return sum;
     }
     
-    //Brukes til grafen
+    /**
+     * Regner ut utgiftene for en gitt skadetype på en gitt dato.
+     * @param dato
+     * @param skadeType
+     * @return Returnerer summen.
+     */
     public int utgifterPaaDatoMedType(Date dato, String skadeType) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
@@ -657,10 +700,10 @@ public class Kunderegister implements Serializable {
                     fDato.clear(Calendar.MILLISECOND);
                     if(calendarDato.compareTo(fDato) == 0) {
                             sum += (int) skademelding.getErstatningsbelop();
-                    }
-                }
-            }
-        }
+                    }//end of inner if  
+                }//end of inner while
+            }//end of outer if  
+        }//end of outer while
         return sum;
     }
     

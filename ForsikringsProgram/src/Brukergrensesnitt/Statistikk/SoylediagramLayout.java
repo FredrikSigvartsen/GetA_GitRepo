@@ -81,7 +81,13 @@ public class SoylediagramLayout extends GridPane{
         setHgap(170);
     }//end of construnctor
     
-    public void opprettSoylediagram(String type, Calendar min, Calendar max) {
+    /**
+     * Oppretter soylediagram som viser antall forsikringer eller skademeldinger (gitt av type) mellom min og max datoene.
+     * @param type
+     * @param min
+     * @param max 
+     */
+    private void opprettSoylediagram(String type, Calendar min, Calendar max) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         bc = new BarChart<>(xAkse, yAkse);
@@ -118,7 +124,10 @@ public class SoylediagramLayout extends GridPane{
         add(bc,1,2);
     }
     
-    public void opprettKnapp() {
+    /**
+     * Oppretter og lytter på knappen.
+     */
+    private void opprettKnapp() {
         oppdaterKnapp = new Button("Oppdater graf");
         
         oppdaterKnapp.setOnAction((ActionEvent e) -> {
@@ -151,7 +160,10 @@ public class SoylediagramLayout extends GridPane{
         });
     }
     
-    public void opprettKontrollPanel() {
+    /**
+     * Legger komponentene ut i "Kontrollpanelet".
+     */
+    private void opprettKontrollPanel() {
         pane1.add(typeLabel, 1, 1);
         pane1.add(cb, 2, 1);
         GridPane.setHalignment(pane1, HPos.LEFT);
