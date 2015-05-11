@@ -6,6 +6,7 @@
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
+import static Brukergrensesnitt.GUI.TABTEKST;
 import static Brukergrensesnitt.GUI.getSkjermBredde;
 import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
@@ -68,16 +69,30 @@ public class KundePane extends BorderPane{
     public HBox kundebehandlingsFaner(){
         HBox box = new HBox();
         kundebehandlingsPanel = new TabPane();
+        kundebehandlingsPanel.setTabMinHeight(30);
+        kundebehandlingsPanel.setTabMaxHeight(30);
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         
         
-        Tab forsikringsBehandlingFane = new Tab("Behandle forsikringer");
+        Tab forsikringsBehandlingFane = new Tab();
+        Label forsikringsBehandlingLabel = new Label("Behandle forsikringer");
+        forsikringsBehandlingLabel.setFont(TABTEKST);
+        forsikringsBehandlingFane.setGraphic(forsikringsBehandlingLabel);
+        forsikringsBehandlingFane.setId("forsikringsbehandling");
         kundebehandlingsPanel.getTabs().add(forsikringsBehandlingFane);
         
-        Tab registrerSkademeldingFane = new Tab("Registrer skademelding");
+        Tab registrerSkademeldingFane = new Tab();
+        Label registrerSkademeldingLabel = new Label("Registrer skademeldig");
+        registrerSkademeldingLabel.setFont(TABTEKST);
+        registrerSkademeldingFane.setGraphic(registrerSkademeldingLabel);
+        registrerSkademeldingFane.setId("skaderegistrering");
         kundebehandlingsPanel.getTabs().add(registrerSkademeldingFane);
         
-        Tab sokFane = new Tab("Søk");
+        Tab sokFane = new Tab();
+        Label sokLabel = new Label("Søk");
+        sokLabel.setFont(TABTEKST);
+        sokFane.setGraphic(sokLabel);
+        sokFane.setId("sok");
         kundebehandlingsPanel.getTabs().add(sokFane);
         //kundebehandlingsPanel.setRotate(90);
         
@@ -95,16 +110,16 @@ public class KundePane extends BorderPane{
      */
     public void tabLytter(){
         kundebehandlingsPanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
-        switch (t1.getText()) {
-            case "Behandle forsikringer":
+        switch (t1.getId()) {
+            case "forsikringsbehandling":
                 setCenter(forsikringsBehandlingLayout);
                 setMargin(forsikringsBehandlingLayout, new Insets(40));
                 break;
-            case "Søk":   
+            case "sok":   
                 setCenter(sokPane);
                 setMargin(sokPane, new Insets(40));
                 break;
-            case "Registrer skademelding":
+            case "skaderegistrering":
                 setCenter(registrerSkademeldingLayout);
                 setMargin(registrerSkademeldingLayout, new Insets(40));
                 break;

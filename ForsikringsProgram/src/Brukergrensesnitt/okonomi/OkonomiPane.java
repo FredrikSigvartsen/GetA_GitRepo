@@ -14,12 +14,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.control.TitledPane;
@@ -74,6 +77,18 @@ public class OkonomiPane extends GridPane{
         Label visLabel = new Label("Vis");
         visLabel.setFont(GUI.OVERSKRIFT);
         
+        VBox utgiftBox = new VBox();
+        Label utgiftLabel = new Label("Utgifter");
+        utgiftLabel.setFont(tekstStr);
+        Separator utgiftSkille = new Separator(Orientation.HORIZONTAL);
+        utgiftBox.getChildren().addAll(utgiftLabel, utgiftSkille);
+        
+        VBox inntektBox = new VBox();
+        Label inntektLabel = new Label("Inntekter");
+        inntektLabel.setFont(tekstStr);
+        Separator inntektSkille = new Separator(Orientation.HORIZONTAL);
+        inntektBox.getChildren().addAll(inntektLabel, inntektSkille);
+        
         //Oppretter utbetalingerArlig knappen
         utbetalingerArlig = new RadioButton("Årlig utbetaling");
         utbetalingerArlig.setFont(tekstStr);
@@ -111,7 +126,7 @@ public class OkonomiPane extends GridPane{
         inntektKunde.setToggleGroup(gruppe);
         
         //Legger til Radioknapper
-        radioKnappBox.getChildren().addAll(visLabel, utbetalingerArlig, utbetalingerType, utbetalingerKunde, inntektArlig, inntektType, inntektKunde);
+        radioKnappBox.getChildren().addAll(visLabel, utgiftBox, utbetalingerArlig, utbetalingerType, utbetalingerKunde, inntektBox, inntektArlig, inntektType, inntektKunde);
         radioKnappBox.setBorder(radioKnappKant);
         radioKnappBox.setPadding(GUI.PADDING);
         radioKnappBox.setSpacing(30);
@@ -143,8 +158,7 @@ public class OkonomiPane extends GridPane{
         forsikringsTypeLabel.setFont(tekstStr);
         forsikringsType = new ComboBox();
         ObservableList<String> forsikringer = FXCollections.observableArrayList(
-                                              "Bilforsikring", "Båtforsikring",
-                                              "Boligforsikring", "Reiseforsikring");
+                                              "Bil", "Båt", "Bolig", "Reise");
         forsikringsType.setItems(forsikringer);
         forsikringsType.setCellFactory(                                         //Setter Font typen til innholdet i comboboxen
                 new Callback<ListView<String>, ListCell<String>>() {
@@ -255,19 +269,18 @@ public class OkonomiPane extends GridPane{
         valgType();
         
         output = new Label();
-        output.setFont(tekstStr);
+        output.setFont(Font.font(null, 24));
         
         Label visOkonomiLabel = new Label("Økonomi");
         visOkonomiLabel.setFont(GUI.OVERSKRIFT);
         
         setHgap(10);
         setVgap(10);
-        
-        add(valgTypePane, 2, 2);
-        add(valgKundePane, 2, 3);
-        add(visOkonomiLabel, 1, 1);
-        add(radioKnappBox, 1, 2, 1, 4);
-        add(output, 2, 4);
+        add(valgTypePane, 10, 6);
+        add(valgKundePane, 10, 7);
+        add(visOkonomiLabel, 9, 5);
+        add(radioKnappBox, 9, 6, 1, 4);
+        add(output, 10, 8);
     }//end of methd siOppForsikringsSkjema()
     
     /**
