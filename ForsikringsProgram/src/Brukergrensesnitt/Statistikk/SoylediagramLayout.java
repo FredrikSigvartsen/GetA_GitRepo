@@ -61,7 +61,9 @@ public class SoylediagramLayout extends GridPane{
         cb.setValue("Forsikringer");
         
         calMax = Calendar.getInstance();
-        calMax.set(2020, 1, 1);
+        calMax.set(datePickerTil.getValue().getYear(), 
+                   datePickerTil.getValue().getMonthValue() - 1, 
+                   datePickerTil.getValue().getDayOfMonth());
         calMax.clear(Calendar.HOUR);
         calMax.clear(Calendar.HOUR_OF_DAY);
         calMax.clear(Calendar.MINUTE);
@@ -69,7 +71,9 @@ public class SoylediagramLayout extends GridPane{
         calMax.clear(Calendar.MILLISECOND);
         
         calMin = Calendar.getInstance();
-        calMin.set(2015, 1, 1);
+        calMin.set(datePickerFra.getValue().getYear(), 
+                   datePickerFra.getValue().getMonthValue() - 1, 
+                   datePickerFra.getValue().getDayOfMonth());
         calMin.clear(Calendar.HOUR);
         calMin.clear(Calendar.HOUR_OF_DAY);
         calMin.clear(Calendar.MINUTE);
@@ -171,22 +175,21 @@ public class SoylediagramLayout extends GridPane{
         pane1.add(cb, 2, 1);
         GridPane.setHalignment(pane1, HPos.LEFT);
         
-        pane.add(fraLabel, 1, 1);
-        pane.add(datePickerFra, 2, 1);
+        pane.add(new Label("Søylediagram"), 1, 1, 4, 1);
+        pane.add(fraLabel, 1, 2);
+        pane.add(datePickerFra, 2, 2);
         GridPane.setMargin(tilLabel, new Insets(0, 0, 0, 20));
-        pane.add(tilLabel, 3, 1);
-        pane.add(datePickerTil, 4, 1);
-        pane.add(pane1, 1, 2, 4, 1);
+        pane.add(tilLabel, 3, 2);
+        pane.add(datePickerTil, 4, 2);
+        pane.add(pane1, 1, 3, 4, 1);
         GridPane.setHalignment(oppdaterKnapp, HPos.RIGHT);
         GridPane.setMargin(oppdaterKnapp, new Insets(5, 0, 0, 20));
-        pane.add(oppdaterKnapp, 4, 2);
+        pane.add(oppdaterKnapp, 4, 3);
         
         GridPane.setHalignment(pane, HPos.CENTER);
         
-        //pane.setHgap(5);
         pane.setVgap(5);
         pane1.setVgap(5);
-        //pane1.setHgap(5);
         add(pane, 1, 1);
     }
 } 
