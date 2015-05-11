@@ -20,11 +20,11 @@ import javafx.scene.layout.*;
  */
 public class TegnforsikringsLayout extends GridPane{
     
-    private TextField fodselsnr, forsikringsbelop, betingelser, registreringsnr, 
+    private TextField fodselsnr, forsikringsbelop, registreringsnr, 
             merke, modell, registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
             batModell, arsmodell, motorStyrke, gateAdresse, postnr, byggear,
             byggemateriale, antallKVM, omrade;    
-    private Label registreringsnrLabel, merkeLabel, modellLabel, registreringsarLabel, kjorelengdeLabel, 
+    private Label betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, registreringsarLabel, kjorelengdeLabel, 
             prisPerKmLabel, batRegistreringsnrLabel, batMerkeLabel, batModellLabel, arsmodellLabel, motorTypeLabel,
             motorStyrkeLabel, gateAdresseLabel, postnrLabel, byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel,
             antallKVMLabel, omradeLabel, fodselsnrFeil, forsikringsbelopFeil, betingelserFeil, 
@@ -33,7 +33,7 @@ public class TegnforsikringsLayout extends GridPane{
             motorStyrkeFeil, gateAdresseFeil, postnrFeil, byggearFeil, byggematerialeFeil,
             antallKVMFeil, omradeFeil;
     private Button tegnForsikring;
-    private ComboBox forsikringsType, boligType, boligStandard, motorType;
+    private ComboBox forsikringsType, boligType, boligStandard, motorType, betingelserBil, betingelserBat, betingelserBolig, betingelserReise;
     private GridPane boligforsikringFelter, reiseforsikringFelter;
     private StackPane bilforsikringStackPane;
     private Kunderegister kundeRegister;
@@ -80,11 +80,11 @@ public class TegnforsikringsLayout extends GridPane{
                    .build();
         forsikringsbelopFeil = new Label("*");
         
-        betingelser = TextFieldBuilder.create()
-                   .minWidth(GUI.TEKSTFELT_BREDDE)
-                   .maxWidth(GUI.TEKSTFELT_BREDDE)
-                   .build();
-        betingelserFeil = new Label("*");
+        //betingelser = TextFieldBuilder.create()
+                   //.minWidth(GUI.TEKSTFELT_BREDDE)
+                   //.maxWidth(GUI.TEKSTFELT_BREDDE)
+                   //.build();
+        //betingelserFeil = new Label("*");
         
         setVgap(10);
         setHgap(10);
@@ -96,27 +96,27 @@ public class TegnforsikringsLayout extends GridPane{
         add(new Label("Fødselsnummer:"), 1, 2);
         add(new Label("Forsikrings type:"), 1, 3);
         add(new Label("Forsikringsbeløp:"), 1, 4);
-        add(new Label("Betingelser:"), 1, 5);
+        //add(new Label("Betingelser:"), 1, 5);
         setHalignment(tegnForsikring, HPos.CENTER);
-        add(tegnForsikring, 1, 13, 2, 1);
+        add(tegnForsikring, 1, 14, 2, 1);
         
         //legger til kolonne 2
         add(fodselsnr, 2, 2);
         add(forsikringsType, 2, 3);
         add(forsikringsbelop, 2, 4);
-        add(betingelser, 2, 5);
+        //add(betingelser, 2, 5);
         
         //legger til kolonne 3
         add(fodselsnrFeil, 3, 2, 3, 1);
         add(forsikringsbelopFeil, 3, 4, 4, 1);
-        add(betingelserFeil, 3, 5, 4, 1);
+        //add(betingelserFeil, 3, 5, 4, 1);
     }//end of method tegnForsikringsSkjema()
     
     /**
      * fjerner alle labeler og tekstfelt for de felter som er unike for de forskjeldinge forsikringstypene
      */
     private void fjernUnikeFelter(){
-        getChildren().removeAll(registreringsnrLabel, merkeLabel, modellLabel, 
+        getChildren().removeAll(betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, 
             registreringsarLabel, kjorelengdeLabel,prisPerKmLabel, batRegistreringsnrLabel,
             batMerkeLabel, batModellLabel, arsmodellLabel, motorTypeLabel, motorStyrkeLabel,
             gateAdresseLabel, postnrLabel, byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel, 
@@ -127,7 +127,8 @@ public class TegnforsikringsLayout extends GridPane{
             registreringsarFeil, kjorelengdeFeil, prisPerKmFeil, batRegistreringsnrFeil,
             batMerkeFeil, batModellFeil, arsmodellFeil, motorStyrkeFeil, gateAdresseFeil,
             postnrFeil, byggearFeil,byggematerialeFeil, antallKVMFeil, omradeFeil, 
-            motorType, boligType, boligStandard);
+            motorType, boligType, boligStandard, betingelserBil, betingelserBat, 
+            betingelserBolig, betingelserReise);
     }//end of method fjernUnikeFelter()
     
     /**
@@ -136,6 +137,12 @@ public class TegnforsikringsLayout extends GridPane{
     private void bilforsikringsFelter(){
         
         fjernUnikeFelter();
+        
+        betingelserBil = new ComboBox();
+        ObservableList<String> betingelserBilListe = FXCollections.observableArrayList(
+                                              "Super", "Kasko", "Delkasko", "Ansvar");
+        betingelserBil.setItems(betingelserBilListe);
+        betingelserLabel = new Label("Betingelser:");
         
         registreringsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
@@ -181,28 +188,30 @@ public class TegnforsikringsLayout extends GridPane{
         
        
         //legger til kolonne 1
-        add(registreringsnrLabel, 1, 6);
-        add(merkeLabel, 1, 7);
-        add(modellLabel, 1, 8);
-        add(registreringsarLabel, 1, 9);
-        add(kjorelengdeLabel, 1, 10);
-        add(prisPerKmLabel, 1, 11);
+        add(betingelserLabel, 1, 6);
+        add(registreringsnrLabel, 1, 7);
+        add(merkeLabel, 1, 8);
+        add(modellLabel, 1, 9);
+        add(registreringsarLabel, 1, 10);
+        add(kjorelengdeLabel, 1, 11);
+        add(prisPerKmLabel, 1, 12);
         
         //legger til kolonn 2
-        add(registreringsnr, 2, 6);
-        add(merke, 2, 7);
-        add(modell, 2, 8);
-        add(registreringsar, 2, 9);
-        add(kjorelengde, 2, 10);
-        add(prisPerKm, 2, 11);
+        add(betingelserBil, 2, 6);
+        add(registreringsnr, 2, 7);
+        add(merke, 2, 8);
+        add(modell, 2, 9);
+        add(registreringsar, 2, 10);
+        add(kjorelengde, 2, 11);
+        add(prisPerKm, 2, 12);
         
         //legger til kolonne 3
-        add(registreringsnrFeil, 3, 6);
-        add(merkeFeil, 3, 7);
-        add(modellFeil, 3, 8);
-        add(registreringsarFeil, 3, 9);
-        add(kjorelengdeFeil, 3, 10);
-        add(prisPerKmFeil, 3, 11);
+        add(registreringsnrFeil, 3, 7);
+        add(merkeFeil, 3, 8);
+        add(modellFeil, 3, 9);
+        add(registreringsarFeil, 3, 10);
+        add(kjorelengdeFeil, 3, 11);
+        add(prisPerKmFeil, 3, 12);
         
         bilTekstFeltLyttere();
     }//End of method bilforsikringFelter()
@@ -213,6 +222,12 @@ public class TegnforsikringsLayout extends GridPane{
     private void batforsikringsFelter(){
         
         fjernUnikeFelter();
+        
+        betingelserBat = new ComboBox();
+        ObservableList<String> betingelserBatListe = FXCollections.observableArrayList(
+                                              "Super", "Kasko", "Delkasko");
+        betingelserBat.setItems(betingelserBatListe);
+        betingelserLabel = new Label("Betingelser:");
         
         batRegistreringsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
@@ -257,27 +272,29 @@ public class TegnforsikringsLayout extends GridPane{
         motorStyrkeFeil = new Label("*");
         
         //legger til kolonne 1
-        add(batRegistreringsnrLabel, 1, 6);
-        add(batMerkeLabel, 1, 7);
-        add(batModellLabel, 1, 8);
-        add(arsmodellLabel, 1, 9);
-        add(motorTypeLabel, 1, 10);
-        add(motorStyrkeLabel, 1, 11);
+        add(betingelserLabel, 1, 6);
+        add(batRegistreringsnrLabel, 1, 7);
+        add(batMerkeLabel, 1, 8);
+        add(batModellLabel, 1, 9);
+        add(arsmodellLabel, 1, 10);
+        add(motorTypeLabel, 1, 11);
+        add(motorStyrkeLabel, 1, 12);
         
         //legger til kolonne 2
-        add(batRegistreringsnr, 2, 6);
-        add(batMerke, 2, 7);
-        add(batModell, 2, 8);
-        add(arsmodell, 2, 9);
-        add(motorType, 2, 10);
-        add(motorStyrke, 2, 11);
+        add(betingelserBat, 2, 6);
+        add(batRegistreringsnr, 2, 7);
+        add(batMerke, 2, 8);
+        add(batModell, 2, 9);
+        add(arsmodell, 2, 10);
+        add(motorType, 2, 11);
+        add(motorStyrke, 2, 12);
         
         //legger til kolonne 3
-        add(batRegistreringsnrFeil, 3, 6);
-        add(batMerkeFeil, 3, 7);
-        add(batModellFeil, 3, 8);
-        add(arsmodellFeil, 3, 9);
-        add(motorStyrkeFeil, 3, 11);
+        add(batRegistreringsnrFeil, 3, 7);
+        add(batMerkeFeil, 3, 8);
+        add(batModellFeil, 3, 9);
+        add(arsmodellFeil, 3, 10);
+        add(motorStyrkeFeil, 3, 12);
         
         batTekstFeltLyttere();
     }//End of method BatforsikringFelter
@@ -288,6 +305,12 @@ public class TegnforsikringsLayout extends GridPane{
     private void boligforsikringsFelter(){
         
         fjernUnikeFelter();
+        
+        betingelserBolig = new ComboBox();
+        ObservableList<String> betingelserBoligListe = FXCollections.observableArrayList(
+                                              "Super", "Standard");
+        betingelserBolig.setItems(betingelserBoligListe);
+        betingelserLabel = new Label("Betingelser:");
         
         gateAdresse = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
@@ -339,29 +362,31 @@ public class TegnforsikringsLayout extends GridPane{
         antallKVMFeil = new Label("*");
         
         //legger til kolonne 1
-        add(gateAdresseLabel, 1, 6);
-        add(postnrLabel, 1, 7);
-        add(byggearLabel, 1, 8);
-        add(boligTypeLabel, 1, 9);
-        add(byggematerialeLabel, 1, 10);
-        add(boligStandardLabel, 1, 11);
-        add(antallKVMLabel, 1, 12);
+        add(betingelserLabel, 1, 6);
+        add(gateAdresseLabel, 1, 7);
+        add(postnrLabel, 1, 8);
+        add(byggearLabel, 1, 9);
+        add(boligTypeLabel, 1, 10);
+        add(byggematerialeLabel, 1, 11);
+        add(boligStandardLabel, 1, 12);
+        add(antallKVMLabel, 1, 13);
         
         //legger til kolonne 2
-        add(gateAdresse, 2, 6);
-        add(postnr, 2, 7);
-        add(byggear, 2, 8);
-        add(boligType, 2, 9);
-        add(byggemateriale, 2, 10);
-        add(boligStandard, 2, 11);
-        add(antallKVM, 2, 12);
+        add(betingelserBolig, 2, 6);
+        add(gateAdresse, 2, 7);
+        add(postnr, 2, 8);
+        add(byggear, 2, 9);
+        add(boligType, 2, 10);
+        add(byggemateriale, 2, 11);
+        add(boligStandard, 2, 12);
+        add(antallKVM, 2, 13);
         
         //legger til kolonne 3
-        add(gateAdresseFeil, 3, 6);
-        add(postnrFeil, 3, 7);
-        add(byggearFeil, 3, 8);
-        add(byggematerialeFeil, 3, 10);
-        add(antallKVMFeil, 3, 12);
+        add(gateAdresseFeil, 3, 7);
+        add(postnrFeil, 3, 8);
+        add(byggearFeil, 3, 9);
+        add(byggematerialeFeil, 3, 11);
+        add(antallKVMFeil, 3, 13);
         
         boligTekstFeltLyttere();
     }//End of method BoligforsikringFeilter
@@ -373,6 +398,12 @@ public class TegnforsikringsLayout extends GridPane{
         
         fjernUnikeFelter();
         
+        betingelserReise = new ComboBox();
+        ObservableList<String> betingelserReiseListe = FXCollections.observableArrayList(
+                                              "Helårs Super", "Helårs");
+        betingelserReise.setItems(betingelserReiseListe);
+        betingelserLabel = new Label("Betingelser:");
+        
         omrade = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
                    .maxWidth(GUI.TEKSTFELT_BREDDE)
@@ -381,13 +412,15 @@ public class TegnforsikringsLayout extends GridPane{
         omradeFeil = new Label("*");
         
         //legger til kolonne 1
-        add(omradeLabel, 1, 6);
+        add(betingelserLabel, 1, 6);
+        add(omradeLabel, 1, 7);
         
         //legger til kolonne 2
-        add(omrade, 2, 6);
+        add(betingelserReise, 2, 6);
+        add(omrade, 2, 7);
         
         //legger til kolonne 3
-        add(omradeFeil, 3, 6);
+        add(omradeFeil, 3, 7);
         
         reiseTekstFeltLyttere();
     }//End of method BoligforsikringFeilter
@@ -402,11 +435,6 @@ public class TegnforsikringsLayout extends GridPane{
             return false;
         }
         
-        else if( betingelser.getText().isEmpty()){
-            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
-            return false;
-        }
-        
         else if( forsikringsbelop.getText().isEmpty()){
             GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn forsikringsbeløp");
             return false;
@@ -414,7 +442,12 @@ public class TegnforsikringsLayout extends GridPane{
         
         switch (forsikringsTypeString){
             case "bilforsikring":
-                if( registreringsnr.getText().trim().isEmpty()){
+                if( betingelserBil.getValue() == null){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+                    return false;
+                }
+                
+                else if( registreringsnr.getText().trim().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
                     return false;
                 }
@@ -444,7 +477,11 @@ public class TegnforsikringsLayout extends GridPane{
                 }
                 return true;
             case "batforsikring":
-                if( batRegistreringsnr.getText().trim().isEmpty()){
+                if( betingelserBat.getValue() == null){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+                    return false;
+                }
+                else if( batRegistreringsnr.getText().trim().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
                     return false;
                 }
@@ -474,7 +511,11 @@ public class TegnforsikringsLayout extends GridPane{
                 }
                 return true;
             case "boligforsikring":
-                if( gateAdresse.getText().trim().isEmpty()){
+                if( betingelserBolig.getValue() == null){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+                    return false;
+                }
+                else if( gateAdresse.getText().trim().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
                     return false;
                 }
@@ -508,7 +549,11 @@ public class TegnforsikringsLayout extends GridPane{
                 }
                 return true;
             case "reiseforsikring":
-                if( omrade.getText().isEmpty()){
+                if( betingelserReise.getValue() == null){
+                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+                    return false;
+                }
+                else if( omrade.getText().isEmpty()){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
                     return false;
                 }
@@ -539,17 +584,16 @@ public class TegnforsikringsLayout extends GridPane{
     private void setTommeFelter(){
         fodselsnr.clear();
         forsikringsbelop.clear();
-        betingelser.clear();
         
         fodselsnrFeil.setText("*");
         forsikringsbelopFeil.setText("*");
-        betingelserFeil.setText("*");
     }//end of method stTommeFelter()
     
     /**
      * Tømmer bilfeltene for tekst og setter RegEx Labelene til *
      */
     private void setTommeBilFelter(){
+        betingelserBil.setValue(null);
         registreringsnr.clear();
         merke.clear();
         modell.clear();
@@ -569,6 +613,7 @@ public class TegnforsikringsLayout extends GridPane{
      * Tømmer båtfeltene for tekst og setter RegEx Labelene til *
      */
     private void setTommeBatFelter(){
+        betingelserBat.setValue(null);
         batRegistreringsnr.clear();
         batMerke.clear();
         batModell.clear();
@@ -587,6 +632,7 @@ public class TegnforsikringsLayout extends GridPane{
      * Tømmer boligfeltene for tekst og setter RegEx Labelene til *
      */
     private void setTommeBoligFelter(){
+        betingelserBolig.setValue(null);
         gateAdresse.clear();
         postnr.clear();
         byggear.clear();
@@ -606,6 +652,7 @@ public class TegnforsikringsLayout extends GridPane{
      * Tømmer reisefeltene for tekst og setter RegEx Labelene til *
      */
     private void setTommeReiseFelter(){
+        betingelserReise.setValue(null);
         omrade.clear();
         
         omradeFeil.setText("*");
@@ -693,15 +740,11 @@ public class TegnforsikringsLayout extends GridPane{
             GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fødselsnummer (11 siffer)", null);
         });
         
-        betingelser.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(betingelserFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-        
         forsikringsbelop.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall (2-7 siffer)", forsikringsbelopRegEx);
         });
         
-        return fodselsnrFeil.getText().isEmpty() && betingelserFeil.getText().isEmpty() && forsikringsbelopFeil.getText().isEmpty();
+        return fodselsnrFeil.getText().isEmpty() && forsikringsbelopFeil.getText().isEmpty();
     }//end of method tekstFeltLyttere()
     
     
@@ -809,7 +852,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private void registrerBilforsikring(){
         String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = this.betingelser.getText().trim();
+        String betingelser = (String) this.betingelserBil.getValue();
         String registreringsnr = this.registreringsnr.getText().trim();
         String merke = this.merke.getText().trim();
         String modell = this.modell.getText().trim();
@@ -827,7 +870,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private void registrerBatforsikring(){
         String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = this.betingelser.getText().trim();
+        String betingelser = (String) this.betingelserBat.getValue();
         String batRegistreringsnr = this.batRegistreringsnr.getText().trim();
         String batMerke = this.batMerke.getText().trim();
         String batModell = this.batModell.getText().trim();
@@ -845,7 +888,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private void registrerBoligforsikring(){
         String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = this.betingelser.getText().trim();
+        String betingelser = (String) this.betingelserBolig.getValue();
         String gateAdresse = this.gateAdresse.getText().trim();
         String boligType = (String) this.boligType.getValue();
         String byggemateriale = this.byggemateriale.getText().trim();
@@ -864,7 +907,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private void registrerReiseforsikring(){
         String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = this.betingelser.getText().trim();
+        String betingelser = (String) this.betingelserReise.getValue();
         String omrade = this.omrade.getText().trim();
         double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
