@@ -59,8 +59,8 @@ public class OkonomiPane extends GridPane{
     private Font tekstStr = Font.font(null, 16);
     
     public OkonomiPane(Kunderegister register){
-        radioKnapper();
-        visOkonomiSkjema();
+        opprettRadioKnappNavigasjon();
+        opprettOkonomiSkjema();
         this.kundeRegister = register;
         radioKnappLytter();
         visOkonomiLytter();
@@ -69,7 +69,7 @@ public class OkonomiPane extends GridPane{
     /**
      * Oppretter og viser radioknappene til brukeren
      */
-    private void radioKnapper(){
+    private void opprettRadioKnappNavigasjon(){
         radioKnappBox = new VBox();
         
         gruppe = new ToggleGroup();
@@ -131,7 +131,7 @@ public class OkonomiPane extends GridPane{
         radioKnappBox.setPadding(GUI.PADDING);
         radioKnappBox.setSpacing(30);
         
-    }//end of method radioKnapper()
+    }//end of method opprettRadioKnappNavigasjon()
     
     /**
      * Oppretter TiteldPanen for de valgene med forsikringstype som søkekriterie
@@ -148,7 +148,7 @@ public class OkonomiPane extends GridPane{
     /**
      * Oppretter innholdet til TiteldPanen valgTypePane
      */
-    private void typeInnhold(){
+    private void opprettTypeSkjema(){
         typeInnhold = new GridPane();
         
         typeKnapp = new Button("Vis økonomi");
@@ -191,7 +191,7 @@ public class OkonomiPane extends GridPane{
         //Legger til tekstfelt
         typeInnhold.add(forsikringsType, 2, 1);
         typeInnhold.add(typeKnapp, 3, 1);
-    }//end of method typeInnhold()
+    }//end of method opprettTypeSkjema()
     
     /**
      * Oppretter TiteldPanen for de valgene med fødselsnummer som søkekriterie
@@ -208,7 +208,7 @@ public class OkonomiPane extends GridPane{
     /**
      * Oppretter innholdet til TiteldPanen valgKundePane
      */
-    private void kundeInnhold(){
+    private void opprettKundeSkjema(){
         kundeInnhold = new GridPane();
         
         kundeKnapp = new Button("Vis Økonomi");
@@ -231,15 +231,15 @@ public class OkonomiPane extends GridPane{
         //Legger til tekstfelt
         kundeInnhold.add(fodselsnr, 2, 1);
         kundeInnhold.add(kundeKnapp, 3, 1);
-    }//end of method kundeInnhold()
+    }//end of method opprettKundeSkjema()
     
     /**
      * Kolapser begge TiteldPanene
      */
-    private void ingenUtvidet(){
+    private void setIngenUtvidet(){
         valgTypePane.setExpanded(false);
         valgKundePane.setExpanded(false);
-    }//end of method ingenUtvidet()
+    }//end of method setIngenUtvidet()
     
     /**
      * Setter onMouseClicked funksjonen slik at man ikke kan trykke på TitledPanene før å utvide dem, men må bruke radioknappene
@@ -262,9 +262,9 @@ public class OkonomiPane extends GridPane{
     /**
      * Oppretter layouten for visning av økonomi
      */
-    public void visOkonomiSkjema(){
-        typeInnhold();
-        kundeInnhold();
+    public void opprettOkonomiSkjema(){
+        opprettTypeSkjema();
+        opprettKundeSkjema();
         valgKunde();
         valgType();
         
@@ -346,7 +346,7 @@ public class OkonomiPane extends GridPane{
                         output.setText("Det er ikke gjort noen utbetalinger på " + forsikringsType + ".");
                         break;
                     }
-                    output.setText("Utgiftene for " + forsikringsType + " er " + utbetalingType + "kr.");
+                    output.setText("Selskapets totale utbetaling for " + forsikringsType + " er i år " + utbetalingType + "kr.");
                     break;
                 case "utbetalingerKunde":
                     String fodselsnr = this.fodselsnr.getText().trim();
@@ -360,7 +360,7 @@ public class OkonomiPane extends GridPane{
                         output.setText("Det er ikke gjort noen utbetalinger til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + ".");
                         break;
                     }
-                    output.setText("Utbetalingene til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + " er " + utbetalingKunde + "kr.");
+                    output.setText("Selskapets totale utbetaling til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + " er i år " + utbetalingKunde + "kr.");
                     break;
                 case "inntektType":
                     String forsikringsTypeInntekt = (String) this.forsikringsType.getValue();
@@ -369,7 +369,7 @@ public class OkonomiPane extends GridPane{
                         output.setText("Vi har ingen inntekt fra " + forsikringsTypeInntekt + ".");
                         break;
                     }
-                    output.setText("Inntektene for " + forsikringsTypeInntekt + " er " + inntektType + "kr.");
+                    output.setText("Selskapets totale inntekt for " + forsikringsTypeInntekt + " er i år " + inntektType + "kr.");
                     break;
                 case "inntektKunde":
                     String fodselsnrInntekt = this.fodselsnr.getText().trim();
@@ -383,10 +383,10 @@ public class OkonomiPane extends GridPane{
                         output.setText("Vi har ingen inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + ".");
                         break;
                     }
-                    output.setText("Inntektene fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + " er " + inntektFodselsnr + "kr.");
+                    output.setText("Selskapets totale inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + " er i år " + inntektFodselsnr + "kr.");
                     break;
-            }
-        }
+            }// end of switch-case
+        }// end of try
         catch( NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
             return;
@@ -402,29 +402,29 @@ public class OkonomiPane extends GridPane{
             switch(valg.getId()){
                 case "utbetalingerArlig":
                     double arligUtgifter = kundeRegister.alleUtbetalteErstatninger();
-                    output.setText("Årets utgift er " + arligUtgifter + "kr.");
+                    output.setText("Selskapets totale utgift for i år er " + arligUtgifter + "kr.");
                     break;
                 case "utbetalingerType":
-                    ingenUtvidet();
+                    setIngenUtvidet();
                     valgUtvidet(valgTypePane, valgKundePane);
                     break;
                 case "utbetalingerKunde":
-                    ingenUtvidet();
+                    setIngenUtvidet();
                     valgUtvidet(valgKundePane, valgTypePane);
                     break;
                 case "inntektArlig":
                     double arligInntekter = kundeRegister.aarligInntekt();
-                    output.setText("Årets utgift er " + arligInntekter + "kr.");
+                    output.setText("Selskapets totale inntekt for i år er " + arligInntekter + "kr.");
                     break;
                 case "inntektType":
-                    ingenUtvidet();
+                    setIngenUtvidet();
                     valgUtvidet(valgTypePane, valgKundePane);
                     break;
                 case "inntektKunde":
-                    ingenUtvidet();
+                    setIngenUtvidet();
                     valgUtvidet(valgKundePane, valgTypePane);
                     break;
-            }
+            }// end of switch-case
         });
     }//end of method radioKnappLytter()
     
