@@ -423,17 +423,6 @@ public class Kunderegister implements Serializable {
     }// end of method finnForsikringer( skadetype )
     
     /**
-<<<<<<< HEAD
-     * Statistikk-beregning for antall forsikringer av de forskjellige typene. 
-     * @param forsikringstype På forsikringene det skal telles opp antal for.
-     * @param aarstall Hvilket år det skal telles opp forsikringer for
-     * @return Antall forsikringer i året "aarstall" som er av typen forsikringstype
-     */
-    public int antallForsikringAvType(String forsikringstype, String aarstall) {
-        int aar = Integer.parseInt(aarstall);
-        Calendar dato = Calendar.getInstance();
-        dato.set(aar - 1, 12, 31);
-=======
      * Teller opp antall lagrede forsikringer av gitt type, i tidsrommet mellom min og max.
      * @param forsikringstype
      * @param min
@@ -443,7 +432,6 @@ public class Kunderegister implements Serializable {
     public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
->>>>>>> Kunderegister-1.0
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
@@ -562,17 +550,6 @@ public class Kunderegister implements Serializable {
                 Iterator<Forsikring> fIter = liste.iterator();
                 while(fIter.hasNext()) {
                     Forsikring forsikring = fIter.next();
-<<<<<<< HEAD
-                    if(forsikring.getOpprettelsesDato().after(dato)) {
-                        dato.set(aar + 2,1,1);
-                        if(forsikring.getOpprettelsesDato().before(dato)) {
-                            sum += kunde.getForsikringer().listeMedForsikringAvType(forsikringstype).size();
-                        }// end of inner inner if
-                    }// end of inner if
-                } // end of inner while
-            }// end of outter if
-        }// end of outter while
-=======
                     Calendar fDato = forsikring.getOpprettelsesDato();
                     fDato.clear(Calendar.HOUR);
                     fDato.clear(Calendar.HOUR_OF_DAY);
@@ -771,7 +748,6 @@ public class Kunderegister implements Serializable {
                 }//end of inner while
             }//end of outer if  
         }//end of outer while
->>>>>>> Kunderegister-1.0
         return sum;
     }// end of method antallForsikringAvType()
     
