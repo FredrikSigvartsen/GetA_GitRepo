@@ -119,34 +119,6 @@ public class Kunderegister implements Serializable {
     }// end of method inntektFraForsikringstype(String forsikringstype)
     
     /**
-     * Samler opp inntekter fra alle kunders forsikringer, men bare hvor forsikringen er av forsikringstype, og er i perioden startDato-sluttDato
-     * @param forsikringstype Forsikringstypen for forsikringene man vil se inntekten for
-     * @param startDato På tidsperioden for forsikringene man vil se inntekten for
-     * @param sluttDato På tidsperioden for forsikringene man vil se inntekten for
-     * @return Summen av inntekter 
-     */
-    public double inntektFraForsikringstype(String forsikringstype, Calendar startDato, Calendar sluttDato) {
-        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
-        List<Forsikring> fListe = new ArrayList<>();
-        double sum = 0;
-        
-        while(kIter.hasNext()){
-            Forsikringsliste gjeldendeForsikringsliste = kIter.next().getForsikringer();
-            if( ! (gjeldendeForsikringsliste.erTom() ) ) {
-                fListe = gjeldendeForsikringsliste.listeMedForsikringAvType(forsikringstype);
-                ListIterator<Forsikring> fIter = fListe.listIterator();
-                while(fIter.hasNext()) {
-                    Forsikring gjeldendeForsikring = fIter.next();
-                    if( erMellom( startDato, sluttDato, gjeldendeForsikring.getOpprettelsesDato() ))
-                        sum += gjeldendeForsikring.getForsikringsPremie();
-                }// end of inner while
-            }// end of outter if
-        }// end of while
-        return sum;
-    }// end of method inntektFraForsikringstype( forsikringstype, startDato, sluttDato)
-    
-    
-    /**
      * Returner all inntekt registrert på en kunde.
      * @param fodselsNr Fødselsnummeret på kunden man vil finne inntekten til
      * @return Inntekten til en kunde
@@ -217,6 +189,55 @@ public class Kunderegister implements Serializable {
        }// end of while
        return null;
     } // finnKunde(String fornavn, String etternavn)
+    
+    /**
+     * Finner alle kunder fornavn og etternavn
+     * @param fornavn På kundene vi vil finne i registeret
+     * @param etternavn På kundene vi vil finne i registeret
+     * @return En liste med ForsikringsKunde'r med angitt fornavn og etternavn
+     */
+    public List<ForsikringsKunde> finnKunderMedNavn(String fornavn, String etternavn){
+        List<ForsikringsKunde> kundene = finnKunderMedFornavn(fornavn);
+        List<ForsikringsKunde> kunderEtternavn = finnKunderMedEtternavn(etternavn);
+        kundene.retainAll(kunderEtternavn);
+        
+        return kundene;
+    } // end of method finnKunderMedNavn(fornavn, etternavns)
+    /**
+     * Finner alle kunder i registeret med fornavnet som blir angitt i parameterlisten. 
+     * @param fornavn Fornavnet på de kundene som det skal søkes opp
+     * @return En liste med ForsikringsKunde'r med fornavn angitt i parameterlisten.
+     */
+    public List<ForsikringsKunde> finnKunderMedFornavn(String fornavn){
+        List<ForsikringsKunde> kundene = new ArrayList<>();
+        if( kunderegister.isEmpty() )
+            return kundene;
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        while( kIter.hasNext() ){
+            ForsikringsKunde gjeldende = kIter.next();
+            if( fornavn.equalsIgnoreCase( gjeldende.getFornavn() ) )
+                kundene.add(gjeldende);
+        }// end of while
+        return kundene;
+    } // end of method finnKunderMedFornavn(String fornavn)
+    
+    /**
+     * Finner alle kunder i registeret med etternavnet som blir angitt i parameterlisten. 
+     * @param etternavn Etternavnet på de kundene som det skal søkes opp
+     * @return En liste med ForsikringsKunde'r med etternavn angitt i parameterlisten.
+     */
+    public List<ForsikringsKunde> finnKunderMedEtternavn(String etternavn){
+        List<ForsikringsKunde> kundene = new ArrayList<>();
+        if( kunderegister.isEmpty() )
+            return kundene;
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        while( kIter.hasNext() ){
+            ForsikringsKunde gjeldende = kIter.next();
+            if( etternavn.equalsIgnoreCase( gjeldende.getEtternavn() ) )
+                kundene.add(gjeldende);
+        }// end of while
+        return kundene;
+    } // end of method finnKunderMedFornavn(String fornavn)
     
     /**
      * Finner en kunde i registeret som har en skademelding med gitt skademeldingsnummer. 
