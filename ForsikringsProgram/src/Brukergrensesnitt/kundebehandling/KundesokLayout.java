@@ -12,12 +12,14 @@ import forsikringsprogram.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.function.Consumer;
+import java.util.Optional;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.*;
 import javafx.geometry.Insets;
-import static javafx.geometry.Insets.EMPTY;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
@@ -25,9 +27,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import static javafx.scene.layout.BorderStroke.THIN;
-import static javafx.scene.layout.BorderStrokeStyle.NONE;
-import static javafx.scene.paint.Color.TRANSPARENT;
 import static javafx.scene.text.Font.font;
 
 /**
@@ -43,7 +42,7 @@ public class KundesokLayout extends GridPane{
     private TextField fodselsNrInput, fornavnInput, etternavnInput, skadeNrInput, avtaleNrInput;
     private Button sokKnapp, sokNavnKnapp, sokForsikringstypeKnapp, sokSkadeNrKnapp, sokSkadetypeKnapp, nesteBildeKnapp, forrigeBildeKnapp
             , visForsikringerKnapp, visSkademeldingerKnapp, sokForsikringerKnapp, sokForsikringKnapp;
-    private ChoiceBox forsikringstypeInput, skadetypeInput, forsikringertypeInput;
+    private ChoiceBox forsikringstypeInput, skadetypeInput, forsikringertypeInput, velgKundeBox;
     private GridPane sokLayout, outputLayout, bildeviserLayout;
     private ImageView imageviewer;
     private Skademelding gjeldendeSkademelding;
@@ -318,6 +317,8 @@ public class KundesokLayout extends GridPane{
                 bildeviserLayout.setVisible(false);
                 settSynligVisKnapper(true);
             }
+            else
+                settSynligVisKnapper(false);
         });
         //Knappe displayet for visning av forsikringer og skademeldinger til kunden
         sokNavnKnappeDisplay = sokKundeKnapper();
@@ -468,6 +469,9 @@ public class KundesokLayout extends GridPane{
     
     //Kontroll-metodene: 
     
+    /**
+     * Legger til kunden som er funnet, sine skademeldinger i output-vinduet
+     */
     private void visKundensSkademeldinger(){
         if( kunden == null)
             return;
@@ -532,14 +536,11 @@ public class KundesokLayout extends GridPane{
       */
     private boolean finnKundeMedNavn(){
         output.setText("");
-        if( fornavnInput.getText().trim().isEmpty()){
-            GUI.visInputFeilMelding("OBS!", "Du må fylle inn fornavnet på kunden du vil søke på.");
+        if( fornavnInput.getText().trim().isEmpty() && etternavnInput.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("OBS!", "Du må fylle inn fornavnet eller etternavn på kunden du vil søke på.");
             return false;
-        }
-        else if( etternavnInput.getText().trim().isEmpty()){
-            GUI.visInputFeilMelding("OBS!", "Du må fylle inn etternavnet på kunden du vil søke på");
-            return false;
-        }// end of else-if
+        }// end of if
+        
         String fornavn = fornavnInput.getText().trim();
         String etternavn = etternavnInput.getText().trim();
         
@@ -550,19 +551,152 @@ public class KundesokLayout extends GridPane{
         }// end of if
         
         try{
-            kunden = kundeRegister.finnKunde(fornavn, etternavn);
-            if( kunden == null){
-                output.setText( "\n " + fornavn + " " + etternavn + " finnes ikke i systemet vårt." ) ;
+            //Hvis fornavn-felt er tomt skal man søke på etternavn
+            if( fornavn.isEmpty() )
+                output.setText( visValgAvKunder("Etternavn") );
+            
+            //Hvis etternavn-felt er tomt skal man søke på fornavn
+            else if( etternavn.isEmpty() )
+                output.setText( visValgAvKunder("Fornavn") );
+            
+            //Hvis begge er fylt, så skal man søke på både fornavn og etternavn
+            else if( !( fornavn.isEmpty() ) && !( etternavn.isEmpty() ) )
+                output.setText( visValgAvKunder("FornavnEtternavn") );
+            //Hvis det ikke finnes noen kunde, er kunden null. 
+            if( kunden == null )
                 return false;
-            }
-            output.setText( "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString() ) ;
             return true;
-        }
+        }// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
             return false;
-        }
+        }// end of try-catch
     }// end of method finnKundeMedNavn()
+    
+    /**
+     * Hvis det finnes flere brukere med samme fornavn/etternavn blir
+     * @param fornavnANDORetternavn 
+     */
+    private String visValgAvKunder(String fornavnANDORetternavn){
+        
+        List<ForsikringsKunde> kundene;
+        GridPane velgKundeLayout = null;
+        
+        //Hvis brukeren bare har skrevet inn fornavn
+        if( fornavnANDORetternavn.equalsIgnoreCase("Fornavn")){
+            
+            String fornavn = fornavnInput.getText().trim();
+            kundene = kundeRegister.finnKunderMedFornavn( fornavn );
+            
+            if( kundene.isEmpty() ){
+                kunden = null;
+                return "\n Det finnes ingen kunder i vårt system som heter " + fornavn + " til  fornavn";
+            }
+            
+            if(kundene.size() == 1){
+                kunden = kundene.get(0);
+                fornavnInput.setText( kunden.getFornavn());
+                etternavnInput.setText( kunden.getEtternavn() );
+                return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+            }// end of inner if
+            velgKundeLayout = kundeValgLayout( "Det finnes flere som heter " + fornavn + " til fornavn" , kundene);
+        }// end of outter if
+        
+        //Hvis brukeren bare har skrevet inn etternavn
+        else if( fornavnANDORetternavn.equalsIgnoreCase("Etternavn")){
+            String etternavn = etternavnInput.getText().trim();
+            kundene = kundeRegister.finnKunderMedEtternavn( etternavn );
+            
+            if( kundene.isEmpty() ){
+                kunden = null;
+                return "\n Det finnes ingen kunder i vårt system som heter " + etternavn + " til  etternavn";
+            }
+            
+            if(kundene.size() == 1){
+                kunden = kundene.get(0);
+                fornavnInput.setText( kunden.getFornavn());
+                etternavnInput.setText( kunden.getEtternavn() );
+                return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+            }// end of inner if
+            velgKundeLayout =  kundeValgLayout( "Det finnes flere som heter " + etternavn + " til etternavn", kundene );
+        }// end of outter if
+        
+        // Hvis brukeren har skrevet inn både fornavn og etternavn
+        else if( fornavnANDORetternavn.equalsIgnoreCase("FornavnEtternavn")){
+            String fornavn = fornavnInput.getText().trim();
+            String etternavn = etternavnInput.getText().trim();
+            kundene = kundeRegister.finnKunderMedNavn(fornavn, etternavn);
+            
+            if(kundene.isEmpty()){
+                kunden = null;
+                return "\n Det finnes ingen kunder i vårt system som heter " + fornavn + " " + etternavn;
+            }
+            if(kundene.size() == 1){
+                kunden = kundene.get(0);
+                fornavnInput.setText( kunden.getFornavn());
+                etternavnInput.setText( kunden.getEtternavn() );
+                return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+            }// end of inner if
+            velgKundeLayout = kundeValgLayout( "Det finnes flere som heter  " + fornavn + " " + etternavn, kundene);
+        }// end of outter if
+        
+        Alert melding = new Alert(Alert.AlertType.CONFIRMATION);
+        melding.setTitle("OBS!");
+        melding.setHeaderText(null);
+        melding.setResizable(true);
+        melding.setWidth( 400 );
+        
+        GridPane.setVgrow(velgKundeLayout, Priority.ALWAYS);
+        melding.getDialogPane().setContent( velgKundeLayout );
+        melding.getDialogPane().setPrefSize(500, 600);
+        Optional<ButtonType> handling = melding.showAndWait();
+        
+        if( handling.isPresent() && handling.get() == ButtonType.OK ){
+            kunden = kundeRegister.finnKunde( velgKundeBox.getValue().toString() );
+            if( kunden != null){
+            fornavnInput.setText( kunden.getFornavn());
+            etternavnInput.setText( kunden.getEtternavn() );
+            return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+            }
+        }// end of outter if
+        else{
+            return "\n Du avbrøt handlingen. Søk gjerne på nytt for å finne  kunden du leter etter.";
+        }// end of else
+        return " Feil i søking etter kunde. Kontakt IT-ansvarlig";
+    }// end of method visValgAvKunder()
+    
+    /**
+     * 
+     * @return Et GridPane-layout for utvalg av en spesiell kunde, blant mange. 
+     */
+    private GridPane kundeValgLayout(String fornavnANDORetternavn, List<ForsikringsKunde> kunder){
+        GridPane returLayout = new GridPane();
+        if(kunder.isEmpty())
+            return returLayout;
+        
+        Label beskrivelse = new Label( fornavnANDORetternavn + ".\nVelg ut fødselsnummeret til kunden du vil søke på:");
+        Label kundeInfo = new Label();
+        
+        velgKundeBox = new ChoiceBox();
+        Iterator<ForsikringsKunde> kIter = kunder.listIterator();
+        while( kIter.hasNext() ){
+            ForsikringsKunde gjeldende = kIter.next();
+            velgKundeBox.getItems().add( gjeldende.getFodselsNr());
+        }
+        velgKundeBox.getSelectionModel().selectedItemProperty().addListener( new ChangeListener<String>(){
+            
+            public void changed( ObservableValue<? extends String> source, String oldValue, String newValue){
+                kundeInfo.setText( "Kunde valgt:" + kundeRegister.finnKunde(newValue).toString() );
+            }
+        });
+        returLayout.addRow(1, beskrivelse);
+        returLayout.addRow(2, velgKundeBox);
+        returLayout.addRow(3, kundeInfo);
+        returLayout.setVgap(15);
+        returLayout.setMaxWidth( Double.MAX_VALUE );
+        returLayout.setMaxHeight( Double.MAX_VALUE );
+        return returLayout;
+    }// end of method kundeValgLayout() 
     
     /**
      * Finner alle kunder med forsikring av typen brukeren velger. 
