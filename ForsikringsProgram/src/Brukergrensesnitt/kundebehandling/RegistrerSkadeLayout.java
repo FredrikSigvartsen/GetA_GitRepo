@@ -186,7 +186,7 @@ public class RegistrerSkadeLayout extends GridPane {
             
             String fodselsNr = fodselsNrInput.getText().trim();
             if( kundeRegister.finnKunde(fodselsNr) == null){
-                 output.setText("Det finnes ingen kunder med fødselsnummer: " + fodselsNr);
+                 GUI.visInputFeilMelding("OBS!","Det finnes ingen kunder med fødselsnummer: " + fodselsNr);
                 return false;
             }
         
@@ -256,12 +256,12 @@ public class RegistrerSkadeLayout extends GridPane {
      */
     private boolean regexErOk(){
         
-        if( ! (GUI.sjekkRegex( "^\\d{11}$", fodselsNrInput.getText() ) ) ){
-            GUI.visInputFeilMelding("OBS! Fødselsnummer inneholder 11 sifre.", "For å kunne registrere en skademelding må du fylle inn et eksisterende fødselsnummer"
+        if( ! (GUI.sjekkRegexFodselsNr( fodselsNrInput.getText().trim() ) ) ){
+            GUI.visInputFeilMelding("OBS! Fødselsnummer inneholder 11 sifre.", "For å kunne registrere en skademelding må du fylle inn et gyldig fødselsnummer"
                                     + " med 11 sifre");
             return false;
         }
-        else if( !( GUI.sjekkRegex( GUI.VALUTA_REGEX, takstInput.getText() ) ) ){
+        else if( !( GUI.sjekkRegex( GUI.VALUTA_REGEX, takstInput.getText().trim() ) ) ){
             GUI.visInputFeilMelding("OBS! Taksten er i feil format", "For å kunne registrere en skademelding, må du fylle inn riktig takst for skaden. Angis i antall kroner.");
             return false;
         }
@@ -270,7 +270,7 @@ public class RegistrerSkadeLayout extends GridPane {
             GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne registrere en skademelding, må du fylle inn dato for skaden. Angis f.eks i dd/mm/åååå");
             return false; 
         }
-        else if( ! (GUI.sjekkRegex( GUI.TIDSPUNKT_REGEX, tidspunktInput.getText() ) ) ){
+        else if( ! (GUI.sjekkRegex( GUI.TIDSPUNKT_REGEX, tidspunktInput.getText().trim() ) ) ){
             GUI.visInputFeilMelding("OBS! Tidspunkt er i feil format", "For å kunne registrere en skademelding, må du fylle inn riktig tidspunkt for skaden. Angis i timer:minutter");
             return false;
         }
