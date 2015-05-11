@@ -119,12 +119,14 @@ public class KundesokLayout extends GridPane{
         sokFodselsNrLayout.setExpanded(false);
         sokFodselsNrLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokFodselsNrLayout);
+            settFelterTomme();
         });
         
         sokNavnLayout = new TitledPane( "Navn", sokNavn() );
         sokNavnLayout.setExpanded(false);
         sokNavnLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokNavnLayout);
+            settFelterTomme();
         });
         
         sokForsikringstypeLayout = new TitledPane( "Forsikringstype", sokForsikringstype() );
@@ -132,6 +134,7 @@ public class KundesokLayout extends GridPane{
         sokForsikringstypeLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokForsikringstypeLayout);
             settSynligVisKnapper(false);
+            settFelterTomme();
         });
         
         sokSkadeNrLayout = new TitledPane( "Skademelding nummer", sokSkadeNr() );
@@ -139,6 +142,7 @@ public class KundesokLayout extends GridPane{
         sokSkadeNrLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokSkadeNrLayout);
             settSynligVisKnapper(false);
+            settFelterTomme();
         });
         
         sokSkadetypeLayout = new TitledPane( "Skadetype", sokSkadetype() );
@@ -146,6 +150,7 @@ public class KundesokLayout extends GridPane{
         sokSkadetypeLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokSkadetypeLayout);
             settSynligVisKnapper(false);
+            settFelterTomme();
         });
         
         sokForsikringLayout = new TitledPane("Avtalenummer", sokForsikringAvtaleNr() );
@@ -153,6 +158,7 @@ public class KundesokLayout extends GridPane{
         sokForsikringLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokForsikringLayout);
             settSynligVisKnapper(false);
+            settFelterTomme();
         });
         
         sokForsikringerLayout = new TitledPane("Forsikringstype", sokForsikringerForsikringstype() );
@@ -160,6 +166,7 @@ public class KundesokLayout extends GridPane{
         sokForsikringerLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokForsikringerLayout);
             settSynligVisKnapper(false);
+            settFelterTomme();
         });
         
         Label skadeLabel = new Label("Søk på skademeldinger med");
@@ -969,4 +976,18 @@ public class KundesokLayout extends GridPane{
         sokNavnKnappeDisplay.setVisible(skjulte);
         sokFodselsNrKnappeDisplay.setVisible(skjulte);
     }// end of method skjulKnapper
+    
+    /**
+     * Fjerner eventuelle inputs i alle tekstfelter og kombobokser
+     */
+    private void settFelterTomme(){
+        fodselsNrInput.setText("");
+        fornavnInput.setText("");
+        etternavnInput.setText("");
+        skadeNrInput.setText("");
+        avtaleNrInput.setText("");
+        forsikringstypeInput.setValue(null);
+        skadetypeInput.setValue(null);
+        forsikringertypeInput.setValue(null);
+    }// end of method settFelterTomme
 }// end of class SokLayout
