@@ -7,6 +7,7 @@ package Brukergrensesnitt.Statistikk;
 
 import forsikringsprogram.Forsikring;
 import forsikringsprogram.Kunderegister;
+import java.time.LocalDate;
 import java.util.Calendar;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,8 +50,10 @@ public class SoylediagramLayout extends GridPane{
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
+        datePickerFra.setValue(LocalDate.of(2015, 5, 1));
         datePickerTil = new DatePicker();
         datePickerTil.setEditable(false);
+        datePickerTil.setValue(LocalDate.now());
         
         cb = new ComboBox();
         forsikringer = FXCollections.observableArrayList("Forsikringer", "Skademeldinger");

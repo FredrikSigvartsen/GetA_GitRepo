@@ -38,12 +38,9 @@ public class Skademelding implements Serializable {
      * @param inntruffetTidspunkt til skaden
      * @param bilder liste av filer, for lagring av flere bilder av skaden.
      */
-    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, Calendar inntruffetDato, String inntruffetTidspunkt, List<File> bilder) {
-<<<<<<< HEAD
-=======
-        
+    public Skademelding(String skadeType, String beskrivelse, String vitneKontakt, double takst, 
+                        Calendar inntruffetDato, String inntruffetTidspunkt, List<File> bilder) {
         this.opprettelsesDato = Calendar.getInstance();
->>>>>>> Kunderegister-1.0
         this.skadeType = skadeType;
         this.beskrivelse = beskrivelse;
         this.vitneKontakt = vitneKontakt;
@@ -77,11 +74,9 @@ public class Skademelding implements Serializable {
        return skademelding;
     }//end of method toString()
     
-<<<<<<< HEAD
     /**
      * Setter ersatningsbeløpet lik taksten. 
      */
-=======
     public Calendar getOpprettelsesDato() {
         return this.opprettelsesDato;
     }
@@ -93,7 +88,6 @@ public class Skademelding implements Serializable {
 //    }
 //    
     
->>>>>>> Kunderegister-1.0
     public void setErstatningsbelopLikTakst() {
         this.erstatningsbelop = this.takst;
     }// end of method getBilder()
