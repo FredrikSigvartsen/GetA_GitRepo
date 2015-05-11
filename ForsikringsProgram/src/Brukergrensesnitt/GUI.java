@@ -23,6 +23,8 @@ import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -77,22 +79,29 @@ public class GUI extends Application{
         lesFraFil();
         kundeLayout = new KundePane( kundeRegister);
         okonomiLayout = new OkonomiPane(kundeRegister);
-        //TabPane kundeFaner = kundeLayout.kundebehandlingsFaner();
-        opprettFaneMeny();
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram");
-        //stage.getIcons().add(new Image(getClass().getResourceAsStream("../../bilder/logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("../bilder/logo.png")));
         layout = new BorderPane();
-        layout.setTop(faneMeny);
-        layout.setCenter(kundeLayout);
         
         scene = new Scene(layout, getSkjermBredde() / 1.1, getSkjermHoyde() / 1.2);
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
         stage.setOnCloseRequest((WindowEvent t) -> {
             skrivTilFil();
         } );
+        opprettFaneMeny();
+        layout.setCenter(kundeLayout);
+        layout.setTop(faneMeny);
         
+        fanePanel.setTabMinWidth((sceneBredde() / 3) - 20);
+        kundeLayout.getKundebehandlingsPanel().setTabMinWidth((sceneBredde() / 3) - 20);
+        final InvalidationListener resizeLytter = (Observable observable) -> {
+            fanePanel.setTabMinWidth((sceneBredde() / 3) - 20);
+            kundeLayout.getKundebehandlingsPanel().setTabMinWidth((sceneBredde() / 3) - 20);
+        };
+        scene.widthProperty().addListener(resizeLytter);
     }// end of method start()
   
     /**
@@ -145,7 +154,6 @@ public class GUI extends Application{
     public void opprettFaneMeny(){
         faneMeny = new HBox();
         fanePanel = new TabPane();
-        fanePanel.setMinWidth(GUI.getSkjermBredde() * 2);
         fanePanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         
         Tab kundebehandlingFane = new Tab();
@@ -338,6 +346,14 @@ public class GUI extends Application{
     public Kunderegister getKundeRegister(){
         return kundeRegister;
     }// end of method getKundeRegister()
+    
+    /**
+     * 
+     * @return Returnerer scenen sin bredde
+     */
+    public double sceneBredde(){
+        return scene.getWidth();
+    }
     
     /**
      * 

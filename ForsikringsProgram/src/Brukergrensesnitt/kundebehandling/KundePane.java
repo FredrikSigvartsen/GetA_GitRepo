@@ -69,7 +69,6 @@ public class KundePane extends BorderPane{
         HBox box = new HBox();
         kundebehandlingsPanel = new TabPane();
         kundebehandlingsPanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        kundebehandlingsPanel.setMinWidth(GUI.getSkjermBredde()*2);
         
         
         Tab forsikringsBehandlingFane = new Tab("Behandle forsikringer");
@@ -86,6 +85,10 @@ public class KundePane extends BorderPane{
         
         return box;
     }//end of method kundebehandlingsFaner()
+    
+    public TabPane getKundebehandlingsPanel(){
+        return kundebehandlingsPanel;
+    }
     
     /**
      * Legger til en litter på fanekortene i kundebehandlingsPanelet
