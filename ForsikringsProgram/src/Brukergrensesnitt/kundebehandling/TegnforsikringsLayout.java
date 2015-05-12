@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package Brukergrensesnitt.kundebehandling;
 
 import forsikringsprogram.*;
@@ -36,15 +34,13 @@ public class TegnforsikringsLayout extends GridPane{
             antallKVMFeil, omradeFeil;
     private Button tegnForsikring;
     private ComboBox forsikringsType, boligType, boligStandard, motorType, betingelserBil, betingelserBat, betingelserBolig, betingelserReise;
-    private GridPane boligforsikringFelter, reiseforsikringFelter;
-    private StackPane bilforsikringStackPane;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString;
     
     public TegnforsikringsLayout(Kunderegister register){
-        tegnForsikringsSkjema();
+        opprettTegnForsikringsSkjema();
         tekstFeltLyttere();
-        comboLytter();
+        comboBoxLytter();
         tegnForsikringLytter();
         this.kundeRegister = register;
     }//end of constructor
@@ -54,7 +50,7 @@ public class TegnforsikringsLayout extends GridPane{
      * og kaller på metodene som oppretter de inputfeltene som er unike for 
      * hver enkelt forsikring
      */
-    private void tegnForsikringsSkjema(){
+    private void opprettTegnForsikringsSkjema(){
         fjernUnikeFelter();
         
         
@@ -79,23 +75,17 @@ public class TegnforsikringsLayout extends GridPane{
                    .build();
         forsikringsbelopFeil = new Label("*");
         
-        //betingelser = TextFieldBuilder.create()
-                   //.minWidth(GUI.TEKSTFELT_BREDDE)
-                   //.maxWidth(GUI.TEKSTFELT_BREDDE)
-                   //.build();
-        //betingelserFeil = new Label("*");
-        
         setVgap(10);
         setHgap(10);
         
         Label tegnForsikringLabel = new Label("Tegning av forsikring");
         tegnForsikringLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
+        
         //legger til kolonne 1
         add(tegnForsikringLabel, 1, 1, 2, 1);
         add(new Label("Fødselsnummer:"), 1, 2);
         add(new Label("Forsikrings type:"), 1, 3);
         add(new Label("Forsikringsbeløp:"), 1, 4);
-        //add(new Label("Betingelser:"), 1, 5);
         setHalignment(tegnForsikring, HPos.CENTER);
         add(tegnForsikring, 1, 14, 2, 1);
         
@@ -103,13 +93,11 @@ public class TegnforsikringsLayout extends GridPane{
         add(fodselsnr, 2, 2);
         add(forsikringsType, 2, 3);
         add(forsikringsbelop, 2, 4);
-        //add(betingelser, 2, 5);
         
         //legger til kolonne 3
         add(fodselsnrFeil, 3, 2, 3, 1);
         add(forsikringsbelopFeil, 3, 4, 4, 1);
-        //add(betingelserFeil, 3, 5, 4, 1);
-    }//end of method tegnForsikringsSkjema()
+    }//end of method opprettTegnForsikringsSkjema()
     
     /**
      * fjerner alle labeler og tekstfelt for de felter som er unike for de forskjeldinge forsikringstypene
@@ -133,7 +121,7 @@ public class TegnforsikringsLayout extends GridPane{
     /**
      * Oppretter de feltene som er unike for bilforsikring
      */
-    private void bilforsikringsFelter(){
+    private void opprettBilforsikringsFelter(){
         
         fjernUnikeFelter();
         
@@ -213,12 +201,12 @@ public class TegnforsikringsLayout extends GridPane{
         add(prisPerKmFeil, 3, 12);
         
         bilTekstFeltLyttere();
-    }//End of method bilforsikringFelter()
+    }//End of method opprettBilforsikringFelter()
     
     /**
      * Oppretter de feltene som er unike for båtforsikring
      */
-    private void batforsikringsFelter(){
+    private void opprettBatforsikringsFelter(){
         
         fjernUnikeFelter();
         
@@ -296,12 +284,12 @@ public class TegnforsikringsLayout extends GridPane{
         add(motorStyrkeFeil, 3, 12);
         
         batTekstFeltLyttere();
-    }//End of method BatforsikringFelter
+    }//End of method opprettBatforsikringFelter()
     
     /**
      * Oppretter de feltene som er unike for boligforsikring
      */
-    private void boligforsikringsFelter(){
+    private void opprettBoligforsikringsFelter(){
         
         fjernUnikeFelter();
         
@@ -388,12 +376,12 @@ public class TegnforsikringsLayout extends GridPane{
         add(antallKVMFeil, 3, 13);
         
         boligTekstFeltLyttere();
-    }//End of method BoligforsikringFeilter
+    }//End of method opprettVoligforsikringFelter()
     
     /**
      * Oppretter de feltene som er unike for reiseforsikring
      */
-    private void reiseforsikringsFelter(){
+    private void opprettReiseforsikringsFelter(){
         
         fjernUnikeFelter();
         
@@ -422,13 +410,13 @@ public class TegnforsikringsLayout extends GridPane{
         add(omradeFeil, 3, 7);
         
         reiseTekstFeltLyttere();
-    }//End of method BoligforsikringFeilter
+    }//End of method opprettReiseforsikringFeilter
     
     /**
      * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn.
      * @return Returnerer true om alle feltene er fylt inn, og false om noe mangler
      */
-    private boolean sjekkFelter(){
+    private boolean sjekkTommeFelter(){
         if( fodselsnr.getText().trim().isEmpty()){
             GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
             return false;
@@ -474,7 +462,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
-                return true;
+                return true;//end of case bilforsikring
             case "batforsikring":
                 if( betingelserBat.getValue() == null){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
@@ -508,7 +496,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
-                return true;
+                return true;//end og case batforsikring
             case "boligforsikring":
                 if( betingelserBolig.getValue() == null){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
@@ -546,7 +534,7 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
-                return true;
+                return true;//end of case boligforsikring
             case "reiseforsikring":
                 if( betingelserReise.getValue() == null){
                     GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
@@ -560,22 +548,22 @@ public class TegnforsikringsLayout extends GridPane{
                     GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
                     return false;
                 }
-                return true;
-        }
+                return true;//end of case reiseforsikring
+        }//end of switch
         return false;
-    }// end of method sjekkFelter()
+    }// end of method sjekkTommeFelter()
     
     /**
      * Sjekker om kunden er totalkunde, og viser et meldingsvindu når kunden blir totalkunde
      */
-    private void erTotalKunde(){
+    private void blirTotalKunde(){
         ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
         if(kunde == null)
             return;
         if(kunde.blirTotalKunde()){
             GUI.visInputFeilMelding("Total kunde", kunde.getEtternavn() +", " + kunde.getFornavn() + " har nå blitt total kunde!");
         }
-    }//end of method erTotalKunde()
+    }//end of method blirTotalKunde()
     
     /**
      * Tømmer de gjennomgående feltene for tekst og setter RegEx Labelene til *
@@ -586,7 +574,7 @@ public class TegnforsikringsLayout extends GridPane{
         
         fodselsnrFeil.setText("*");
         forsikringsbelopFeil.setText("*");
-    }//end of method stTommeFelter()
+    }//end of method setTommeFelter()
     
     /**
      * Tømmer bilfeltene for tekst og setter RegEx Labelene til *
@@ -661,73 +649,73 @@ public class TegnforsikringsLayout extends GridPane{
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
      */
     private void registrerForsikring(){
-        if(!sjekkFelter())
-                return;
+        if(!sjekkTommeFelter())
+                return;//end of if
         try{
             switch (forsikringsTypeString){
                 case "bilforsikring":
                     registrerBilforsikring();
-                    erTotalKunde();
+                    blirTotalKunde();
                     setTommeFelter();
                     setTommeBilFelter();
                     break;
                 case "batforsikring":
                     registrerBatforsikring();
-                    erTotalKunde();
+                    blirTotalKunde();
                     setTommeFelter();
                     setTommeBatFelter();
                     break;
                 case "boligforsikring":
                     registrerBoligforsikring();
-                    erTotalKunde();
+                    blirTotalKunde();
                     setTommeFelter();
                     setTommeBoligFelter();
                     break;
                 case "reiseforsikring":
                     registrerReiseforsikring();
-                    erTotalKunde();
+                    blirTotalKunde();
                     setTommeFelter();
                     setTommeReiseFelter();
                     break;
-            }
-        }
+            }//end of switch
+        }//end of try
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
             return;
-        }
+        }//end of catch
     }//end of method registrerForsikring()
     
     /**
      * Legger til en lytter til forsikringsType comboboxen, og legger til de
      * korrekte inputfeltene for den forsikringstypen
      */
-    private void comboLytter(){
+    private void comboBoxLytter(){
         forsikringsType.valueProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> ov, String t, String t1) {
                 switch ((String) t1) {
                     case "Bilforsikring":
-                        bilforsikringsFelter();
+                        opprettBilforsikringsFelter();
                         forsikringsTypeString = "bilforsikring";
                         break;
                     case "Båtforsikring":
-                        batforsikringsFelter();
+                        opprettBatforsikringsFelter();
                         forsikringsTypeString = "batforsikring";
                         break;
                     case "Boligforsikring":
-                        boligforsikringsFelter();
+                        opprettBoligforsikringsFelter();
                         forsikringsTypeString = "boligforsikring";
                         break;
                     case "Reiseforsikring":
-                        reiseforsikringsFelter();
+                        opprettReiseforsikringsFelter();
                         forsikringsTypeString = "reiseforsikring";
                         break;
                     default:
-                        bilforsikringsFelter();
+                        opprettBilforsikringsFelter();
                         forsikringsTypeString = "default";
-                }
+                }//end of switch
             }
-        });
+        });//end of inner anonymous class
     }//end of method comboLytter()
     
     /**
@@ -777,7 +765,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
         return registreringsnrFeil.getText().isEmpty() && merkeFeil.getText().isEmpty() && modellFeil.getText().isEmpty() && 
                registreringsarFeil.getText().isEmpty() && kjorelengdeFeil.getText().isEmpty() && prisPerKmFeil.getText().isEmpty();
-    }
+    }//end of method bilTekstFeltLyttere()
     
     /**
      * Sjekker båtinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
@@ -805,7 +793,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
         return batRegistreringsnrFeil.getText().isEmpty() && batMerkeFeil.getText().isEmpty() && batModellFeil.getText().isEmpty() && 
                arsmodellFeil.getText().isEmpty() && motorStyrkeFeil.getText().isEmpty();
-    }
+    }//end of method batTekstFeltLyttere()
     
     /**
      * Sjekker boliginput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
@@ -833,7 +821,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
         return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
                byggearFeil.getText().isEmpty() && antallKVMFeil.getText().isEmpty();
-    }
+    }//end of method boligTekstFeltLyttere()
     
     /**
      * Sjekker resieinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
@@ -844,73 +832,73 @@ public class TegnforsikringsLayout extends GridPane{
             GUI.sjekkRegEx(omradeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
         });
         return omradeFeil.getText().isEmpty();
-    }
+    }//end of method reiseTekstFeltLyttere()
     
     /**
      * Registrerer en bilforsikring når metoden kalles
      */
     private void registrerBilforsikring(){
-        String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = (String) this.betingelserBil.getValue();
-        String registreringsnr = this.registreringsnr.getText().trim();
-        String merke = this.merke.getText().trim();
-        String modell = this.modell.getText().trim();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        int registreringsar = Integer.parseInt(this.registreringsar.getText().trim());
-        int kjorelengde = Integer.parseInt(this.kjorelengde.getText().trim());
-        int prisPerKm = Integer.parseInt(this.prisPerKm.getText().trim());
-        Bilforsikring bilforsikring = new Bilforsikring(betingelser, forsikringsbelop,
-                                               registreringsnr, merke, modell, registreringsar, kjorelengde, prisPerKm);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(bilforsikring, fodselsnr));
+        String fodselsnrInput = this.fodselsnr.getText().trim();
+        String betingelserInput = (String) this.betingelserBil.getValue();
+        String registreringsnrInput = this.registreringsnr.getText().trim();
+        String merkeInput = this.merke.getText().trim();
+        String modellInput = this.modell.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        int registreringsarInput = Integer.parseInt(this.registreringsar.getText().trim());
+        int kjorelengdeInput = Integer.parseInt(this.kjorelengde.getText().trim());
+        int prisPerKmInput = Integer.parseInt(this.prisPerKm.getText().trim());
+        Bilforsikring bilforsikring = new Bilforsikring(betingelserInput, forsikringsbelopInput,
+                                               registreringsnrInput, merkeInput, modellInput, registreringsarInput, kjorelengdeInput, prisPerKmInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(bilforsikring, fodselsnrInput));
     }//end of method registrerBilforsikring()
     
     /**
      * Registrerer en båtforsikring når metoden kalles
      */
     private void registrerBatforsikring(){
-        String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = (String) this.betingelserBat.getValue();
-        String batRegistreringsnr = this.batRegistreringsnr.getText().trim();
-        String batMerke = this.batMerke.getText().trim();
-        String batModell = this.batModell.getText().trim();
-        String motorType = (String) this.motorType.getValue();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        int arsmodell = Integer.parseInt(this.arsmodell.getText().trim());
-        int motorStyrke = Integer.parseInt(this.motorStyrke.getText().trim());
-        Baatforsikring batforsikring = new Baatforsikring(betingelser, forsikringsbelop,
-                                        batRegistreringsnr, arsmodell, motorStyrke, batMerke, batModell, motorType);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(batforsikring, fodselsnr));
+        String fodselsnrInput = this.fodselsnr.getText().trim();
+        String betingelserInput = (String) this.betingelserBat.getValue();
+        String batRegistreringsnrInput = this.batRegistreringsnr.getText().trim();
+        String batMerkeInput = this.batMerke.getText().trim();
+        String batModellInput = this.batModell.getText().trim();
+        String motorTypeInput = (String) this.motorType.getValue();
+        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        int arsmodellInput = Integer.parseInt(this.arsmodell.getText().trim());
+        int motorStyrkeInput = Integer.parseInt(this.motorStyrke.getText().trim());
+        Baatforsikring batforsikring = new Baatforsikring(betingelserInput, forsikringsbelopInput,
+                                        batRegistreringsnrInput, arsmodellInput, motorStyrkeInput, batMerkeInput, batModellInput, motorTypeInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(batforsikring, fodselsnrInput));
     }//end of method registrerBatforsikring()
     
     /**
      * Registrerer en boligforsikring når metoden kalles
      */
     private void registrerBoligforsikring(){
-        String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = (String) this.betingelserBolig.getValue();
-        String gateAdresse = this.gateAdresse.getText().trim();
-        String boligType = (String) this.boligType.getValue();
-        String byggemateriale = this.byggemateriale.getText().trim();
-        String standard = (String) this.boligStandard.getValue();
-        String postnr = this.postnr.getText().trim();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        int byggear = Integer.parseInt(this.byggear.getText().trim());
-        int antallKVM = Integer.parseInt(this.antallKVM.getText().trim());
-        Boligforsikring boligforsikring = new Boligforsikring(betingelser, forsikringsbelop,
-                gateAdresse, boligType, byggemateriale, standard, postnr, byggear, antallKVM);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(boligforsikring, fodselsnr));
+        String fodselsnrInput = this.fodselsnr.getText().trim();
+        String betingelserInput = (String) this.betingelserBolig.getValue();
+        String gateAdresseInput = this.gateAdresse.getText().trim();
+        String boligTypeInput = (String) this.boligType.getValue();
+        String byggematerialeInput = this.byggemateriale.getText().trim();
+        String standardInput = (String) this.boligStandard.getValue();
+        String postnrInput = this.postnr.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        int byggearInput = Integer.parseInt(this.byggear.getText().trim());
+        int antallKVMInput = Integer.parseInt(this.antallKVM.getText().trim());
+        Boligforsikring boligforsikring = new Boligforsikring(betingelserInput, forsikringsbelopInput,
+                gateAdresseInput, boligTypeInput, byggematerialeInput, standardInput, postnrInput, byggearInput, antallKVMInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(boligforsikring, fodselsnrInput));
     }//end of method registrerBoligforsikring()
     
     /**
      * Registrerer en reiseforsikring når metoden kalles
      */
     private void registrerReiseforsikring(){
-        String fodselsnr = this.fodselsnr.getText().trim();
-        String betingelser = (String) this.betingelserReise.getValue();
-        String omrade = this.omrade.getText().trim();
-        double forsikringsbelop = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelser, forsikringsbelop, omrade);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnr));
+        String fodselsnrInput = this.fodselsnr.getText().trim();
+        String betingelserInput = (String) this.betingelserReise.getValue();
+        String omradeInput = this.omrade.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelserInput, forsikringsbelopInput, omradeInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnrInput));
     }//end of method registrerReiseforsikring
         
     /**

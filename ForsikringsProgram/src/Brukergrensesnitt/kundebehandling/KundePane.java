@@ -1,19 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
-import static Brukergrensesnitt.GUI.getSkjermBredde;
-import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.text.Font;
 

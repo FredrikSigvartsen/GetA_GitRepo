@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.GUI;
@@ -11,7 +9,6 @@ import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import forsikringsprogram.*;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.text.*;
 
@@ -27,8 +24,8 @@ public class RegistrerKundeLayout extends GridPane{
     private Kunderegister kundeRegister;
     
     public RegistrerKundeLayout(Kunderegister register){
-        kundeRegistreringSkjema();
-        registrerLytter();
+        opprettKundeRegistreringSkjema();
+        registrerKundeLytter();
         this.kundeRegister = register;
         tekstFeltLyttere();
     }//end of construnctor
@@ -36,7 +33,7 @@ public class RegistrerKundeLayout extends GridPane{
     /**
      * Oppretter skjema for registrering av kunde
      */
-    public void kundeRegistreringSkjema(){
+    public void opprettKundeRegistreringSkjema(){
         
         registrerKunde = new Button("Registrer");
         
@@ -111,7 +108,7 @@ public class RegistrerKundeLayout extends GridPane{
         add(poststedFeil, 3, 6);
         add(fodselsnrFeil, 3, 7);
         
-    }//end of method kundeRegistreringsSkjema()
+    }//end of method opprettKundeRegistreringsSkjema()
     
     /**
      * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
@@ -147,7 +144,7 @@ public class RegistrerKundeLayout extends GridPane{
     /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
      */
-    private boolean sjekkFelter(){
+    private boolean sjekkTommeFelter(){
         if( fornavn.getText().trim().isEmpty()){
             GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fornavn");
             return false;
@@ -182,7 +179,7 @@ public class RegistrerKundeLayout extends GridPane{
             return false;
         }
         return true;
-    }//end of method sjekkFelter()
+    }//end of method sjekkTommeFelter()
     
     /**
      * Tømmer alle tekstfelter og setter regEx labelne til *
@@ -207,19 +204,19 @@ public class RegistrerKundeLayout extends GridPane{
      * leser inn og kontrolerer inputene fra bruker og registrerer kunden
      */
     public void registrerKunde(){
-        if(!sjekkFelter()){
+        if(!sjekkTommeFelter()){
             return;
-        }
+        }//end of if
         try{
-            String fornavn = this.fornavn.getText().trim();
-            String etternavn = this.etternavn.getText().trim();
-            String adresse = this.adresse.getText().trim();
-            String poststed = this.poststed.getText().trim();
-            String postnr = this.postnr.getText().trim();
-            String fodselsnr = this.fodselsnr.getText().trim();
-            ForsikringsKunde kunde = new ForsikringsKunde(fornavn, etternavn, adresse, poststed, postnr, fodselsnr);
+            String fornavnInput = this.fornavn.getText().trim();
+            String etternavnInput = this.etternavn.getText().trim();
+            String adresseInput = this.adresse.getText().trim();
+            String poststedInput = this.poststed.getText().trim();
+            String postnrInput = this.postnr.getText().trim();
+            String fodselsnrInput = this.fodselsnr.getText().trim();
+            ForsikringsKunde kunde = new ForsikringsKunde(fornavnInput, etternavnInput, adresseInput, poststedInput, postnrInput, fodselsnrInput);
             
-            if(kundeRegister.finnKunde(fodselsnr) != null){
+            if(kundeRegister.finnKunde(fodselsnrInput) != null){
                 GUI.visInputFeilMelding("Feil ved registrering av kunde","Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
                 return;
             }
@@ -230,20 +227,20 @@ public class RegistrerKundeLayout extends GridPane{
             GUI.visInputFeilMelding("Kunde registrert", kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
             setTommeFelter();
             
-        }
+        }//end of try
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
             return;
-        }
+        }//end of catch
     }//end of method registrerKunde()
     
     /**
      * lytteren til registrerKunde knappen
      */
-    private void registrerLytter(){
+    private void registrerKundeLytter(){
         registrerKunde.setOnAction((ActionEvent event) -> {
             registrerKunde();
         });
-    }//end of method registrerLytter()
+    }//end of method registrerKundeLytter()
     
 }//end of class RegistrerKundeLayout

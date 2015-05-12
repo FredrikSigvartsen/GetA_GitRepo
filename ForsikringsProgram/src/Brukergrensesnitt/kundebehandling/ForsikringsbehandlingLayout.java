@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package Brukergrensesnitt.kundebehandling;
 
-import Brukergrensesnitt.kundebehandling.*;
 import Brukergrensesnitt.GUI;
 import forsikringsprogram.*;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import static javafx.scene.layout.BorderStroke.THIN;
@@ -31,8 +27,11 @@ public class ForsikringsbehandlingLayout extends GridPane {
     public ForsikringsbehandlingLayout(Kunderegister register){
         this.kundeRegister = register;
         opprettLayout();
-    }
+    }//end of constructor
     
+    /**
+     * oppretter Forsikringsbehandlig Layouten ved å opprette objekter av RegistrerKundeLayout, TegnforsikringsLayout, SioppforsikringsLayout klassene
+     */
     private void opprettLayout(){
         
         //Registrer kunde - layout

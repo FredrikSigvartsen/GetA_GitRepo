@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.GUI;
@@ -27,7 +25,7 @@ public class SioppforsikringsLayout extends GridPane{
     private Kunderegister kundeRegister;
     
     public SioppforsikringsLayout(Kunderegister register){
-        siOppForsikringsSkjema();
+        opprettSiOppForsikringsSkjema();
         siOppLytter();
         this.kundeRegister = register;
         tekstFeltLyttere();
@@ -36,7 +34,7 @@ public class SioppforsikringsLayout extends GridPane{
     /**
      * Oppretter skjema for oppsigelse av forsiking
      */
-    public void siOppForsikringsSkjema(){
+    public void opprettSiOppForsikringsSkjema(){
         
         siOppForsikring = new Button("Si opp forsikring");
         
@@ -73,7 +71,7 @@ public class SioppforsikringsLayout extends GridPane{
         //legger til kolonne 3
         add(fodselsnrFeil, 3, 2);
         add(avtalenrFeil, 3, 3);
-    }//end of methd siOppForsikringsSkjema()
+    }//end of methd opprettSiOppForsikringsSkjema()
     
     /**
      * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
@@ -121,15 +119,15 @@ public class SioppforsikringsLayout extends GridPane{
      */
     public void siOppForsikring(){
         try{
-            String fodselsnr = this.fodselsnr.getText().trim();
-            int avtalenr = Integer.parseInt(this.avtalenr.getText().trim());
-            GUI.visInputFeilMelding("Forsikring sagt opp", kundeRegister.siOppForsikring(fodselsnr, avtalenr));
+            String fodselsnrInput = this.fodselsnr.getText().trim();
+            int avtalenrInput = Integer.parseInt(this.avtalenr.getText().trim());
+            GUI.visInputFeilMelding("Forsikring sagt opp", kundeRegister.siOppForsikring(fodselsnrInput, avtalenrInput));
             setTommeFelter();
-        }
+        }//end of try
         catch(NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
             return;
-        }
+        }//end of catch
     }//end of class siOppForsikring()
     
     /**
