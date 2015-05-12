@@ -25,7 +25,6 @@ public class RegistrerKundeLayout extends GridPane{
     private Label fornavnFeil, etternavnFeil, adresseFeil, postnrFeil, poststedFeil, fodselsnrFeil;
     private Button registrerKunde;
     private Kunderegister kundeRegister;
-    private String adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$";
     
     public RegistrerKundeLayout(Kunderegister register){
         kundeRegistreringSkjema();
@@ -128,7 +127,7 @@ public class RegistrerKundeLayout extends GridPane{
         });
         
         adresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(adresseFeil, nyverdi, "Skriv inn kun bokstaver eller tall", adresseRegEx);
+            GUI.sjekkRegEx(adresseFeil, nyverdi, "Skriv inn kun bokstaver eller tall", GUI.ADRESSE_REGEX);
         });
         
         postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {

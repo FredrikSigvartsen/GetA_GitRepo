@@ -59,6 +59,12 @@ public class GUI extends Application{
     public static final String DATO_REGEX = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
     public static final String VALUTA_REGEX = "^\\d+(\\.\\d{1,2})?$";     
     public static final String POSTNR_REGEX = "^\\d{4}$";
+    public static final String ADRESSE_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$";
+    public static final String FORSIKRINGSBELOP_REGEX = "^[0-9]{2,7}$";
+    public static final String REGISTRERINGSNR_REGEX = "^[A-Z]{2}[0-9]{5}$";
+    public static final String BATREGISTRERINGSNR_REGEX = "^[A-Z]{3}[0-9]{3}$";
+    public static final String MODELL_REGEX = "^[a-zA-Z æøåÆØÅ0-9\\s-]*$";
+    public static final String AVTALENR_REGEX = "^[0-9]{1,4}$";
     
     private static Stage stage;
     private Scene scene;

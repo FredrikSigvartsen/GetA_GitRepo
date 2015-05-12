@@ -40,9 +40,6 @@ public class TegnforsikringsLayout extends GridPane{
     private StackPane bilforsikringStackPane;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString;
-    private String forsikringsbelopRegEx = "^[0-9]{2,7}$", registreringsNrRegEx = "^[A-Z]{2}[0-9]{5}$", 
-            batRegistreringsNrRegEx = "^[A-Z]{3}[0-9]{3}$" , adresseRegEx = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ0-9\\s]*$", 
-            modellRegEx = "^[a-zA-Z æøåÆØÅ0-9\\s-]*$", prisPerKmRegEx = "^[0-9]{1,4}$";
     
     public TegnforsikringsLayout(Kunderegister register){
         tegnForsikringsSkjema();
@@ -743,7 +740,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
         
         forsikringsbelop.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall (2-7 siffer)", forsikringsbelopRegEx);
+            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall (2-7 siffer)", GUI.FORSIKRINGSBELOP_REGEX);
         });
         
         return fodselsnrFeil.getText().isEmpty() && forsikringsbelopFeil.getText().isEmpty();
@@ -756,7 +753,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private boolean bilTekstFeltLyttere(){
         registreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (AB12345)", registreringsNrRegEx);
+            GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (AB12345)", GUI.REGISTRERINGSNR_REGEX);
         });
 
         merke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
@@ -764,7 +761,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         modell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn bokstaver eller tall", modellRegEx);
+            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn bokstaver eller tall", GUI.MODELL_REGEX);
         });
 
         registreringsar.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
@@ -772,11 +769,11 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         kjorelengde.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(kjorelengdeFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+            GUI.sjekkRegEx(kjorelengdeFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
         });
 
         prisPerKm.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(prisPerKmFeil, nyverdi, "Skriv inn kun tall", prisPerKmRegEx);
+            GUI.sjekkRegEx(prisPerKmFeil, nyverdi, "Skriv inn kun tall", GUI.AVTALENR_REGEX);
         });
         return registreringsnrFeil.getText().isEmpty() && merkeFeil.getText().isEmpty() && modellFeil.getText().isEmpty() && 
                registreringsarFeil.getText().isEmpty() && kjorelengdeFeil.getText().isEmpty() && prisPerKmFeil.getText().isEmpty();
@@ -788,7 +785,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private boolean batTekstFeltLyttere(){
         batRegistreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(batRegistreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (ABC123)", batRegistreringsNrRegEx);
+            GUI.sjekkRegEx(batRegistreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (ABC123)", GUI.BATREGISTRERINGSNR_REGEX);
         });
 
         batMerke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
@@ -796,7 +793,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         batModell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(batModellFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", modellRegEx);
+            GUI.sjekkRegEx(batModellFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.MODELL_REGEX);
         });
 
         arsmodell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
@@ -804,7 +801,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         motorStyrke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(motorStyrkeFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+            GUI.sjekkRegEx(motorStyrkeFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
         });
         return batRegistreringsnrFeil.getText().isEmpty() && batMerkeFeil.getText().isEmpty() && batModellFeil.getText().isEmpty() && 
                arsmodellFeil.getText().isEmpty() && motorStyrkeFeil.getText().isEmpty();
@@ -816,7 +813,7 @@ public class TegnforsikringsLayout extends GridPane{
      */
     private boolean boligTekstFeltLyttere(){
         gateAdresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(gateAdresseFeil, nyverdi, "Skriv inn kun bokstaver og tall", adresseRegEx);
+            GUI.sjekkRegEx(gateAdresseFeil, nyverdi, "Skriv inn kun bokstaver og tall", GUI.ADRESSE_REGEX);
         });
 
         byggemateriale.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
@@ -832,7 +829,7 @@ public class TegnforsikringsLayout extends GridPane{
         });
 
         antallKVM.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", forsikringsbelopRegEx);
+            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
         });
         return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
                byggearFeil.getText().isEmpty() && antallKVMFeil.getText().isEmpty();
