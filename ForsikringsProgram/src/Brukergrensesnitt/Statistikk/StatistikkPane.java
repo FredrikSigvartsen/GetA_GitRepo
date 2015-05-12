@@ -3,16 +3,11 @@
  * @author Elias
  */
 package Brukergrensesnitt.Statistikk;
-import Brukergrensesnitt.*;
 import forsikringsprogram.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import static javafx.scene.layout.BorderStroke.THIN;
-import static javafx.scene.layout.BorderStrokeStyle.SOLID;
-import javafx.scene.paint.Color;
-import static javafx.scene.paint.Color.DARKGRAY;
 
 public class StatistikkPane extends GridPane {
     
@@ -26,8 +21,6 @@ public class StatistikkPane extends GridPane {
         soylediagram = new SoylediagramLayout(kundeRegister);
         graf = new GrafLayout(kundeRegister);
         opprettLayout();
-        //setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
-        //setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
     }//end of constructor
     
     /**
