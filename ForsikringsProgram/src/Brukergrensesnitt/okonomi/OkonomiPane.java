@@ -38,6 +38,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 
 /**
@@ -75,7 +76,7 @@ public class OkonomiPane extends GridPane{
         gruppe = new ToggleGroup();
         
         Label visLabel = new Label("Vis");
-        visLabel.setFont(GUI.OVERSKRIFT);
+        visLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
         
         VBox utgiftBox = new VBox();
         Label utgiftLabel = new Label("Utgifter");
@@ -128,7 +129,7 @@ public class OkonomiPane extends GridPane{
         //Legger til Radioknapper
         radioKnappBox.getChildren().addAll(visLabel, utgiftBox, utbetalingerArlig, utbetalingerType, utbetalingerKunde, inntektBox, inntektArlig, inntektType, inntektKunde);
         radioKnappBox.setBorder(radioKnappKant);
-        radioKnappBox.setPadding(GUI.PADDING);
+        radioKnappBox.setPadding(new Insets(10));
         radioKnappBox.setSpacing(30);
         
     }//end of method opprettRadioKnappNavigasjon()
@@ -164,23 +165,22 @@ public class OkonomiPane extends GridPane{
                 new Callback<ListView<String>, ListCell<String>>() {
                     @Override
                     public ListCell<String> call(ListView<String> param) {
-                        final ListCell<String> cell = new ListCell<String>() {
+                        final ListCell<String> linje = new ListCell<String>() {
                             @Override
-                            public void updateItem(String item,
-                                    boolean empty) {
+                            public void updateItem(String item, boolean empty) {
                                 super.updateItem(item, empty);
                                 if (item != null) {
                                     setText(item);
                                     setFont(tekstStr);
-                                } else {
+                                }//end of if
+                                else 
                                     setText(null);
-                                }
+                                //end of else
                             }
-                        };
-                        return cell;
+                        };//end of linje
+                        return linje;
                     }
-
-                });
+                });//end of inner anonymous class
         
         typeInnhold.setHgap(10);
         typeInnhold.setVgap(10);
@@ -272,7 +272,7 @@ public class OkonomiPane extends GridPane{
         output.setFont(Font.font(null, 24));
         
         Label visOkonomiLabel = new Label("Økonomi");
-        visOkonomiLabel.setFont(GUI.OVERSKRIFT);
+        visOkonomiLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
         
         setHgap(10);
         setVgap(10);

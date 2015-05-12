@@ -19,6 +19,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import static javafx.scene.control.Alert.AlertType.*;
 import javafx.scene.layout.*;
+import static javafx.scene.layout.BorderStroke.THIN;
+import static javafx.scene.layout.BorderStrokeStyle.SOLID;
+import static javafx.scene.paint.Color.DARKGRAY;
 import static javafx.scene.text.Font.font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -80,7 +83,7 @@ public class RegistrerSkadeLayout extends GridPane {
         registrerLayout.addColumn( 2, lastOppBildeLayout);
         registrerLayout.setPadding(new Insets(30, 20, 30, 50));
         registrerLayout.setMargin( lastOppBildeLayout, new Insets( 0, 100, 0 , 0));
-        registrerLayout.setBorder( GUI.KANTLINJE);
+        registrerLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) ));
     }// end of method opprettRegistreringsLayout
     
     /**

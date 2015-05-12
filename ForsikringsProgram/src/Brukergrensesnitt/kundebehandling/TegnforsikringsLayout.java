@@ -14,6 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 /**
  *
  * @author Jens
@@ -90,7 +92,7 @@ public class TegnforsikringsLayout extends GridPane{
         setHgap(10);
         
         Label tegnForsikringLabel = new Label("Tegning av forsikring");
-        tegnForsikringLabel.setFont(GUI.OVERSKRIFT);
+        tegnForsikringLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
         //legger til kolonne 1
         add(tegnForsikringLabel, 1, 1, 2, 1);
         add(new Label("Fødselsnummer:"), 1, 2);

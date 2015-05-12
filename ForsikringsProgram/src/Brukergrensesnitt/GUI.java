@@ -53,13 +53,7 @@ import javafx.stage.WindowEvent;
  */
 public class GUI extends Application{
     
-    
-    public static final Border KANTLINJE = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) );
-    public static final Insets PADDING = new Insets(10);
     public static final int TEKSTFELT_BREDDE = 150;
-    public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 20);
-    public static final Font TABTEKST = Font.font(null, 18);
-    
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ.-]*$";
     public static final String DATO_REGEX = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
@@ -162,21 +156,21 @@ public class GUI extends Application{
         
         Tab kundebehandlingFane = new Tab();
         Label kundebehandlingLabel = new Label("Kundebehandling");
-        kundebehandlingLabel.setFont(TABTEKST);
+        kundebehandlingLabel.setFont(Font.font(null, 18));
         kundebehandlingFane.setGraphic(kundebehandlingLabel);
         kundebehandlingFane.setId("kundebehandling");
         fanePanel.getTabs().add(kundebehandlingFane);
 
         Tab okonomiFane = new Tab();
         Label okonomiLabel = new Label("Økonomi");
-        okonomiLabel.setFont(TABTEKST);
+        okonomiLabel.setFont(Font.font(null, 18));
         okonomiFane.setGraphic(okonomiLabel);
         okonomiFane.setId("okonomi");
         fanePanel.getTabs().add(okonomiFane);
 
         Tab statistikkFane = new Tab();
         Label statistikkLabel = new Label("Statistikk");
-        statistikkLabel.setFont(TABTEKST);
+        statistikkLabel.setFont(Font.font(null, 18));
         statistikkFane.setGraphic(statistikkLabel);
         statistikkFane.setId("statistikk");
         fanePanel.getTabs().add(statistikkFane);

@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 /**
  *
@@ -56,7 +58,7 @@ public class SioppforsikringsLayout extends GridPane{
         setHgap(10);
         
         Label siOppForsikringLabel = new Label("Oppsigelse av forsikring");
-        siOppForsikringLabel.setFont(GUI.OVERSKRIFT);
+        siOppForsikringLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
         
         //legger til kolonne 1
         add(siOppForsikringLabel, 1, 1, 2, 1);

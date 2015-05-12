@@ -23,9 +23,6 @@ import static javafx.scene.paint.Color.DARKGRAY;
  * @author Jens
  */
 public class ForsikringsbehandlingLayout extends GridPane {
-    private Border kunderegistreringskant = GUI.KANTLINJE;
-    private Border tegnforsikringskant = GUI.KANTLINJE;
-    private Border sioppforsikringskant = GUI.KANTLINJE;
     private RegistrerKundeLayout kundeRegistrering;
     private TegnforsikringsLayout tegnForsikring;
     private SioppforsikringsLayout sioppForsikring;
@@ -40,7 +37,7 @@ public class ForsikringsbehandlingLayout extends GridPane {
         
         //Registrer kunde - layout
         kundeRegistrering = new RegistrerKundeLayout(kundeRegister);
-        kundeRegistrering.setBorder(kunderegistreringskant);
+        kundeRegistrering.setBorder(new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) ));
         
         kundeRegistrering.setMinWidth( GUI.getSkjermBredde() / 3);
         kundeRegistrering.setMaxWidth( GUI.getSkjermBredde() / 3);
@@ -53,7 +50,7 @@ public class ForsikringsbehandlingLayout extends GridPane {
         
         //Tegn forsikring - layout
         tegnForsikring = new TegnforsikringsLayout(kundeRegister);
-        tegnForsikring.setBorder(tegnforsikringskant);
+        tegnForsikring.setBorder(new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) ));
         
         tegnForsikring.setMinWidth( GUI.getSkjermBredde() / 3);
         tegnForsikring.setMaxWidth( GUI.getSkjermBredde() / 3);
@@ -66,7 +63,7 @@ public class ForsikringsbehandlingLayout extends GridPane {
         
         //Si opp forsikring - layout 
         sioppForsikring = new SioppforsikringsLayout(kundeRegister);
-        sioppForsikring.setBorder(sioppforsikringskant);
+        sioppForsikring.setBorder(new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) ));
         
         sioppForsikring.setMinWidth( GUI.getSkjermBredde() / 3);
         sioppForsikring.setMaxWidth( GUI.getSkjermBredde() / 3);
@@ -82,4 +79,4 @@ public class ForsikringsbehandlingLayout extends GridPane {
         
     }//end of method opprettLayout()
 
-}
+}//end of class

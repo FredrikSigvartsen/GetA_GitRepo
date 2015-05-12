@@ -6,7 +6,6 @@
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
-import static Brukergrensesnitt.GUI.TABTEKST;
 import static Brukergrensesnitt.GUI.getSkjermBredde;
 import static Brukergrensesnitt.GUI.getSkjermHoyde;
 import forsikringsprogram.*;
@@ -16,6 +15,7 @@ import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -77,21 +77,21 @@ public class KundePane extends BorderPane{
         
         Tab forsikringsBehandlingFane = new Tab();
         Label forsikringsBehandlingLabel = new Label("Behandle forsikringer");
-        forsikringsBehandlingLabel.setFont(TABTEKST);
+        forsikringsBehandlingLabel.setFont(Font.font(null, 18));
         forsikringsBehandlingFane.setGraphic(forsikringsBehandlingLabel);
         forsikringsBehandlingFane.setId("forsikringsbehandling");
         kundebehandlingsPanel.getTabs().add(forsikringsBehandlingFane);
         
         Tab registrerSkademeldingFane = new Tab();
         Label registrerSkademeldingLabel = new Label("Registrer skademeldig");
-        registrerSkademeldingLabel.setFont(TABTEKST);
+        registrerSkademeldingLabel.setFont(Font.font(null, 18));
         registrerSkademeldingFane.setGraphic(registrerSkademeldingLabel);
         registrerSkademeldingFane.setId("skaderegistrering");
         kundebehandlingsPanel.getTabs().add(registrerSkademeldingFane);
         
         Tab sokFane = new Tab();
         Label sokLabel = new Label("Søk");
-        sokLabel.setFont(TABTEKST);
+        sokLabel.setFont(Font.font(null, 18));
         sokFane.setGraphic(sokLabel);
         sokFane.setId("sok");
         kundebehandlingsPanel.getTabs().add(sokFane);
