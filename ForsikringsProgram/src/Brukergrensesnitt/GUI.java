@@ -37,6 +37,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import static javafx.scene.layout.BorderStroke.THIN;
 import static javafx.scene.layout.BorderStrokeStyle.SOLID;
@@ -75,6 +76,7 @@ public class GUI extends Application{
     private OkonomiPane okonomiLayout;
     private Kunderegister kundeRegister;
     private BorderPane layout;
+    private Font faneFont = Font.font(null, FontWeight.BOLD, 18);
     
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -161,23 +163,47 @@ public class GUI extends Application{
         fanePanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         
         Tab kundebehandlingFane = new Tab();
+        GridPane kundebehandlingPane = new GridPane();
         Label kundebehandlingLabel = new Label("Kundebehandling");
-        kundebehandlingLabel.setFont(Font.font(null, 18));
-        kundebehandlingFane.setGraphic(kundebehandlingLabel);
+        kundebehandlingLabel.setFont(faneFont);
+        Image kundebehandlingBilde = new Image(getClass().getResourceAsStream("/Bilder/kundebehandling_icon.png"));
+        ImageView iv = new ImageView(kundebehandlingBilde);
+        iv.setFitWidth(28);
+        iv.setFitHeight(28);
+        kundebehandlingPane.add(kundebehandlingLabel,1,1);
+        GridPane.setMargin(iv, new Insets(0,0,0,15));
+        kundebehandlingPane.add(iv,2,1);
+        kundebehandlingFane.setGraphic(kundebehandlingPane);
         kundebehandlingFane.setId("kundebehandling");
         fanePanel.getTabs().add(kundebehandlingFane);
 
         Tab okonomiFane = new Tab();
+        GridPane okonomiPane = new GridPane();
         Label okonomiLabel = new Label("Økonomi");
-        okonomiLabel.setFont(Font.font(null, 18));
-        okonomiFane.setGraphic(okonomiLabel);
+        okonomiLabel.setFont(faneFont);
+        Image okonomiBilde = new Image(getClass().getResourceAsStream("/Bilder/okonomi_icon.png"));
+        ImageView iv1 = new ImageView(okonomiBilde);
+        iv1.setFitWidth(28);
+        iv1.setFitHeight(28);
+        okonomiPane.add(okonomiLabel,1,1);
+        GridPane.setMargin(iv1, new Insets(0,0,0,15));
+        okonomiPane.add(iv1,2,1);
+        okonomiFane.setGraphic(okonomiPane);
         okonomiFane.setId("okonomi");
         fanePanel.getTabs().add(okonomiFane);
 
         Tab statistikkFane = new Tab();
+        GridPane statistikkPane = new GridPane();
         Label statistikkLabel = new Label("Statistikk");
-        statistikkLabel.setFont(Font.font(null, 18));
-        statistikkFane.setGraphic(statistikkLabel);
+        statistikkLabel.setFont(faneFont);
+        Image statistikkBilde = new Image(getClass().getResourceAsStream("/Bilder/statistikk_icon.png"));
+        ImageView iv2 = new ImageView(statistikkBilde);
+        iv2.setFitWidth(28);
+        iv2.setFitHeight(28);
+        statistikkPane.add(statistikkLabel,1,1);
+        GridPane.setMargin(iv2, new Insets(0,0,0,15));
+        statistikkPane.add(iv2,2,1);
+        statistikkFane.setGraphic(statistikkPane);
         statistikkFane.setId("statistikk");
         fanePanel.getTabs().add(statistikkFane);
         

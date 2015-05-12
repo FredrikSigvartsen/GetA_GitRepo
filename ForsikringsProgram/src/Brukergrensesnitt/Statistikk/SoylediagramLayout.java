@@ -63,8 +63,8 @@ public class SoylediagramLayout extends GridPane{
         bilde = new Image(getClass().getResourceAsStream("/Bilder/info_icon.png"));
         iv = new ImageView();
         iv.setImage(bilde);
-        iv.setFitWidth(30);
-        iv.setFitHeight(30);
+        iv.setFitWidth(28);
+        iv.setFitHeight(28);
         iv1 = new ImageView();
         iv1.setImage(bilde);
         iv1.setFitWidth(60);
