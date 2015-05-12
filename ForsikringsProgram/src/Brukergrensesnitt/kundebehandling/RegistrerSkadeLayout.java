@@ -33,7 +33,7 @@ public class RegistrerSkadeLayout extends GridPane {
     private Button registrerKnapp, lastOppFilKnapp;
     private TextArea skadeBeskrivelseInput, vitneKontaktInput;
     private TextField fodselsNrInput, takstInput, tidspunktInput;
-    private GridPane bildeLayout, registreringsLayout;
+    private GridPane lastOppBildeLayout, registrerSkademeldingLayout, registrerLayout;
     private ChoiceBox skadetypeInput;
     private DatePicker datoInput;
     private Label output, filLastetOpp;
@@ -45,24 +45,43 @@ public class RegistrerSkadeLayout extends GridPane {
      * @param register Kunderegisteret skademeldingen skal registreres i. 
      */
     public RegistrerSkadeLayout(Kunderegister register){
-        opprettRegisteringLayout();
+        opprettLayout();
         this.kundeRegister = register;
     }// end of constructor
     
     /**
      * Oppretter layoutet
      */
-    private void opprettRegisteringLayout(){
-        bildeLayout = bildeOpplastning();
-        registreringsLayout = registreringLayout();
-        bildefiler = new ArrayList<>();
-        addColumn( 1, registreringsLayout);
-        addColumn( 2, bildeLayout);
-        setPadding(new Insets(30, 20, 30, 50));
+    private void opprettLayout(){
+        opprettRegistreringsLayout();
+        
+        Label overskrift = new Label("Registrer skademelding");
+        overskrift.setFont( font(28));
+        overskrift.setUnderline(true);
+        setMargin( overskrift, new Insets( 20, 20, 10, 40));
+        
+        addRow( 1, overskrift );
+        addRow( 2, registrerLayout );
+        
         setVgap(10);
         setHgap(20);
-    }// end of method opprettRegistreringsLayout
+    }// end of method opprettLayout()
     
+    /**
+     * Oppretter layouet for registrering av skademelding. 
+     */
+    private void opprettRegistreringsLayout(){
+        registrerLayout = new GridPane();
+        lastOppBildeLayout = bildeOpplastning();
+        registrerSkademeldingLayout = registreringLayout();
+        bildefiler = new ArrayList<>();
+        
+        registrerLayout.addColumn( 1, registrerSkademeldingLayout);
+        registrerLayout.addColumn( 2, lastOppBildeLayout);
+        registrerLayout.setPadding(new Insets(30, 20, 30, 50));
+        registrerLayout.setMargin( lastOppBildeLayout, new Insets( 0, 100, 0 , 0));
+        registrerLayout.setBorder( GUI.KANTLINJE);
+    }// end of method opprettRegistreringsLayout
     /**
      * Laster opp bilder, og lagrer dem som filer i en ArrayList av filer. 
      * @return Et layout med opplastning av bilder. 
@@ -172,7 +191,7 @@ public class RegistrerSkadeLayout extends GridPane {
        
         
         return returLayout;
-    }// end of method registreringsLayout()
+    }// end of method registrerSkademeldingLayout()
     
     /**
      * Henter tekst og validerer. Hvis alt valideres, registreres skademeldingen i kunderegisteret, og brukeren får melding avhengig av hva som er feil/galt 

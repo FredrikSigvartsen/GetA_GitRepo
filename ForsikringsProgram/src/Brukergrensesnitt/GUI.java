@@ -43,6 +43,7 @@ import static javafx.scene.layout.BorderStrokeStyle.SOLID;
 import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -57,6 +58,7 @@ public class GUI extends Application{
     public static final Insets PADDING = new Insets(10);
     public static final int TEKSTFELT_BREDDE = 150;
     public static final Font OVERSKRIFT = Font.font(null, FontWeight.BOLD, 20);
+    public static final Font TABTEKST = Font.font(null, 18);
     
     public static final String TIDSPUNKT_REGEX = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String NAVN_REGEX = "^[A-ZÆØÅ][a-zA-Z æøåÆØÅ.-]*$";
@@ -80,7 +82,7 @@ public class GUI extends Application{
         kundeLayout = new KundePane( kundeRegister);
         okonomiLayout = new OkonomiPane(kundeRegister);
         stage = primaryStage;
-        stage.setTitle("Forsikringsprogram");
+        stage.setTitle("Forsikringsprogram - Behandle forsikring");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("../bilder/logo.png")));
         layout = new BorderPane();
         
@@ -154,33 +156,47 @@ public class GUI extends Application{
     public void opprettFaneMeny(){
         faneMeny = new HBox();
         fanePanel = new TabPane();
+        fanePanel.setTabMinHeight(30);
+        fanePanel.setTabMaxHeight(30);
         fanePanel.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         
         Tab kundebehandlingFane = new Tab();
-        kundebehandlingFane.setText("Kundebehandling");
+        Label kundebehandlingLabel = new Label("Kundebehandling");
+        kundebehandlingLabel.setFont(TABTEKST);
+        kundebehandlingFane.setGraphic(kundebehandlingLabel);
+        kundebehandlingFane.setId("kundebehandling");
         fanePanel.getTabs().add(kundebehandlingFane);
 
         Tab okonomiFane = new Tab();
-        okonomiFane.setText("Økonomi");
+        Label okonomiLabel = new Label("Økonomi");
+        okonomiLabel.setFont(TABTEKST);
+        okonomiFane.setGraphic(okonomiLabel);
+        okonomiFane.setId("okonomi");
         fanePanel.getTabs().add(okonomiFane);
 
         Tab statistikkFane = new Tab();
-        statistikkFane.setText("Statistikk");
+        Label statistikkLabel = new Label("Statistikk");
+        statistikkLabel.setFont(TABTEKST);
+        statistikkFane.setGraphic(statistikkLabel);
+        statistikkFane.setId("statistikk");
         fanePanel.getTabs().add(statistikkFane);
         
         faneMeny.getChildren().add(fanePanel);
         faneMeny.setHgrow(fanePanel, Priority.ALWAYS);
         
         fanePanel.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> ov, Tab t, Tab t1) -> {
-            switch (t1.getText()) {
-                case "Kundebehandling":
+            switch (t1.getId()) {
+                case "kundebehandling":
                     layout.setCenter(kundeLayout);
+                    setTittel("Forsikringsprogram - Kundebehandling - Behandle forsikring");
                     break;
-                case "Økonomi":
+                case "okonomi":
                     layout.setCenter(okonomiLayout);
+                    setTittel("Forsikringsprogram - Økonomi");
                     break;
-                case "Statistikk":
+                case "statistikk":
                     layout.setCenter(new StatistikkPane(kundeRegister));
+                    setTittel("Forsikringsprogram - Statistikk");
                     break;
             }
         });
@@ -378,6 +394,10 @@ public class GUI extends Application{
     public static double getSkjermHoyde(){
         return (double)opplosning.getHeight();
     }// end of method getSkjermHoyde()
+    
+    public static void setTittel(String tittel){
+        stage.setTitle(tittel);
+    }
     
     public static void main(String[] args) {
         // TODO code application logic here

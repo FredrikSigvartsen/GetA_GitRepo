@@ -51,6 +51,7 @@ public class KundesokLayout extends GridPane{
     private Label ingenbilder, antallBilder;
     private int indeks;
     private ForsikringsKunde kunden;
+    private String valgtKundesFodselsNr;
     
     
     public KundesokLayout(Kunderegister register){
@@ -124,16 +125,20 @@ public class KundesokLayout extends GridPane{
         sokFodselsNrLayout.setExpanded(false);
         sokFodselsNrLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokFodselsNrLayout);
-            settSynligVisKnapper(false);
-            settFelterTomme();
+            if( !( sokFodselsNrLayout.isExpanded() ) ){
+                settSynligVisKnapper(false);
+                settFelterTomme();
+            }
         });
         
         sokNavnLayout = new TitledPane( "Navn", sokNavn() );
         sokNavnLayout.setExpanded(false);
         sokNavnLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokNavnLayout);
-            settSynligVisKnapper(false);
-            settFelterTomme();
+            if( ! (sokNavnLayout.isExpanded() ) ){
+                settSynligVisKnapper(false);
+                settFelterTomme();
+            }
         });
         
         sokForsikringstypeLayout = new TitledPane( "Forsikringstype", sokForsikringstype() );
@@ -559,21 +564,31 @@ public class KundesokLayout extends GridPane{
         
         String fornavn = fornavnInput.getText().trim();
         String etternavn = etternavnInput.getText().trim();
-        
-        if( !( GUI.sjekkRegex(GUI.NAVN_REGEX, fornavn) || !( GUI.sjekkRegex(GUI.NAVN_REGEX, etternavn)) ) ){
-            GUI.visInputFeilMelding("OBS!", "For å kunne søke på en kunde med fornavn og etternavn, må du fylle inn et gyldig navn."
-                                          + " Et gyldig navn består av bokstaver.");
+        if( !( fornavn.isEmpty() ) &&!( GUI.sjekkRegex( GUI.NAVN_REGEX, fornavn)  ) ){
+            GUI.visInputFeilMelding("OBS!", "For å kunne søke på en kunde med fornavn, må du fylle inn et gyldig fornavn."
+                                  + "\nEt gyldig fornavn med starter med stor forbokstav, og består av bokstaver, og kan bestå et fåtall tegn."
+                                  + "\nPrøv igjen med fornavn i gyldig form.");
             return false;
         }// end of if
+        else if( !( etternavn.isEmpty() ) && !( GUI.sjekkRegex( GUI.NAVN_REGEX, etternavn) ) ){
+           GUI.visInputFeilMelding("OBS!", "Etternavn ikke i gyldig format."
+                                 + "\nEt gyldig etternavn starter med stor forbokstav, og består av bokstaver, og kan bestå av et fåtall tegn"
+                                 + "\nPrøv igjen med etternavn i gyldig form.");
+            return false;
+        }// end of else if
         
         try{
-            //Hvis fornavn-felt er tomt skal man søke på etternavn
-            if( fornavn.isEmpty() )
+            //Hvis fornavn-felt er tomt søkes det på etternavn
+            if( fornavn.isEmpty() ){
+                
                 output.setText( visValgAvKunder("Etternavn") );
+            }// end of outter if
             
-            //Hvis etternavn-felt er tomt skal man søke på fornavn
-            else if( etternavn.isEmpty() )
+            //Hvis etternavn-felt er tomt søkes det på fornavn
+            else if( etternavn.isEmpty() ){
+                
                 output.setText( visValgAvKunder("Fornavn") );
+            }// end of outter else
             
             //Hvis begge er fylt, så skal man søke på både fornavn og etternavn
             else if( !( fornavn.isEmpty() ) && !( etternavn.isEmpty() ) )
@@ -660,15 +675,14 @@ public class KundesokLayout extends GridPane{
         melding.setTitle("OBS!");
         melding.setHeaderText(null);
         melding.setResizable(true);
-        melding.setWidth( 400 );
         
         GridPane.setVgrow(velgKundeLayout, Priority.ALWAYS);
         melding.getDialogPane().setContent( velgKundeLayout );
-        melding.getDialogPane().setPrefSize(500, 600);
+        melding.getDialogPane().setPrefSize(800, 550);
         Optional<ButtonType> handling = melding.showAndWait();
         
         if( handling.isPresent() && handling.get() == ButtonType.OK ){
-            kunden = kundeRegister.finnKunde( velgKundeBox.getValue().toString() );
+            kunden = kundeRegister.finnKunde( valgtKundesFodselsNr );
             if( kunden != null){
             fornavnInput.setText( kunden.getFornavn());
             etternavnInput.setText( kunden.getEtternavn() );
@@ -676,33 +690,37 @@ public class KundesokLayout extends GridPane{
             }
         }// end of outter if
         else{
-            return "\n Du avbrøt handlingen. Søk gjerne på nytt for å finne  kunden du leter etter.";
+            return "\nDu avbrøt handlingen. Søk gjerne på nytt for å finne  kunden du leter etter.";
         }// end of else
-        return " Feil i søking etter kunde. Kontakt IT-ansvarlig";
+        return "\nFeil i søking etter kunde. Kontakt IT-ansvarlig";
     }// end of method visValgAvKunder()
     
     /**
      * 
-     * @return Et GridPane-layout for utvalg av en spesiell kunde, blant mange. 
+     * @param fornavnANDORetternavn Sender med konstanter for eget bruk. "Fornavn" hvis man skal søke på fornavn, "Etternavn" hvis etternavn, "FornavnEtternavn" hvis begge.
+     * @param kunder Listen av kunder som skal listes ut i ChoiceBox'en
+     * @return Et GridPane layout med en dynamisk ChoiceBox for valg av kunder. 
      */
     private GridPane kundeValgLayout(String fornavnANDORetternavn, List<ForsikringsKunde> kunder){
         GridPane returLayout = new GridPane();
         if(kunder.isEmpty())
             return returLayout;
         
-        Label beskrivelse = new Label( fornavnANDORetternavn + ".\nVelg ut fødselsnummeret til kunden du vil søke på:");
+        Label beskrivelse = new Label( fornavnANDORetternavn + ".\nVelg kunden du vil søke på:");
         Label kundeInfo = new Label();
         
         velgKundeBox = new ChoiceBox();
         Iterator<ForsikringsKunde> kIter = kunder.listIterator();
         while( kIter.hasNext() ){
             ForsikringsKunde gjeldende = kIter.next();
-            velgKundeBox.getItems().add( gjeldende.getFodselsNr());
+            velgKundeBox.getItems().add( gjeldende.getFodselsNr() + ", " + gjeldende.getFornavn() + " " + gjeldende.getEtternavn() + ", " + gjeldende.getAdresse());
         }
         velgKundeBox.getSelectionModel().selectedItemProperty().addListener( new ChangeListener<String>(){
             
             public void changed( ObservableValue<? extends String> source, String oldValue, String newValue){
-                kundeInfo.setText( "Kunde valgt:" + kundeRegister.finnKunde(newValue).toString() );
+                String[] tekstSplit = newValue.split(",");
+                valgtKundesFodselsNr = tekstSplit[0];
+                kundeInfo.setText( "Kunde valgt:" + kundeRegister.finnKunde(valgtKundesFodselsNr) );
             }
         });
         returLayout.addRow(1, beskrivelse);
