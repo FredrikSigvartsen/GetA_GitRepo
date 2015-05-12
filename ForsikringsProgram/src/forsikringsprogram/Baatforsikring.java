@@ -2,10 +2,13 @@
 
 package forsikringsprogram;
 
-//Båtforsikring-klasse
-
 import java.io.Serializable;
 
+/**
+ * Klassen skal lagrer data som er unike for bilforsikringer.
+ * Resten av konstruktør-parameterene sendes til superklassen 'Forsikring' sin konstruktør. 
+ * @author Elias
+ */
 public class Baatforsikring extends Forsikring implements Serializable{
     
     private static final long serialVersionUID = 345L;
@@ -16,7 +19,17 @@ public class Baatforsikring extends Forsikring implements Serializable{
     private String modell;
     private String motortype;
     
-    //Konstruktør
+    /**
+     * Initialiserer datafeltene.
+     * @param betingelser for forsikringen.
+     * @param forsikringsBelop Hvor mye båten skal forsikres for.
+     * @param registreringsNr til båten.
+     * @param aarsmodell til båten.
+     * @param motorstyrke til båten.
+     * @param merke til båten.
+     * @param modell til båten.
+     * @param motortype til båten.
+     */
     public Baatforsikring(String betingelser, double forsikringsBelop, 
                          String registreringsNr, int aarsmodell, int motorstyrke, String merke,
                          String modell, String motortype) {
@@ -28,16 +41,20 @@ public class Baatforsikring extends Forsikring implements Serializable{
         this.merke = merke;
         this.modell = modell;
         this.motortype = motortype;
-    }
+    }//end of constructor
     
+    /**
+     * 
+     * @return returnerer klassens datafelter som string.
+     */
     @Override
     public String toString() {
         return super.toString() + 
-               "\n Registrerings nr: " + this.registreringsNr + 
-               "\n Årsmodell: " + this.aarsmodell +
-               "\n Motorstyrke: " + this.motorstyrke + " HK" +
-               "\n Merke: " + this.merke + 
-               "\n Modell: " + this.modell +
-               "\n Motortype: " + this.motortype;
-    }
+               "\n Registrerings nr: " + registreringsNr + 
+               "\n Årsmodell: " + aarsmodell +
+               "\n Motorstyrke: " + motorstyrke + " HK" +
+               "\n Merke: " + merke + 
+               "\n Modell: " + modell +
+               "\n Motortype: " + motortype;
+    }//end of method toString()
 }//end of class Baatforsikring
