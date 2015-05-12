@@ -138,7 +138,9 @@ public class RegistrerKundeLayout extends GridPane{
         fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
             GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer (11 siffer)", null);
         });
-        return fornavnFeil.getText().isEmpty() && etternavnFeil.getText().isEmpty() && adresseFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && poststedFeil.getText().isEmpty() && fodselsnrFeil.getText().isEmpty();
+        return fornavnFeil.getText().isEmpty() && etternavnFeil.getText().isEmpty() && 
+                adresseFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() &&
+                poststedFeil.getText().isEmpty() && fodselsnrFeil.getText().isEmpty();
     }//end of method tekstFeltLyttere()
         
     /**

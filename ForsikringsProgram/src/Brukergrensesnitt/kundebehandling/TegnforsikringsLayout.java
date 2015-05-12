@@ -20,20 +20,23 @@ import javafx.scene.text.FontWeight;
  */
 public class TegnforsikringsLayout extends GridPane{
     
-    private TextField fodselsnr, forsikringsbelop, registreringsnr, 
-            merke, modell, registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
-            batModell, arsmodell, motorStyrke, gateAdresse, postnr, byggear,
-            byggemateriale, antallKVM, omrade;    
-    private Label betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, registreringsarLabel, kjorelengdeLabel, 
-            prisPerKmLabel, batRegistreringsnrLabel, batMerkeLabel, batModellLabel, arsmodellLabel, motorTypeLabel,
-            motorStyrkeLabel, gateAdresseLabel, postnrLabel, byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel,
-            antallKVMLabel, omradeLabel, fodselsnrFeil, forsikringsbelopFeil, betingelserFeil, 
-            registreringsnrFeil, merkeFeil, modellFeil, registreringsarFeil, kjorelengdeFeil, 
-            prisPerKmFeil, batRegistreringsnrFeil, batMerkeFeil, batModellFeil, arsmodellFeil,
-            motorStyrkeFeil, gateAdresseFeil, postnrFeil, byggearFeil, byggematerialeFeil,
-            antallKVMFeil, omradeFeil;
+    private TextField fodselsnr, forsikringsbelop, registreringsnr, merke, 
+            modell, registreringsar, kjorelengde, prisPerKm, batRegistreringsnr,
+            batMerke, batModell, arsmodell, motorStyrke, gateAdresse, postnr, 
+            byggear,byggemateriale, antallKVM, omrade;    
+    private Label betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel,
+            registreringsarLabel, kjorelengdeLabel, prisPerKmLabel, 
+            batRegistreringsnrLabel, batMerkeLabel, batModellLabel, arsmodellLabel,
+            motorTypeLabel,motorStyrkeLabel, gateAdresseLabel, postnrLabel, 
+            byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel,
+            antallKVMLabel, omradeLabel, fodselsnrFeil, forsikringsbelopFeil,
+            registreringsnrFeil, merkeFeil, modellFeil, registreringsarFeil, 
+            kjorelengdeFeil, prisPerKmFeil, batRegistreringsnrFeil, batMerkeFeil, 
+            batModellFeil, arsmodellFeil, motorStyrkeFeil, gateAdresseFeil, 
+            postnrFeil, byggearFeil, byggematerialeFeil, antallKVMFeil, omradeFeil;
     private Button tegnForsikring;
-    private ComboBox forsikringsType, boligType, boligStandard, motorType, betingelserBil, betingelserBat, betingelserBolig, betingelserReise;
+    private ComboBox forsikringsType, boligType, boligStandard, motorType, 
+            betingelserBil, betingelserBat, betingelserBolig, betingelserReise;
     private Kunderegister kundeRegister;
     private String forsikringsTypeString;
     
@@ -103,19 +106,21 @@ public class TegnforsikringsLayout extends GridPane{
      * fjerner alle labeler og tekstfelt for de felter som er unike for de forskjeldinge forsikringstypene
      */
     private void fjernUnikeFelter(){
-        getChildren().removeAll(betingelserLabel, registreringsnrLabel, merkeLabel, modellLabel, 
-            registreringsarLabel, kjorelengdeLabel,prisPerKmLabel, batRegistreringsnrLabel,
-            batMerkeLabel, batModellLabel, arsmodellLabel, motorTypeLabel, motorStyrkeLabel,
-            gateAdresseLabel, postnrLabel, byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel, 
+        getChildren().removeAll(betingelserLabel, registreringsnrLabel, merkeLabel,
+            modellLabel, registreringsarLabel, kjorelengdeLabel,prisPerKmLabel, 
+            batRegistreringsnrLabel, batMerkeLabel, batModellLabel, arsmodellLabel,
+            motorTypeLabel, motorStyrkeLabel, gateAdresseLabel, postnrLabel, 
+            byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel, 
             antallKVMLabel, omradeLabel, registreringsnr, merke, modell,
             registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
             batModell, arsmodell, motorStyrke, gateAdresse, postnr, byggear,
-            byggemateriale, antallKVM, omrade, registreringsnrFeil, merkeFeil, modellFeil, 
-            registreringsarFeil, kjorelengdeFeil, prisPerKmFeil, batRegistreringsnrFeil,
-            batMerkeFeil, batModellFeil, arsmodellFeil, motorStyrkeFeil, gateAdresseFeil,
-            postnrFeil, byggearFeil,byggematerialeFeil, antallKVMFeil, omradeFeil, 
-            motorType, boligType, boligStandard, betingelserBil, betingelserBat, 
-            betingelserBolig, betingelserReise);
+            byggemateriale, antallKVM, omrade, registreringsnrFeil, merkeFeil, 
+            modellFeil, registreringsarFeil, kjorelengdeFeil, prisPerKmFeil, 
+            batRegistreringsnrFeil, batMerkeFeil, batModellFeil, arsmodellFeil,
+            motorStyrkeFeil, gateAdresseFeil, postnrFeil, byggearFeil, 
+            byggematerialeFeil, antallKVMFeil, omradeFeil, motorType, boligType,
+            boligStandard, betingelserBil, betingelserBat, betingelserBolig, 
+            betingelserReise);
     }//end of method fjernUnikeFelter()
     
     /**
