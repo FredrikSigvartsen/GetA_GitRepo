@@ -82,6 +82,7 @@ public class RegistrerSkadeLayout extends GridPane {
         registrerLayout.setMargin( lastOppBildeLayout, new Insets( 0, 100, 0 , 0));
         registrerLayout.setBorder( GUI.KANTLINJE);
     }// end of method opprettRegistreringsLayout
+    
     /**
      * Laster opp bilder, og lagrer dem som filer i en ArrayList av filer. 
      * @return Et layout med opplastning av bilder. 
@@ -159,8 +160,6 @@ public class RegistrerSkadeLayout extends GridPane {
                setFelterTomme();
                filLastetOpp.setText("");
             }// end of if
-            else
-                output.setText("Skademelding ikke registrert. Prøv igjen ved å fylle inn feltene i riktig format, som du fikk beskjed om i varsel-vinduet.");
         });
         
         //Kolonne 1
