@@ -188,7 +188,7 @@ public class GUI extends Application{
             switch (t1.getId()) {
                 case "kundebehandling":
                     layout.setCenter(kundeLayout);
-                    setTittel("Forsikringsprogram - Kundebehandling - Behandle forsikring");
+                    setTittel("Forsikringsprogram - Kundebehandling - " + kundeLayout.getFaneString());
                     break;
                 case "okonomi":
                     layout.setCenter(okonomiLayout);
@@ -200,7 +200,7 @@ public class GUI extends Application{
                     break;
             }
         });
-        kundeLayout.tabLytter();  // Ikke denne heller vel? JO!
+        kundeLayout.tabLytter();
     }// end of method opprettFaneMeny()
    
     /**
