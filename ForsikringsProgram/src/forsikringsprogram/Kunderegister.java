@@ -1,12 +1,11 @@
 package forsikringsprogram;
-import Brukergrensesnitt.GUI;
 import java.io.Serializable;
 import java.util.*;
 
 /**
  * Et kunderegister som består av mange kunder. En kunde har null eller flere skademeldinger og forsikringer. I denne klassen gjør man beregninger på statistikk,
  * inntekter/utgifter og behandling av kundene med deres forsikringer og skademeldinger.
- * @author Fredrik
+ * @author Fredrik, Elias
  */
 public class Kunderegister implements Serializable {
     
@@ -35,7 +34,7 @@ public class Kunderegister implements Serializable {
     }// end of oonstructor
     
     /**
-     * Finner selskapets totale utbetaling av erstatninger i løpet av et år
+     * Finner selskapets totale utbetaling av erstatninger i løpet av et år.
      * @return Summen av selskapets totale utbetaling ila et år. 
      */
     public double alleUtbetalteErstatninger() {
@@ -49,7 +48,7 @@ public class Kunderegister implements Serializable {
     }// end of method alleUtbetalteErstatninger()
     
     /**
-     * Finner selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år
+     * Finner selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år.
      * @param forsikringstype Forsikringstypen man vil finne summen av utbetaling av erstatninger for.
      * @return Summen av ersatningene for de gitte skademeldingene av forsikringstype. 
      */
@@ -71,9 +70,9 @@ public class Kunderegister implements Serializable {
     }// end of method utbetaltErstatningAvType(String forsikringstype)
     
     /**
-     * Finner selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet
+     * Finner selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet.
      * @param fodselsNr Fødselsnummeret til kunden man vil finne utbetalingene for.
-     * @return Summen av utbetalingene
+     * @return Summen av utbetalingene.
      */
     public double utbetalingTilKunde(String fodselsNr) {
         ForsikringsKunde kunde = finnKunde(fodselsNr);
@@ -83,7 +82,7 @@ public class Kunderegister implements Serializable {
     }// end of method utbetalingTilKunde()
     
     /**
-     * Finner selskapets totale forsikringspremieinntekter i løpet av et år
+     * Finner selskapets totale forsikringspremieinntekter i løpet av et år.
      * @return Den årlige inntekten.
      */
     public double aarligInntekt() {
@@ -97,9 +96,9 @@ public class Kunderegister implements Serializable {
     }// end of method aarligInntekt()
     
     /**
-     * Finner selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år
-     * @param forsikringstype Metoden finner inntekter for angitt forsikringstype
-     * @return Inntekten fra gitt forsikringstype
+     * Finner selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år.
+     * @param forsikringstype Metoden finner inntekter for angitt forsikringstype.
+     * @return Inntekten fra gitt forsikringstype.
      */
     public double inntektFraForsikringstype(String forsikringstype) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
@@ -120,8 +119,8 @@ public class Kunderegister implements Serializable {
     
     /**
      * Returner all inntekt registrert på en kunde.
-     * @param fodselsNr Fødselsnummeret på kunden man vil finne inntekten til
-     * @return Inntekten til en kunde
+     * @param fodselsNr Fødselsnummeret på kunden man vil finne inntekten til.
+     * @return Inntekten til en kunde.
      */
     public double inntektFraKunde(String fodselsNr) {
         ForsikringsKunde kunde = finnKunde(fodselsNr);
@@ -176,7 +175,7 @@ public class Kunderegister implements Serializable {
     /**
      * Søker opp en kunde lik parametrene fornavn og etternavn. 
      * @param fornavn på kunden vi vil finne.
-     * @param etternavn på kunden vi vil finnet
+     * @param etternavn på kunden vi vil finnet.
      * @return kunden vi har funnet. Hvis kunden ikke finnes, returnerer metoden null.
      */
     public ForsikringsKunde finnKunde(String fornavn, String etternavn){
@@ -191,10 +190,10 @@ public class Kunderegister implements Serializable {
     } // finnKunde(String fornavn, String etternavn)
     
     /**
-     * Finner alle kunder fornavn og etternavn
-     * @param fornavn På kundene vi vil finne i registeret
-     * @param etternavn På kundene vi vil finne i registeret
-     * @return En liste med ForsikringsKunde'r med angitt fornavn og etternavn
+     * Finner alle kunder fornavn og etternavn.
+     * @param fornavn På kundene vi vil finne i registeret.
+     * @param etternavn På kundene vi vil finne i registeret.
+     * @return En liste med ForsikringsKunde'r med angitt fornavn og etternavn.
      */
     public List<ForsikringsKunde> finnKunderMedNavn(String fornavn, String etternavn){
         List<ForsikringsKunde> kundene = finnKunderMedFornavn(fornavn);
@@ -205,7 +204,7 @@ public class Kunderegister implements Serializable {
     } // end of method finnKunderMedNavn(fornavn, etternavns)
     /**
      * Finner alle kunder i registeret med fornavnet som blir angitt i parameterlisten. 
-     * @param fornavn Fornavnet på de kundene som det skal søkes opp
+     * @param fornavn Fornavnet på de kundene som det skal søkes opp.
      * @return En liste med ForsikringsKunde'r med fornavn angitt i parameterlisten.
      */
     public List<ForsikringsKunde> finnKunderMedFornavn(String fornavn){
@@ -223,7 +222,7 @@ public class Kunderegister implements Serializable {
     
     /**
      * Finner alle kunder i registeret med etternavnet som blir angitt i parameterlisten. 
-     * @param etternavn Etternavnet på de kundene som det skal søkes opp
+     * @param etternavn Etternavnet på de kundene som det skal søkes opp.
      * @return En liste med ForsikringsKunde'r med etternavn angitt i parameterlisten.
      */
     public List<ForsikringsKunde> finnKunderMedEtternavn(String etternavn){
@@ -241,7 +240,7 @@ public class Kunderegister implements Serializable {
     
     /**
      * Finner en kunde i registeret som har en skademelding med gitt skademeldingsnummer. 
-     * @param skadeNr Nummeret på den skademeldingen som er registrert på kunden
+     * @param skadeNr Nummeret på den skademeldingen som er registrert på kunden.
      * @return ForsikringsKunde med denne skademeldingen.
      */
     public ForsikringsKunde finnKunde(int skadeNr){
@@ -259,8 +258,8 @@ public class Kunderegister implements Serializable {
     }// end of method finnKunde(skadeNr)
     
     /**
-     * Finner alle kunder med en gitt forsikringstype
-     * @param forsikringstype Metoden finner alle kunder som har en forsikrng av type forsikringstype
+     * Finner alle kunder med en gitt forsikringstype.
+     * @param forsikringstype Metoden finner alle kunder som har en forsikrng av type forsikringstype.
      * @return En liste med ForsikringsKunde'r. Listen er tom hvis det ikke finnes noen kunder med denne forsikringstypen.
      */
     public List<ForsikringsKunde> finnKunder( String forsikringstype ){
@@ -277,7 +276,7 @@ public class Kunderegister implements Serializable {
     }// end of method finnKunder( forsikringstype )
     
     /**
-     * Finner en kunde som har en forsikring med gitt avtaleNr
+     * Finner en kunde som har en forsikring med gitt avtaleNr.
      * @param avtaleNr Nummeret på forsikringen kunden vi søker etter er eier av.
      * @return Funnet ForsikringsKunde, null hvis ikke funnet.
      */
@@ -292,9 +291,10 @@ public class Kunderegister implements Serializable {
         }// end of while
         return null;
     }// end of method finnKundeMedAvtaleNr( int avtaleNr)
+    
     /**
      * Registrerer en skademelding på en kunde som har fødselsnummer lik den andre parameteren. 
-     * @param skademelding vi vil registrere
+     * @param skademelding vi vil registrere.
      * @param fodselsNr på kunden vi vil registrere skademeldingen på. 
      * @return indikerer hva som gikk galt under registreringen. 
      */
@@ -325,9 +325,9 @@ public class Kunderegister implements Serializable {
     }// end of method finnSkademeldinger(int skadeNr)
     
     /**
-     * Metoden finner alle skademeldinger av gitt parameter
+     * Metoden finner alle skademeldinger av gitt parameter.
      * @param skadetype Hvilken skadetype man vil finne i registeret. 
-     * @return En liste med skademeldingen av skadetype
+     * @return En liste med skademeldingen av skadetype.
      */
     public List<Skademelding> finnSkademeldinger( String skadetype ){
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
@@ -344,8 +344,8 @@ public class Kunderegister implements Serializable {
     
     /**
      * Finner alle skademeldingene innenfor det gitte tidsintervallet som blir angitt i paramaterlisten.
-     * @param min Startdato for tidsintervallet det søkes i
-     * @param max Sluttdato for tidsintervallet det søkes i
+     * @param min Startdato for tidsintervallet det søkes i.
+     * @param max Sluttdato for tidsintervallet det søkes i.
      * @return En liste med alle skademelding mellom datoene min og max.
      */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max){
@@ -362,9 +362,9 @@ public class Kunderegister implements Serializable {
     
     /**
      * Finner alle skademeldingene innenfor det gitte tidsintervallet, og som er av type skademeldingsType.
-     * @param min Startdato for tidsintervallet det søkes i
-     * @param max Sluttdato for tidsintervallet det søkes i
-     * @param skademeldingsType Hvilken type skademeldinger som skal søkes på
+     * @param min Startdato for tidsintervallet det søkes i.
+     * @param max Sluttdato for tidsintervallet det søkes i.
+     * @param skademeldingsType Hvilken type skademeldinger som skal søkes på.
      * @return En liste med skademeldinger. 
      */
     public List<Skademelding> finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType){
@@ -380,7 +380,7 @@ public class Kunderegister implements Serializable {
        Se Forsikringsliste.registrerForsikring()
      * @param ny Forsikring som skal tegnes.
      * @param fodselsnummer Til kunden som forsikringen skal tegnes på.
-     * @return En String verdi som indikerer en tekst om hva som gikk galt/greit
+     * @return En String verdi som indikerer en tekst om hva som gikk galt/greit.
      */
     public String tegnForsikring(Forsikring ny, String fodselsnummer){
         ForsikringsKunde kunde = finnKunde(fodselsnummer);
@@ -391,9 +391,9 @@ public class Kunderegister implements Serializable {
     
     /**
      * Sier opp en forsikring med gitt avtaleNr, på en gitt kunde med gitt fødselsnummer.
-     * @param fdnr Fødselsnummeret til kunden forsikringen er tegnet på
-     * @param avtaleNr Avtalenummeret på forsikringen som skal sies opp
-     * @return En tekst-streng som tilsier hva som gikk bra/galt
+     * @param fdnr Fødselsnummeret til kunden forsikringen er tegnet på.
+     * @param avtaleNr Avtalenummeret på forsikringen som skal sies opp.
+     * @return En tekst-streng som tilsier hva som gikk bra/galt.
      */
     public String siOppForsikring(String fdnr, int avtaleNr){
         ForsikringsKunde kunden = finnKunde(fdnr);
@@ -445,9 +445,9 @@ public class Kunderegister implements Serializable {
     
     /**
      * Teller opp antall lagrede forsikringer av gitt type, i tidsrommet mellom min og max.
-     * @param forsikringstype
-     * @param min
-     * @param max
+     * @param forsikringstype Hvilken forsikringstype man vil finne antall av. 
+     * @param min Startdato for tidsintervallet det søkes i.
+     * @param max Sluttdato for tidsintervallet det søkes i.
      * @return Returnerer (int)antall forsikringer av gitt type.
      */
     public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
@@ -474,13 +474,13 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }
+    }//end of method antallForsikringAvType(String forsikringstype, Calendar min, Calendar max)
     
     /**
      * Teller opp antall skademeldinger av gitt type, i tidsrommet mellom min og max.
-     * @param skadeType
-     * @param min
-     * @param max
+     * @param skadeType Hvilken skadetype man vil finne antall av.
+     * @param min Startdato for tidsintervallet det søkes i.
+     * @param max Sluttdato for tidsintervallet det søkes i.
      * @return Returnerer antall skademeldinger av gitt type.
      */
     public int antallSkademeldingAvType(String skadeType, Calendar min, Calendar max) {
@@ -507,12 +507,12 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }
+    }//end of method antallSkademeldingAvType(String skadeType, Calendar min, Calendar max)
     
     /**
      * Teller opp antall forsikringer på gitt dato.
-     * @param dato
-     * @return Returnerer antallet
+     * @param dato Hvilken dato man vil finne antall registrerte forsikringer.
+     * @return Returnerer antallet.
      */
     public int antallForsikringerPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
@@ -545,12 +545,12 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }
+    }//end of method antallForsikringerPaaDato(Date dato)
     
     /**
      * Teller opp antall forsikringer på gitt dato, med gitt type.
-     * @param dato
-     * @param forsikringstype
+     * @param dato Hvilken dato man vil finne antall registrerte forsikringer.
+     * @param forsikringstype Hvilken type forsikring man vil ha antall av.
      * @return Returnerer antallet. 
      */
     public int antallForsikringerPaaDatoMedType(Date dato, String forsikringstype) {
@@ -584,12 +584,12 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }
+    }//end of method antallForsikringerPaaDatoMedType(Date dato, String forsikringstype)
     
     /**
      * Teller opp antall skademeldinger på gitt dato.
-     * @param dato
-     * @return Returnerer antallet
+     * @param dato Hvilken dato man vil finne antall registrerte skademeldinger.
+     * @return Returnerer antallet.
      */
     public int antallSkademeldingerPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
@@ -622,12 +622,12 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }
+    }//end of method antallSkademeldingerPaaDato(Date dato)
     
     /**
      * Teller opp antall skademeldinger på gitt dato, med gitt type.
-     * @param dato
-     * @param skadeType
+     * @param dato Hvilken dato man vil finne antall registrerte skademeldinger.
+     * @param skadeType Hvilken type skade man vil finne antallet av.
      * @return Returnerer antallet.
      */
     public int antallSkademeldingerPaaDatoMedType(Date dato, String skadeType) {
@@ -661,11 +661,11 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end og outer while
         return sum;
-    }
+    }//end of method antallSkademeldingerPaaDatoMedType(Date dato, String skadeType)
     
     /**
      * Teller opp antall kunder registrert på gitt dato.
-     * @param dato
+     * @param dato Hvilken dato man vil finne antall registrerte kunder.
      * @return Returnerer antallet.
      */
     public int antallKunderPaaDato(Date dato) {
@@ -693,11 +693,11 @@ public class Kunderegister implements Serializable {
             }//end of if
         }//end of while
         return sum;
-    }
+    }//end of method antallKunderPaaDato(Date dato)
     
     /**
      * Regner sammen utgifter på gitt dato.
-     * @param dato
+     * @param dato Hvilken dato man vil finne utgifter.
      * @return Returnerer summen.
      */
     public int utgifterPaaDato(Date dato) {
@@ -731,12 +731,12 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }
+    }//end of method utgifterPaaDato(Date dato)
     
     /**
      * Regner ut utgiftene for en gitt skadetype på en gitt dato.
-     * @param dato
-     * @param skadeType
+     * @param dato Hvilken dato man vil finne utgifter.
+     * @param skadeType Spesifiserer hvilken type skade man vil rege sammen utgifter av.
      * @return Returnerer summen.
      */
     public int utgifterPaaDatoMedType(Date dato, String skadeType) {
@@ -770,7 +770,7 @@ public class Kunderegister implements Serializable {
             }//end of outer if  
         }//end of outer while
         return sum;
-    }// end of method antallForsikringAvType()
+    }//end of method utgifterPaaDatoMedType(Date dato, String skadeType)
     
     /**
      * 
