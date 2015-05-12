@@ -1,6 +1,3 @@
-
-
-
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
@@ -25,8 +22,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
- * Her foregår all interaksjon med brukeren. Her fyller brukeren inn angitte inputs og dette valideres, før det registreres i kunderegisteret. 
- * @author Fredrik
+ * Denne klassen er et layout for registrering av skademeldinger. Her fyller brukeren inn angitte inputs og dette valideres, før det registreres i kunderegisteret.
+ * Brukeren kan laste opp evt. bilder av skaden, men er ikke nødt. 
+ * Siste versjon skrevet: 12/05/15 10:00
+ * @author Fredrik Aleksander Sigvartsen, Dataingeniør. s236356
  */
 public class RegistrerSkadeLayout extends GridPane {
 
@@ -86,7 +85,7 @@ public class RegistrerSkadeLayout extends GridPane {
     
     /**
      * Laster opp bilder, og lagrer dem som filer i en ArrayList av filer. 
-     * @return Et layout med opplastning av bilder. 
+     * @return Et layout for opplastning av bilder. 
      */
     private GridPane bildeOpplastning(){
         GridPane returLayout = new GridPane();
@@ -133,7 +132,7 @@ public class RegistrerSkadeLayout extends GridPane {
     }// end of method bildeOpplastning()
     
     /**
-     * Her foregår registreringen av en skademelding
+     * Et layout for registrering av skademeldinger. Fikser plassering, størrelse, og lytter på knappene. 
      * @return Layout for registrering av skademelding. 
      */
     private GridPane registreringLayout(){
@@ -195,6 +194,7 @@ public class RegistrerSkadeLayout extends GridPane {
     
     /**
      * Henter tekst og validerer. Hvis alt valideres, registreres skademeldingen i kunderegisteret, og brukeren får melding avhengig av hva som er feil/galt 
+     * @return En boolsk verdi som tilsier om skademeldingen ble registrert. Returnerer false hvis feltene ikke er fylt inn av brukeren, og hvis ikke feltene ble validert. 
      */
     private boolean registrerSkademelding(){
         if( !felterErFylt() )
