@@ -5,7 +5,11 @@ import java.util.*;
 
 /**
  * En skademeldingsliste inneholder null eller flere skademeldinger. I denne klassen behandler man søk og registrering av og på skademeldinger. 
- * @author Fredrik, Elias
+ * Hensikten med denne klassen er at hver forsikringskunde har en egen liste med skademeldinger. Så her gjør vi søk på kundens skademeldinger og
+ * registrering av kundens skademeldinger i kundens skademeldingsliste. 
+ * Siste versjon skrevet: 07/05/15 12:00
+ * @author Fredrik Aleksander Sigvartsen, Dataingeniør, s236356
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public class SkademeldingsListe implements Serializable {
     

@@ -3,9 +3,13 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Et kunderegister som består av mange kunder. En kunde har null eller flere skademeldinger og forsikringer. I denne klassen gjør man beregninger på statistikk,
- * inntekter/utgifter og behandling av kundene med deres forsikringer og skademeldinger.
- * @author Fredrik, Elias
+ * Et kunderegister som består av kunder som er av objekt ForsikringsKunde. En kunde har null eller flere skademeldinger og forsikringer. I denne klassen gjør man beregninger på statistikk,
+ * inntekter/utgifter og behandling av kundene med deres forsikringer og skademeldinger. 
+ * Hensikten med denne klassen er å gjøre registreringer og oppsigelser av kunder, oppslag av kunder, skademeldinger og forsikringer.
+ * Hensikten er også å beregne inntekter og utgifter på de forskjellige kundene
+ * Siste versjon skrevet: 12/05/15 12:00
+ * @author Fredrik Aleksander Sigvartsen, Dataingeniør, s236356
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public class Kunderegister implements Serializable {
     
@@ -28,126 +32,15 @@ public class Kunderegister implements Serializable {
                         x = f1.getFodselsNr().compareToIgnoreCase(f2.getFodselsNr());
                 }
                 return x;
-            }
-        };
+            }// end of overriding method compare()
+        };// end of inner anonymous class
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
     }// end of oonstructor
     
     /**
-     * Finner selskapets totale utbetaling av erstatninger i løpet av et år.
-     * @return Summen av selskapets totale utbetaling ila et år. 
-     */
-    public double alleUtbetalteErstatninger() {
-        Iterator<ForsikringsKunde> iter = kunderegister.iterator();
-        double sum = 0;
-        while(iter.hasNext()){
-            ForsikringsKunde gjeldendeKunde = iter.next();
-            sum += gjeldendeKunde.getUtbetalteErstatninger();
-        }// end of while
-        return sum;
-    }// end of method alleUtbetalteErstatninger()
-    
-    /**
-     * Finner selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år.
-     * @param forsikringstype Forsikringstypen man vil finne summen av utbetaling av erstatninger for.
-     * @return Summen av ersatningene for de gitte skademeldingene av forsikringstype. 
-     */
-    public double utbetaltErstatningAvType(String forsikringstype) {
-        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
-        List<Skademelding> smListe = new ArrayList<>();
-        double sum = 0;
-        while(kIter.hasNext()){
-            ForsikringsKunde gjeldendeKunde = kIter.next();
-            if( ! (gjeldendeKunde.getSkademeldinger().erTom() ) ) {
-                smListe = gjeldendeKunde.getSkademeldinger().listeMedSkademeldingAvType(forsikringstype);
-                ListIterator<Skademelding> sIter = smListe.listIterator();
-                while(sIter.hasNext()) {
-                    sum += sIter.next().getErstatningsbelop();
-                }// end of inner while
-            } // end of if
-        }// end of outter while
-        return sum;
-    }// end of method utbetaltErstatningAvType(String forsikringstype)
-    
-    /**
-     * Finner selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet.
-     * @param fodselsNr Fødselsnummeret til kunden man vil finne utbetalingene for.
-     * @return Summen av utbetalingene.
-     */
-    public double utbetalingTilKunde(String fodselsNr) {
-        ForsikringsKunde kunde = finnKunde(fodselsNr);
-        if(kunde == null)
-            return -1; //Fant ikke kunden
-        return kunde.getUtbetalteErstatninger();
-    }// end of method utbetalingTilKunde()
-    
-    /**
-     * Finner selskapets totale forsikringspremieinntekter i løpet av et år.
-     * @return Den årlige inntekten.
-     */
-    public double aarligInntekt() {
-        Iterator<ForsikringsKunde> iter = kunderegister.iterator();
-        double sum = 0;
-        while(iter.hasNext()){
-            ForsikringsKunde gjeldendeKunde = iter.next();
-            sum += gjeldendeKunde.getAarligUtbetaling();
-        }
-        return sum;
-    }// end of method aarligInntekt()
-    
-    /**
-     * Finner selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år.
-     * @param forsikringstype Metoden finner inntekter for angitt forsikringstype.
-     * @return Inntekten fra gitt forsikringstype.
-     */
-    public double inntektFraForsikringstype(String forsikringstype) {
-        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
-        List<Forsikring> fListe = new ArrayList<>();
-        double sum = 0;
-        while(kIter.hasNext()){
-            ForsikringsKunde gjeldendeKunde = kIter.next();
-            if( ! (gjeldendeKunde.getForsikringer().erTom() ) ) {
-                fListe = gjeldendeKunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
-                ListIterator<Forsikring> fIter = fListe.listIterator();
-                while(fIter.hasNext()) {
-                    sum += fIter.next().getForsikringsPremie();
-                }
-            }// end of outter if
-        }// end of while
-        return sum;
-    }// end of method inntektFraForsikringstype(String forsikringstype)
-    
-    /**
-     * Returner all inntekt registrert på en kunde.
-     * @param fodselsNr Fødselsnummeret på kunden man vil finne inntekten til.
-     * @return Inntekten til en kunde.
-     */
-    public double inntektFraKunde(String fodselsNr) {
-        ForsikringsKunde kunde = finnKunde(fodselsNr);
-        if(kunde == null)
-            return -1; //Fant ikke kunden
-        return kunde.getAarligUtbetaling();
-    }// end of method inntektFraKunde()
-    
-    /**
-     * En hjelpemetode for å sjekke om sjekkDato enten er lik, eller ligger i dette tidsintervallet. 
-     * @param start Startdato på tidsperioden vi sjekker.
-     * @param slutt Sluttdato på tidsperioden vi sjekker.
-     * @param sjekkDato Datoen vi sjekker om er i tidsperioden. 
-     * @return En boolsk verdi som tilsier om sjekkDato ligger i dette tidsintervallet. 
-     */
-    public boolean erMellom(Calendar start, Calendar slutt, Calendar sjekkDato){
-       if( sjekkDato.after(start) && sjekkDato.before(slutt))
-            return true;
-        else if( sjekkDato.equals(start) || sjekkDato.equals(slutt))
-            return true;
-        return false;   
-    }// end of method erMellom()
-    
-    /**
      * Registrerer en ny kunde. 
      * @param ny ForsikringsKunde som blir lagt til i systemet. 
-     * @return indikerer om kunden ble lagt til eller ikke. Kunden blir ikke lagt til hvis det allerede finnes et slikt objekt. 
+     * @return En boolsk verdi som indikerer om kunden ble lagt til eller ikke. Kunden blir ikke lagt til hvis det allerede finnes et slikt objekt i kunderegisteret. 
      */
     public boolean registrerKunde(ForsikringsKunde ny){
         if(ny == null)
@@ -159,7 +52,7 @@ public class Kunderegister implements Serializable {
     /**
      * Finner en kunde med fødselsnummer lik parameteren.
      * @param fodselsNr fødselsnummeret til kunden brukeren vil finne i systemet.
-     * @return kunden metoden finner. 
+     * @return Kunden metoden finner. Returnerer null hvis ikke kunden finnes.
      */
     public ForsikringsKunde finnKunde(String fodselsNr){
         
@@ -176,12 +69,13 @@ public class Kunderegister implements Serializable {
      * Søker opp en kunde lik parametrene fornavn og etternavn. 
      * @param fornavn på kunden vi vil finne.
      * @param etternavn på kunden vi vil finnet.
-     * @return kunden vi har funnet. Hvis kunden ikke finnes, returnerer metoden null.
+     * @return Kunden som er funnet. Hvis kunden ikke finnes, returnerer metoden null.
      */
     public ForsikringsKunde finnKunde(String fornavn, String etternavn){
        Iterator<ForsikringsKunde> iterator = kunderegister.iterator();
        while(iterator.hasNext()){
            ForsikringsKunde gjeldendeKunde = iterator.next();
+           
            if( fornavn.equalsIgnoreCase( gjeldendeKunde.getFornavn()) &&
                etternavn.equalsIgnoreCase( gjeldendeKunde.getEtternavn()))
                return gjeldendeKunde;
@@ -193,15 +87,17 @@ public class Kunderegister implements Serializable {
      * Finner alle kunder fornavn og etternavn.
      * @param fornavn På kundene vi vil finne i registeret.
      * @param etternavn På kundene vi vil finne i registeret.
-     * @return En liste med ForsikringsKunde'r med angitt fornavn og etternavn.
+     * @return En liste med ForsikringsKunde'r med angitt fornavn og etternavn. Listen kan være tom. 
      */
     public List<ForsikringsKunde> finnKunderMedNavn(String fornavn, String etternavn){
+        
         List<ForsikringsKunde> kundene = finnKunderMedFornavn(fornavn);
         List<ForsikringsKunde> kunderEtternavn = finnKunderMedEtternavn(etternavn);
         kundene.retainAll(kunderEtternavn);
         
         return kundene;
     } // end of method finnKunderMedNavn(fornavn, etternavns)
+    
     /**
      * Finner alle kunder i registeret med fornavnet som blir angitt i parameterlisten. 
      * @param fornavn Fornavnet på de kundene som det skal søkes opp.
@@ -296,7 +192,7 @@ public class Kunderegister implements Serializable {
      * Registrerer en skademelding på en kunde som har fødselsnummer lik den andre parameteren. 
      * @param skademelding vi vil registrere.
      * @param fodselsNr på kunden vi vil registrere skademeldingen på. 
-     * @return indikerer hva som gikk galt under registreringen. 
+     * @return En tekststreng som indikerer hva som gikk galt/bra under registreringen. 
      */
     public String registrerSkademelding(Skademelding skademelding, String fodselsNr){
         ForsikringsKunde kunde = finnKunde(fodselsNr);
@@ -375,6 +271,7 @@ public class Kunderegister implements Serializable {
         return skadeliste;
     }// end of method finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType)
     
+    
     /**
      * Tegner/registrerer en forsikring på en kunde som har fødselsnummer lik parameteren fodselsnummer.
        Se Forsikringsliste.registrerForsikring()
@@ -391,12 +288,12 @@ public class Kunderegister implements Serializable {
     
     /**
      * Sier opp en forsikring med gitt avtaleNr, på en gitt kunde med gitt fødselsnummer.
-     * @param fdnr Fødselsnummeret til kunden forsikringen er tegnet på.
+     * @param fodselsNr Fødselsnummeret til kunden forsikringen er tegnet på.
      * @param avtaleNr Avtalenummeret på forsikringen som skal sies opp.
      * @return En tekst-streng som tilsier hva som gikk bra/galt.
      */
-    public String siOppForsikring(String fdnr, int avtaleNr){
-        ForsikringsKunde kunden = finnKunde(fdnr);
+    public String siOppForsikring(String fodselsNr, int avtaleNr){
+        ForsikringsKunde kunden = finnKunde(fodselsNr);
         if(kunden == null)
             return "Det finnes ingen kunder med dette fødselsnummeret.";
         return kunden.siOppForsikring(avtaleNr);
@@ -443,6 +340,111 @@ public class Kunderegister implements Serializable {
         return forsikringerAvType;
     }// end of method finnForsikringer( skadetype )
     
+    //Slutt på kundebehandlingmetoder
+    
+    //Inntekt metoder:
+    
+    
+    /**
+     * Finner selskapets totale utbetaling av erstatninger i løpet av et år.
+     * @return Summen av selskapets totale utbetaling ila et år. 
+     */
+    public double alleUtbetalteErstatninger() {
+        Iterator<ForsikringsKunde> iter = kunderegister.iterator();
+        double sum = 0;
+        while(iter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = iter.next();
+            sum += gjeldendeKunde.getUtbetalteErstatninger();
+        }// end of while
+        return sum;
+    }// end of method alleUtbetalteErstatninger()
+    
+    /**
+     * Finner selskapets totale utbetaling av erstatninger for en gitt forsikringstype i løpet av et år.
+     * @param forsikringstype Forsikringstypen man vil finne summen av utbetaling av erstatninger for.
+     * @return Summen av ersatningene for de gitte skademeldingene av forsikringstype. 
+     */
+    public double utbetaltErstatningAvType(String forsikringstype) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Skademelding> smListe = new ArrayList<>();
+        double sum = 0;
+        while(kIter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = kIter.next();
+            if( ! (gjeldendeKunde.getSkademeldinger().erTom() ) ) {
+                smListe = gjeldendeKunde.getSkademeldinger().listeMedSkademeldingAvType(forsikringstype);
+                ListIterator<Skademelding> sIter = smListe.listIterator();
+                while(sIter.hasNext()) {
+                    sum += sIter.next().getErstatningsbelop();
+                }// end of inner while
+            } // end of if
+        }// end of outter while
+        return sum;
+    }// end of method utbetaltErstatningAvType(forsikringstype)
+    
+    /**
+     * Finner selskapets utbetaling til en gitt forsikringskunde i løpet av kundeforholdet.
+     * @param fodselsNr Fødselsnummeret til kunden man vil finne utbetalingene for.
+     * @return Summen av utbetalingene. Returnerer -1 hvis kunden ikke er funnet. 
+     */
+    public double utbetalingTilKunde(String fodselsNr) {
+        ForsikringsKunde kunde = finnKunde(fodselsNr);
+        if(kunde == null)
+            return -1; //Fant ikke kunden
+        return kunde.getUtbetalteErstatninger();
+    }// end of method utbetalingTilKunde()
+    
+    /**
+     * Finner selskapets totale forsikringspremieinntekter i løpet av et år.
+     * @return Den totale årlige inntekten.
+     */
+    public double aarligInntekt() {
+        Iterator<ForsikringsKunde> iter = kunderegister.iterator();
+        double sum = 0;
+        while(iter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = iter.next();
+            sum += gjeldendeKunde.getAarligUtbetaling();
+        }
+        return sum;
+    }// end of method aarligInntekt()
+    
+    /**
+     * Finner selskapets totale forsikringspremieinntekter for en gitt forsikringstype i løpet av et år.
+     * @param forsikringstype Metoden finner inntekter for angitt forsikringstype.
+     * @return Inntekten fra gitt forsikringstype.
+     */
+    public double inntektFraForsikringstype(String forsikringstype) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        List<Forsikring> fListe = new ArrayList<>();
+        double sum = 0;
+        while(kIter.hasNext()){
+            ForsikringsKunde gjeldendeKunde = kIter.next();
+            if( ! (gjeldendeKunde.getForsikringer().erTom() ) ) {
+                fListe = gjeldendeKunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
+                ListIterator<Forsikring> fIter = fListe.listIterator();
+                while(fIter.hasNext()) {
+                    sum += fIter.next().getForsikringsPremie();
+                }
+            }// end of outter if
+        }// end of while
+        return sum;
+    }// end of method inntektFraForsikringstype(String forsikringstype)
+    
+    /**
+     * Returner all inntekt registrert på en kunde.
+     * @param fodselsNr Fødselsnummeret på kunden man vil finne inntekten til.
+     * @return Inntekten til en kunde. Returnerer -1 hvis kunden ikke er funnet.
+     */
+    public double inntektFraKunde(String fodselsNr) {
+        ForsikringsKunde kunde = finnKunde(fodselsNr);
+        if(kunde == null)
+            return -1; //Fant ikke kunden
+        return kunde.getAarligUtbetaling();
+    }// end of method inntektFraKunde()
+    
+    // Slutt på inntekt/utgift - metoder
+    
+    
+    //Statistikk-metoder: 
     /**
      * Teller opp antall lagrede forsikringer av gitt type, i tidsrommet mellom min og max.
      * @param forsikringstype Hvilken forsikringstype man vil finne antall av. 
