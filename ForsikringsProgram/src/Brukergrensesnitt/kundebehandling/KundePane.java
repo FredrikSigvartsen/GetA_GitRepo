@@ -34,6 +34,7 @@ public class KundePane extends BorderPane{
     private RegistrerSkadeLayout registrerSkademeldingLayout;
     private ForsikringsbehandlingLayout forsikringsBehandlingLayout;
     private Kunderegister kundeRegister;
+    private String faneString = "Behandle forsikring";
         
     public KundePane(Kunderegister register) {
         super();
@@ -101,9 +102,21 @@ public class KundePane extends BorderPane{
         return box;
     }//end of method kundebehandlingsFaner()
     
+    /**
+     * 
+     * @return returnerer kundebehandlingsPanelet
+     */
     public TabPane getKundebehandlingsPanel(){
         return kundebehandlingsPanel;
-    }
+    }//end of method getKundebehandlingsPanel()
+    
+    /**
+     * 
+     * @return returnerer en String som inneholder navnet til den valgte kundebehandlingsfanen
+     */
+    public String getFaneString(){
+        return faneString;
+    }//end of method getFaneString
     
     /**
      * Legger til en litter på fanekortene i kundebehandlingsPanelet
@@ -115,21 +128,25 @@ public class KundePane extends BorderPane{
                 setCenter(forsikringsBehandlingLayout);
                 setMargin(forsikringsBehandlingLayout, new Insets(40));
                 GUI.setTittel("Forsikringsprogram - Kundebehandling - Behandle forsikring");
+                faneString = "Behandle forsikring";
                 break;
             case "sok":   
                 setCenter(sokPane);
                 setMargin(sokPane, new Insets(40));
                 GUI.setTittel("Forsikringsprogram - Kundebehandling - Søk");
+                faneString = "Søk";
                 break;
             case "skaderegistrering":
                 setCenter(registrerSkademeldingLayout);
                 setMargin(registrerSkademeldingLayout, new Insets(40));
                 GUI.setTittel("Forsikringsprogram - Kundebehandling - Registrer skademelding");
+                faneString = "Registrer skademelding";
                 break;
             default:
                 setCenter(forsikringsBehandlingLayout);
                 setMargin(forsikringsBehandlingLayout, new Insets(40));
                 GUI.setTittel("Forsikringsprogram - Kundebehandling - Behandle forsikring");
+                faneString = "Behandle forsikring";
             }
         });
     }//end of method tabLytter()
