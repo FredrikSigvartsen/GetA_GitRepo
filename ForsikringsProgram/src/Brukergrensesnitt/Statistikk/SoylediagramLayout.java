@@ -159,7 +159,7 @@ public class SoylediagramLayout extends GridPane{
         bc.setCategoryGap(40);
         GridPane.setMargin(bc, new Insets(25,0,0,0));
         add(bc,1,2);
-    }
+    }//end of method opprettSoylediagram(String type, Calendar min, Calendar max)
     
     /**
      * Oppretter og lytter på knappen.
@@ -193,9 +193,9 @@ public class SoylediagramLayout extends GridPane{
                 
                 String type = cb.getValue().toString();
                 opprettSoylediagram(type, min, max);
-            }
-        });
-    }
+            }//end of if
+        });//end of setOnAction
+    }//end of method opprettKnapp()
     
     /**
      * Legger komponentene ut i "Kontrollpanelet".
@@ -227,5 +227,5 @@ public class SoylediagramLayout extends GridPane{
         pane.setVgap(5);
         pane1.setVgap(5);
         add(pane, 1, 1);
-    }
-} 
+    }//end of method opprettKotrollPanel()
+}//end of class SoylediagramLayout(kundeRegister) 
