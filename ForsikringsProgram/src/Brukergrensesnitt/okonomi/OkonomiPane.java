@@ -49,7 +49,7 @@ public class OkonomiPane extends GridPane{
     private TextField fodselsnr;
     private Label output;
     private ComboBox forsikringsType;
-    private RadioButton utbetalingerArlig, utbetalingerType, utbetalingerKunde, inntektArlig, inntektType, inntektKunde;
+    private RadioButton utbetalingerArlig, utbetalingerType, utbetalingerKunde, inntektArlig, inntektType, inntektKunde, totalRegnskap;
     private ToggleGroup gruppe;
     private Button typeKnapp, kundeKnapp;
     private VBox radioKnappBox;
@@ -90,6 +90,12 @@ public class OkonomiPane extends GridPane{
         Separator inntektSkille = new Separator(Orientation.HORIZONTAL);
         inntektBox.getChildren().addAll(inntektLabel, inntektSkille);
         
+        VBox totalRegnskapBox = new VBox();
+        Label totalRegnskapLabel = new Label("Total");
+        totalRegnskapLabel.setFont(tekstStr);
+        Separator totalRegnskapSkille = new Separator(Orientation.HORIZONTAL);
+        totalRegnskapBox.getChildren().addAll(totalRegnskapLabel, totalRegnskapSkille);
+        
         //Oppretter utbetalingerArlig knappen
         utbetalingerArlig = new RadioButton("Årlig utbetaling");
         utbetalingerArlig.setFont(tekstStr);
@@ -126,8 +132,16 @@ public class OkonomiPane extends GridPane{
         inntektKunde.setId("inntektKunde");
         inntektKunde.setToggleGroup(gruppe);
         
+        //Oppretter totalOkonomi knappen
+        totalRegnskap = new RadioButton("Total regnskap");
+        totalRegnskap.setFont(tekstStr);
+        totalRegnskap.setId("totalRegnskap");
+        totalRegnskap.setToggleGroup(gruppe);
+        
         //Legger til Radioknapper
-        radioKnappBox.getChildren().addAll(visLabel, utgiftBox, utbetalingerArlig, utbetalingerType, utbetalingerKunde, inntektBox, inntektArlig, inntektType, inntektKunde);
+        radioKnappBox.getChildren().addAll(visLabel, utgiftBox, utbetalingerArlig, 
+                utbetalingerType, utbetalingerKunde, inntektBox, inntektArlig, 
+                inntektType, inntektKunde, totalRegnskapBox, totalRegnskap);
         radioKnappBox.setBorder(radioKnappKant);
         radioKnappBox.setPadding(new Insets(10));
         radioKnappBox.setSpacing(30);
@@ -141,6 +155,7 @@ public class OkonomiPane extends GridPane{
         valgTypePane = new TitledPane();
         valgTypePane.setExpanded(false);
         valgTypePane.setContent(typeInnhold);
+        valgTypePane.setMinWidth(700);
         valgTypePane.setOnMouseClicked((MouseEvent t) -> { //Setter en lytter på Titeld panen slik at den ikke utvider seg før man trykker på den riktige radioknappen
             valgTypePane.setExpanded(false);
         });
@@ -200,6 +215,7 @@ public class OkonomiPane extends GridPane{
         valgKundePane = new TitledPane();
         valgKundePane.setExpanded(false);
         valgKundePane.setContent(kundeInnhold);
+        valgKundePane.setMinWidth(700);
         valgKundePane.setOnMouseClicked((MouseEvent t) -> { //Setter en lytter på Titeld panen slik at den ikke utvider seg før man trykker på den riktige radioknappen
             valgKundePane.setExpanded(false);
         });
@@ -334,28 +350,30 @@ public class OkonomiPane extends GridPane{
     private void visOkonomi(){
         if( !sjekkFelter() ){
             return;
-        }
+        }//end of if
         try{
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy"); 
             RadioButton valg = (RadioButton) gruppe.getSelectedToggle();
             switch(valg.getId()){
                 case "utbetalingerType":
-                    String forsikringsType = (String) this.forsikringsType.getValue();
-                    double utbetalingType = kundeRegister.utbetaltErstatningAvType(forsikringsType);
+                    String forsikringsTypeInput = (String) this.forsikringsType.getValue();
+                    setTommeFelter();
+                    double utbetalingType = kundeRegister.utbetaltErstatningAvType(forsikringsTypeInput);
                     if(utbetalingType == 0.0){
-                        output.setText("Det er ikke gjort noen utbetalinger på " + forsikringsType + ".");
+                        output.setText("Det er ikke gjort noen utbetalinger på " + forsikringsTypeInput + ".");
                         break;
                     }
-                    output.setText("Selskapets totale utbetaling for " + forsikringsType + " er i år " + utbetalingType + "kr.");
+                    output.setText("Selskapets totale utbetaling for " + forsikringsTypeInput + " er i år " + utbetalingType + "kr.");
                     break;
                 case "utbetalingerKunde":
-                    String fodselsnr = this.fodselsnr.getText().trim();
-                    ForsikringsKunde kundeUtbetaling = kundeRegister.finnKunde(this.fodselsnr.getText().trim());
+                    String fodselsnrInput = this.fodselsnr.getText().trim();
+                    setTommeFelter();
+                    ForsikringsKunde kundeUtbetaling = kundeRegister.finnKunde(fodselsnrInput);
                     if(kundeUtbetaling == null){
-                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnr);
+                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnrInput);
                         break;
                     }
-                    double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnr);
+                    double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnrInput);
                     if(utbetalingKunde == -1){
                         output.setText("Det er ikke gjort noen utbetalinger til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + ".");
                         break;
@@ -363,29 +381,31 @@ public class OkonomiPane extends GridPane{
                     output.setText("Selskapets totale utbetaling til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + " er i år " + utbetalingKunde + "kr.");
                     break;
                 case "inntektType":
-                    String forsikringsTypeInntekt = (String) this.forsikringsType.getValue();
-                    double inntektType = kundeRegister.inntektFraForsikringstype(forsikringsTypeInntekt);
+                    String forsikringsTypeInntektInput = (String) this.forsikringsType.getValue();
+                    setTommeFelter();
+                    double inntektType = kundeRegister.inntektFraForsikringstype(forsikringsTypeInntektInput);
                     if(inntektType == 0.0){
-                        output.setText("Vi har ingen inntekt fra " + forsikringsTypeInntekt + ".");
+                        output.setText("Vi har ingen inntekt fra " + forsikringsTypeInntektInput + ".");
                         break;
                     }
-                    output.setText("Selskapets totale inntekt for " + forsikringsTypeInntekt + " er i år " + inntektType + "kr.");
+                    output.setText("Selskapets totale inntekt for " + forsikringsTypeInntektInput + " er i år " + inntektType + "kr.");
                     break;
                 case "inntektKunde":
-                    String fodselsnrInntekt = this.fodselsnr.getText().trim();
-                    ForsikringsKunde kundeInntekt = kundeRegister.finnKunde(this.fodselsnr.getText().trim());
+                    String fodselsnrInntektInput = this.fodselsnr.getText().trim();
+                    setTommeFelter();
+                    ForsikringsKunde kundeInntekt = kundeRegister.finnKunde(fodselsnrInntektInput);
                     if(kundeInntekt == null){
-                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnrInntekt);
+                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnrInntektInput);
                         break;
                     }
-                    double inntektFodselsnr = kundeRegister.inntektFraKunde(fodselsnrInntekt);
+                    double inntektFodselsnr = kundeRegister.inntektFraKunde(fodselsnrInntektInput);
                     if(inntektFodselsnr == -1){
                         output.setText("Vi har ingen inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + ".");
                         break;
                     }
                     output.setText("Selskapets totale inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + " er i år " + inntektFodselsnr + "kr.");
                     break;
-            }// end of switch-case
+            }// end of switch
         }// end of try
         catch( NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
@@ -401,28 +421,44 @@ public class OkonomiPane extends GridPane{
             RadioButton valg = (RadioButton) t1.getToggleGroup().getSelectedToggle();
             switch(valg.getId()){
                 case "utbetalingerArlig":
+                    setIngenUtvidet();
                     double arligUtgifter = kundeRegister.alleUtbetalteErstatninger();
                     output.setText("Selskapets totale utgift for i år er " + arligUtgifter + "kr.");
                     break;
                 case "utbetalingerType":
                     setIngenUtvidet();
+                    output.setText("");
                     valgUtvidet(valgTypePane, valgKundePane);
                     break;
                 case "utbetalingerKunde":
                     setIngenUtvidet();
+                    output.setText("");
                     valgUtvidet(valgKundePane, valgTypePane);
                     break;
                 case "inntektArlig":
+                    setIngenUtvidet();
                     double arligInntekter = kundeRegister.aarligInntekt();
                     output.setText("Selskapets totale inntekt for i år er " + arligInntekter + "kr.");
                     break;
                 case "inntektType":
                     setIngenUtvidet();
+                    output.setText("");
                     valgUtvidet(valgTypePane, valgKundePane);
                     break;
                 case "inntektKunde":
                     setIngenUtvidet();
+                    output.setText("");
                     valgUtvidet(valgKundePane, valgTypePane);
+                    break;
+                case "totalRegnskap":
+                    setIngenUtvidet();
+                    double regnskap = kundeRegister.aarligInntekt() - kundeRegister.alleUtbetalteErstatninger();
+                    if(regnskap < 0)
+                        output.setText("Selskapet går " + regnskap + "kr i minus hittil i år");
+                    else if(regnskap == 0)
+                        output.setText("Selskapet går i null hittil i år");
+                    else if(regnskap > 0)
+                        output.setText("Selskapet går " + regnskap + "kr i pluss hittil i år");
                     break;
             }// end of switch-case
         });
