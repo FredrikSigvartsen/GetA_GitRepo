@@ -51,7 +51,6 @@ public class SoylediagramLayout extends GridPane{
         pane.setAlignment(CENTER);
         pane1 = new GridPane();
         pane2 = new GridPane();
-        //pane1.setAlignment(CENTER);
         
         typeLabel = new Label("Forsikringer/Skademeldinger: ");
         fraLabel = new Label("Fra dato: ");
@@ -119,9 +118,9 @@ public class SoylediagramLayout extends GridPane{
     
     /**
      * Oppretter soylediagram som viser antall forsikringer eller skademeldinger (gitt av type) mellom min og max datoene.
-     * @param type
-     * @param min
-     * @param max 
+     * @param type Spesifiserer om søylediagrammet skal vise forsikringer elelr skademeldinger
+     * @param min Startdato for tidsintervallet det søkes i
+     * @param max Ssluttdato for tidsintervallet det søkes i
      */
     private void opprettSoylediagram(String type, Calendar min, Calendar max) {
         CategoryAxis xAkse = new CategoryAxis();
@@ -159,7 +158,7 @@ public class SoylediagramLayout extends GridPane{
         bc.setCategoryGap(40);
         GridPane.setMargin(bc, new Insets(25,0,0,0));
         add(bc,1,2);
-    }
+    }//end of method opprettSoylediagram(String type, Calendar min, Calendar max)
     
     /**
      * Oppretter og lytter på knappen.
@@ -193,9 +192,9 @@ public class SoylediagramLayout extends GridPane{
                 
                 String type = cb.getValue().toString();
                 opprettSoylediagram(type, min, max);
-            }
-        });
-    }
+            }//end of if
+        });//end of setOnAction
+    }//end of method opprettKnapp()
     
     /**
      * Legger komponentene ut i "Kontrollpanelet".
@@ -227,5 +226,5 @@ public class SoylediagramLayout extends GridPane{
         pane.setVgap(5);
         pane1.setVgap(5);
         add(pane, 1, 1);
-    }
-} 
+    }//end of method opprettKotrollPanel()
+}//end of class SoylediagramLayout(kundeRegister) 
