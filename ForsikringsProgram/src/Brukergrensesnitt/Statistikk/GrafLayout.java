@@ -6,7 +6,6 @@
 package Brukergrensesnitt.Statistikk;
 
 import Brukergrensesnitt.GUI;
-import forsikringsprogram.Forsikring;
 import forsikringsprogram.Kunderegister;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -114,7 +113,7 @@ public class GrafLayout extends GridPane{
     
     /**
      * Oppretter graf med gitt serie.
-     * @param serie 
+     * @param serie Første XYChart.Series som legges i grafen
      */
     private void opprettGraf(XYChart.Series serie) {
         CategoryAxis xAkse = new CategoryAxis();
@@ -126,12 +125,12 @@ public class GrafLayout extends GridPane{
         lc.getData().add(serie);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
-    }
+    }//end of method opprettGraf(XYChart.Series serie)
     
     /**
-     * Oppretter graf med de to seriene som er gitt..
-     * @param serie1
-     * @param serie2 
+     * Oppretter graf med de to seriene som er gitt.
+     * @param serie1 Første XYChart.Series som legges i grafen
+     * @param serie2 Andre XYChart.Series som legges i grafen
      */
     private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2) {
         CategoryAxis xAkse = new CategoryAxis();
@@ -143,13 +142,13 @@ public class GrafLayout extends GridPane{
         lc.getData().addAll(serie1, serie2);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
-    }
+    }//end of method opprettGraf(XYChart.Series serie1, XYChart.Series serie2)
     
     /**
      * Oppretter graf med de tre seriene som er gitt.
-     * @param serie1
-     * @param serie2
-     * @param serie3 
+     * @param serie1 Første XYChart.Series som legges i grafen
+     * @param serie2 Andre XYChart.Series som legges i grafen
+     * @param serie3 Tredje XYChart.Series som legges i grafen
      */
     private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3) {
         CategoryAxis xAkse = new CategoryAxis();
@@ -161,14 +160,14 @@ public class GrafLayout extends GridPane{
         lc.getData().addAll(serie1, serie2, serie3);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
-    }
+    }//end of method opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3)
     
     /**
      * Oppretter graf med de fire seriene om er gitt.
-     * @param serie1
-     * @param serie2
-     * @param serie3
-     * @param serie4 
+     * @param serie1 Første XYChart.Series som legges i grafen
+     * @param serie2 Andre XYChart.Series som legges i grafen
+     * @param serie3 Tredje XYChart.Series som legges i grafen
+     * @param serie4 Fjerde XYChart.Series som legges i grafen
      */
     private void opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3, XYChart.Series serie4) {
         CategoryAxis xAkse = new CategoryAxis();
@@ -180,11 +179,11 @@ public class GrafLayout extends GridPane{
         lc.getData().addAll(serie1, serie2, serie3, serie4);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
-    }
+    }//end of method opprettGraf(XYChart.Series serie1, XYChart.Series serie2, XYChart.Series serie3, XYChart.Series serie4)
     
     /**
      * Oppretter en XYChart.Series over antall registrerte forsikringer med gitt type på de forskjellige datoene.
-     * @param type
+     * @param type Spesifiserer hvilke type forsikringer som skal vises
      * @return Returnerer XYChart.Series.
      */
     private XYChart.Series opprettForsikringSerie(String type) {
@@ -207,11 +206,11 @@ public class GrafLayout extends GridPane{
         }
         
         return serie;
-    }
+    }//end of opprettForsikringSerie(String type)
     
     /**
      * Oppretter en XYChart.Series over antall registrerte skademeldinger med gitt type på de forskjellige datoene.
-     * @param type
+     * @param type Spesifiserer hvilke type skademeldinger som skal vises
      * @return Returnerer XYChart.Series.
      */
     private XYChart.Series opprettSkademeldingSerie(String type) {
@@ -234,7 +233,7 @@ public class GrafLayout extends GridPane{
         }
         
         return serie;
-    }
+    }//end of method opprettSkademeldingSerie(String type)
     
     /**
      * Oppretter en XYChart.Series over antall registrerte kunder på de forskjellige datoene.
@@ -253,11 +252,11 @@ public class GrafLayout extends GridPane{
         }
         
         return serie;
-    }
+    }//end of method opprettKundeSerie()
     
     /**
      * Oppretter en XYChart.Series over utgifter av gitt type, på de forskjellige datoene.
-     * @param type
+     * @param type Spesifiserer hvilke type utgift som vises (bil-, båt-, bolig- eller reise-erstatning)
      * @return Reutnerer XYChart.Series.
      */
     private XYChart.Series opprettUtgifterSerie(String type) {
@@ -280,7 +279,7 @@ public class GrafLayout extends GridPane{
         }
         
         return serie;
-    }
+    }//end of method opprettUtgifterSerie(String type)
     
     /**
      * Lager en liste med Date-objekter utifra Fra-dato og Til-dato satt av bruker.
@@ -313,7 +312,7 @@ public class GrafLayout extends GridPane{
             min.add(Calendar.DATE, 1);
         }
         return datoListe;
-    }
+    }//end of method lagDatoListe()
     
     /**
      * Oppretter knappen og lytter på den.
@@ -376,9 +375,9 @@ public class GrafLayout extends GridPane{
                 } else if(!cb1.isSelected() && !cb2.isSelected() && !cb3.isSelected() && !cb4.isSelected()) {
                     GUI.visInputFeilMelding("Feil", "Du må huke av minst en av boksene!");
                 }
-            }
-        });
-    }   
+            }//end of if
+        });//end of setOnAction
+    }//end of method opprettKnapp()   
     
     
     /**
@@ -399,9 +398,9 @@ public class GrafLayout extends GridPane{
                     cb.setDisable(false);
                 }
             }
-        });
+        });//end of addListener
         cb4 = new CheckBox("Utgifter");
-    }
+    }//end of opprettCheckBoxer()
     
     /**
      * Legger alle komponentene inn i "Kontrollpanelet".
@@ -437,5 +436,5 @@ public class GrafLayout extends GridPane{
         pane.setVgap(5);
         pane2.setVgap(5);
         add(pane, 1, 1);
-    }
-}
+    }//end of method opprettKontrollPanel()
+}//end of class GrafLayout
