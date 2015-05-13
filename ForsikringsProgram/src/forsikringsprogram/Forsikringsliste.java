@@ -22,14 +22,6 @@ public class Forsikringsliste implements Serializable {
         liste = new ArrayList<>();
     }
     
-    /**
-     * Sjekker om listen med forsikringer har en eller flere forsikringer.
-     * @return En boolsk verdi som tilsier om listen er tom eller ikke.
-     */
-    public boolean erTom(){
-        return liste.isEmpty();
-    }//end of method erTom()
-    
     /*Setter inn en forsikring i listen. Returnerer false hvis man sender med et object som er null, for å unngå tomme plasser i ArrayList'en,
       eller om det ble returnert false i listen sin add-metode. Returnerer også false hvis forsikringen allerede er tegnet. Returnerer true hvis forsikringen ble lagt til i listen. 
     */
@@ -185,12 +177,9 @@ public class Forsikringsliste implements Serializable {
     }// end of method finnForsikringer(avataleNr)
     
     /**
-     * @return returnerer listen med forsikringer. 
+     * Metoden løper gjennom lista og lagrer aktive forsikringer i en ny liste.
+     * @return returnerer en liste med aktiveforsikringer.
      */
-    public List<Forsikring> getListe() {
-        return this.liste;
-    }
-    
     public List<Forsikring> getAktiveForsikringer() {
         ListIterator<Forsikring> iter = liste.listIterator();
         List<Forsikring> ny = new ArrayList<>();
@@ -201,6 +190,21 @@ public class Forsikringsliste implements Serializable {
             }
         }
         return ny;
+    }
+    
+    /**
+     * Sjekker om listen med forsikringer har en eller flere forsikringer.
+     * @return En boolsk verdi som tilsier om listen er tom eller ikke.
+     */
+    public boolean erTom(){
+        return liste.isEmpty();
+    }//end of method erTom()
+    
+    /**
+     * @return returnerer listen med forsikringer. 
+     */
+    public List<Forsikring> getListe() {
+        return this.liste;
     }
     
     /**

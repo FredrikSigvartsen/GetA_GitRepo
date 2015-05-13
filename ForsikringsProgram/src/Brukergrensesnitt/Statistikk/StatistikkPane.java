@@ -35,6 +35,5 @@ public class StatistikkPane extends GridPane {
         add(new Separator(Orientation.VERTICAL), 2, 1);
         GridPane.setMargin(graf, new Insets(0,0,0,30));
         add(graf,3,1);
-        //setVgap(70);
     }//end of method opprettLayout()   
 }//end of class KundePane

@@ -51,45 +51,19 @@ public class Skademelding implements Serializable {
         this.inntruffetDato = inntruffetDato;
         this.bilder = bilder;
         skadeNr = nesteNr++;
-        formaterDato = new SimpleDateFormat("dd/MM/yyyy");
+        this.formaterDato = new SimpleDateFormat("dd/MM/yyyy");
     }// end of constructor
-    
-    
-    /**
-     * 
-     * @return Alle opplysninger om skaden. Foruten bilder.
-     */
-   @Override
-    public String toString(){
-        String skademelding = 
-                "\n\n---------------------------------------------------"
-                + "\n Skademelding nr." + skadeNr  
-                + "\n---------------------------------------------------"
-                + "\n Skadetype  :  " + skadeType 
-                + "\n Beskrivelse av skaden:\n " + beskrivelse
-                + "\n Taksteringsbeløp:  " + takst
-                + "\n Erstatningsbeløp:  " + erstatningsbelop
-                + "\n Kontakt til vitne:  " + vitneKontakt
-                + "\n Dato for inntruffet skade:  " + formaterDato.format(inntruffetDato.getTime())
-                + "\n Anslått tid for inntruffet skade:  " + inntruffetTidspunkt;
-        
-       return skademelding;
-    }//end of method toString()
     
     /**
      * Setter ersatningsbeløpet lik taksten. 
      */
     public Calendar getOpprettelsesDato() {
         return this.opprettelsesDato;
-    }
+    }//end of method getOpprettelsesDato()
     
-//    
-//    //Set-metoder
-//    public void setInntruffetDato(Calendar inntruffetDato) {
-//        this.inntruffetDato = inntruffetDato;
-//    }
-//    
-    
+    /**
+     * Setter erstatningsbeløpet lik taksten.
+     */
     public void setErstatningsbelopLikTakst() {
         this.erstatningsbelop = this.takst;
     }// end of method getBilder()
@@ -173,10 +147,32 @@ public class Skademelding implements Serializable {
     public double getErstatningsbelop() {
         return erstatningsbelop;
     }// end of getErstatningsbelop()
-
+    
+    /**
+     * @return returnerer listen med bilder.
+     */
     public List<File> getBilder() {
         return bilder;
     } // end of method getBilder()
-   
-   
+    
+    /**
+     * 
+     * @return Alle opplysninger om skaden. Foruten bilder.
+     */
+   @Override
+    public String toString(){
+        String skademelding = 
+                "\n\n---------------------------------------------------"
+                + "\nSkademelding nr." + skadeNr  
+                + "\n---------------------------------------------------"
+                + "\nSkadetype  :  " + skadeType 
+                + "\nBeskrivelse av skaden:\n " + beskrivelse
+                + "\nTaksteringsbeløp:  " + takst
+                + "\nErstatningsbeløp:  " + erstatningsbelop
+                + "\nKontakt til vitne:  " + vitneKontakt
+                + "\nDato for inntruffet skade:  " + formaterDato.format(inntruffetDato.getTime())
+                + "\nAnslått tid for inntruffet skade:  " + inntruffetTidspunkt;
+        
+       return skademelding;
+    }//end of method toString()
 }// end of class Skademelding
