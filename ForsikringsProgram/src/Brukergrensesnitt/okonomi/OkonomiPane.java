@@ -65,8 +65,8 @@ public class OkonomiPane extends GridPane{
         this.kundeRegister = register;
         radioKnappLytter();
         visOkonomiLytter();
-        setAlignment( Pos.TOP_LEFT );
-        setPadding( new Insets(50, 0, 0, 205) );
+        setAlignment( Pos.TOP_CENTER );
+        setPadding( new Insets(50, 0, 0, 0) );
     }//end of constructor
     
     /**
@@ -294,11 +294,12 @@ public class OkonomiPane extends GridPane{
         
         setHgap(10);
         setVgap(10);
-        add(valgTypePane, 10, 6);
-        add(valgKundePane, 10, 7);
-        add(visOkonomiLabel, 9, 5);
-        add(radioKnappBox, 9, 6, 1, 4);
-        add(output, 10, 8);
+        add(valgTypePane, 2, 6);
+        add(valgKundePane, 2, 7);
+        add(visOkonomiLabel, 1, 5);
+        setMargin(visOkonomiLabel, new Insets(0,0,0,10));
+        add(radioKnappBox, 1, 6, 1, 4);
+        add(output, 2, 8);
     }//end of methd siOppForsikringsSkjema()
     
     /**
@@ -411,7 +412,6 @@ public class OkonomiPane extends GridPane{
         }// end of try
         catch( NumberFormatException | NullPointerException e){
             GUI.visProgramFeilMelding(e);
-            return;
         }// end of try-catch
     }//end of method visOkonomi
     
