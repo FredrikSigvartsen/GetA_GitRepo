@@ -184,7 +184,7 @@ public class KundePane extends BorderPane{
     public static VBox overskrift(String overskrift, int strl){
         VBox returOverskrift = new VBox();
         Label overskriftsLabel = new Label(overskrift);
-        overskriftsLabel.setFont( font(strl) );
+        overskriftsLabel.setFont(Font.font(null, FontWeight.BOLD, strl));
         Separator skille = new Separator( Orientation.HORIZONTAL );
         returOverskrift.getChildren().addAll( overskriftsLabel, skille);
         return returOverskrift;

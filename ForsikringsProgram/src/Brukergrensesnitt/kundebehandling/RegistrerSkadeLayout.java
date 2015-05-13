@@ -74,7 +74,7 @@ public class RegistrerSkadeLayout extends GridPane {
      */
     private GridPane fyllInnMedOverskriftLayout(){
         GridPane registreringsLayout = new GridPane();
-        VBox fyllInnOverskrift = KundePane.overskrift("Fyll inn informasjon om skaden", 24);
+        VBox fyllInnOverskrift = KundePane.overskrift("Fyll inn informasjon om skaden", 20);
         
         registreringsLayout.add( fyllInnOverskrift, 1, 1);
         registreringsLayout.add( fyllInnLayout(), 1, 2);
@@ -93,7 +93,7 @@ public class RegistrerSkadeLayout extends GridPane {
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         filLastetOpp = new Label();
-        VBox lastOppOverskrift = KundePane.overskrift("Last opp bilde av skaden", 24);
+        VBox lastOppOverskrift = KundePane.overskrift("Last opp bilde av skaden", 20);
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
