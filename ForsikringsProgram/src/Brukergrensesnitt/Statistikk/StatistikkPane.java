@@ -6,6 +6,8 @@ package Brukergrensesnitt.Statistikk;
 import forsikringsprogram.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import static javafx.geometry.Pos.CENTER;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -21,6 +23,7 @@ public class StatistikkPane extends GridPane {
         soylediagram = new SoylediagramLayout(kundeRegister);
         graf = new GrafLayout(kundeRegister);
         opprettLayout();
+        setAlignment(Pos.CENTER);
     }//end of constructor
     
     /**
@@ -32,6 +35,6 @@ public class StatistikkPane extends GridPane {
         add(new Separator(Orientation.VERTICAL), 2, 1);
         GridPane.setMargin(graf, new Insets(0,0,0,30));
         add(graf,3,1);
-        setVgap(70);
+        //setVgap(70);
     }//end of method opprettLayout()   
 }//end of class KundePane

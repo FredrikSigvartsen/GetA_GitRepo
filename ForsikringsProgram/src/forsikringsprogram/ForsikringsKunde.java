@@ -181,7 +181,11 @@ public class ForsikringsKunde implements Serializable{
     public String getFodselsNr() {
         return fodselsNr;
     }
-
+    
+    public List<Forsikring> getAktiveForsikringer() {
+        return forsikringer.getAktiveForsikringer();
+    }
+    
     public Forsikringsliste getForsikringer() {
         return forsikringer;
     }

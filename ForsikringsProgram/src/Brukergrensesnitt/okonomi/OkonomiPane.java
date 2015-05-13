@@ -65,6 +65,8 @@ public class OkonomiPane extends GridPane{
         this.kundeRegister = register;
         radioKnappLytter();
         visOkonomiLytter();
+        setAlignment( Pos.TOP_LEFT );
+        setPadding( new Insets(50, 0, 0, 205) );
     }//end of constructor
     
     /**

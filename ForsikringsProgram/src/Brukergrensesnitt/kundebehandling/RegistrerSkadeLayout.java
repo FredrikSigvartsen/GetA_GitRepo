@@ -1,6 +1,3 @@
-
-
-
 package Brukergrensesnitt.kundebehandling;
 
 import Brukergrensesnitt.*;
@@ -14,6 +11,8 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import static javafx.scene.control.Alert.AlertType.*;
 import javafx.scene.layout.*;
@@ -25,8 +24,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
- * Her foregår all interaksjon med brukeren. Her fyller brukeren inn angitte inputs og dette valideres, før det registreres i kunderegisteret. 
- * @author Fredrik
+ * Denne klassen er et layout for registrering av skademeldinger. Her fyller brukeren inn angitte inputs og dette valideres, før det registreres i kunderegisteret.
+ * Brukeren kan laste opp evt. bilder av skaden, men er ikke nødt. 
+ * Siste versjon skrevet: 12/05/15 10:00
+ * @author Fredrik Aleksander Sigvartsen, Dataingeniør. s236356
  */
 public class RegistrerSkadeLayout extends GridPane {
 
@@ -55,15 +56,10 @@ public class RegistrerSkadeLayout extends GridPane {
      */
     private void opprettLayout(){
         opprettRegistreringsLayout();
-        
-        Label overskrift = new Label("Registrer skademelding");
-        overskrift.setFont( font(28));
-        overskrift.setUnderline(true);
-        setMargin( overskrift, new Insets( 20, 20, 10, 40));
-        
-        addRow( 1, overskrift );
-        addRow( 2, registrerLayout );
-        
+       
+        addRow( 1, registrerLayout );
+        setAlignment(Pos.TOP_CENTER);
+        setPadding( new Insets(50, 0, 0, 0));
         setVgap(10);
         setHgap(20);
     }// end of method opprettLayout()
@@ -77,24 +73,24 @@ public class RegistrerSkadeLayout extends GridPane {
         registrerSkademeldingLayout = registreringLayout();
         bildefiler = new ArrayList<>();
         
-        registrerLayout.addColumn( 1, registrerSkademeldingLayout);
-        registrerLayout.addColumn( 2, lastOppBildeLayout);
+        registrerLayout.add( registrerSkademeldingLayout, 1, 1);
+        
+        registrerLayout.add( lastOppBildeLayout, 2, 1);
+        
         registrerLayout.setPadding(new Insets(30, 20, 30, 50));
         registrerLayout.setMargin( lastOppBildeLayout, new Insets( 0, 100, 0 , 0));
-        registrerLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15)) ));
     }// end of method opprettRegistreringsLayout
     
     /**
      * Laster opp bilder, og lagrer dem som filer i en ArrayList av filer. 
-     * @return Et layout med opplastning av bilder. 
+     * @return Et layout for opplastning av bilder. 
      */
     private GridPane bildeOpplastning(){
         GridPane returLayout = new GridPane();
-        Label lastOppOverskrift = new Label("Last opp bilder av skaden her");
-        lastOppOverskrift.setFont( font(22.5));
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         filLastetOpp = new Label();
+        VBox lastOppOverskrift = overskrift("Last opp bilde av skaden", 20);
         
         
         //Knappen i layoutet som laster opp en fil. 
@@ -129,11 +125,12 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.add( filLastetOpp, 1, 4);
         returLayout.setVgap(20);
         returLayout.setHgap(20);
+        returLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(0)) ));
         return returLayout;
     }// end of method bildeOpplastning()
     
     /**
-     * Her foregår registreringen av en skademelding
+     * Et layout for registrering av skademeldinger. Fikser plassering, størrelse, og lytter på knappene. 
      * @return Layout for registrering av skademelding. 
      */
     private GridPane registreringLayout(){
@@ -173,7 +170,7 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.add( new Label("Beskrivelse av skaden:"), 1, 7);
         returLayout.add( skadeBeskrivelseInput, 1, 8);
         returLayout.add( registrerKnapp, 1, 9);
-        
+        returLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(0)) ));
         
         //Kolonne 2
         returLayout.add( new Label("Dato inntruffet:"), 2, 1);
@@ -195,6 +192,7 @@ public class RegistrerSkadeLayout extends GridPane {
     
     /**
      * Henter tekst og validerer. Hvis alt valideres, registreres skademeldingen i kunderegisteret, og brukeren får melding avhengig av hva som er feil/galt 
+     * @return En boolsk verdi som tilsier om skademeldingen ble registrert. Returnerer false hvis feltene ikke er fylt inn av brukeren, og hvis ikke feltene ble validert. 
      */
     private boolean registrerSkademelding(){
         if( !felterErFylt() )
@@ -333,6 +331,21 @@ public class RegistrerSkadeLayout extends GridPane {
         varsel.setContentText( "Du må fylle inn " + s + " for å kunne registrere en skademelding.\n" + s2);
         varsel.showAndWait();
     }// end of method visFyllInnMelding() med to parametre
+    
+    /**
+     * Oppretter en VBox som er en overskrift med innhold fra parameterlisten. 
+     * @param overskrift Teksten som overskriften skal inneholde 
+     * @param strl Størrelse på teksten som overskriften skal inneholde
+     * @return En VBox med overskrift, og en separator, Altså en "stylet" overskrift. 
+     */
+    private VBox overskrift(String overskrift, int strl){
+        VBox returOverskrift = new VBox();
+        Label overskriftsLabel = new Label(overskrift);
+        overskriftsLabel.setFont( font(strl) );
+        Separator skille = new Separator( Orientation.HORIZONTAL );
+        returOverskrift.getChildren().addAll( overskriftsLabel, skille);
+        return returOverskrift;
+    }// end of method overskrift
     
     /**
      * 

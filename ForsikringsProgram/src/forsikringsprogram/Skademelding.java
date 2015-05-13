@@ -10,8 +10,10 @@ import java.util.List;
  * En skademelding er i "forsikringssystemet" viktig, da det for forsikringsselskapet er viktig å kunne generere utbetalinger på bakgrunn av informasjonen om kunden
  * og skademeldingen. Dette for å avlaste selskapet med unødige behandlinger. Det er en saksbehandler som behandler skademeldingene, og avgjører om informasjonen fra kunden
  * er tilstrekkelig for å kunne registrere dette som en skademelding. 
- * Vi har get-metoder for de fleste variablene, da det er interessant å kunne hente informasjon om en skademelding senere i programmet. 
- * @author Fredrik
+ * Vi har get-metoder for de fleste variablene, da det er interessant å kunne hente informasjon om en skademelding senere i programmet.
+ * Hensikten med denne klassen å ha alle skademeldinger som et eget objekt, slik at det blir lettere å lagre informasjon om disse skademeldingene. 
+ * Siste versjon skrevet: 05/05/15 12:00
+ * @author Fredrik Aleksander Sigvartsen, Dataingeniør, s236356
  */
 public class Skademelding implements Serializable {
     
