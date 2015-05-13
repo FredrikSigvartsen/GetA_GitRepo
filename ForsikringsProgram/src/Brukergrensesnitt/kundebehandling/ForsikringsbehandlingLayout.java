@@ -6,6 +6,7 @@ package Brukergrensesnitt.kundebehandling;
 import Brukergrensesnitt.GUI;
 import forsikringsprogram.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import static javafx.scene.layout.BorderStroke.THIN;
@@ -27,6 +28,7 @@ public class ForsikringsbehandlingLayout extends GridPane {
     public ForsikringsbehandlingLayout(Kunderegister register){
         this.kundeRegister = register;
         opprettLayout();
+        setAlignment( Pos.TOP_CENTER );
     }//end of constructor
     
     /**
@@ -68,14 +70,14 @@ public class ForsikringsbehandlingLayout extends GridPane {
         sioppForsikring.setMaxWidth( GUI.getSkjermBredde() / 3);
         sioppForsikring.setPrefWidth( GUI.getSkjermBredde() / 3);
         
-        sioppForsikring.setMinHeight( GUI.getSkjermHoyde() / 4);
-        sioppForsikring.setMaxHeight( GUI.getSkjermHoyde() / 4);  
-        sioppForsikring.setPrefHeight( GUI.getSkjermHoyde() / 4);       
+        sioppForsikring.setMinHeight( GUI.getSkjermHoyde() / 5.25);
+        sioppForsikring.setMaxHeight( GUI.getSkjermHoyde() / 5.25);  
+        sioppForsikring.setPrefHeight( GUI.getSkjermHoyde() / 5.25);       
         
         add(kundeRegistrering, 1, 1, 1, 3);
         add(sioppForsikring, 1, 5, 1, 3);
         add(tegnForsikring, 2, 3, 1, 3);
-        
+        setPadding( new Insets( 30, 0 , 0, 0 ));
     }//end of method opprettLayout()
 
 }//end of class
