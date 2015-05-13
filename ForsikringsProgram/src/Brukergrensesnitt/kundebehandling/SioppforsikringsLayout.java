@@ -71,14 +71,15 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of methd opprettSiOppForsikringsSkjema()
     
     /**
-     * Oppretter et vindu med kundens aktive forsikringer og sier opp de forsikringene kunden velger
+     * 
      * @param fodselsnrForsikringer Fødselsnummeret til kunden som det skal sies opp forsikringer på
      * @param kundensForsikringer En liste med forsikringene til den valgte kunden
      */
-    private void opprettForsikringsValgLayout(String fodselsnrForsikringer, List<Forsikring> kundensForsikringer){
+    private void forsikringsValg(String fodselsnrForsikringer, List<Forsikring> kundensForsikringer){
         GridPane forsikringsValg = new GridPane();
         if(kundensForsikringer.isEmpty()){
             GUI.visInputFeilMelding("Ingen forsikringer", "Kunden har ingen aktive forsikringer");
+            setTommeFelter();
             return;
         }
         
@@ -97,42 +98,50 @@ public class SioppforsikringsLayout extends GridPane{
             Forsikring gjeldende = fIter.next();
             if(gjeldende instanceof Bilforsikring){
                 Bilforsikring bil = (Bilforsikring) gjeldende;
-                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Bilforsikring, " +  bil.getMerke() + " " + bil.getModell() + ", " + bil.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
+                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Bilforsikring, " +  bil.getMerke() + 
+                        " " + bil.getModell() + ", " + bil.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
                 forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                 forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
             }
             else if(gjeldende instanceof Baatforsikring){
                 Baatforsikring bat = (Baatforsikring) gjeldende;
-                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Båtforsikring, " +  bat.getMerke() + " " + bat.getModell() + ", " + bat.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
+                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Båtforsikring, " +  bat.getMerke() + 
+                        " " + bat.getModell() + ", " + bat.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
                 forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                 forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
             }
             else if(gjeldende instanceof Boligforsikring){
                 Boligforsikring bolig = (Boligforsikring) gjeldende;
-                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Boligforsikring, " + bolig.getGateAdresse() + ", " + bolig.getPostNr() + ", " + bolig.getAntallKvm() + "KVM, "  + gjeldende.getBetingelser() + ".");
+                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Boligforsikring, " + bolig.getGateAdresse() + 
+                        ", " + bolig.getPostNr() + ", " + bolig.getAntallKvm() + "KVM, "  + gjeldende.getBetingelser() + ".");
                 forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                 forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
             }
             else if(gjeldende instanceof Reiseforsikring){
                 Reiseforsikring reise = (Reiseforsikring) gjeldende;
-                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Reiseforsikring, " + reise.getOmraade() + ", " + gjeldende.getBetingelser() + ".");
+                forsikringValgBoks[i] = new CheckBox("Avtalenummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Reiseforsikring, " + reise.getOmraade() + 
+                        ", " + gjeldende.getBetingelser() + ".");
                 forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                 forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
             }
             i++;
         }//end of while
         
-        /**
-         * sjekker om kunden har aktive forsikringer 
-         */
-        if(i == 0){
-            return;
-        }
+        opprettForsikringsValgLayout(forsikringValgBoks, forsikringsValg, fodselsnrForsikringer);
         
+    }//end of method forsikringsValg()
+    
+    /**
+     * Oppretter et vindu med kundens aktive forsikringer
+     * @param forsikringBoks array med checkboxer som kan legges ut i vinduet
+     * @param valgPane GridPane med innholdet til vinduet
+     * @param fodselsnrForsikringer kundens fødselsnummer
+     */
+    private void opprettForsikringsValgLayout(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
         Alert valg = new Alert(AlertType.CONFIRMATION);
         valg.setTitle("Si opp forsikringer");
         valg.setHeaderText("");
-        valg.setGraphic(forsikringsValg);
+        valg.setGraphic(valgPane);
         
         ButtonType siOppKnapp = new ButtonType("Si opp forsikringer");
         ButtonType avbrytKnapp = new ButtonType("Avbryt", ButtonData.CANCEL_CLOSE);
@@ -144,11 +153,11 @@ public class SioppforsikringsLayout extends GridPane{
         Optional<ButtonType> handling = valg.showAndWait();
         
         int antallAvkrysset = 0;
-        int[] avtalenr = new int[forsikringValgBoks.length];
+        int[] avtalenr = new int[forsikringBoks.length];
         if( handling.isPresent() && handling.get() == siOppKnapp){
-            for(int j = 0; j < forsikringValgBoks.length; j++){
-                if(forsikringValgBoks != null && forsikringValgBoks[j].isSelected()){
-                    avtalenr[j] = Integer.parseInt(forsikringValgBoks[j].getId());
+            for(int j = 0; j < forsikringBoks.length; j++){
+                if(forsikringBoks != null && forsikringBoks[j].isSelected()){
+                    avtalenr[j] = Integer.parseInt(forsikringBoks[j].getId());
                     antallAvkrysset++;
                 }
             }
@@ -157,7 +166,7 @@ public class SioppforsikringsLayout extends GridPane{
                 GUI.visInputFeilMelding("Feil i valg", "Velg en eller flere forsikringer som skal sies opp, eller trykk avbryt");
             }
             else{
-                registrerForsikringer(avtalenr, fodselsnrForsikringer);
+                siOppForsikringer(avtalenr, fodselsnrForsikringer);
             }
         }
     }// end of method opprettForsikringsValgLayout() 
@@ -167,7 +176,7 @@ public class SioppforsikringsLayout extends GridPane{
      * @param avtalenr En array av typen integer som inneholder avtalenummere som skal sies opp
      * @param fodselsnrOppsigelse fødselsnummeret til forsikringskunden som forsikringene sies op fra
      */
-    private void registrerForsikringer(int[] avtalenr, String fodselsnrOppsigelse){
+    private void siOppForsikringer(int[] avtalenr, String fodselsnrOppsigelse){
         StringBuilder output = new StringBuilder();
         for(int k = 0; k < avtalenr.length; k++){
             if(avtalenr[k] > 0){
@@ -224,7 +233,7 @@ public class SioppforsikringsLayout extends GridPane{
             try{
                 ForsikringsKunde forsikringsKunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
                 if(forsikringsKunde != null)
-                    opprettForsikringsValgLayout(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
+                    forsikringsValg(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
                 else
                     GUI.visInputFeilMelding("Finner ikke kunde", "Kunden er ikke registrert i systemet");
             }//end of try
