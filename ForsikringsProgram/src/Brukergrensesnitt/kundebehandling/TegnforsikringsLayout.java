@@ -90,7 +90,7 @@ public class TegnforsikringsLayout extends GridPane{
         add(new Label("Forsikrings type:"), 1, 3);
         add(new Label("Forsikringsbeløp:"), 1, 4);
         setHalignment(tegnForsikring, HPos.CENTER);
-        add(tegnForsikring, 1, 14, 2, 1);
+        add(tegnForsikring, 1, 5, 2, 1);
         
         //legger til kolonne 2
         add(fodselsnr, 2, 2);
@@ -180,30 +180,31 @@ public class TegnforsikringsLayout extends GridPane{
         
        
         //legger til kolonne 1
-        add(betingelserLabel, 1, 6);
-        add(registreringsnrLabel, 1, 7);
-        add(merkeLabel, 1, 8);
-        add(modellLabel, 1, 9);
-        add(registreringsarLabel, 1, 10);
-        add(kjorelengdeLabel, 1, 11);
-        add(prisPerKmLabel, 1, 12);
+        add(betingelserLabel, 1, 5);
+        add(registreringsnrLabel, 1, 6);
+        add(merkeLabel, 1, 7);
+        add(modellLabel, 1, 8);
+        add(registreringsarLabel, 1, 9);
+        add(kjorelengdeLabel, 1, 10);
+        add(prisPerKmLabel, 1, 11);
+        setRowIndex(tegnForsikring, 12);
         
         //legger til kolonn 2
-        add(betingelserBil, 2, 6);
-        add(registreringsnr, 2, 7);
-        add(merke, 2, 8);
-        add(modell, 2, 9);
-        add(registreringsar, 2, 10);
-        add(kjorelengde, 2, 11);
-        add(prisPerKm, 2, 12);
+        add(betingelserBil, 2, 5);
+        add(registreringsnr, 2, 6);
+        add(merke, 2, 7);
+        add(modell, 2, 8);
+        add(registreringsar, 2, 9);
+        add(kjorelengde, 2, 10);
+        add(prisPerKm, 2, 11);
         
         //legger til kolonne 3
-        add(registreringsnrFeil, 3, 7);
-        add(merkeFeil, 3, 8);
-        add(modellFeil, 3, 9);
-        add(registreringsarFeil, 3, 10);
-        add(kjorelengdeFeil, 3, 11);
-        add(prisPerKmFeil, 3, 12);
+        add(registreringsnrFeil, 3, 6);
+        add(merkeFeil, 3, 7);
+        add(modellFeil, 3, 8);
+        add(registreringsarFeil, 3, 9);
+        add(kjorelengdeFeil, 3, 10);
+        add(prisPerKmFeil, 3, 11);
         
         bilTekstFeltLyttere();
     }//End of method opprettBilforsikringFelter()
@@ -264,29 +265,30 @@ public class TegnforsikringsLayout extends GridPane{
         motorStyrkeFeil = new Label("*");
         
         //legger til kolonne 1
-        add(betingelserLabel, 1, 6);
-        add(batRegistreringsnrLabel, 1, 7);
-        add(batMerkeLabel, 1, 8);
-        add(batModellLabel, 1, 9);
-        add(arsmodellLabel, 1, 10);
-        add(motorTypeLabel, 1, 11);
-        add(motorStyrkeLabel, 1, 12);
+        add(betingelserLabel, 1, 5);
+        add(batRegistreringsnrLabel, 1, 6);
+        add(batMerkeLabel, 1, 7);
+        add(batModellLabel, 1, 8);
+        add(arsmodellLabel, 1, 9);
+        add(motorTypeLabel, 1, 10);
+        add(motorStyrkeLabel, 1, 11);
+        setRowIndex(tegnForsikring, 12);
         
         //legger til kolonne 2
-        add(betingelserBat, 2, 6);
-        add(batRegistreringsnr, 2, 7);
-        add(batMerke, 2, 8);
-        add(batModell, 2, 9);
-        add(arsmodell, 2, 10);
-        add(motorType, 2, 11);
-        add(motorStyrke, 2, 12);
+        add(betingelserBat, 2, 5);
+        add(batRegistreringsnr, 2, 6);
+        add(batMerke, 2, 7);
+        add(batModell, 2, 8);
+        add(arsmodell, 2, 9);
+        add(motorType, 2, 10);
+        add(motorStyrke, 2, 11);
         
         //legger til kolonne 3
-        add(batRegistreringsnrFeil, 3, 7);
-        add(batMerkeFeil, 3, 8);
-        add(batModellFeil, 3, 9);
-        add(arsmodellFeil, 3, 10);
-        add(motorStyrkeFeil, 3, 12);
+        add(batRegistreringsnrFeil, 3, 6);
+        add(batMerkeFeil, 3, 7);
+        add(batModellFeil, 3, 8);
+        add(arsmodellFeil, 3, 9);
+        add(motorStyrkeFeil, 3, 11);
         
         batTekstFeltLyttere();
     }//End of method opprettBatforsikringFelter()
@@ -354,31 +356,32 @@ public class TegnforsikringsLayout extends GridPane{
         antallKVMFeil = new Label("*");
         
         //legger til kolonne 1
-        add(betingelserLabel, 1, 6);
-        add(gateAdresseLabel, 1, 7);
-        add(postnrLabel, 1, 8);
-        add(byggearLabel, 1, 9);
-        add(boligTypeLabel, 1, 10);
-        add(byggematerialeLabel, 1, 11);
-        add(boligStandardLabel, 1, 12);
-        add(antallKVMLabel, 1, 13);
+        add(betingelserLabel, 1, 5);
+        add(gateAdresseLabel, 1, 6);
+        add(postnrLabel, 1, 7);
+        add(byggearLabel, 1, 8);
+        add(boligTypeLabel, 1, 9);
+        add(byggematerialeLabel, 1, 10);
+        add(boligStandardLabel, 1, 11);
+        add(antallKVMLabel, 1, 12);
+        setRowIndex(tegnForsikring, 13);
         
         //legger til kolonne 2
-        add(betingelserBolig, 2, 6);
-        add(gateAdresse, 2, 7);
-        add(postnr, 2, 8);
-        add(byggear, 2, 9);
-        add(boligType, 2, 10);
-        add(byggemateriale, 2, 11);
-        add(boligStandard, 2, 12);
-        add(antallKVM, 2, 13);
+        add(betingelserBolig, 2, 5);
+        add(gateAdresse, 2, 6);
+        add(postnr, 2, 7);
+        add(byggear, 2, 8);
+        add(boligType, 2, 9);
+        add(byggemateriale, 2, 10);
+        add(boligStandard, 2, 11);
+        add(antallKVM, 2, 12);
         
         //legger til kolonne 3
-        add(gateAdresseFeil, 3, 7);
-        add(postnrFeil, 3, 8);
-        add(byggearFeil, 3, 9);
-        add(byggematerialeFeil, 3, 11);
-        add(antallKVMFeil, 3, 13);
+        add(gateAdresseFeil, 3, 6);
+        add(postnrFeil, 3, 7);
+        add(byggearFeil, 3, 8);
+        add(byggematerialeFeil, 3, 10);
+        add(antallKVMFeil, 3, 12);
         
         boligTekstFeltLyttere();
     }//End of method opprettVoligforsikringFelter()
@@ -404,15 +407,16 @@ public class TegnforsikringsLayout extends GridPane{
         omradeFeil = new Label("*");
         
         //legger til kolonne 1
-        add(betingelserLabel, 1, 6);
-        add(omradeLabel, 1, 7);
+        add(betingelserLabel, 1, 5);
+        add(omradeLabel, 1, 6);
+        setRowIndex(tegnForsikring, 7);
         
         //legger til kolonne 2
-        add(betingelserReise, 2, 6);
-        add(omrade, 2, 7);
+        add(betingelserReise, 2, 5);
+        add(omrade, 2, 6);
         
         //legger til kolonne 3
-        add(omradeFeil, 3, 7);
+        add(omradeFeil, 3, 6);
         
         reiseTekstFeltLyttere();
     }//End of method opprettReiseforsikringFeilter
@@ -843,15 +847,15 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en bilforsikring når metoden kalles
      */
     private void registrerBilforsikring(){
-        String fodselsnrInput = this.fodselsnr.getText().trim();
-        String betingelserInput = (String) this.betingelserBil.getValue();
-        String registreringsnrInput = this.registreringsnr.getText().trim();
-        String merkeInput = this.merke.getText().trim();
-        String modellInput = this.modell.getText().trim();
-        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        int registreringsarInput = Integer.parseInt(this.registreringsar.getText().trim());
-        int kjorelengdeInput = Integer.parseInt(this.kjorelengde.getText().trim());
-        int prisPerKmInput = Integer.parseInt(this.prisPerKm.getText().trim());
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserBil.getValue();
+        String registreringsnrInput = registreringsnr.getText().trim();
+        String merkeInput = merke.getText().trim();
+        String modellInput = modell.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        int registreringsarInput = Integer.parseInt(registreringsar.getText().trim());
+        int kjorelengdeInput = Integer.parseInt(kjorelengde.getText().trim());
+        int prisPerKmInput = Integer.parseInt(prisPerKm.getText().trim());
         Bilforsikring bilforsikring = new Bilforsikring(betingelserInput, forsikringsbelopInput,
                                                registreringsnrInput, merkeInput, modellInput, registreringsarInput, kjorelengdeInput, prisPerKmInput);
         GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(bilforsikring, fodselsnrInput));
@@ -861,15 +865,15 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en båtforsikring når metoden kalles
      */
     private void registrerBatforsikring(){
-        String fodselsnrInput = this.fodselsnr.getText().trim();
-        String betingelserInput = (String) this.betingelserBat.getValue();
-        String batRegistreringsnrInput = this.batRegistreringsnr.getText().trim();
-        String batMerkeInput = this.batMerke.getText().trim();
-        String batModellInput = this.batModell.getText().trim();
-        String motorTypeInput = (String) this.motorType.getValue();
-        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        int arsmodellInput = Integer.parseInt(this.arsmodell.getText().trim());
-        int motorStyrkeInput = Integer.parseInt(this.motorStyrke.getText().trim());
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserBat.getValue();
+        String batRegistreringsnrInput = batRegistreringsnr.getText().trim();
+        String batMerkeInput = batMerke.getText().trim();
+        String batModellInput = batModell.getText().trim();
+        String motorTypeInput = (String) motorType.getValue();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        int arsmodellInput = Integer.parseInt(arsmodell.getText().trim());
+        int motorStyrkeInput = Integer.parseInt(motorStyrke.getText().trim());
         Baatforsikring batforsikring = new Baatforsikring(betingelserInput, forsikringsbelopInput,
                                         batRegistreringsnrInput, arsmodellInput, motorStyrkeInput, batMerkeInput, batModellInput, motorTypeInput);
         GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(batforsikring, fodselsnrInput));
@@ -879,16 +883,16 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en boligforsikring når metoden kalles
      */
     private void registrerBoligforsikring(){
-        String fodselsnrInput = this.fodselsnr.getText().trim();
-        String betingelserInput = (String) this.betingelserBolig.getValue();
-        String gateAdresseInput = this.gateAdresse.getText().trim();
-        String boligTypeInput = (String) this.boligType.getValue();
-        String byggematerialeInput = this.byggemateriale.getText().trim();
-        String standardInput = (String) this.boligStandard.getValue();
-        String postnrInput = this.postnr.getText().trim();
-        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
-        int byggearInput = Integer.parseInt(this.byggear.getText().trim());
-        int antallKVMInput = Integer.parseInt(this.antallKVM.getText().trim());
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserBolig.getValue();
+        String gateAdresseInput = gateAdresse.getText().trim();
+        String boligTypeInput = (String) boligType.getValue();
+        String byggematerialeInput = byggemateriale.getText().trim();
+        String standardInput = (String) boligStandard.getValue();
+        String postnrInput = postnr.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        int byggearInput = Integer.parseInt(byggear.getText().trim());
+        int antallKVMInput = Integer.parseInt(antallKVM.getText().trim());
         Boligforsikring boligforsikring = new Boligforsikring(betingelserInput, forsikringsbelopInput,
                 gateAdresseInput, boligTypeInput, byggematerialeInput, standardInput, postnrInput, byggearInput, antallKVMInput);
         GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(boligforsikring, fodselsnrInput));
@@ -898,10 +902,10 @@ public class TegnforsikringsLayout extends GridPane{
      * Registrerer en reiseforsikring når metoden kalles
      */
     private void registrerReiseforsikring(){
-        String fodselsnrInput = this.fodselsnr.getText().trim();
-        String betingelserInput = (String) this.betingelserReise.getValue();
-        String omradeInput = this.omrade.getText().trim();
-        double forsikringsbelopInput = Double.parseDouble(this.forsikringsbelop.getText().trim());
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserReise.getValue();
+        String omradeInput = omrade.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
         Reiseforsikring reiseforsikring = new Reiseforsikring(betingelserInput, forsikringsbelopInput, omradeInput);
         GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnrInput));
     }//end of method registrerReiseforsikring
