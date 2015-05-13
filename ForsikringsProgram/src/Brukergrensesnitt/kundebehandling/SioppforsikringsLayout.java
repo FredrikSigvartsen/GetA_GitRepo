@@ -1,8 +1,4 @@
-
-
-
 package Brukergrensesnitt.kundebehandling;
-
 import Brukergrensesnitt.GUI;
 import forsikringsprogram.*;
 import java.util.Iterator;
@@ -20,7 +16,7 @@ import javafx.scene.layout.*;
  * Denne klassen er et layout for si opp forsikringer. Her fyller brukeren inn fødselsnummer og dette valideres, 
  * før det vises et vindu med kundens aktive forsikringer. Så kan brukeren krysse av de forsikringene en skulle ønske å si opp
  * Siste versjon skrevet: 13/05/15 17:10
- * @author Jens Omfjord, Informasjonsteknologi. s236641
+ * @author Jens Omfjord, Informasjonsteknologi, s236641
  */
 public class SioppforsikringsLayout extends GridPane{
     
@@ -29,20 +25,23 @@ public class SioppforsikringsLayout extends GridPane{
     private Button siOppForsikring;
     private Kunderegister kundeRegister;
     
+    /**
+     * Initialiserer datafeltene. 
+     * @param register Kunderegisteret forsikringene skal sies opp fra. 
+     */
     public SioppforsikringsLayout(Kunderegister register){
-        opprettSiOppForsikringsSkjema();
-        siOppLytter();
+        opprettSiOppLayout();
+        siOppForsikring();
         this.kundeRegister = register;
         tekstFeltLyttere();
     }//end of constructor
     
     /**
-     * Oppretter skjema for oppsigelse av forsiking
+     * Oppretter et lite layout for oppsigelse av forsikring. 
      */
-    public void opprettSiOppForsikringsSkjema(){
+    public void opprettSiOppLayout(){
         
         siOppForsikring = new Button("Si opp forsikring");
-        
         
         fodselsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
@@ -64,7 +63,7 @@ public class SioppforsikringsLayout extends GridPane{
         
         //legger til kolonne 3
         add(fodselsnrFeil, 3, 2);
-    }//end of methd opprettSiOppForsikringsSkjema()
+    }//end of methd opprettSiOppLayout()
     
     /**
      * Oppretter et vindu med kundens aktive forsikringer
@@ -72,7 +71,7 @@ public class SioppforsikringsLayout extends GridPane{
      * @param valgPane GridPane med innholdet til vinduet
      * @param fodselsnrForsikringer kundens fødselsnummer
      */
-    private void opprettForsikringsValgLayout(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
+    private void visForsikringValg(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
         Alert valg = new Alert(AlertType.CONFIRMATION);
         valg.setTitle("Si opp forsikringer");
         valg.setHeaderText("");
@@ -106,20 +105,21 @@ public class SioppforsikringsLayout extends GridPane{
                 siOppForsikringer(avtalenr, fodselsnrForsikringer);
             }
         }
-    }// end of method opprettForsikringsValgLayout() 
+    }// end of method visForsikringValg() 
     
     /**
-     * 
+     * Oppretter et GridPane-layout med en beskrivende tekst, og en dynamisk checkbox som avhenger av hva slags
+     * liste som blir sendt med i parameterlisten. 
      * @param fodselsnrForsikringer Fødselsnummeret til kunden som det skal sies opp forsikringer på
-     * @param kundensForsikringer En liste med forsikringene til den valgte kunden
+     * @param kundensForsikringer En liste med forsikringene til den valgte kunden som skal vises i checkboxen
      */
-    private void forsikringsValg(String fodselsnrForsikringer, List<Forsikring> kundensForsikringer){
+    private void opprettForsikringValgLayout(String fodselsnrForsikringer, List<Forsikring> kundensForsikringer){
         GridPane forsikringsValg = new GridPane();
         if(kundensForsikringer.isEmpty()){
             GUI.visInputFeilMelding("Ingen forsikringer", "Kunden har ingen aktive forsikringer");
             setTommeFelter();
             return;
-        }
+        }// end of if
         
         ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnrForsikringer);
         Label beskrivelse = new Label( kunde.getEtternavn() + ", " + kunde.getFornavn() + " har følgende forsikringer.\nKryss av de forsikringene du vil si opp:");
@@ -168,34 +168,12 @@ public class SioppforsikringsLayout extends GridPane{
             i++;
         }//end of while
         
-        opprettForsikringsValgLayout(forsikringValgBoks, forsikringsValg, fodselsnrForsikringer);
+        visForsikringValg(forsikringValgBoks, forsikringsValg, fodselsnrForsikringer);
         
-    }//end of method forsikringsValg()
+    }//end of method opprettForsikringValgLayout()
     
     /**
-     * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
-     */
-    private boolean sjekkFelter(){
-        if( fodselsnr.getText().trim().isEmpty()){
-            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
-            return false;
-        }
-        return true;
-    }//end of method sjekkFelter()
-    
-    /**
-     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean tekstFeltLyttere(){
-        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fodselsnummer(11 siffer)", null);
-        });
-        return fodselsnrFeil.getText().isEmpty();
-    }//end of method tekstFeltLytter()
-    
-    /**
-     * 
+     * Sier opp alle forsikringer brukeren har valgt i dialog-vinduet.
      * @param avtalenr En array av typen integer som inneholder avtalenummere som skal sies opp
      * @param fodselsnrOppsigelse fødselsnummeret til forsikringskunden som forsikringene sies op fra
      */
@@ -209,7 +187,18 @@ public class SioppforsikringsLayout extends GridPane{
         }
         GUI.visInputFeilMelding("Forsikringer sagt opp", output.toString());
         setTommeFelter();
-    }
+    }// end of method siOppForsikringer()
+    
+    /**
+     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean tekstFeltLyttere(){
+        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fodselsnummer(11 siffer)", null);
+        });
+        return fodselsnrFeil.getText().isEmpty();
+    }//end of method tekstFeltLytter()
     
     /**
      * Tømmer alle tekstfelter og setter regEx labelne til *
@@ -221,11 +210,23 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of method stTommeFelter()
     
     /**
+     * Sjekker om fødselsnummerinputen er tomt
+     * @return En boolsk verdi som tilsier om fødselsnummer-inputfeltet er tomt 
+     */
+    private boolean erFelterTomme(){
+        if( fodselsnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
+            return false;
+        }
+        return true;
+    }//end of method erFelterTomme()
+    
+    /**
      * Legger til en lytter på siOppForsikring knappen
      */
-    private void siOppLytter(){
+    private void siOppForsikring(){
         siOppForsikring.setOnAction((ActionEvent event) -> {
-            if( !sjekkFelter() ){
+            if( !erFelterTomme() ){
                 return;
             }
             if( !tekstFeltLyttere() ){
@@ -234,15 +235,15 @@ public class SioppforsikringsLayout extends GridPane{
             try{
                 ForsikringsKunde forsikringsKunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
                 if(forsikringsKunde != null)
-                    forsikringsValg(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
+                    opprettForsikringValgLayout(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
                 else
                     GUI.visInputFeilMelding("Finner ikke kunde", "Kunden er ikke registrert i systemet");
-            }//end of try
+            }//end of try//end of try//end of try//end of try
             catch(NumberFormatException | NullPointerException e){
                 GUI.visProgramFeilMelding(e);
                 return;
             }//end of catch
         });
-    }//end of method siOppLytter()
+    }//end of method siOppForsikring()
     
 }//end of class SioppforsikringsLayout

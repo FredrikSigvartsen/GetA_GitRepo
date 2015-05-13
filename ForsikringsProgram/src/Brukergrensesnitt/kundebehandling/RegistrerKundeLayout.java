@@ -1,8 +1,4 @@
-
-
-
 package Brukergrensesnitt.kundebehandling;
-
 import Brukergrensesnitt.GUI;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
@@ -15,7 +11,7 @@ import javafx.beans.value.ObservableValue;
  * Denne klassen er et layout for registrering av Kunder. Her fyller brukeren inn 
  * angitte inputs og dette valideres, før det registreres som kunder i kunderegisteret.
  * Siste versjon skrevet: 13/05/15 19:00
- * @author Jens Omfjord, Informasjonsteknologi. s236641
+ * @author Jens Omfjord, Informasjonsteknologi, s236641
  */
 public class RegistrerKundeLayout extends GridPane{
     
@@ -24,9 +20,12 @@ public class RegistrerKundeLayout extends GridPane{
     private Button registrerKunde;
     private Kunderegister kundeRegister;
     
+    /**
+     * 
+     * @param register Kunderegisteret som kundene skal registreres i. 
+     */
     public RegistrerKundeLayout(Kunderegister register){
         opprettKundeRegistreringSkjema();
-        registrerKundeLytter();
         this.kundeRegister = register;
         tekstFeltLyttere();
     }//end of construnctor
@@ -37,7 +36,6 @@ public class RegistrerKundeLayout extends GridPane{
     public void opprettKundeRegistreringSkjema(){
         
         registrerKunde = new Button("Registrer");
-        
         
         fornavn = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
@@ -79,6 +77,11 @@ public class RegistrerKundeLayout extends GridPane{
         setVgap(10);
         setHgap(10);
         
+        //Setter lytter på registrerKunde-knapp
+        registrerKunde.setOnAction((ActionEvent event) -> {
+            registrerKunde();
+        });
+        
         //legger til kolonne 1
         add(KundePane.overskrift("Registrer kunde", 20), 1, 1, 2, 1);
         add(new Label("Fornavn:"), 1, 2);
@@ -107,6 +110,40 @@ public class RegistrerKundeLayout extends GridPane{
         add(fodselsnrFeil, 3, 7);
         
     }//end of method opprettKundeRegistreringsSkjema()
+    
+   /**
+    * Leser inn og validerer inputene fra bruker og registrerer kunden
+    */
+    public void registrerKunde(){
+        if(!sjekkTommeFelter()){
+            return;
+        }//end of if
+        try{
+            String fornavnInput = this.fornavn.getText().trim();
+            String etternavnInput = this.etternavn.getText().trim();
+            String adresseInput = this.adresse.getText().trim();
+            String poststedInput = this.poststed.getText().trim();
+            String postnrInput = this.postnr.getText().trim();
+            String fodselsnrInput = this.fodselsnr.getText().trim();
+            ForsikringsKunde kunde = new ForsikringsKunde(fornavnInput, etternavnInput, adresseInput, poststedInput, postnrInput, fodselsnrInput);
+            
+            if(kundeRegister.finnKunde(fodselsnrInput) != null){
+                GUI.visInputFeilMelding("Feil ved registrering av kunde","Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
+                return;
+            }
+            if( ! (kundeRegister.registrerKunde(kunde) ) ){
+                GUI.visInputFeilMelding("OBS! Feil i registrering.", "Kunden ble ikke registrert grunnet feil i registrering.\nKontakt IT-ansvarlig.");
+                return;
+            }
+            GUI.visInputFeilMelding("Kunde registrert", kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
+            setTommeFelter();
+            
+        }//end of try
+        catch(NumberFormatException | NullPointerException e){
+            GUI.visProgramFeilMelding(e);
+            return;
+        }//end of catch
+    }//end of method registrerKunde()
         
     /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
@@ -199,48 +236,5 @@ public class RegistrerKundeLayout extends GridPane{
         poststedFeil.setText("*");
         fodselsnrFeil.setText("*");
     }//end of method stTommeFelter()
-    
-    /**
-     * leser inn og kontrolerer inputene fra bruker og registrerer kunden
-     */
-    public void registrerKunde(){
-        if(!sjekkTommeFelter()){
-            return;
-        }//end of if
-        try{
-            String fornavnInput = this.fornavn.getText().trim();
-            String etternavnInput = this.etternavn.getText().trim();
-            String adresseInput = this.adresse.getText().trim();
-            String poststedInput = this.poststed.getText().trim();
-            String postnrInput = this.postnr.getText().trim();
-            String fodselsnrInput = this.fodselsnr.getText().trim();
-            ForsikringsKunde kunde = new ForsikringsKunde(fornavnInput, etternavnInput, adresseInput, poststedInput, postnrInput, fodselsnrInput);
-            
-            if(kundeRegister.finnKunde(fodselsnrInput) != null){
-                GUI.visInputFeilMelding("Feil ved registrering av kunde","Kunde med fødselsnr: " + kunde.getFodselsNr() + ", er allerede registrert");
-                return;
-            }
-            if( ! (kundeRegister.registrerKunde(kunde) ) ){
-                GUI.visInputFeilMelding("OBS! Feil i registrering.", "Kunden ble ikke registrert grunnet feil i registrering.\nKontakt IT-ansvarlig.");
-                return;
-            }
-            GUI.visInputFeilMelding("Kunde registrert", kunde.getEtternavn() + ", " + kunde.getFornavn() + " ble registrert som kunde");
-            setTommeFelter();
-            
-        }//end of try
-        catch(NumberFormatException | NullPointerException e){
-            GUI.visProgramFeilMelding(e);
-            return;
-        }//end of catch
-    }//end of method registrerKunde()
-    
-    /**
-     * lytteren til registrerKunde knappen
-     */
-    private void registrerKundeLytter(){
-        registrerKunde.setOnAction((ActionEvent event) -> {
-            registrerKunde();
-        });
-    }//end of method registrerKundeLytter()
     
 }//end of class RegistrerKundeLayout
