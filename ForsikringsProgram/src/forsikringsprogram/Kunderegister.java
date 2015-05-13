@@ -448,7 +448,7 @@ public class Kunderegister implements Serializable {
     
     //Statistikk-metoder: 
     /**
-     * Teller opp antall lagrede forsikringer av gitt type, i tidsrommet mellom min og max.
+     * Teller opp antall aktive forsikringer av gitt type, i tidsrommet mellom min og max.
      * @param forsikringstype Hvilken forsikringstype man vil finne antall av. 
      * @param min Startdato for tidsintervallet det søkes i.
      * @param max Sluttdato for tidsintervallet det søkes i.
@@ -465,15 +465,17 @@ public class Kunderegister implements Serializable {
                 Iterator<Forsikring> fIter = liste.iterator();
                 while(fIter.hasNext()) {
                     Forsikring forsikring = fIter.next();
-                    Calendar dato = forsikring.getOpprettelsesDato();
-                    dato.clear(Calendar.HOUR);
-                    dato.clear(Calendar.HOUR_OF_DAY);
-                    dato.clear(Calendar.MINUTE);
-                    dato.clear(Calendar.SECOND);
-                    dato.clear(Calendar.MILLISECOND);
-                    if(!dato.before(min) && !dato.after(max)) {
-                            sum++;
-                    }//end of inner if
+                    if(forsikring.isActive()) {
+                        Calendar dato = forsikring.getOpprettelsesDato();
+                        dato.clear(Calendar.HOUR);
+                        dato.clear(Calendar.HOUR_OF_DAY);
+                        dato.clear(Calendar.MINUTE);
+                        dato.clear(Calendar.SECOND);
+                        dato.clear(Calendar.MILLISECOND);
+                        if(!dato.before(min) && !dato.after(max)) {
+                                sum++;
+                        }//end of second inner if
+                    }//end of first inner if
                 }//end of inner while
             }//end of outer if
         }//end of outer while

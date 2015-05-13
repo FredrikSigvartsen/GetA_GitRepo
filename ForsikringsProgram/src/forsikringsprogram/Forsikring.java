@@ -93,7 +93,7 @@ public abstract class Forsikring implements Serializable{
      * 
      * @return returnerer true eller false alt ettersom forsikringen er aktiv eller ikke. 
      */
-    public boolean getAktivForsikring() {
+    public boolean isActive() {
         return this.aktivForsikring;
     }
     

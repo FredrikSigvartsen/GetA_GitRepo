@@ -129,7 +129,7 @@ public class GrafLayout extends GridPane{
         lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
-        lc.setTitle("Øking/Minking");
+        lc.setTitle("Øking/Minking i registrering");
         lc.getData().add(serie);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
@@ -146,7 +146,7 @@ public class GrafLayout extends GridPane{
         lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
-        lc.setTitle("Øking/Minking");
+        lc.setTitle("Øking/Minking i registrering");
         lc.getData().addAll(serie1, serie2);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
@@ -164,7 +164,7 @@ public class GrafLayout extends GridPane{
         lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
-        lc.setTitle("Øking/Minking");
+        lc.setTitle("Øking/Minking i registrering");
         lc.getData().addAll(serie1, serie2, serie3);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);
@@ -183,7 +183,7 @@ public class GrafLayout extends GridPane{
         lc = new LineChart<>(xAkse,yAkse);
         xAkse.setLabel("Måned");       
         yAkse.setLabel("Antall");   
-        lc.setTitle("Øking/Minking");
+        lc.setTitle("Øking/Minking i registrering");
         lc.getData().addAll(serie1, serie2, serie3, serie4);
         lc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         add(lc,1,2);

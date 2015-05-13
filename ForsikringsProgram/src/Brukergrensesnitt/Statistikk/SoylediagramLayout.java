@@ -77,7 +77,7 @@ public class SoylediagramLayout extends GridPane{
         iv1.setImage(bilde);
         iv1.setFitWidth(60);
         iv1.setFitHeight(60);
-        tooltip = new Tooltip("Søylediagrammet viser antall registrerte forsikringer/skademeldinger i" +
+        tooltip = new Tooltip("Søylediagrammet viser antall aktive forsikringer/skademeldinger i" +
                               "\ntidsrommet mellom de to datoene. Velg datoer, velg type du vil se, oppdater deretter " +
                               "\ndiagrammet ved å trykke på knappen.");
         tooltip.setGraphic(iv1);
@@ -125,7 +125,7 @@ public class SoylediagramLayout extends GridPane{
     }//end of construnctor
     
     /**
-     * Oppretter soylediagram som viser antall forsikringer eller skademeldinger (gitt av type) mellom min og max datoene.
+     * Oppretter soylediagram som viser antall aktive forsikringer eller skademeldinger (gitt av type) mellom min og max datoene.
      * @param type Spesifiserer om søylediagrammet skal vise forsikringer elelr skademeldinger
      * @param min Startdato for tidsintervallet det søkes i
      * @param max Ssluttdato for tidsintervallet det søkes i
@@ -134,7 +134,7 @@ public class SoylediagramLayout extends GridPane{
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
         bc = new BarChart<>(xAkse, yAkse);
-        bc.setTitle("Antall " + type.toLowerCase());
+        bc.setTitle("Antall aktive " + type.toLowerCase());
         xAkse.setLabel("Type");       
         yAkse.setLabel("Antall");    
         

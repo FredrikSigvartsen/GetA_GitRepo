@@ -47,7 +47,7 @@ public class Forsikringsliste implements Serializable {
         boolean ok = false;
         
         while(iter.hasNext()) {
-            if(iter.next().getAktivForsikring())
+            if(iter.next().isActive())
                 ok = true;
         }
         return ok;
@@ -184,7 +184,7 @@ public class Forsikringsliste implements Serializable {
         List<Forsikring> ny = new ArrayList<>();
         while(iter.hasNext()) {
             Forsikring løper = iter.next();
-            if(løper.getAktivForsikring()) {
+            if(løper.isActive()) {
                 ny.add(løper);
             }
         }
