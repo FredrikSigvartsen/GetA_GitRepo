@@ -460,9 +460,9 @@ public class KundesokLayout extends GridPane{
         SkademeldingsListe kundensSkademeldinger = kunden.getSkademeldinger();
         output.setText(kunden.toString());
         if( kundensSkademeldinger.erTom())
-            output.appendText("\n\n " +  kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen registrerte skademeldinger.");
+            output.appendText("\n\n" +  kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen registrerte skademeldinger.");
         else
-            output.appendText("\n\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende skademeldinger:\n" + kundensSkademeldinger.toString() );
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende skademeldinger:\n" + kundensSkademeldinger.toString() );
     }// end of method visKundensSkademeldinger()
     
     /**
@@ -475,9 +475,9 @@ public class KundesokLayout extends GridPane{
         Forsikringsliste kundensForsikringer = kunden.getForsikringer();
         output.setText(kunden.toString());
         if( kundensForsikringer.erTom())
-            output.appendText("\n\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen forsikringer.");
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen forsikringer.");
         else
-            output.appendText("\n\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende forsikringer:\n" + kundensForsikringer.toString());
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende forsikringer:\n" + kundensForsikringer.toString());
     }// end of method visKundensForsikringer()
     
     /**
@@ -501,10 +501,10 @@ public class KundesokLayout extends GridPane{
         try{
             kunden = kundeRegister.finnKunde( fodselsNr );
             if(kunden == null){
-               output.setText("\n Kunden med dette fødselsnummer finnes ikke i vårt system.");
+               output.setText("\nKunden med dette fødselsnummer finnes ikke i vårt system.");
                return false;
             }
-            output.setText("\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString());
+            output.setText("\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString());
             return true;
         }
         catch(NullPointerException npe){
@@ -585,14 +585,14 @@ public class KundesokLayout extends GridPane{
             
             if( kundene.isEmpty() ){
                 kunden = null;
-                return "\n Det finnes ingen kunder i vårt system som heter " + fornavn + " til  fornavn";
+                return "\nDet finnes ingen kunder i vårt system som heter " + fornavn + " til  fornavn";
             }
             
             if(kundene.size() == 1){
                 kunden = kundene.get(0);
                 fornavnInput.setText( kunden.getFornavn());
                 etternavnInput.setText( kunden.getEtternavn() );
-                return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+                return "\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
             }// end of inner if
             velgKundeLayout = kundeValgLayout( "Det finnes flere som heter " + fornavn + " til fornavn" , kundene);
         }// end of outter if
@@ -604,7 +604,7 @@ public class KundesokLayout extends GridPane{
             
             if( kundene.isEmpty() ){
                 kunden = null;
-                return "\n Det finnes ingen kunder i vårt system som heter " + etternavn + " til  etternavn";
+                return "\nDet finnes ingen kunder i vårt system som heter " + etternavn + " til  etternavn";
             }
             
             if(kundene.size() == 1){
@@ -624,13 +624,13 @@ public class KundesokLayout extends GridPane{
             
             if(kundene.isEmpty()){
                 kunden = null;
-                return "\n Det finnes ingen kunder i vårt system som heter " + fornavn + " " + etternavn;
+                return "\nDet finnes ingen kunder i vårt system som heter " + fornavn + " " + etternavn;
             }
             if(kundene.size() == 1){
                 kunden = kundene.get(0);
                 fornavnInput.setText( kunden.getFornavn());
                 etternavnInput.setText( kunden.getEtternavn() );
-                return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+                return "\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
             }// end of inner if
             velgKundeLayout = kundeValgLayout( "Det finnes flere som heter  " + fornavn + " " + etternavn, kundene);
         }// end of outter if
@@ -650,7 +650,7 @@ public class KundesokLayout extends GridPane{
             if( kunden != null){
             fornavnInput.setText( kunden.getFornavn());
             etternavnInput.setText( kunden.getEtternavn() );
-            return "\n " + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
+            return "\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString();
             }
         }// end of outter if
         else{
@@ -712,14 +712,14 @@ public class KundesokLayout extends GridPane{
             List<ForsikringsKunde> kunderMedGittForsikringstype = kundeRegister.finnKunder(forsikringstype);
         
             if(kunderMedGittForsikringstype.isEmpty()){
-               output.setText("\n Finnes ingen forsikringer av typen " + forsikringstype.toLowerCase() );
+               output.setText("\nFinnes ingen forsikringer av typen " + forsikringstype.toLowerCase() );
                return;
             }
             ListIterator<ForsikringsKunde> iter = kunderMedGittForsikringstype.listIterator();
-            output.setText("\n Følgende kunder har " + forsikringstype.toLowerCase() + "forsikringer:");
+            output.setText("\nFølgende kunder har " + forsikringstype.toLowerCase() + "forsikringer:");
             while(iter.hasNext()){
                 ForsikringsKunde gjeldendeKunde = iter.next();
-                output.appendText( gjeldendeKunde.toString() + "\n Har forsikring av type: " + forsikringstype.toLowerCase() );
+                output.appendText( gjeldendeKunde.toString() + "\nHar forsikring av type: " + forsikringstype.toLowerCase() );
             }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
@@ -749,7 +749,7 @@ public class KundesokLayout extends GridPane{
             //Hvis skademeldingen ikke finnes. 
             if( gjeldendeSkademelding == null){
                 bildeviserLayout.setVisible(false);
-                output.setText("\n Skademelding nr." + skadeNr + " finnes ikke i vårt system.");
+                output.setText("\nSkademelding nr." + skadeNr + " finnes ikke i vårt system.");
                 return;
             }
             bildeviserLayout.setVisible(true);
@@ -767,8 +767,8 @@ public class KundesokLayout extends GridPane{
                 imageviewer.setVisible(true);
             }
             ForsikringsKunde skademeldingEier =  kundeRegister.finnKunde(skadeNr);
-            output.setText("\n Følgende skademelding funnet:" + gjeldendeSkademelding.toString() + "\n Skademeldingen er registrert på: " + 
-                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\n Fødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
+            output.setText("\nFølgende skademelding funnet:" + gjeldendeSkademelding.toString() + "\nSkademeldingen er registrert på: " + 
+                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
         }// end of try
         catch( NumberFormatException | NullPointerException nfe){
             GUI.visProgramFeilMelding(nfe);
@@ -790,19 +790,19 @@ public class KundesokLayout extends GridPane{
             
             List<Skademelding> skademeldinger = kundeRegister.finnSkademeldinger(skadetype);
             if(skademeldinger.isEmpty()){
-                output.setText("\n Det finnes ingen skademeldinger av typen " + skadetype.toLowerCase() );
+                output.setText("\nDet finnes ingen skademeldinger av typen " + skadetype.toLowerCase() );
                 return;
             }
             ListIterator<Skademelding> iter = skademeldinger.listIterator();
-            output.setText("\n Følgende skademeldinger er av type " + skadetype.toLowerCase() + " :");
+            output.setText("\nFølgende skademeldinger er av type " + skadetype.toLowerCase() + " :");
             while(iter.hasNext()){
                 Skademelding iterSkademelding = iter.next();
                 output.appendText( iterSkademelding.toString());
                 //Legger til tekst om hvem skademeldingen er registrert på
                 ForsikringsKunde skademeldingEier = kundeRegister.finnKunde( iterSkademelding.getSkadeNr());
                 if(skademeldingEier != null){
-                    output.appendText("\n Skademeldingen er registrert på: " + 
-                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\n Fødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
+                    output.appendText("\nSkademeldingen er registrert på: " + 
+                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
                 }
             }// end of while
         }// end of try// end of try
@@ -833,14 +833,14 @@ public class KundesokLayout extends GridPane{
             Forsikring forsikringen = kundeRegister.finnForsikringer(avtaleNr);
             
             if(forsikringen == null){
-                output.setText( "\n Forsikring nr." + avtaleNr + " finnes ikke i vårt system.");
+                output.setText( "\nForsikring nr." + avtaleNr + " finnes ikke i vårt system.");
                 return;
             }
-            output.setText("\n Forsikring nr." + avtaleNr + " funnet:" + forsikringen.toString());
+            output.setText("\nForsikring nr." + avtaleNr + " funnet:" + forsikringen.toString());
             ForsikringsKunde forsikringsEier = kundeRegister.finnKundeMedAvtaleNr(avtaleNr);
             if( forsikringsEier != null){
-                output.appendText( "\n Er registrert på: " + forsikringsEier.getFornavn() + " " + forsikringsEier.getEtternavn() +
-                                   "\n Kundens fødselsnummer: " + forsikringsEier.getFodselsNr());
+                output.appendText( "\nEr registrert på: " + forsikringsEier.getFornavn() + " " + forsikringsEier.getEtternavn() +
+                                   "\nKundens fødselsnummer: " + forsikringsEier.getFodselsNr());
             }// end of if
         }// end of try
         catch( NumberFormatException | NullPointerException e){
@@ -863,19 +863,19 @@ public class KundesokLayout extends GridPane{
             List<Forsikring> forsikringerAvType = kundeRegister.finnForsikringer(forsikringstype);
         
             if(forsikringerAvType.isEmpty()){
-               output.setText("\n Finnes ingen " + forsikringstype.toLowerCase() + "forsikringer i vårt system." );
+               output.setText("\nFinnes ingen " + forsikringstype.toLowerCase() + "forsikringer i vårt system." );
                return;
             }
             ListIterator<Forsikring> iter = forsikringerAvType.listIterator();
-            output.setText("\n Alle " + forsikringstype.toLowerCase() + "forsikringer:");
+            output.setText("\nAlle " + forsikringstype.toLowerCase() + "forsikringer:");
             while(iter.hasNext()){
                 Forsikring gjeldendeForsikring = iter.next();
                 output.appendText( gjeldendeForsikring.toString() );
                 
                 ForsikringsKunde forsikringsEier = kundeRegister.finnKundeMedAvtaleNr( gjeldendeForsikring.getAvtaleNr());
                 if(forsikringsEier != null)
-                    output.appendText( "\n Registrert på: " + forsikringsEier.getFornavn() + " " + forsikringsEier.getEtternavn()
-                                      +"\n Fødselsnummeret til kunden: " + forsikringsEier.getFodselsNr());
+                    output.appendText( "\nRegistrert på: " + forsikringsEier.getFornavn() + " " + forsikringsEier.getEtternavn()
+                                      +"\nFødselsnummeret til kunden: " + forsikringsEier.getFodselsNr());
             }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
