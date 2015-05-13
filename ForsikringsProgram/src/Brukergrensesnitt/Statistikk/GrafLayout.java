@@ -100,7 +100,7 @@ public class GrafLayout extends GridPane{
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
-        datePickerFra.setValue(LocalDate.of(2015, 5, 1));
+        datePickerFra.setValue(LocalDate.of(2015, 5, 9));
         datePickerTil = new DatePicker();
         datePickerTil.setEditable(false);
         datePickerTil.setValue(LocalDate.now());
@@ -290,22 +290,22 @@ public class GrafLayout extends GridPane{
         
         Calendar min = Calendar.getInstance();
         min.set(datePickerFra.getValue().getYear(), 
-                        datePickerFra.getValue().getMonthValue() - 1, 
-                        datePickerFra.getValue().getDayOfMonth()); 
-                min.clear(Calendar.HOUR);
-                min.clear(Calendar.HOUR_OF_DAY);
-                min.clear(Calendar.MINUTE);
-                min.clear(Calendar.SECOND);
-                min.clear(Calendar.MILLISECOND);
+                datePickerFra.getValue().getMonthValue() - 1, 
+                datePickerFra.getValue().getDayOfMonth()); 
+        min.clear(Calendar.HOUR);
+        min.clear(Calendar.HOUR_OF_DAY);
+        min.clear(Calendar.MINUTE);
+        min.clear(Calendar.SECOND);
+        min.clear(Calendar.MILLISECOND);
         Calendar max = Calendar.getInstance(); 
-                max.set(datePickerTil.getValue().getYear(),
-                        datePickerTil.getValue().getMonthValue() - 1, 
-                        datePickerTil.getValue().getDayOfMonth());
-                max.clear(Calendar.HOUR);
-                max.clear(Calendar.HOUR_OF_DAY);
-                max.clear(Calendar.MINUTE);
-                max.clear(Calendar.SECOND);
-                max.clear(Calendar.MILLISECOND);
+        max.set(datePickerTil.getValue().getYear(),
+                datePickerTil.getValue().getMonthValue() - 1, 
+                datePickerTil.getValue().getDayOfMonth());
+        max.clear(Calendar.HOUR);
+        max.clear(Calendar.HOUR_OF_DAY);
+        max.clear(Calendar.MINUTE);
+        max.clear(Calendar.SECOND);
+        max.clear(Calendar.MILLISECOND);
         
         while(!min.after(max)) {
             datoListe.add(min.getTime());
