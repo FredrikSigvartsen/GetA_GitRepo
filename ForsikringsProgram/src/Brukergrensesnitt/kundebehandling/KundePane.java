@@ -9,9 +9,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
+import static javafx.scene.text.Font.font;
 import javafx.scene.text.FontWeight;
 
 /**
@@ -172,6 +174,20 @@ public class KundePane extends BorderPane{
             }
         });
     }//end of method tabLytter()
-        
+    
+    /**
+     * Oppretter en VBox som er en overskrift med innhold fra parameterlisten. 
+     * @param overskrift Teksten som overskriften skal inneholde 
+     * @param strl Størrelse på teksten som overskriften skal inneholde
+     * @return En VBox med overskrift, og en separator, Altså en "stylet" overskrift. 
+     */
+    public static VBox overskrift(String overskrift, int strl){
+        VBox returOverskrift = new VBox();
+        Label overskriftsLabel = new Label(overskrift);
+        overskriftsLabel.setFont( font(strl) );
+        Separator skille = new Separator( Orientation.HORIZONTAL );
+        returOverskrift.getChildren().addAll( overskriftsLabel, skille);
+        return returOverskrift;
+    }// end of method overskrift    
     
 }//end of class KundePane
