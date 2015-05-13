@@ -16,12 +16,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import static javafx.geometry.Pos.CENTER;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import static javafx.scene.text.Font.font;
+import javafx.scene.text.FontWeight;
 
 /**
  * Inneholder et layout med et stort utvalg søk-muligheter for brukeren. Her foregår all oppslag i kunderegisteret. Brukeren kan her søke på kunder, skademeldinger og forsikringer. 
@@ -57,6 +60,7 @@ public class KundesokLayout extends GridPane{
         super();
         this.kundeRegister = register;
         opprettLayout();
+        setAlignment(Pos.CENTER);
         
     }// end of constructor
     
@@ -72,7 +76,8 @@ public class KundesokLayout extends GridPane{
         addColumn(2, outputLayout);
         addColumn(3, bildeviserLayout);
         
-        setHgap(40);
+        //setHgap(40);
+        setHgap(45);
         setVgap(20);
         setMargin(outputLayout, new Insets(40, 0, 0, 0)); 
         setPadding( new Insets(30, 20, 30, 50) ) ;
@@ -182,32 +187,48 @@ public class KundesokLayout extends GridPane{
         });
         //Overskrifter
         Label skadeLabel = new Label("Søk på skademeldinger med");
-        skadeLabel.setFont( font(22.5) );
-        skadeLabel.setUnderline(true);
+        skadeLabel.setFont( Font.font(null, FontWeight.BOLD, 20) );
+        //skadeLabel.setUnderline(true);
         Label kundeLabel = new Label("Søk på kunder med");
-        kundeLabel.setFont( font(22.5) );
-        kundeLabel.setUnderline(true);
+        kundeLabel.setFont( Font.font(null, FontWeight.BOLD, 20) );
+        //kundeLabel.setUnderline(true);
         Label forsikringsLabel = new Label("Søk på forsikringer med");
-        forsikringsLabel.setFont( font(22.5) );
-        forsikringsLabel.setUnderline(true);
+        forsikringsLabel.setFont( Font.font(null, FontWeight.BOLD, 20) );
+        //forsikringsLabel.setUnderline(true);
         
-        returLayout.addRow(1,  kundeLabel );
-        returLayout.setMargin( kundeLabel, new Insets(4, 0, 10, 0));
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(kundeLabel, new Separator());
+        returLayout.addRow(1, vbox);
+        returLayout.setMargin(vbox, new Insets(20,0,0,0));
+        //returLayout.addRow(1,  kundeLabel );
+        //returLayout.setMargin( kundeLabel, new Insets(4, 0, 0, 0));
+        //returLayout.addRow(2, new Separator());
         returLayout.addRow(2,  sokFodselsNrLayout );
         returLayout.addRow(3,  sokNavnLayout );
         returLayout.addRow(4,  sokForsikringstypeLayout );
-        returLayout.addRow(5,  skadeLabel );
-        returLayout.setMargin( skadeLabel, new Insets(4, 0, 10, 0));
+        VBox vbox1 = new VBox();
+        vbox1.getChildren().addAll(skadeLabel, new Separator());
+        returLayout.addRow(5, vbox1);
+        returLayout.setMargin(vbox1, new Insets(20,0,0,0));
+        //returLayout.addRow(5,  skadeLabel );
+        //returLayout.setMargin( skadeLabel, new Insets(4, 0, 0, 0));
+        //returLayout.addRow(6, new Separator());
         returLayout.addRow(6,  sokSkadeNrLayout );
         returLayout.addRow(7,  sokSkadetypeLayout );
-        returLayout.addRow(8,  forsikringsLabel );
-        returLayout.setMargin( forsikringsLabel, new Insets(4, 0, 10, 0));
+        VBox vbox2 = new VBox();
+        vbox2.getChildren().addAll(forsikringsLabel, new Separator());
+        returLayout.addRow(8, vbox2);
+        returLayout.setMargin(vbox2, new Insets(20,0,0,0));
+        //returLayout.addRow(9,  forsikringsLabel );
+        //returLayout.setMargin( forsikringsLabel, new Insets(4, 0, 0, 0));
+        //returLayout.addRow(10, new Separator());
         returLayout.addRow( 9, sokForsikringLayout);
         returLayout.addRow( 10, sokForsikringerLayout);
         
-        returLayout.setMinHeight(GUI.getSkjermHoyde());
-        returLayout.setMaxHeight(GUI.getSkjermHoyde());
+        //returLayout.setMinHeight(GUI.getSkjermHoyde());
+        //returLayout.setMaxHeight(GUI.getSkjermHoyde());
         returLayout.setPrefHeight(GUI.getSkjermHoyde());
+        returLayout.setPadding(new Insets(17,0,0,0));
         returLayout.setVgap(10);
         returLayout.setHgap(20);
         return returLayout;

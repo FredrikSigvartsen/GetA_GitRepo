@@ -113,7 +113,7 @@ public class SoylediagramLayout extends GridPane{
         opprettKnapp();
         opprettKontrollPanel();
         
-        setHgap(145);
+        //setHgap(145);
     }//end of construnctor
     
     /**

@@ -191,6 +191,18 @@ public class Forsikringsliste implements Serializable {
         return this.liste;
     }
     
+    public List<Forsikring> getAktiveForsikringer() {
+        ListIterator<Forsikring> iter = liste.listIterator();
+        List<Forsikring> ny = new ArrayList<>();
+        while(iter.hasNext()) {
+            Forsikring løper = iter.next();
+            if(løper.getAktivForsikring()) {
+                ny.add(løper);
+            }
+        }
+        return ny;
+    }
+    
     /**
      * @return returnerer alle forsikringene i listen sin toString(). 
      */
