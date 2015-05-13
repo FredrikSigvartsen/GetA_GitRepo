@@ -54,6 +54,14 @@ public abstract class Forsikring implements Serializable{
     }
     
     /**
+     * 
+     * @return betingelsene for forsikringen
+     */
+    public String getBetingelser() {
+        return betingelser;
+    }
+    
+    /**
      * @return returnerer forsikringspremien. 
      */
     public double getForsikringsPremie() {

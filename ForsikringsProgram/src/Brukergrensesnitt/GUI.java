@@ -344,6 +344,7 @@ public class GUI extends Application{
         melding.setTitle(tittel);
         melding.setHeaderText(null);
         melding.setContentText(innhold);
+        melding.initOwner(stage);
         melding.showAndWait();
     }// end of method visInputFeilMelding(String tittel, String innhold)
     
@@ -378,6 +379,7 @@ public class GUI extends Application{
         
         varsel.getDialogPane().setExpandableContent(expInnhold);
         
+        varsel.initOwner(stage);        
         varsel.showAndWait();
     }// end of method visFeilMelding()
     
