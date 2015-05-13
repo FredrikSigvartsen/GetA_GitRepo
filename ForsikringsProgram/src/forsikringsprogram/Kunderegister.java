@@ -519,11 +519,7 @@ public class Kunderegister implements Serializable {
     public int antallForsikringerPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
+        
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -535,12 +531,8 @@ public class Kunderegister implements Serializable {
                 while(fIter.hasNext()) {
                     Forsikring forsikring = fIter.next();
                     Calendar fDato = forsikring.getOpprettelsesDato();
-                    fDato.clear(Calendar.HOUR);
-                    fDato.clear(Calendar.HOUR_OF_DAY);
-                    fDato.clear(Calendar.MINUTE);
-                    fDato.clear(Calendar.SECOND);
-                    fDato.clear(Calendar.MILLISECOND);
-                    if(calendarDato.compareTo(fDato) == 0) {
+                    if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+                       && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                             sum++;
                     }//end of inner if
                 }//end of inner while
@@ -558,11 +550,7 @@ public class Kunderegister implements Serializable {
     public int antallForsikringerPaaDatoMedType(Date dato, String forsikringstype) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
+        
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -574,12 +562,8 @@ public class Kunderegister implements Serializable {
                 while(fIter.hasNext()) {
                     Forsikring forsikring = fIter.next();
                     Calendar fDato = forsikring.getOpprettelsesDato();
-                    fDato.clear(Calendar.HOUR);
-                    fDato.clear(Calendar.HOUR_OF_DAY);
-                    fDato.clear(Calendar.MINUTE);
-                    fDato.clear(Calendar.SECOND);
-                    fDato.clear(Calendar.MILLISECOND);
-                    if(calendarDato.compareTo(fDato) == 0) {
+                    if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+                       && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                             sum++;
                     }//end of inner if  
                 }//end of inner while
@@ -596,11 +580,7 @@ public class Kunderegister implements Serializable {
     public int antallSkademeldingerPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
+        
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -612,12 +592,8 @@ public class Kunderegister implements Serializable {
                 while(sIter.hasNext()) {
                     Skademelding skademelding = sIter.next();
                     Calendar fDato = skademelding.getOpprettelsesDato();
-                    fDato.clear(Calendar.HOUR);
-                    fDato.clear(Calendar.HOUR_OF_DAY);
-                    fDato.clear(Calendar.MINUTE);
-                    fDato.clear(Calendar.SECOND);
-                    fDato.clear(Calendar.MILLISECOND);
-                    if(calendarDato.compareTo(fDato) == 0) {
+                    if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+                       && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                             sum++;
                     }//end of inner if  
                 }//end of inner while
@@ -635,11 +611,7 @@ public class Kunderegister implements Serializable {
     public int antallSkademeldingerPaaDatoMedType(Date dato, String skadeType) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
+        
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -651,12 +623,8 @@ public class Kunderegister implements Serializable {
                 while(sIter.hasNext()) {
                     Skademelding skademelding = sIter.next();
                     Calendar fDato = skademelding.getOpprettelsesDato();
-                    fDato.clear(Calendar.HOUR);
-                    fDato.clear(Calendar.HOUR_OF_DAY);
-                    fDato.clear(Calendar.MINUTE);
-                    fDato.clear(Calendar.SECOND);
-                    fDato.clear(Calendar.MILLISECOND);
-                    if(calendarDato.compareTo(fDato) == 0) {
+                    if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+                       && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                             sum++;
                     }//end of inner if
                 }//end of inner while
@@ -673,24 +641,15 @@ public class Kunderegister implements Serializable {
     public int antallKunderPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
+        
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
         while(kIter.hasNext()) {
             ForsikringsKunde kunde = kIter.next();
-            
             Calendar fDato = kunde.getStartDato();
-            fDato.clear(Calendar.HOUR);
-            fDato.clear(Calendar.HOUR_OF_DAY);
-            fDato.clear(Calendar.MINUTE);
-            fDato.clear(Calendar.SECOND);
-            fDato.clear(Calendar.MILLISECOND);
-            if(calendarDato.compareTo(fDato) == 0) {
+            if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+               && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                     sum++;
             }//end of if
         }//end of while
@@ -705,11 +664,7 @@ public class Kunderegister implements Serializable {
     public int utgifterPaaDato(Date dato) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
+        
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -721,12 +676,8 @@ public class Kunderegister implements Serializable {
                 while(sIter.hasNext()) {
                     Skademelding skademelding = sIter.next();
                     Calendar fDato = skademelding.getOpprettelsesDato();
-                    fDato.clear(Calendar.HOUR);
-                    fDato.clear(Calendar.HOUR_OF_DAY);
-                    fDato.clear(Calendar.MINUTE);
-                    fDato.clear(Calendar.SECOND);
-                    fDato.clear(Calendar.MILLISECOND);
-                    if(calendarDato.compareTo(fDato) == 0) {
+                    if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+                       && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                             sum += (int) skademelding.getErstatningsbelop();
                     }//end of inner if
                 }//end of inner while
@@ -744,11 +695,6 @@ public class Kunderegister implements Serializable {
     public int utgifterPaaDatoMedType(Date dato, String skadeType) {
         Calendar calendarDato = Calendar.getInstance();
         calendarDato.setTime(dato);
-        calendarDato.clear(Calendar.HOUR);
-        calendarDato.clear(Calendar.HOUR_OF_DAY);
-        calendarDato.clear(Calendar.MINUTE);
-        calendarDato.clear(Calendar.SECOND);
-        calendarDato.clear(Calendar.MILLISECOND);
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -760,12 +706,8 @@ public class Kunderegister implements Serializable {
                 while(sIter.hasNext()) {
                     Skademelding skademelding = sIter.next();
                     Calendar fDato = skademelding.getOpprettelsesDato();
-                    fDato.clear(Calendar.HOUR);
-                    fDato.clear(Calendar.HOUR_OF_DAY);
-                    fDato.clear(Calendar.MINUTE);
-                    fDato.clear(Calendar.SECOND);
-                    fDato.clear(Calendar.MILLISECOND);
-                    if(calendarDato.compareTo(fDato) == 0) {
+                    if(calendarDato.get(Calendar.YEAR) == fDato.get(Calendar.YEAR)
+                       && calendarDato.get(Calendar.DAY_OF_YEAR) == fDato.get(Calendar.DAY_OF_YEAR)) {
                             sum += (int) skademelding.getErstatningsbelop();
                     }//end of inner if  
                 }//end of inner while
