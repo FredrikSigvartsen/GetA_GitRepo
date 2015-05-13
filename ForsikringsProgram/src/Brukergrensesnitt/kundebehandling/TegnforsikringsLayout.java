@@ -48,80 +48,9 @@ public class TegnforsikringsLayout extends GridPane{
         this.kundeRegister = register;
     }//end of constructor
     
-    /**
-     * Oppretter de felles input feltene i skjema for tegning av forsikring
-     * og kaller på metodene som oppretter de inputfeltene som er unike for 
-     * hver enkelt forsikring
-     */
-    private void opprettTegnForsikringsSkjema(){
-        fjernUnikeFelter();
-        
-        
-        tegnForsikring = new Button("Tegn forsikring");
-        
-        
-        fodselsnr = TextFieldBuilder.create()
-                   .minWidth(GUI.TEKSTFELT_BREDDE)
-                   .maxWidth(GUI.TEKSTFELT_BREDDE)
-                   .build();
-        fodselsnrFeil = new Label("*");
-        
-        forsikringsType = new ComboBox();
-        ObservableList<String> forsikringer = FXCollections.observableArrayList(
-                                              "Bilforsikring", "Båtforsikring",
-                                              "Boligforsikring", "Reiseforsikring");
-        forsikringsType.setItems(forsikringer);
-        
-        forsikringsbelop = TextFieldBuilder.create()
-                   .minWidth(GUI.TEKSTFELT_BREDDE)
-                   .maxWidth(GUI.TEKSTFELT_BREDDE)
-                   .build();
-        forsikringsbelopFeil = new Label("*");
-        
-        setVgap(10);
-        setHgap(10);
-        
-        Label tegnForsikringLabel = new Label("Tegning av forsikring");
-        tegnForsikringLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
-        
-        //legger til kolonne 1
-        add(tegnForsikringLabel, 1, 1, 2, 1);
-        add(new Label("Fødselsnummer:"), 1, 2);
-        add(new Label("Forsikrings type:"), 1, 3);
-        add(new Label("Forsikringsbeløp:"), 1, 4);
-        setHalignment(tegnForsikring, HPos.CENTER);
-        add(tegnForsikring, 1, 5, 2, 1);
-        
-        //legger til kolonne 2
-        add(fodselsnr, 2, 2);
-        add(forsikringsType, 2, 3);
-        add(forsikringsbelop, 2, 4);
-        
-        //legger til kolonne 3
-        add(fodselsnrFeil, 3, 2, 3, 1);
-        add(forsikringsbelopFeil, 3, 4, 4, 1);
-    }//end of method opprettTegnForsikringsSkjema()
     
-    /**
-     * fjerner alle labeler og tekstfelt for de felter som er unike for de forskjeldinge forsikringstypene
-     */
-    private void fjernUnikeFelter(){
-        getChildren().removeAll(betingelserLabel, registreringsnrLabel, merkeLabel,
-            modellLabel, registreringsarLabel, kjorelengdeLabel,prisPerKmLabel, 
-            batRegistreringsnrLabel, batMerkeLabel, batModellLabel, arsmodellLabel,
-            motorTypeLabel, motorStyrkeLabel, gateAdresseLabel, postnrLabel, 
-            byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel, 
-            antallKVMLabel, omradeLabel, registreringsnr, merke, modell,
-            registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
-            batModell, arsmodell, motorStyrke, gateAdresse, postnr, byggear,
-            byggemateriale, antallKVM, omrade, registreringsnrFeil, merkeFeil, 
-            modellFeil, registreringsarFeil, kjorelengdeFeil, prisPerKmFeil, 
-            batRegistreringsnrFeil, batMerkeFeil, batModellFeil, arsmodellFeil,
-            motorStyrkeFeil, gateAdresseFeil, postnrFeil, byggearFeil, 
-            byggematerialeFeil, antallKVMFeil, omradeFeil, motorType, boligType,
-            boligStandard, betingelserBil, betingelserBat, betingelserBolig, 
-            betingelserReise);
-    }//end of method fjernUnikeFelter()
+    
+    //Håndtering av bil felter
     
     /**
      * Oppretter de feltene som er unike for bilforsikring
@@ -210,6 +139,121 @@ public class TegnforsikringsLayout extends GridPane{
     }//End of method opprettBilforsikringFelter()
     
     /**
+     * 
+     * @return hvorvidt  bil tekstfeltene er tomme
+     */
+    private boolean sjekkTommeBilFelter(){
+        if( betingelserBil.getValue() == null){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+            return false;
+        }
+
+        else if( registreringsnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
+            return false;
+        }
+        else if( merke.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
+            return false;
+        }
+        else if( modell.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
+            return false;
+        }
+        else if( registreringsar.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
+            return false;
+        }
+        else if( kjorelengde.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
+            return false;
+        }
+        else if( prisPerKm.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
+            return false;
+        }
+        else if(!tekstFeltLyttere() || !bilTekstFeltLyttere()){
+            GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
+            return false;
+        }
+        return true;
+    }//end of method sjekkTommeBilFelter()
+    
+    /**
+     * Sjekker bilinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean bilTekstFeltLyttere(){
+        registreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (AB12345)", GUI.REGISTRERINGSNR_REGEX);
+        });
+
+        merke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(merkeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        modell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn bokstaver eller tall", GUI.MODELL_REGEX);
+        });
+
+        registreringsar.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(registreringsarFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
+        });
+
+        kjorelengde.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(kjorelengdeFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
+        });
+
+        prisPerKm.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(prisPerKmFeil, nyverdi, "Skriv inn kun tall", GUI.AVTALENR_REGEX);
+        });
+        return registreringsnrFeil.getText().isEmpty() && merkeFeil.getText().isEmpty() && modellFeil.getText().isEmpty() && 
+               registreringsarFeil.getText().isEmpty() && kjorelengdeFeil.getText().isEmpty() && prisPerKmFeil.getText().isEmpty();
+    }//end of method bilTekstFeltLyttere()
+    
+    /**
+     * Registrerer en bilforsikring når metoden kalles
+     */
+    private void registrerBilforsikring(){
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserBil.getValue();
+        String registreringsnrInput = registreringsnr.getText().trim();
+        String merkeInput = merke.getText().trim();
+        String modellInput = modell.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        int registreringsarInput = Integer.parseInt(registreringsar.getText().trim());
+        int kjorelengdeInput = Integer.parseInt(kjorelengde.getText().trim());
+        int prisPerKmInput = Integer.parseInt(prisPerKm.getText().trim());
+        Bilforsikring bilforsikring = new Bilforsikring(betingelserInput, forsikringsbelopInput,
+                                               registreringsnrInput, merkeInput, modellInput, registreringsarInput, kjorelengdeInput, prisPerKmInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(bilforsikring, fodselsnrInput));
+    }//end of method registrerBilforsikring()
+    
+    /**
+     * Tømmer bilfeltene for tekst og setter RegEx Labelene til *
+     */
+    private void setTommeBilFelter(){
+        betingelserBil.setValue(null);
+        registreringsnr.clear();
+        merke.clear();
+        modell.clear();
+        registreringsar.clear();
+        kjorelengde.clear();
+        prisPerKm.clear();
+        
+        registreringsnrFeil.setText("*");
+        merkeFeil.setText("*");
+        modellFeil.setText("*");
+        registreringsarFeil.setText("*");
+        kjorelengdeFeil.setText("*");
+        prisPerKmFeil.setText("*");
+    }//end of method setTommeBilFelter()
+    
+    
+    
+    //Håndtering av båt felter
+    
+    /**
      * Oppretter de feltene som er unike for båtforsikring
      */
     private void opprettBatforsikringsFelter(){
@@ -292,6 +336,115 @@ public class TegnforsikringsLayout extends GridPane{
         
         batTekstFeltLyttere();
     }//End of method opprettBatforsikringFelter()
+    
+    /**
+     * 
+     * @return hvorvidt  båt tekstfeltene er tomme
+     */
+    private boolean sjekkTommeBatFelter(){
+        if( betingelserBat.getValue() == null){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+            return false;
+        }
+        else if( batRegistreringsnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
+            return false;
+        }
+        else if( batMerke.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
+            return false;
+        }
+        else if( batModell.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
+            return false;
+        }
+        else if( arsmodell.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn årsmodell");
+            return false;
+        }
+        else if( motorType.getValue() == null){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motortype");
+            return false;
+        }
+        else if( motorStyrke.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
+            return false;
+        }
+        else if(!tekstFeltLyttere() || !batTekstFeltLyttere()){
+            GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
+            return false;
+        }
+        return true;
+    }//end of method sjekkTommeBatFelter()
+    
+    /**
+     * Sjekker båtinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean batTekstFeltLyttere(){
+        batRegistreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(batRegistreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (ABC123)", GUI.BATREGISTRERINGSNR_REGEX);
+        });
+
+        batMerke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(batMerkeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        batModell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(batModellFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.MODELL_REGEX);
+        });
+
+        arsmodell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(arsmodellFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
+        });
+
+        motorStyrke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(motorStyrkeFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
+        });
+        return batRegistreringsnrFeil.getText().isEmpty() && batMerkeFeil.getText().isEmpty() && batModellFeil.getText().isEmpty() && 
+               arsmodellFeil.getText().isEmpty() && motorStyrkeFeil.getText().isEmpty();
+    }//end of method batTekstFeltLyttere()
+    
+    /**
+     * Registrerer en båtforsikring når metoden kalles
+     */
+    private void registrerBatforsikring(){
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserBat.getValue();
+        String batRegistreringsnrInput = batRegistreringsnr.getText().trim();
+        String batMerkeInput = batMerke.getText().trim();
+        String batModellInput = batModell.getText().trim();
+        String motorTypeInput = (String) motorType.getValue();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        int arsmodellInput = Integer.parseInt(arsmodell.getText().trim());
+        int motorStyrkeInput = Integer.parseInt(motorStyrke.getText().trim());
+        Baatforsikring batforsikring = new Baatforsikring(betingelserInput, forsikringsbelopInput,
+                                        batRegistreringsnrInput, arsmodellInput, motorStyrkeInput, batMerkeInput, batModellInput, motorTypeInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(batforsikring, fodselsnrInput));
+    }//end of method registrerBatforsikring()
+    
+    /**
+     * Tømmer båtfeltene for tekst og setter RegEx Labelene til *
+     */
+    private void setTommeBatFelter(){
+        betingelserBat.setValue(null);
+        batRegistreringsnr.clear();
+        batMerke.clear();
+        batModell.clear();
+        arsmodell.clear();
+        motorType.setValue(null);
+        motorStyrke.clear();
+        
+        batRegistreringsnrFeil.setText("*");
+        batMerkeFeil.setText("*");
+        batModellFeil.setText("*");
+        arsmodellFeil.setText("*");
+        motorStyrkeFeil.setText("*");
+    }//end of method setTommeBatFelter()
+    
+    
+    
+    //Håndtering av bolig felter
     
     /**
      * Oppretter de feltene som er unike for boligforsikring
@@ -387,6 +540,120 @@ public class TegnforsikringsLayout extends GridPane{
     }//End of method opprettVoligforsikringFelter()
     
     /**
+     * 
+     * @return hvorvidt  bolig tekstfeltene er tomme
+     */
+    private boolean sjekkTommeBoligFelter(){if( betingelserBolig.getValue() == null){
+        GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+            return false;
+        }
+        else if( gateAdresse.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
+            return false;
+        }
+        else if( boligType.getValue() == null){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
+            return false;
+        }
+        else if( byggemateriale.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
+            return false;
+        }
+        else if( boligStandard.getValue() == null){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
+            return false;
+        }
+        else if( postnr.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
+            return false;
+        }
+        else if( byggear.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn byggeår");
+            return false;
+        }
+        else if( antallKVM.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
+            return false;
+        }
+        else if(!tekstFeltLyttere() || !boligTekstFeltLyttere()){
+            GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
+            return false;
+        }
+        return true;
+    }//end of method sjekkTommeBoligFelter()
+    
+    /**
+     * Sjekker boliginput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean boligTekstFeltLyttere(){
+        gateAdresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(gateAdresseFeil, nyverdi, "Skriv inn kun bokstaver og tall", GUI.ADRESSE_REGEX);
+        });
+
+        byggemateriale.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(byggematerialeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+
+        postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(postnrFeil, nyverdi, "Skriv inn fire tall", GUI.POSTNR_REGEX);
+        });
+
+        byggear.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(byggearFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
+        });
+
+        antallKVM.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
+        });
+        return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
+               byggearFeil.getText().isEmpty() && antallKVMFeil.getText().isEmpty();
+    }//end of method boligTekstFeltLyttere()
+    
+    /**
+     * Registrerer en boligforsikring når metoden kalles
+     */
+    private void registrerBoligforsikring(){
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserBolig.getValue();
+        String gateAdresseInput = gateAdresse.getText().trim();
+        String boligTypeInput = (String) boligType.getValue();
+        String byggematerialeInput = byggemateriale.getText().trim();
+        String standardInput = (String) boligStandard.getValue();
+        String postnrInput = postnr.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        int byggearInput = Integer.parseInt(byggear.getText().trim());
+        int antallKVMInput = Integer.parseInt(antallKVM.getText().trim());
+        Boligforsikring boligforsikring = new Boligforsikring(betingelserInput, forsikringsbelopInput,
+                gateAdresseInput, boligTypeInput, byggematerialeInput, standardInput, postnrInput, byggearInput, antallKVMInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(boligforsikring, fodselsnrInput));
+    }//end of method registrerBoligforsikring()
+    
+    /**
+     * Tømmer boligfeltene for tekst og setter RegEx Labelene til *
+     */
+    private void setTommeBoligFelter(){
+        betingelserBolig.setValue(null);
+        gateAdresse.clear();
+        postnr.clear();
+        byggear.clear();
+        boligType.setValue(null);
+        byggemateriale.clear();
+        boligStandard.setValue(null);
+        antallKVM.clear();
+        
+        gateAdresseFeil.setText("*");
+        postnrFeil.setText("*");
+        byggearFeil.setText("*");
+        byggematerialeFeil.setText("*");
+        antallKVMFeil.setText("*");
+    }//end of method setTommeBoligFelter()
+    
+    
+    
+    //Håndtering av reise felter
+    
+    /**
      * Oppretter de feltene som er unike for reiseforsikring
      */
     private void opprettReiseforsikringsFelter(){
@@ -422,6 +689,117 @@ public class TegnforsikringsLayout extends GridPane{
     }//End of method opprettReiseforsikringFeilter
     
     /**
+     * 
+     * @return hvorvidt reise tekstfeltene er tomme
+     */
+    private boolean sjekkTommeReiseFelter(){
+        if( betingelserReise.getValue() == null){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
+            return false;
+        }
+        else if( omrade.getText().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
+            return false;
+        }
+        else if(!tekstFeltLyttere() || !reiseTekstFeltLyttere()){
+            GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
+            return false;
+        }
+        return true;
+    }//end of method sjekkTommeReiselFelter()
+    
+    /**
+     * Sjekker resieinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean reiseTekstFeltLyttere(){
+        omrade.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(omradeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+        return omradeFeil.getText().isEmpty();
+    }//end of method reiseTekstFeltLyttere()
+    
+    /**
+     * Registrerer en reiseforsikring når metoden kalles
+     */
+    private void registrerReiseforsikring(){
+        String fodselsnrInput = fodselsnr.getText().trim();
+        String betingelserInput = (String) betingelserReise.getValue();
+        String omradeInput = omrade.getText().trim();
+        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
+        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelserInput, forsikringsbelopInput, omradeInput);
+        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnrInput));
+    }//end of method registrerReiseforsikring
+    
+    /**
+     * Tømmer reisefeltene for tekst og setter RegEx Labelene til *
+     */
+    private void setTommeReiseFelter(){
+        betingelserReise.setValue(null);
+        omrade.clear();
+        
+        omradeFeil.setText("*");
+    }//end of method setTommeReiseFelter()
+    
+    
+    
+    //Håndtering av felles felter
+    
+    /**
+     * Oppretter de felles input feltene i skjema for tegning av forsikring
+     * og kaller på metodene som oppretter de inputfeltene som er unike for 
+     * hver enkelt forsikring
+     */
+    private void opprettTegnForsikringsSkjema(){
+        fjernUnikeFelter();
+        
+        
+        tegnForsikring = new Button("Tegn forsikring");
+        
+        
+        fodselsnr = TextFieldBuilder.create()
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
+                   .build();
+        fodselsnrFeil = new Label("*");
+        
+        forsikringsType = new ComboBox();
+        ObservableList<String> forsikringer = FXCollections.observableArrayList(
+                                              "Bilforsikring", "Båtforsikring",
+                                              "Boligforsikring", "Reiseforsikring");
+        forsikringsType.setItems(forsikringer);
+        
+        forsikringsbelop = TextFieldBuilder.create()
+                   .minWidth(GUI.TEKSTFELT_BREDDE)
+                   .maxWidth(GUI.TEKSTFELT_BREDDE)
+                   .build();
+        forsikringsbelopFeil = new Label("*");
+        
+        setVgap(10);
+        setHgap(10);
+        
+        Label tegnForsikringLabel = new Label("Tegning av forsikring");
+        tegnForsikringLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
+        
+        //legger til kolonne 1
+        add(tegnForsikringLabel, 1, 1, 2, 1);
+        add(new Label("Fødselsnummer:"), 1, 2);
+        add(new Label("Forsikrings type:"), 1, 3);
+        add(new Label("Forsikringsbeløp:"), 1, 4);
+        setHalignment(tegnForsikring, HPos.CENTER);
+        add(tegnForsikring, 1, 5, 2, 1);
+        
+        //legger til kolonne 2
+        add(fodselsnr, 2, 2);
+        add(forsikringsType, 2, 3);
+        add(forsikringsbelop, 2, 4);
+        
+        //legger til kolonne 3
+        add(fodselsnrFeil, 3, 2, 3, 1);
+        add(forsikringsbelopFeil, 3, 4, 4, 1);
+    }//end of method opprettTegnForsikringsSkjema()
+    
+    /**
      * Sjekker om feltene i layoutet er tomme, og gir brukeren en melding om hva som må fylles inn.
      * @return Returnerer true om alle feltene er fylt inn, og false om noe mangler
      */
@@ -438,221 +816,36 @@ public class TegnforsikringsLayout extends GridPane{
         
         switch (forsikringsTypeString){
             case "bilforsikring":
-                if( betingelserBil.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
-                    return false;
-                }
+                return sjekkTommeBilFelter();
                 
-                else if( registreringsnr.getText().trim().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
-                    return false;
-                }
-                else if( merke.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
-                    return false;
-                }
-                else if( modell.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
-                    return false;
-                }
-                else if( registreringsar.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
-                    return false;
-                }
-                else if( kjorelengde.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
-                    return false;
-                }
-                else if( prisPerKm.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn pris per km");
-                    return false;
-                }
-                else if(!tekstFeltLyttere() || !bilTekstFeltLyttere()){
-                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
-                    return false;
-                }
-                return true;//end of case bilforsikring
             case "batforsikring":
-                if( betingelserBat.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
-                    return false;
-                }
-                else if( batRegistreringsnr.getText().trim().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
-                    return false;
-                }
-                else if( batMerke.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
-                    return false;
-                }
-                else if( batModell.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
-                    return false;
-                }
-                else if( arsmodell.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn årsmodell");
-                    return false;
-                }
-                else if( motorType.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motortype");
-                    return false;
-                }
-                else if( motorStyrke.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn motorstyrke");
-                    return false;
-                }
-                else if(!tekstFeltLyttere() || !batTekstFeltLyttere()){
-                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
-                    return false;
-                }
-                return true;//end og case batforsikring
+                return sjekkTommeBatFelter();
+                
             case "boligforsikring":
-                if( betingelserBolig.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
-                    return false;
-                }
-                else if( gateAdresse.getText().trim().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsnr");
-                    return false;
-                }
-                else if( boligType.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn merke");
-                    return false;
-                }
-                else if( byggemateriale.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn modell");
-                    return false;
-                }
-                else if( boligStandard.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn registreringsår");
-                    return false;
-                }
-                else if( postnr.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn kjørelengde");
-                    return false;
-                }
-                else if( byggear.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn byggeår");
-                    return false;
-                }
-                else if( antallKVM.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn antall KVM");
-                    return false;
-                }
-                else if(!tekstFeltLyttere() || !boligTekstFeltLyttere()){
-                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
-                    return false;
-                }
-                return true;//end of case boligforsikring
+                return sjekkTommeBoligFelter();
+                
             case "reiseforsikring":
-                if( betingelserReise.getValue() == null){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn betingelser");
-                    return false;
-                }
-                else if( omrade.getText().isEmpty()){
-                    GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn område");
-                    return false;
-                }
-                else if(!tekstFeltLyttere() || !reiseTekstFeltLyttere()){
-                    GUI.visInputFeilMelding("Feil innskrivning", "Venligs fyll feltene på riktig format");
-                    return false;
-                }
-                return true;//end of case reiseforsikring
+                return sjekkTommeReiseFelter();
+                
         }//end of switch
         return false;
     }// end of method sjekkTommeFelter()
     
     /**
-     * Sjekker om kunden er totalkunde, og viser et meldingsvindu når kunden blir totalkunde
+     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
      */
-    private void blirTotalKunde(){
-        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
-        if(kunde == null)
-            return;
-        if(kunde.blirTotalKunde()){
-            GUI.visInputFeilMelding("Total kunde", kunde.getEtternavn() +", " + kunde.getFornavn() + " har nå blitt total kunde!");
-        }
-    }//end of method blirTotalKunde()
-    
-    /**
-     * Tømmer de gjennomgående feltene for tekst og setter RegEx Labelene til *
-     */
-    private void setTommeFelter(){
-        fodselsnr.clear();
-        forsikringsbelop.clear();
+    private boolean tekstFeltLyttere(){
+        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fødselsnummer (11 siffer)", null);
+        });
         
-        fodselsnrFeil.setText("*");
-        forsikringsbelopFeil.setText("*");
-    }//end of method setTommeFelter()
-    
-    /**
-     * Tømmer bilfeltene for tekst og setter RegEx Labelene til *
-     */
-    private void setTommeBilFelter(){
-        betingelserBil.setValue(null);
-        registreringsnr.clear();
-        merke.clear();
-        modell.clear();
-        registreringsar.clear();
-        kjorelengde.clear();
-        prisPerKm.clear();
+        forsikringsbelop.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall (2-7 siffer)", GUI.FORSIKRINGSBELOP_REGEX);
+        });
         
-        registreringsnrFeil.setText("*");
-        merkeFeil.setText("*");
-        modellFeil.setText("*");
-        registreringsarFeil.setText("*");
-        kjorelengdeFeil.setText("*");
-        prisPerKmFeil.setText("*");
-    }//end of method setTommeBilFelter()
-    
-    /**
-     * Tømmer båtfeltene for tekst og setter RegEx Labelene til *
-     */
-    private void setTommeBatFelter(){
-        betingelserBat.setValue(null);
-        batRegistreringsnr.clear();
-        batMerke.clear();
-        batModell.clear();
-        arsmodell.clear();
-        motorType.setValue(null);
-        motorStyrke.clear();
-        
-        batRegistreringsnrFeil.setText("*");
-        batMerkeFeil.setText("*");
-        batModellFeil.setText("*");
-        arsmodellFeil.setText("*");
-        motorStyrkeFeil.setText("*");
-    }//end of method setTommeBatFelter()
-    
-    /**
-     * Tømmer boligfeltene for tekst og setter RegEx Labelene til *
-     */
-    private void setTommeBoligFelter(){
-        betingelserBolig.setValue(null);
-        gateAdresse.clear();
-        postnr.clear();
-        byggear.clear();
-        boligType.setValue(null);
-        byggemateriale.clear();
-        boligStandard.setValue(null);
-        antallKVM.clear();
-        
-        gateAdresseFeil.setText("*");
-        postnrFeil.setText("*");
-        byggearFeil.setText("*");
-        byggematerialeFeil.setText("*");
-        antallKVMFeil.setText("*");
-    }//end of method setTommeBoligFelter()
-    
-    /**
-     * Tømmer reisefeltene for tekst og setter RegEx Labelene til *
-     */
-    private void setTommeReiseFelter(){
-        betingelserReise.setValue(null);
-        omrade.clear();
-        
-        omradeFeil.setText("*");
-    }//end of method setTommeReiseFelter()
+        return fodselsnrFeil.getText().isEmpty() && forsikringsbelopFeil.getText().isEmpty();
+    }//end of method tekstFeltLyttere()
     
     /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
@@ -695,6 +888,50 @@ public class TegnforsikringsLayout extends GridPane{
     }//end of method registrerForsikring()
     
     /**
+     * Tømmer de gjennomgående feltene for tekst og setter RegEx Labelene til *
+     */
+    private void setTommeFelter(){
+        fodselsnr.clear();
+        forsikringsbelop.clear();
+        
+        fodselsnrFeil.setText("*");
+        forsikringsbelopFeil.setText("*");
+    }//end of method setTommeFelter()
+    
+    /**
+     * Sjekker om kunden er totalkunde, og viser et meldingsvindu når kunden blir totalkunde
+     */
+    private void blirTotalKunde(){
+        ForsikringsKunde kunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
+        if(kunde == null)
+            return;
+        if(kunde.blirTotalKunde()){
+            GUI.visInputFeilMelding("Total kunde", kunde.getEtternavn() +", " + kunde.getFornavn() + " har nå blitt total kunde!");
+        }
+    }//end of method blirTotalKunde()
+    
+    /**
+     * fjerner alle labeler og tekstfelt for de felter som er unike for de forskjeldinge forsikringstypene
+     */
+    private void fjernUnikeFelter(){
+        getChildren().removeAll(betingelserLabel, registreringsnrLabel, merkeLabel,
+            modellLabel, registreringsarLabel, kjorelengdeLabel,prisPerKmLabel, 
+            batRegistreringsnrLabel, batMerkeLabel, batModellLabel, arsmodellLabel,
+            motorTypeLabel, motorStyrkeLabel, gateAdresseLabel, postnrLabel, 
+            byggearLabel, boligTypeLabel, byggematerialeLabel, boligStandardLabel, 
+            antallKVMLabel, omradeLabel, registreringsnr, merke, modell,
+            registreringsar, kjorelengde, prisPerKm, batRegistreringsnr, batMerke, 
+            batModell, arsmodell, motorStyrke, gateAdresse, postnr, byggear,
+            byggemateriale, antallKVM, omrade, registreringsnrFeil, merkeFeil, 
+            modellFeil, registreringsarFeil, kjorelengdeFeil, prisPerKmFeil, 
+            batRegistreringsnrFeil, batMerkeFeil, batModellFeil, arsmodellFeil,
+            motorStyrkeFeil, gateAdresseFeil, postnrFeil, byggearFeil, 
+            byggematerialeFeil, antallKVMFeil, omradeFeil, motorType, boligType,
+            boligStandard, betingelserBil, betingelserBat, betingelserBolig, 
+            betingelserReise);
+    }//end of method fjernUnikeFelter()
+    
+    /**
      * Legger til en lytter til forsikringsType comboboxen, og legger til de
      * korrekte inputfeltene for den forsikringstypen
      */
@@ -727,189 +964,6 @@ public class TegnforsikringsLayout extends GridPane{
         });//end of inner anonymous class
     }//end of method comboLytter()
     
-    /**
-     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean tekstFeltLyttere(){
-        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fødselsnummer (11 siffer)", null);
-        });
-        
-        forsikringsbelop.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(forsikringsbelopFeil, nyverdi, "Skriv inn kun tall (2-7 siffer)", GUI.FORSIKRINGSBELOP_REGEX);
-        });
-        
-        return fodselsnrFeil.getText().isEmpty() && forsikringsbelopFeil.getText().isEmpty();
-    }//end of method tekstFeltLyttere()
-    
-    
-    /**
-     * Sjekker bilinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean bilTekstFeltLyttere(){
-        registreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(registreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (AB12345)", GUI.REGISTRERINGSNR_REGEX);
-        });
-
-        merke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(merkeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-
-        modell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(modellFeil, nyverdi, "Skriv inn bokstaver eller tall", GUI.MODELL_REGEX);
-        });
-
-        registreringsar.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(registreringsarFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
-        });
-
-        kjorelengde.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(kjorelengdeFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
-        });
-
-        prisPerKm.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(prisPerKmFeil, nyverdi, "Skriv inn kun tall", GUI.AVTALENR_REGEX);
-        });
-        return registreringsnrFeil.getText().isEmpty() && merkeFeil.getText().isEmpty() && modellFeil.getText().isEmpty() && 
-               registreringsarFeil.getText().isEmpty() && kjorelengdeFeil.getText().isEmpty() && prisPerKmFeil.getText().isEmpty();
-    }//end of method bilTekstFeltLyttere()
-    
-    /**
-     * Sjekker båtinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean batTekstFeltLyttere(){
-        batRegistreringsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(batRegistreringsnrFeil, nyverdi, "Skriv inn et gyldig registreringsnr (ABC123)", GUI.BATREGISTRERINGSNR_REGEX);
-        });
-
-        batMerke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(batMerkeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-
-        batModell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(batModellFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.MODELL_REGEX);
-        });
-
-        arsmodell.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(arsmodellFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
-        });
-
-        motorStyrke.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(motorStyrkeFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
-        });
-        return batRegistreringsnrFeil.getText().isEmpty() && batMerkeFeil.getText().isEmpty() && batModellFeil.getText().isEmpty() && 
-               arsmodellFeil.getText().isEmpty() && motorStyrkeFeil.getText().isEmpty();
-    }//end of method batTekstFeltLyttere()
-    
-    /**
-     * Sjekker boliginput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean boligTekstFeltLyttere(){
-        gateAdresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(gateAdresseFeil, nyverdi, "Skriv inn kun bokstaver og tall", GUI.ADRESSE_REGEX);
-        });
-
-        byggemateriale.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(byggematerialeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-
-        postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(postnrFeil, nyverdi, "Skriv inn fire tall", GUI.POSTNR_REGEX);
-        });
-
-        byggear.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(byggearFeil, nyverdi, "Skriv inn et gyldig årstall med 4 tall", GUI.POSTNR_REGEX);
-        });
-
-        antallKVM.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(antallKVMFeil, nyverdi, "Skriv inn kun tall", GUI.FORSIKRINGSBELOP_REGEX);
-        });
-        return gateAdresseFeil.getText().isEmpty() && byggematerialeFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() && 
-               byggearFeil.getText().isEmpty() && antallKVMFeil.getText().isEmpty();
-    }//end of method boligTekstFeltLyttere()
-    
-    /**
-     * Sjekker resieinput fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean reiseTekstFeltLyttere(){
-        omrade.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(omradeFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-        return omradeFeil.getText().isEmpty();
-    }//end of method reiseTekstFeltLyttere()
-    
-    /**
-     * Registrerer en bilforsikring når metoden kalles
-     */
-    private void registrerBilforsikring(){
-        String fodselsnrInput = fodselsnr.getText().trim();
-        String betingelserInput = (String) betingelserBil.getValue();
-        String registreringsnrInput = registreringsnr.getText().trim();
-        String merkeInput = merke.getText().trim();
-        String modellInput = modell.getText().trim();
-        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
-        int registreringsarInput = Integer.parseInt(registreringsar.getText().trim());
-        int kjorelengdeInput = Integer.parseInt(kjorelengde.getText().trim());
-        int prisPerKmInput = Integer.parseInt(prisPerKm.getText().trim());
-        Bilforsikring bilforsikring = new Bilforsikring(betingelserInput, forsikringsbelopInput,
-                                               registreringsnrInput, merkeInput, modellInput, registreringsarInput, kjorelengdeInput, prisPerKmInput);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(bilforsikring, fodselsnrInput));
-    }//end of method registrerBilforsikring()
-    
-    /**
-     * Registrerer en båtforsikring når metoden kalles
-     */
-    private void registrerBatforsikring(){
-        String fodselsnrInput = fodselsnr.getText().trim();
-        String betingelserInput = (String) betingelserBat.getValue();
-        String batRegistreringsnrInput = batRegistreringsnr.getText().trim();
-        String batMerkeInput = batMerke.getText().trim();
-        String batModellInput = batModell.getText().trim();
-        String motorTypeInput = (String) motorType.getValue();
-        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
-        int arsmodellInput = Integer.parseInt(arsmodell.getText().trim());
-        int motorStyrkeInput = Integer.parseInt(motorStyrke.getText().trim());
-        Baatforsikring batforsikring = new Baatforsikring(betingelserInput, forsikringsbelopInput,
-                                        batRegistreringsnrInput, arsmodellInput, motorStyrkeInput, batMerkeInput, batModellInput, motorTypeInput);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(batforsikring, fodselsnrInput));
-    }//end of method registrerBatforsikring()
-    
-    /**
-     * Registrerer en boligforsikring når metoden kalles
-     */
-    private void registrerBoligforsikring(){
-        String fodselsnrInput = fodselsnr.getText().trim();
-        String betingelserInput = (String) betingelserBolig.getValue();
-        String gateAdresseInput = gateAdresse.getText().trim();
-        String boligTypeInput = (String) boligType.getValue();
-        String byggematerialeInput = byggemateriale.getText().trim();
-        String standardInput = (String) boligStandard.getValue();
-        String postnrInput = postnr.getText().trim();
-        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
-        int byggearInput = Integer.parseInt(byggear.getText().trim());
-        int antallKVMInput = Integer.parseInt(antallKVM.getText().trim());
-        Boligforsikring boligforsikring = new Boligforsikring(betingelserInput, forsikringsbelopInput,
-                gateAdresseInput, boligTypeInput, byggematerialeInput, standardInput, postnrInput, byggearInput, antallKVMInput);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(boligforsikring, fodselsnrInput));
-    }//end of method registrerBoligforsikring()
-    
-    /**
-     * Registrerer en reiseforsikring når metoden kalles
-     */
-    private void registrerReiseforsikring(){
-        String fodselsnrInput = fodselsnr.getText().trim();
-        String betingelserInput = (String) betingelserReise.getValue();
-        String omradeInput = omrade.getText().trim();
-        double forsikringsbelopInput = Double.parseDouble(forsikringsbelop.getText().trim());
-        Reiseforsikring reiseforsikring = new Reiseforsikring(betingelserInput, forsikringsbelopInput, omradeInput);
-        GUI.visInputFeilMelding("Ny forsikring registrert", kundeRegister.tegnForsikring(reiseforsikring, fodselsnrInput));
-    }//end of method registrerReiseforsikring
-        
     /**
      * Legger til en lytter på tegnForsikring knappen
      */
