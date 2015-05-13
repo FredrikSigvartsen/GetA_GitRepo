@@ -1,8 +1,4 @@
-
-
-
 package Brukergrensesnitt.kundebehandling;
-
 import forsikringsprogram.*;
 import Brukergrensesnitt.*;
 import javafx.beans.value.ChangeListener;
