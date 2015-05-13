@@ -45,6 +45,30 @@ public class Baatforsikring extends Forsikring implements Serializable{
     
     /**
      * 
+     * @return registreringsnummeret til båten
+     */
+    public String getRegistreringsNr() {
+        return registreringsNr;
+    }//end of method getRegistreringsNr()
+    
+    /**
+     * 
+     * @return merke til båten
+     */
+    public String getMerke() {
+        return merke;
+    }//end of method getMerke()
+    
+    /**
+     * 
+     * @return modellen til båten
+     */
+    public String getModell() {
+        return modell;
+    }//end of method getModell()
+    
+    /**
+     * 
      * @return returnerer klassens datafelter som string.
      */
     @Override

@@ -47,6 +47,30 @@ public class Boligforsikring extends Forsikring implements Serializable {
     
     /**
      * 
+     * @return gate adressen til forsikringen
+     */
+    public String getGateAdresse() {
+        return gateAdresse;
+    }//end of method getGateAdresse()
+    
+    /**
+     * 
+     * @return postnummeret til forsikringen
+     */
+    public String getPostNr() {
+        return postNr;
+    }//end of method getPostNr()
+    
+    /**
+     * 
+     * @return antall KVM for forsikringen
+     */
+    public int getAntallKvm() {
+        return antallKvm;
+    }//end of method getAntallKvm()
+    
+    /**
+     * 
      * @return returnerer klassens datafelter som string.
      */
     @Override

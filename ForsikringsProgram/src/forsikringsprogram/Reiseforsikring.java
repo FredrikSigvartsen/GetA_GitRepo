@@ -27,6 +27,14 @@ public class Reiseforsikring extends Forsikring implements Serializable {
     
     /**
      * 
+     * @return Omradet forsikringen gjelder for
+     */
+    public String getOmraade() {
+        return omraade;
+    }//end of method getOmraade()
+    
+    /**
+     * 
      * @return Alle datafelter som string.
      */
     @Override
