@@ -64,8 +64,6 @@ public class RegistrerSkadeLayout extends GridPane {
         add( lastOppBildeLayout, 2, 1);
         setAlignment(Pos.TOP_CENTER);
         setPadding( new Insets(50, 0, 0, 0));
-        setVgap(10);
-        setHgap(20);
     }// end of method opprettLayout()
     
     /**

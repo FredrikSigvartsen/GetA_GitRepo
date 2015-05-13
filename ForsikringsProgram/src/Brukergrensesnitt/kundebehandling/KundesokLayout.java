@@ -16,7 +16,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import static javafx.geometry.Pos.CENTER;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -188,45 +187,33 @@ public class KundesokLayout extends GridPane{
         //Overskrifter
         Label skadeLabel = new Label("Søk på skademeldinger med");
         skadeLabel.setFont( Font.font(null, FontWeight.BOLD, 20) );
-        //skadeLabel.setUnderline(true);
         Label kundeLabel = new Label("Søk på kunder med");
         kundeLabel.setFont( Font.font(null, FontWeight.BOLD, 20) );
-        //kundeLabel.setUnderline(true);
         Label forsikringsLabel = new Label("Søk på forsikringer med");
         forsikringsLabel.setFont( Font.font(null, FontWeight.BOLD, 20) );
-        //forsikringsLabel.setUnderline(true);
         
         VBox vbox = new VBox();
         vbox.getChildren().addAll(kundeLabel, new Separator());
         returLayout.addRow(1, vbox);
         returLayout.setMargin(vbox, new Insets(20,0,0,0));
-        //returLayout.addRow(1,  kundeLabel );
-        //returLayout.setMargin( kundeLabel, new Insets(4, 0, 0, 0));
-        //returLayout.addRow(2, new Separator());
         returLayout.addRow(2,  sokFodselsNrLayout );
         returLayout.addRow(3,  sokNavnLayout );
         returLayout.addRow(4,  sokForsikringstypeLayout );
+        
         VBox vbox1 = new VBox();
         vbox1.getChildren().addAll(skadeLabel, new Separator());
         returLayout.addRow(5, vbox1);
         returLayout.setMargin(vbox1, new Insets(20,0,0,0));
-        //returLayout.addRow(5,  skadeLabel );
-        //returLayout.setMargin( skadeLabel, new Insets(4, 0, 0, 0));
-        //returLayout.addRow(6, new Separator());
         returLayout.addRow(6,  sokSkadeNrLayout );
         returLayout.addRow(7,  sokSkadetypeLayout );
+        
         VBox vbox2 = new VBox();
         vbox2.getChildren().addAll(forsikringsLabel, new Separator());
         returLayout.addRow(8, vbox2);
         returLayout.setMargin(vbox2, new Insets(20,0,0,0));
-        //returLayout.addRow(9,  forsikringsLabel );
-        //returLayout.setMargin( forsikringsLabel, new Insets(4, 0, 0, 0));
-        //returLayout.addRow(10, new Separator());
         returLayout.addRow( 9, sokForsikringLayout);
         returLayout.addRow( 10, sokForsikringerLayout);
         
-        //returLayout.setMinHeight(GUI.getSkjermHoyde());
-        //returLayout.setMaxHeight(GUI.getSkjermHoyde());
         returLayout.setPrefHeight(GUI.getSkjermHoyde());
         returLayout.setPadding(new Insets(17,0,0,0));
         returLayout.setVgap(10);
