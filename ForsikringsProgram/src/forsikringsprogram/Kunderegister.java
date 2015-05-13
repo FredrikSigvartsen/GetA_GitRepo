@@ -35,7 +35,7 @@ public class Kunderegister implements Serializable {
             }// end of overriding method compare()
         };// end of inner anonymous class
         kunderegister = new TreeSet<>(comparator); // Sorterer objektene med comparatoren vi sender med. 
-    }// end of oonstructor
+    }// end of constructor
     
     /**
      * Registrerer en ny kunde. 
@@ -81,7 +81,7 @@ public class Kunderegister implements Serializable {
                return gjeldendeKunde;
        }// end of while
        return null;
-    } // finnKunde(String fornavn, String etternavn)
+    } // end of method finnKunde(String fornavn, String etternavn)
     
     /**
      * Finner alle kunder fornavn og etternavn.
@@ -341,6 +341,8 @@ public class Kunderegister implements Serializable {
     }// end of method finnForsikringer( skadetype )
     
     //Slutt på kundebehandlingmetoder
+    
+    
     
     //Inntekt metoder:
     

@@ -1,4 +1,3 @@
-//Elias
 
 package forsikringsprogram;
 
@@ -76,12 +75,12 @@ public class Boligforsikring extends Forsikring implements Serializable {
     @Override
     public String toString() {
         return super.toString() + 
-               "\n Gate adresse: " + gateAdresse +
-               "\n Post nr: " + postNr + 
-               "\n Bolig type: " + boligType +
-               "\n Byggemateriale: " + byggeMateriale +
-               "\n Standard: " + standard +
-               "\n Bygg år: " + byggAar +
-               "\n Kvadratmeter: " + antallKvm;
+               "\nGate adresse: " + gateAdresse +
+               "\nPost nr: " + postNr + 
+               "\nBolig type: " + boligType +
+               "\nByggemateriale: " + byggeMateriale +
+               "\nStandard: " + standard +
+               "\nBygg år: " + byggAar +
+               "\nKvadratmeter: " + antallKvm;
     }//end of method toString();
 }//end of class Boligforsikring

@@ -1,4 +1,3 @@
-//Elias
 
 package forsikringsprogram;
 
@@ -75,12 +74,12 @@ public class Bilforsikring extends Forsikring implements Serializable {
     @Override
     public String toString() {
         return super.toString() + 
-               "\n Registrerings nr: " + registreringsNr + 
-               "\n Merke: " + merke +
-               "\n Modell: " + modell +
-               "\n Registrerings år: " + registreringsAar +
-               "\n Kjørelengde: " + kjoreLengdeKm + " km" +
-               "\n Pris pr. km: " + prisPrKm + 
-               "\n Bonus: " + bonusIprosent + "%";
+               "\nRegistrerings nr: " + registreringsNr + 
+               "\nMerke: " + merke +
+               "\nModell: " + modell +
+               "\nRegistrerings år: " + registreringsAar +
+               "\nKjørelengde: " + kjoreLengdeKm + " km" +
+               "\nPris pr. km: " + prisPrKm + 
+               "\nBonus: " + bonusIprosent + "%";
     }//end of method toString()
 }//end of class Bilforsikring

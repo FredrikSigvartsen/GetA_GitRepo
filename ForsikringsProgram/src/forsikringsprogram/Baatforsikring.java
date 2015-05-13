@@ -1,11 +1,10 @@
-//Elias
 
 package forsikringsprogram;
 
 import java.io.Serializable;
 
 /**
- * Klassen lagrer data som er unike for bilforsikringer.
+ * Klassen lagrer data som er unike for båtforsikringer.
  * Resten av konstruktør-parameterene sendes til superklassen 'Forsikring' sin konstruktør. 
  * @author Elias
  */
@@ -74,11 +73,11 @@ public class Baatforsikring extends Forsikring implements Serializable{
     @Override
     public String toString() {
         return super.toString() + 
-               "\n Registrerings nr: " + registreringsNr + 
-               "\n Årsmodell: " + aarsmodell +
-               "\n Motorstyrke: " + motorstyrke + " HK" +
-               "\n Merke: " + merke + 
-               "\n Modell: " + modell +
-               "\n Motortype: " + motortype;
+               "\nRegistrerings nr: " + registreringsNr + 
+               "\nÅrsmodell: " + aarsmodell +
+               "\nMotorstyrke: " + motorstyrke + " HK" +
+               "\nMerke: " + merke + 
+               "\nModell: " + modell +
+               "\nMotortype: " + motortype;
     }//end of method toString()
 }//end of class Baatforsikring

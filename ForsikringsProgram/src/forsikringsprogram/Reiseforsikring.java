@@ -1,4 +1,3 @@
-//Elias
 
 package forsikringsprogram;
 
@@ -42,4 +41,5 @@ public class Reiseforsikring extends Forsikring implements Serializable {
         return super.toString() + 
                "\n Område: " + omraade;
     }//end of method toString()
+    
 }//end of class Reiseforsikring

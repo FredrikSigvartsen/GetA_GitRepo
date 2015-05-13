@@ -153,15 +153,15 @@ public class ForsikringsKunde implements Serializable{
         String startDatoString = sdf.format(startDato.getTime());
         
         String utskrift = "\n\n--------------------------------------------------------"
-                        + "\n Kunde: " + fornavn + " " + etternavn  
+                        + "\nKunde: " + fornavn + " " + etternavn  
                         + "\n--------------------------------------------------------" 
-                        + "\n Fødselsnummer: " + fodselsNr  
-                        + "\n Faktura adresse: " + fakturaAdresse + ", " + postNr + " " + postSted
-                        + "\n Startdato: " + startDatoString 
-                        + "\n Forsikringspremie: " + forsikringsPremie 
-                        + "\n Totalkunde: " + (totalKunde ? "Ja" : "Nei")  
-                        + "\n Utbetalt erstatning: " + utbetaltErstatning 
-                        + "\n Er kunde hos oss: " + (erForsikringsKunde ? "Ja" : "Nei");
+                        + "\nFødselsnummer: " + fodselsNr  
+                        + "\nFaktura adresse: " + fakturaAdresse + ", " + postNr + " " + postSted
+                        + "\nStartdato: " + startDatoString 
+                        + "\nForsikringspremie: " + forsikringsPremie 
+                        + "\nTotalkunde: " + (totalKunde ? "Ja" : "Nei")  
+                        + "\nUtbetalt erstatning: " + utbetaltErstatning 
+                        + "\nEr kunde hos oss: " + (erForsikringsKunde ? "Ja" : "Nei");
         return utskrift;
     } //end of method toString()
     

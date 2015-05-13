@@ -1,4 +1,3 @@
-//Elias
 
 package forsikringsprogram;
 import java.io.Serializable;
@@ -33,10 +32,10 @@ public class Forsikringsliste implements Serializable {
     
     /**
      * Metoden tar imot en forsikring og opphører den.
-     * @param f forsikringen som skal opphøres.
+     * @param forsikringen forsikringen som skal opphøres.
      */
-    public void opphorForsikring(Forsikring f) {
-        f.opphorForsikring();
+    public void opphorForsikring(Forsikring forsikringen) {
+        forsikringen.opphorForsikring();
     }
     
     /**
