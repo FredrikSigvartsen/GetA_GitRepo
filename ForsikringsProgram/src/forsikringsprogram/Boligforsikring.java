@@ -30,6 +30,18 @@ public class Boligforsikring extends Forsikring implements Serializable {
         this.byggAar = byggAar;
         this.antallKvm = antallKvm;
     }
+
+    public String getGateAdresse() {
+        return gateAdresse;
+    }
+
+    public String getPostNr() {
+        return postNr;
+    }
+
+    public int getAntallKvm() {
+        return antallKvm;
+    }
     
     @Override
     public String toString() {

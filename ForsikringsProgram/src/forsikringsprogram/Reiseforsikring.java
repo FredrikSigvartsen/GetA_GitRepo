@@ -16,6 +16,10 @@ public class Reiseforsikring extends Forsikring implements Serializable {
         super(betingelser, Forsikring.REISEPREMIE, forsikringsBelop);
         this.omraade = omraade;
     }
+
+    public String getOmraade() {
+        return omraade;
+    }
     
     @Override
     public String toString() {

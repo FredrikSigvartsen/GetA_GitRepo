@@ -30,6 +30,18 @@ public class Bilforsikring extends Forsikring implements Serializable {
         this.prisPrKm = prisPrKm;
         this.bonusIprosent = 0;
     }
+
+    public String getRegistreringsNr() {
+        return registreringsNr;
+    }
+
+    public String getMerke() {
+        return merke;
+    }
+
+    public String getModell() {
+        return modell;
+    }
     
     @Override
     public String toString() {

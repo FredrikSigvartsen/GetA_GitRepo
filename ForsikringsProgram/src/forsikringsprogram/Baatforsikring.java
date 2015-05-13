@@ -29,6 +29,18 @@ public class Baatforsikring extends Forsikring implements Serializable{
         this.modell = modell;
         this.motortype = motortype;
     }
+
+    public String getRegistreringsNr() {
+        return registreringsNr;
+    }
+
+    public String getMerke() {
+        return merke;
+    }
+
+    public String getModell() {
+        return modell;
+    }
     
     @Override
     public String toString() {
