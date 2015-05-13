@@ -124,7 +124,6 @@ public class SioppforsikringsLayout extends GridPane{
         }//end of while
         
         if(i == 0){
-            GUI.visInputFeilMelding("Ingen forsikringer", "Kunden har ingen aktive forsikringer");
             return;
         }
         
