@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import static javafx.scene.layout.BorderStroke.THIN;
 import static javafx.scene.layout.BorderStrokeStyle.SOLID;
 import static javafx.scene.paint.Color.DARKGRAY;
+import javafx.scene.text.Font;
 import static javafx.scene.text.Font.font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -88,33 +89,31 @@ public class RegistrerSkadeLayout extends GridPane {
     private GridPane bildeOpplastning(){
         GridPane returLayout = new GridPane();
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
-        lastOppSubskrift.setFont( font(14));
+        lastOppSubskrift.setFont( Font.font(14));
         filLastetOpp = new Label();
         VBox lastOppOverskrift = KundePane.overskrift("Last opp bilde av skaden", 20);
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
-        lastOppFilKnapp.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                    FileChooser filvelger = new FileChooser();
-                    filvelger.getExtensionFilters().add(
-                            new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.gif") );
-                    File valgtFil = filvelger.showOpenDialog(GUI.getStage());
-                    
-                    if( valgtFil == null){
-                        filLastetOpp.setText( "Bilde ikke lastet opp.");
-                    }//end of if
-                    else{
-                        if(bildefiler.add(valgtFil))
-                            filLastetOpp.setText(  valgtFil.getName() + " er lagt til\nBildet vil bli registrert på denne skademeldingen."
-                                                                      + "\nDu har nå lagt til " + ++antallBilder + " bilde(r)");
-                        else
-                            filLastetOpp.setText( "Feil i opplasting.\nBilde vil ikke bli registrert med denne skademeldingen."
-                                    + " prøv på nytt");
-                    }// end of else
-            } // end of overriding method handle()
-        }); // end of inner anonymous class
+        lastOppFilKnapp.setOnAction((ActionEvent e) -> {
+            FileChooser filvelger = new FileChooser();
+            filvelger.getExtensionFilters().add(
+                    new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.gif") );
+            File valgtFil = filvelger.showOpenDialog(GUI.getStage());
+            
+            if( valgtFil == null){
+                filLastetOpp.setText( "Bilde ikke lastet opp.");
+            }//end of if
+            else{
+                if(bildefiler.add(valgtFil))
+                    filLastetOpp.setText(  valgtFil.getName() + " er lagt til\nBildet vil bli registrert på denne skademeldingen."
+                            + "\nDu har nå lagt til " + ++antallBilder + " bilde(r)");
+                else
+                    filLastetOpp.setText( "Feil i opplasting.\nBilde vil ikke bli registrert med denne skademeldingen."
+                            + " prøv på nytt");
+            }// end of else
+        } // end of overriding method handle()
+        ); // end of inner anonymous class
         
         
         //Kolonne 1
@@ -183,7 +182,7 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.add( vitneKontaktInput, 2, 8);
         returLayout.add( output, 2, 9);
         
-        returLayout.setMargin(output, new Insets(10));
+        GridPane.setMargin(output, new Insets(10));
         returLayout.setHgap(40);
         returLayout.setVgap(10);
         
@@ -191,8 +190,10 @@ public class RegistrerSkadeLayout extends GridPane {
     }// end of method registrerSkademeldingLayout()
     
     /**
-     * Henter tekst og validerer. Hvis alt valideres, registreres skademeldingen i kunderegisteret, og brukeren får melding avhengig av hva som er feil/galt 
-     * @return En boolsk verdi som tilsier om skademeldingen ble registrert. Returnerer false hvis feltene ikke er fylt inn av brukeren, og hvis ikke feltene ble validert. 
+     * Henter tekst og validerer. Hvis alt valideres, registreres skademeldingen i kunderegisteret, 
+     * og brukeren får melding avhengig av hva som er feil/galt 
+     * @return En boolsk verdi som tilsier om skademeldingen ble registrert. 
+     * Returnerer false hvis feltene ikke er fylt inn av brukeren, og hvis ikke feltene ble validert. 
      */
     private boolean registrerSkademelding(){
         if( !felterErFylt() )
@@ -210,12 +211,15 @@ public class RegistrerSkadeLayout extends GridPane {
             String skadetype = skadetypeInput.getValue().toString();
             double takst = Double.parseDouble(takstInput.getText().trim());
             String skadeBeskrivelse = skadeBeskrivelseInput.getText();
-            Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), datoInput.getValue().getMonthValue()-1, datoInput.getValue().getDayOfMonth() );
+            Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), 
+                                                   datoInput.getValue().getMonthValue()-1, 
+                                                   datoInput.getValue().getDayOfMonth() );
             String tidspunkt = tidspunktInput.getText().trim();
             String vitneKontakt = vitneKontaktInput.getText();
             tilbakemelding = "";
             
-            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bildefiler );
+            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, 
+                                                  takst, dato, tidspunkt, bildefiler );
             tilbakemelding = kundeRegister.registrerSkademelding(skade, fodselsNr);
             ForsikringsKunde skademeldingEier = kundeRegister.finnKunde( skade.getSkadeNr() );
             if( skademeldingEier == null)
@@ -282,21 +286,28 @@ public class RegistrerSkadeLayout extends GridPane {
     private boolean regexErOk(){
         
         if( ! (GUI.sjekkRegexFodselsNr( fodselsNrInput.getText().trim() ) ) ){
-            GUI.visInputFeilMelding("OBS! Fødselsnummer inneholder 11 sifre.", "For å kunne registrere en skademelding må du fylle inn et gyldig fødselsnummer"
+            GUI.visInputFeilMelding("OBS! Fødselsnummer inneholder 11 sifre.", 
+                                    "For å kunne registrere en skademelding må du fylle inn et gyldig fødselsnummer"
                                     + " med 11 sifre");
             return false;
         }
         else if( !( GUI.sjekkRegex( GUI.VALUTA_REGEX, takstInput.getText().trim() ) ) ){
-            GUI.visInputFeilMelding("OBS! Taksten er i feil format", "For å kunne registrere en skademelding, må du fylle inn riktig takst for skaden. Angis i antall kroner.");
+            GUI.visInputFeilMelding("OBS! Taksten er i feil format", 
+                                    "For å kunne registrere en skademelding, må du fylle inn riktig takst for skaden. "
+                                    + "Angis i antall kroner.");
             return false;
         }
         else if( ! (GUI.sjekkRegex( GUI.DATO_REGEX, datoInput.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) ) ) ){
             System.out.println( datoInput.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) );
-            GUI.visInputFeilMelding("OBS! Dato er i feil format", "For å kunne registrere en skademelding, må du fylle inn dato for skaden. Angis f.eks i dd/mm/åååå");
+            GUI.visInputFeilMelding("OBS! Dato er i feil format", 
+                                    "For å kunne registrere en skademelding, må du fylle inn dato for skaden. "
+                                    + "Angis f.eks i dd/mm/åååå");
             return false; 
         }
         else if( ! (GUI.sjekkRegex( GUI.TIDSPUNKT_REGEX, tidspunktInput.getText().trim() ) ) ){
-            GUI.visInputFeilMelding("OBS! Tidspunkt er i feil format", "For å kunne registrere en skademelding, må du fylle inn riktig tidspunkt for skaden. Angis i timer:minutter");
+            GUI.visInputFeilMelding("OBS! Tidspunkt er i feil format", 
+                                    "For å kunne registrere en skademelding, må du fylle inn riktig tidspunkt for skaden. "
+                                    + "Angis i timer:minutter");
             return false;
         }
         return true;
