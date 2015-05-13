@@ -26,7 +26,6 @@ import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.Alert;
@@ -35,22 +34,23 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import static javafx.scene.layout.BorderStroke.THIN;
-import static javafx.scene.layout.BorderStrokeStyle.SOLID;
-import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- *
- * @author Jens
+ * Hovedlayout'et som er av type Application, som bytter mellom Økonomi-layout'et, Statistikk-layout'et og KundePane-layout'et.
+ * GUI-klassen oppretter en felles navigasjonsbar for hele applikasjonen, slik at brukeren til enhver tid kan navigere seg dit en vil.
+ * Hensikten med denne klassen er å ha metoder her som alle "Sub-layout'ene" kan bruke i sine klasser. 
+ * I denne klassen kjører man applikasjonen, leser fra og skriver til fil liste.dta. 
+ * Siste versjon skrevet: 10/05/15 12:00
+ * @author Fredrik Aleksander Sigvartsen, Dataingeniør, s236356
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
+ * @author Jens Omfjord, Informasjonsteknologi, s236641
  */
 public class GUI extends Application{
     
@@ -78,6 +78,11 @@ public class GUI extends Application{
     private BorderPane layout;
     private Font faneFont = Font.font(null, FontWeight.BOLD, 18);
     
+    /**
+     * Oppretter og starter applikasjonen.
+     * @param primaryStage Stage'n applikasjonen bruker. 
+     * @throws Exception 
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         lesFraFil();
@@ -109,7 +114,7 @@ public class GUI extends Application{
     }// end of method start()
   
     /**
-     * Skriver til fil.
+     * Skriver til fil lista.dta
      */
     public void skrivTilFil() {
         
@@ -128,7 +133,7 @@ public class GUI extends Application{
     }// end of method skrivTilFil()
     
     /**
-     * Leser fra fil
+     * Leser fra fil liste.dta
      */
     public void lesFraFil() {
         try(ObjectInputStream innfil = new ObjectInputStream(
