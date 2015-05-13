@@ -78,7 +78,7 @@ public class SoylediagramLayout extends GridPane{
         
         datePickerFra = new DatePicker();
         datePickerFra.setEditable(false);
-        datePickerFra.setValue(LocalDate.of(2015, 5, 1));
+        datePickerFra.setValue(LocalDate.of(2015, 5, 9));
         datePickerTil = new DatePicker();
         datePickerTil.setEditable(false);
         datePickerTil.setValue(LocalDate.now());

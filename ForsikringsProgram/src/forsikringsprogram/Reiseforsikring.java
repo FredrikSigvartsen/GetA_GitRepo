@@ -5,7 +5,7 @@ package forsikringsprogram;
 import java.io.Serializable;
 
 /**
- * Klassen skal lagrer data som er unike for reiseforsikringer.
+ * Klassen lagrer data som er unike for reiseforsikringer.
  * Resten av konstruktør-parameterene sendes til superklassen Forsikring sin konstruktør.
  * @author Elias
  */
