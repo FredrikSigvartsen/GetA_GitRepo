@@ -11,7 +11,7 @@ import javafx.beans.value.ObservableValue;
  * Denne klassen er et layout for registrering av Kunder. Her fyller brukeren inn 
  * angitte inputs og dette valideres, før det registreres som kunder i kunderegisteret.
  * Siste versjon skrevet: 13/05/15 19:00
- * @author Jens Omfjord, Informasjonsteknologi. s236641
+ * @author Jens Omfjord, Informasjonsteknologi, s236641
  */
 public class RegistrerKundeLayout extends GridPane{
     

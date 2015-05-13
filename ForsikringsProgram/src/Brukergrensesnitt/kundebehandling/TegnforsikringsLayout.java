@@ -16,7 +16,7 @@ import javafx.scene.layout.*;
  * Velger brukeren reise, kommer det inputs for registrering av reise, velger brukeren bil dukker det opp inputs for registrering av bilforsikring
  * Velger brukeren båtforsikring, dukker det opp inputs for registrering av båtforsikring. 
  * Siste versjon skrevet: 13/05/15 16:00
- * @author Jens Omfjord, Informasjonsteknologi. s236641
+ * @author Jens Omfjord, Informasjonsteknologi, s236641
  */
 public class TegnforsikringsLayout extends GridPane{
     
