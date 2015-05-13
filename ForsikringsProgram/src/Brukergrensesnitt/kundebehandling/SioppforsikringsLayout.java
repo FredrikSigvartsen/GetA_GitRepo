@@ -54,11 +54,8 @@ public class SioppforsikringsLayout extends GridPane{
         setVgap(10);
         setHgap(10);
         
-        Label siOppForsikringLabel = new Label("Oppsigelse av forsikring");
-        siOppForsikringLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
-        
         //legger til kolonne 1
-        add(siOppForsikringLabel, 1, 1, 2, 1);
+        add(KundePane.overskrift("Tegn forsikring", 20), 1, 1, 2, 1);
         add(new Label("Fødselsnummer for oppsigelse:"), 1, 2);
         GridPane.setHalignment(siOppForsikring, HPos.CENTER);
         add(siOppForsikring, 1, 3, 2, 1);
