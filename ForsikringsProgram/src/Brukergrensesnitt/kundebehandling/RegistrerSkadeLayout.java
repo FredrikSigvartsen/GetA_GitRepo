@@ -74,7 +74,7 @@ public class RegistrerSkadeLayout extends GridPane {
      */
     private GridPane fyllInnMedOverskriftLayout(){
         GridPane registreringsLayout = new GridPane();
-        VBox fyllInnOverskrift = KundePane.overskrift("Fyll inn informasjon om skaden", 24);
+        VBox fyllInnOverskrift = overskrift("Fyll inn informasjon om skaden", 24);
         
         registreringsLayout.add( fyllInnOverskrift, 1, 1);
         registreringsLayout.add( fyllInnLayout(), 1, 2);
@@ -93,7 +93,7 @@ public class RegistrerSkadeLayout extends GridPane {
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         filLastetOpp = new Label();
-        VBox lastOppOverskrift = KundePane.overskrift("Last opp bilde av skaden", 24);
+        VBox lastOppOverskrift = overskrift("Last opp bilde av skaden", 24);
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
@@ -342,6 +342,21 @@ public class RegistrerSkadeLayout extends GridPane {
         varsel.setContentText( "Du må fylle inn " + s + " for å kunne registrere en skademelding.\n" + s2);
         varsel.showAndWait();
     }// end of method visFyllInnMelding() med to parametre
+    
+    /**
+     * Oppretter en VBox som er en overskrift med innhold fra parameterlisten. 
+     * @param overskrift Teksten som overskriften skal inneholde 
+     * @param strl Størrelse på teksten som overskriften skal inneholde
+     * @return En VBox med overskrift, og en separator, Altså en "stylet" overskrift. 
+     */
+    private VBox overskrift(String overskrift, int strl){
+        VBox returOverskrift = new VBox();
+        Label overskriftsLabel = new Label(overskrift);
+        overskriftsLabel.setFont( font(strl) );
+        Separator skille = new Separator( Orientation.HORIZONTAL );
+        returOverskrift.getChildren().addAll( overskriftsLabel, skille);
+        return returOverskrift;
+    }// end of method overskrift
     
     /**
      * 
