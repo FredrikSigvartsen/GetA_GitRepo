@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
 package Brukergrensesnitt.okonomi;
 
 import Brukergrensesnitt.GUI;
@@ -42,8 +40,10 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 
 /**
- *
- * @author Jens
+ * Denne klassen er et layout for økonomien. Her fyller brukeren inn fødselsnummer eller velger forsikringstype 
+ * samt ønsket øknomisk infjormasjon, før dette skrives ut.
+ * Siste versjon skrevet: 12/05/15 15.30
+ * @author Jens Omfjord, Informasjonsteknologi. s236641
  */
 public class OkonomiPane extends GridPane{
     private TextField fodselsnr;
@@ -252,6 +252,31 @@ public class OkonomiPane extends GridPane{
     }//end of method opprettKundeSkjema()
     
     /**
+     * Oppretter layouten for visning av økonomi
+     */
+    public void opprettOkonomiSkjema(){
+        opprettTypeSkjema();
+        opprettKundeSkjema();
+        valgKunde();
+        valgType();
+        
+        output = new Label();
+        output.setFont(Font.font(null, 24));
+        
+        Label visOkonomiLabel = new Label("Økonomi");
+        visOkonomiLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
+        
+        setHgap(10);
+        setVgap(10);
+        add(valgTypePane, 2, 6);
+        add(valgKundePane, 2, 7);
+        add(visOkonomiLabel, 1, 5);
+        setMargin(visOkonomiLabel, new Insets(0,0,0,10));
+        add(radioKnappBox, 1, 6, 1, 4);
+        add(output, 2, 8);
+    }//end of methd siOppForsikringsSkjema()
+    
+    /**
      * Kolapser begge TiteldPanene
      */
     private void setIngenUtvidet(){
@@ -276,31 +301,6 @@ public class OkonomiPane extends GridPane{
             skjul1.setExpanded(false);
         });
     }//end of method valgUtvidet()
-    
-    /**
-     * Oppretter layouten for visning av økonomi
-     */
-    public void opprettOkonomiSkjema(){
-        opprettTypeSkjema();
-        opprettKundeSkjema();
-        valgKunde();
-        valgType();
-        
-        output = new Label();
-        output.setFont(Font.font(null, 24));
-        
-        Label visOkonomiLabel = new Label("Økonomi");
-        visOkonomiLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
-        
-        setHgap(10);
-        setVgap(10);
-        add(valgTypePane, 2, 6);
-        add(valgKundePane, 2, 7);
-        add(visOkonomiLabel, 1, 5);
-        setMargin(visOkonomiLabel, new Insets(0,0,0,10));
-        add(radioKnappBox, 1, 6, 1, 4);
-        add(output, 2, 8);
-    }//end of methd siOppForsikringsSkjema()
     
     /**
      * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres

@@ -10,11 +10,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import forsikringsprogram.*;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.text.*;
 
 /**
- *
- * @author Jens
+ * Denne klassen er et layout for registrering av Kunder. Her fyller brukeren inn 
+ * angitte inputs og dette valideres, før det registreres som kunder i kunderegisteret.
+ * Siste versjon skrevet: 13/05/15 19:00
+ * @author Jens Omfjord, Informasjonsteknologi. s236641
  */
 public class RegistrerKundeLayout extends GridPane{
     
@@ -106,39 +107,6 @@ public class RegistrerKundeLayout extends GridPane{
         add(fodselsnrFeil, 3, 7);
         
     }//end of method opprettKundeRegistreringsSkjema()
-    
-    /**
-     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean tekstFeltLyttere(){
-        fornavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fornavnFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-        
-        etternavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(etternavnFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-        
-        adresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(adresseFeil, nyverdi, "Skriv inn kun bokstaver eller tall", GUI.ADRESSE_REGEX);
-        });
-        
-        postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(postnrFeil, nyverdi, "Skriv inn kun fire tall", GUI.POSTNR_REGEX);
-        });
-        
-        poststed.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(poststedFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
-        });
-        
-        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer (11 siffer)", null);
-        });
-        return fornavnFeil.getText().isEmpty() && etternavnFeil.getText().isEmpty() && 
-                adresseFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() &&
-                poststedFeil.getText().isEmpty() && fodselsnrFeil.getText().isEmpty();
-    }//end of method tekstFeltLyttere()
         
     /**
      * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
@@ -179,6 +147,39 @@ public class RegistrerKundeLayout extends GridPane{
         }
         return true;
     }//end of method sjekkTommeFelter()
+    
+    /**
+     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean tekstFeltLyttere(){
+        fornavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fornavnFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+        
+        etternavn.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(etternavnFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+        
+        adresse.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(adresseFeil, nyverdi, "Skriv inn kun bokstaver eller tall", GUI.ADRESSE_REGEX);
+        });
+        
+        postnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(postnrFeil, nyverdi, "Skriv inn kun fire tall", GUI.POSTNR_REGEX);
+        });
+        
+        poststed.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(poststedFeil, nyverdi, "Skriv inn kun bokstaver, med stor forbokstav", GUI.NAVN_REGEX);
+        });
+        
+        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et gyldig fødselsnummer (11 siffer)", null);
+        });
+        return fornavnFeil.getText().isEmpty() && etternavnFeil.getText().isEmpty() && 
+                adresseFeil.getText().isEmpty() && postnrFeil.getText().isEmpty() &&
+                poststedFeil.getText().isEmpty() && fodselsnrFeil.getText().isEmpty();
+    }//end of method tekstFeltLyttere()
     
     /**
      * Tømmer alle tekstfelter og setter regEx labelne til *

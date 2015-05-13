@@ -8,7 +8,6 @@ import forsikringsprogram.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
@@ -16,12 +15,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 /**
- *
- * @author Jens
+ * Denne klassen er et layout for si opp forsikringer. Her fyller brukeren inn fødselsnummer og dette valideres, 
+ * før det vises et vindu med kundens aktive forsikringer. Så kan brukeren krysse av de forsikringene en skulle ønske å si opp
+ * Siste versjon skrevet: 13/05/15 17:10
+ * @author Jens Omfjord, Informasjonsteknologi. s236641
  */
 public class SioppforsikringsLayout extends GridPane{
     
@@ -68,6 +67,48 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of methd opprettSiOppForsikringsSkjema()
     
     /**
+     * Oppretter et vindu med kundens aktive forsikringer
+     * @param forsikringBoks array med checkboxer som kan legges ut i vinduet
+     * @param valgPane GridPane med innholdet til vinduet
+     * @param fodselsnrForsikringer kundens fødselsnummer
+     */
+    private void opprettForsikringsValgLayout(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
+        Alert valg = new Alert(AlertType.CONFIRMATION);
+        valg.setTitle("Si opp forsikringer");
+        valg.setHeaderText("");
+        valg.setGraphic(valgPane);
+        
+        ButtonType siOppKnapp = new ButtonType("Si opp forsikringer");
+        ButtonType avbrytKnapp = new ButtonType("Avbryt", ButtonData.CANCEL_CLOSE);
+        
+        valg.getButtonTypes().setAll(siOppKnapp, avbrytKnapp);
+        
+        valg.getDialogPane().setPrefWidth(550);
+        valg.getDialogPane().setMinHeight(200);
+        valg.setResizable(true);
+        valg.initOwner(GUI.getStage());
+        Optional<ButtonType> handling = valg.showAndWait();
+        
+        int antallAvkrysset = 0;
+        int[] avtalenr = new int[forsikringBoks.length];
+        if( handling.isPresent() && handling.get() == siOppKnapp){
+            for(int j = 0; j < forsikringBoks.length; j++){
+                if(forsikringBoks != null && forsikringBoks[j].isSelected()){
+                    avtalenr[j] = Integer.parseInt(forsikringBoks[j].getId());
+                    antallAvkrysset++;
+                }
+            }
+            
+            if(antallAvkrysset == 0){
+                GUI.visInputFeilMelding("Feil i valg", "Velg en eller flere forsikringer som skal sies opp, eller trykk avbryt");
+            }
+            else{
+                siOppForsikringer(avtalenr, fodselsnrForsikringer);
+            }
+        }
+    }// end of method opprettForsikringsValgLayout() 
+    
+    /**
      * 
      * @param fodselsnrForsikringer Fødselsnummeret til kunden som det skal sies opp forsikringer på
      * @param kundensForsikringer En liste med forsikringene til den valgte kunden
@@ -91,6 +132,9 @@ public class SioppforsikringsLayout extends GridPane{
         CheckBox[] forsikringValgBoks = new CheckBox[kundensForsikringer.size()];
         
         Iterator<Forsikring> fIter = kundensForsikringer.listIterator();
+        /**
+         * Oppretter checkboxer for alle de aktive forsikringene til kunden
+         */
         while(fIter.hasNext()){
             Forsikring gjeldende = fIter.next();
             if(gjeldende instanceof Bilforsikring){
@@ -129,44 +173,26 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of method forsikringsValg()
     
     /**
-     * Oppretter et vindu med kundens aktive forsikringer
-     * @param forsikringBoks array med checkboxer som kan legges ut i vinduet
-     * @param valgPane GridPane med innholdet til vinduet
-     * @param fodselsnrForsikringer kundens fødselsnummer
+     * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
      */
-    private void opprettForsikringsValgLayout(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
-        Alert valg = new Alert(AlertType.CONFIRMATION);
-        valg.setTitle("Si opp forsikringer");
-        valg.setHeaderText("");
-        valg.setGraphic(valgPane);
-        
-        ButtonType siOppKnapp = new ButtonType("Si opp forsikringer");
-        ButtonType avbrytKnapp = new ButtonType("Avbryt", ButtonData.CANCEL_CLOSE);
-        
-        valg.getButtonTypes().setAll(siOppKnapp, avbrytKnapp);
-        
-        valg.getDialogPane().setPrefWidth(500);
-        valg.initOwner(GUI.getStage());
-        Optional<ButtonType> handling = valg.showAndWait();
-        
-        int antallAvkrysset = 0;
-        int[] avtalenr = new int[forsikringBoks.length];
-        if( handling.isPresent() && handling.get() == siOppKnapp){
-            for(int j = 0; j < forsikringBoks.length; j++){
-                if(forsikringBoks != null && forsikringBoks[j].isSelected()){
-                    avtalenr[j] = Integer.parseInt(forsikringBoks[j].getId());
-                    antallAvkrysset++;
-                }
-            }
-            
-            if(antallAvkrysset == 0){
-                GUI.visInputFeilMelding("Feil i valg", "Velg en eller flere forsikringer som skal sies opp, eller trykk avbryt");
-            }
-            else{
-                siOppForsikringer(avtalenr, fodselsnrForsikringer);
-            }
+    private boolean sjekkFelter(){
+        if( fodselsnr.getText().trim().isEmpty()){
+            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
+            return false;
         }
-    }// end of method opprettForsikringsValgLayout() 
+        return true;
+    }//end of method sjekkFelter()
+    
+    /**
+     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
+     * @return Returnerer true om alle feltene godkjennes av regexen
+     */
+    private boolean tekstFeltLyttere(){
+        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
+            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fodselsnummer(11 siffer)", null);
+        });
+        return fodselsnrFeil.getText().isEmpty();
+    }//end of method tekstFeltLytter()
     
     /**
      * 
@@ -184,28 +210,6 @@ public class SioppforsikringsLayout extends GridPane{
         GUI.visInputFeilMelding("Forsikringer sagt opp", output.toString());
         setTommeFelter();
     }
-    
-    /**
-     * Sjekker input fra brukeren opp mot RegEx og gir umidelbar tilbakemelding på om inputen godkjennes eller evt hva som må endres
-     * @return Returnerer true om alle feltene godkjennes av regexen
-     */
-    private boolean tekstFeltLyttere(){
-        fodselsnr.textProperty().addListener((ObservableValue<? extends String> observable, String gammelverdi, String nyverdi) -> {
-            GUI.sjekkRegEx(fodselsnrFeil, nyverdi, "Skriv inn et eksisterende fodselsnummer(11 siffer)", null);
-        });
-        return fodselsnrFeil.getText().isEmpty();
-    }//end of method sjekkFelterRegEx()
-    
-    /**
-     * Sjekker alle innputfeltene, og registrerer en forsikring av valgt type
-     */
-    private boolean sjekkFelter(){
-        if( fodselsnr.getText().trim().isEmpty()){
-            GUI.visInputFeilMelding("Feil inntasting", "Venligst fyll inn fødselsnummer");
-            return false;
-        }
-        return true;
-    }//end of method sjekkFelter()
     
     /**
      * Tømmer alle tekstfelter og setter regEx labelne til *

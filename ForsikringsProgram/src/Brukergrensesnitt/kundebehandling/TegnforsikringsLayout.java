@@ -12,11 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+
 /**
- *
- * @author Jens
+ * Denne klassen er et layout for registrering av forsikringer. Her fyller brukeren inn 
+ * angitte inputs og dette valideres, før det registreres som forsikringer i kunderegisteret.
+ * Siste versjon skrevet: 13/05/15 16:00
+ * @author Jens Omfjord, Informasjonsteknologi. s236641
  */
 public class TegnforsikringsLayout extends GridPane{
     
