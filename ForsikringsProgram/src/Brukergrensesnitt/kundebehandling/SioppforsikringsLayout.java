@@ -97,25 +97,25 @@ public class SioppforsikringsLayout extends GridPane{
             if(gjeldende.getAktivForsikring()){
                 if(gjeldende instanceof Bilforsikring){
                     Bilforsikring bil = (Bilforsikring) gjeldende;
-                    forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Bilforsikring, " +  bil.getMerke() + " " + bil.getModell() + ", " + bil.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
+                    //forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Bilforsikring, " +  bil.getMerke() + " " + bil.getModell() + ", " + bil.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
                     forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                     forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
                 }
                 else if(gjeldende instanceof Baatforsikring){
                     Baatforsikring bat = (Baatforsikring) gjeldende;
-                    forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Båtforsikring, " +  bat.getMerke() + " " + bat.getModell() + ", " + bat.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
+                    //forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Båtforsikring, " +  bat.getMerke() + " " + bat.getModell() + ", " + bat.getRegistreringsNr() + ", " + gjeldende.getBetingelser() + ".");
                     forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                     forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
                 }
                 else if(gjeldende instanceof Boligforsikring){
                     Boligforsikring bolig = (Boligforsikring) gjeldende;
-                    forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Boligforsikring, " + bolig.getGateAdresse() + ", " + bolig.getPostNr() + ", " + bolig.getAntallKvm() + "KVM, "  + gjeldende.getBetingelser() + ".");
+                    //forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Boligforsikring, " + bolig.getGateAdresse() + ", " + bolig.getPostNr() + ", " + bolig.getAntallKvm() + "KVM, "  + gjeldende.getBetingelser() + ".");
                     forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                     forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
                 }
                 else if(gjeldende instanceof Reiseforsikring){
                     Reiseforsikring reise = (Reiseforsikring) gjeldende;
-                    forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Reiseforsikring, " + reise.getOmraade() + ", " + gjeldende.getBetingelser() + ".");
+                    //forsikringValgBoks[i] = new CheckBox("Forsikringsnummer " + String.valueOf(gjeldende.getAvtaleNr()) + ": Reiseforsikring, " + reise.getOmraade() + ", " + gjeldende.getBetingelser() + ".");
                     forsikringValgBoks[i].setId(String.valueOf(gjeldende.getAvtaleNr()));
                     forsikringsValg.add(forsikringValgBoks[i], 1, (i + 3));
                 }

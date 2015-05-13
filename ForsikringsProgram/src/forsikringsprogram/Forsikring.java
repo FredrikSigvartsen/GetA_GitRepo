@@ -5,7 +5,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-//Abstrakt superklasse til alle forsikringstypene
+/**
+ * Abstrakt superklasse til alle forsikringstypene.
+ * @author Elias
+ */
 public abstract class Forsikring implements Serializable{
     
     private static final long serialVersionUID = 432L;
@@ -27,7 +30,12 @@ public abstract class Forsikring implements Serializable{
     private static int nesteNr = 1;
     private int avtaleNr;
     
-    //Konstruktør
+    /**
+     * Initialiserer datafeltene.
+     * @param betingelser til forsikringen.
+     * @param forsikringsPremie Årlig beløp som må betales for denne forsikringen.
+     * @param forsikringsBelop Hvor mye 'gjenstanden' er forsikret for.
+     */
     public Forsikring(String betingelser, double forsikringsPremie, double forsikringsBelop) {
         this.opprettelsesDato = Calendar.getInstance();
         this.betingelser = betingelser;
@@ -36,54 +44,74 @@ public abstract class Forsikring implements Serializable{
         this.forsikringsPremie = forsikringsPremie;
         this.forsikringsBelop = forsikringsBelop;
         sdf = new SimpleDateFormat("dd/MM/yyyy");
-    }
-
+    }//end of constructor
+    
+    /** 
+     * @return returnerer avtalenummeret til forsikringen. 
+     */
     public int getAvtaleNr() {
         return avtaleNr;
     }
     
+    /**
+     * @return returnerer forsikringspremien. 
+     */
     public double getForsikringsPremie() {
         return this.forsikringsPremie;
     }
-
-    public String getBetingelser() {
-        return betingelser;
-    }
     
-    public void setForsikringsPremie(int x) {
-        this.forsikringsPremie = x;////////////Må finne priser
-    }
-    
-    public void setForsikringsBelop(int x) {
-        this.forsikringsBelop = x;//////////////Må finne priser
-    }
-    
-    //Skal kalles på når en avtale opphøres. Setter opphørsdato og gjør forsikringen "inaktiv"
+    /**
+     * Skal kalles på når en avtale opphøres. Setter opphørsdato og gjør forsikringen "inaktiv"
+     */
     public void opphorForsikring() {
         this.opphorsDato = Calendar.getInstance();
         this.aktivForsikring = false;
     }
     
+    /**
+     * @return returnerer datoen når forsikringen ble sagt opp. 
+     */
     public Calendar getOpphorsDato() {
         return this.opphorsDato;
     }
     
+    /**
+     * @return returnerer datoen når forsikringen ble opprettet.
+     */
     public Calendar getOpprettelsesDato() {
         return this.opprettelsesDato;
     }
     
+    /**
+     * 
+     * @return returnerer true eller false alt ettersom forsikringen er aktiv eller ikke. 
+     */
     public boolean getAktivForsikring() {
         return this.aktivForsikring;
     }
-
+    
+    /**
+     * Brukes i forbindelse med å lese fra fil,
+     * ettersom static datafelter ikke blir skrevet til fil med ObjectOutputStream.
+     * @param nesteNr 
+     */
     public static void setNesteNr(int nesteNr) {
         Forsikring.nesteNr = nesteNr;
     }
-
+    
+    /**
+     * Brukes i forbindelse med å skrive nesteNr til fil,
+     * ettersom static datafelter ikke blir skrevet til fil med ObjectOutputStream.
+     * @return returnerer nesteNr.
+     */
     public static int getNesteNr() {
         return nesteNr;
     }
     
+    /**
+     * 
+     * @return returnerer klassens datafelter som string. 
+     */
     @Override
     public String toString() {
         return "\n---------------------------------------" + 
@@ -94,5 +122,5 @@ public abstract class Forsikring implements Serializable{
                "\n Betingelse: " + this.betingelser +
                "\n Forsikringspremie: " + this.forsikringsPremie +
                "\n Forsikringsbeløp: " + this.forsikringsBelop;
-    }
+    }//end of method toString()
 }//end of class Forsikring

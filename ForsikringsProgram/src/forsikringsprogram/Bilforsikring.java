@@ -2,10 +2,13 @@
 
 package forsikringsprogram;
 
-//Reiseforsikring-klasse
-
 import java.io.Serializable;
 
+/**
+ * Klassen skal lagrer data som er unike for bilforsikringer.
+ * Resten av konstruktør-parameterene sendes til superklassen 'Forsikring' sin konstruktør. 
+ * @author Elias
+ */
 public class Bilforsikring extends Forsikring implements Serializable {
     
     private static final long serialVersionUID = 543L;
@@ -17,7 +20,17 @@ public class Bilforsikring extends Forsikring implements Serializable {
     private int prisPrKm;
     private int bonusIprosent;
     
-    //Konstruktør
+    /**
+     * Initialiserer datafeltene.
+     * @param betingelser for forsikringen.
+     * @param forsikringsBelop Hvor mye bilen skal forsikres for.
+     * @param registreringsNr til bilen.
+     * @param merke til bilen.
+     * @param modell til bilen.
+     * @param registreringsAar til bilen.
+     * @param kjoreLengdeKm til bilen.
+     * @param prisPrKm Hvor mye det koster pr. km.
+     */
     public Bilforsikring(String betingelser, double forsikringsBelop,
                          String registreringsNr, String merke, String modell, int registreringsAar,
                          int kjoreLengdeKm, int prisPrKm) {
@@ -29,29 +42,21 @@ public class Bilforsikring extends Forsikring implements Serializable {
         this.kjoreLengdeKm = kjoreLengdeKm;
         this.prisPrKm = prisPrKm;
         this.bonusIprosent = 0;
-    }
-
-    public String getRegistreringsNr() {
-        return registreringsNr;
-    }
-
-    public String getMerke() {
-        return merke;
-    }
-
-    public String getModell() {
-        return modell;
-    }
+    }//end of constructor
     
+    /**
+     * 
+     * @return returnerer klassens datafelter som string.
+     */
     @Override
     public String toString() {
         return super.toString() + 
-               "\n Registrerings nr: " + this.registreringsNr + 
-               "\n Merke: " + this.merke +
-               "\n Modell: " + this.modell +
-               "\n Registrerings år: " + this.registreringsAar +
-               "\n Kjørelengde: " + this.kjoreLengdeKm + " km" +
-               "\n Pris pr. km: " + this.prisPrKm + 
-               "\n Bonus: " + this.bonusIprosent + "%";
-    }
+               "\n Registrerings nr: " + registreringsNr + 
+               "\n Merke: " + merke +
+               "\n Modell: " + modell +
+               "\n Registrerings år: " + registreringsAar +
+               "\n Kjørelengde: " + kjoreLengdeKm + " km" +
+               "\n Pris pr. km: " + prisPrKm + 
+               "\n Bonus: " + bonusIprosent + "%";
+    }//end of method toString()
 }//end of class Bilforsikring

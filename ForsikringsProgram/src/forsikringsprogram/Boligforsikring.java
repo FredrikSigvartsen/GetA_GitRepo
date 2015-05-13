@@ -2,10 +2,13 @@
 
 package forsikringsprogram;
 
-//Boligforsikrings-klasse
-
 import java.io.Serializable;
 
+/**
+ * Klassen skal lagrer data som er unike for boligforsikringer.
+ * Resten av konstruktør-parameterene sendes til superklassen 'Forsikring' sin konstruktør. 
+ * @author Elias
+ */
 public class Boligforsikring extends Forsikring implements Serializable {
     
     private static final long serialVersionUID = 456L;
@@ -17,7 +20,18 @@ public class Boligforsikring extends Forsikring implements Serializable {
     private int byggAar;
     private int antallKvm;
     
-    //Konstruktør
+    /**
+     * Initialiserer datafeltene.
+     * @param betingelser for forsikringen.
+     * @param forsikringsBelop Hvor mye boligen skal forsikres for.
+     * @param gateAdresse Adressen til boligen.
+     * @param boligType Hva slags type bolig det er snakk om.
+     * @param byggeMateriale Hvilket byggemateriale boligen består av.
+     * @param standard Boligens standar. (høy, middels, lav)
+     * @param postNr Boligens postnr.
+     * @param byggAar Boligens byggår.
+     * @param antallKvm Hvor stor boligen er i kvadratmeter.
+     */
     public Boligforsikring(String betingelser, double forsikringsBelop,
                            String gateAdresse, String boligType, String byggeMateriale, 
                            String standard, String postNr, int byggAar, int antallKvm) {
@@ -29,29 +43,21 @@ public class Boligforsikring extends Forsikring implements Serializable {
         this.postNr = postNr;
         this.byggAar = byggAar;
         this.antallKvm = antallKvm;
-    }
-
-    public String getGateAdresse() {
-        return gateAdresse;
-    }
-
-    public String getPostNr() {
-        return postNr;
-    }
-
-    public int getAntallKvm() {
-        return antallKvm;
-    }
+    }//end of constructor
     
+    /**
+     * 
+     * @return returnerer klassens datafelter som string.
+     */
     @Override
     public String toString() {
         return super.toString() + 
-               "\n Gate adresse: " + this.gateAdresse +
-               "\n Post nr: " + this.postNr + 
-               "\n Bolig type: " + this.boligType +
-               "\n Byggemateriale: " + this.byggeMateriale +
-               "\n Standard: " + this.standard +
-               "\n Bygg år: " + this.byggAar +
-               "\n Kvadratmeter: " + this.antallKvm;
-    }
+               "\n Gate adresse: " + gateAdresse +
+               "\n Post nr: " + postNr + 
+               "\n Bolig type: " + boligType +
+               "\n Byggemateriale: " + byggeMateriale +
+               "\n Standard: " + standard +
+               "\n Bygg år: " + byggAar +
+               "\n Kvadratmeter: " + antallKvm;
+    }//end of method toString();
 }//end of class Boligforsikring
