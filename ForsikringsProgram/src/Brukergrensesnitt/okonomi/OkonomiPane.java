@@ -1,6 +1,3 @@
-
-
-
 package Brukergrensesnitt.okonomi;
 
 import Brukergrensesnitt.GUI;
@@ -59,6 +56,10 @@ public class OkonomiPane extends GridPane{
     private Border radioKnappKant = new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(10)) );
     private Font tekstStr = Font.font(null, 16);
     
+    /**
+     * Konstruktør. Setter opp økonomi-layoutet.
+     * @param register Tar imot kunderegisteret.
+     */
     public OkonomiPane(Kunderegister register){
         opprettRadioKnappNavigasjon();
         opprettOkonomiSkjema();
@@ -142,8 +143,8 @@ public class OkonomiPane extends GridPane{
         
         //Legger til Radioknapper
         radioKnappBox.getChildren().addAll(visLabel, utgiftBox, utbetalingerArlig, 
-                utbetalingerType, utbetalingerKunde, inntektBox, inntektArlig, 
-                inntektType, inntektKunde, totalRegnskapBox, totalRegnskap);
+                                           utbetalingerType, utbetalingerKunde, inntektBox, inntektArlig, 
+                                           inntektType, inntektKunde, totalRegnskapBox, totalRegnskap);
         radioKnappBox.setBorder(radioKnappKant);
         radioKnappBox.setPadding(new Insets(10));
         radioKnappBox.setSpacing(30);
@@ -189,10 +190,8 @@ public class OkonomiPane extends GridPane{
                                 if (item != null) {
                                     setText(item);
                                     setFont(tekstStr);
-                                }//end of if
-                                else 
+                                } else 
                                     setText(null);
-                                //end of else
                             }
                         };//end of linje
                         return linje;
@@ -285,7 +284,8 @@ public class OkonomiPane extends GridPane{
     }//end of method setIngenUtvidet()
     
     /**
-     * Setter onMouseClicked funksjonen slik at man ikke kan trykke på TitledPanene før å utvide dem, men må bruke radioknappene
+     * Setter onMouseClicked funksjonen slik at man ikke kan trykke på TitledPanene før å utvide dem, 
+     * men må bruke radioknappene.
      * @param vis Den TitledPanen som er utvidet
      * @param skjul1 En av de kolapsede TitledPanene
      * @param skjul2 Den andre av de kolapsede TitledPanene
@@ -366,47 +366,57 @@ public class OkonomiPane extends GridPane{
                         output.setText("Det er ikke gjort noen utbetalinger på " + forsikringsTypeInput + ".");
                         break;
                     }
-                    output.setText("Selskapets totale utbetaling for " + forsikringsTypeInput + " er i år " + utbetalingType + "kr.");
+                    output.setText("Selskapets totale utbetaling for " + forsikringsTypeInput + " er i år " 
+                                 + utbetalingType + "kr.");
                     break;
                 case "utbetalingerKunde":
                     String fodselsnrInput = this.fodselsnr.getText().trim();
                     setTommeFelter();
                     ForsikringsKunde kundeUtbetaling = kundeRegister.finnKunde(fodselsnrInput);
                     if(kundeUtbetaling == null){
-                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnrInput);
+                        GUI.visInputFeilMelding("Feil inntasting", 
+                                                "Det finnes ingen kunde i registeret med fødselsnummeret " 
+                                              + fodselsnrInput);
                         break;
                     }
                     double utbetalingKunde = kundeRegister.utbetalingTilKunde(fodselsnrInput);
                     if(utbetalingKunde == -1){
-                        output.setText("Det er ikke gjort noen utbetalinger til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + ".");
+                        output.setText("Det er ikke gjort noen utbetalinger til " + kundeUtbetaling.getEtternavn() 
+                                     + ", " + kundeUtbetaling.getFornavn() + ".");
                         break;
                     }
-                    output.setText("Selskapets totale utbetaling til " + kundeUtbetaling.getEtternavn() + ", " + kundeUtbetaling.getFornavn() + " er i år " + utbetalingKunde + "kr.");
+                    output.setText("Selskapets totale utbetaling til " + kundeUtbetaling.getEtternavn() 
+                                 + ", " + kundeUtbetaling.getFornavn() + " er i år " + utbetalingKunde + "kr.");
                     break;
                 case "inntektType":
                     String forsikringsTypeInntektInput = (String) this.forsikringsType.getValue();
                     setTommeFelter();
-                    double inntektType = kundeRegister.inntektFraForsikringstype(forsikringsTypeInntektInput);
-                    if(inntektType == 0.0){
+                    double inntektType1 = kundeRegister.inntektFraForsikringstype(forsikringsTypeInntektInput);
+                    if(inntektType1 == 0.0){
                         output.setText("Vi har ingen inntekt fra " + forsikringsTypeInntektInput + ".");
                         break;
                     }
-                    output.setText("Selskapets totale inntekt for " + forsikringsTypeInntektInput + " er i år " + inntektType + "kr.");
+                    output.setText("Selskapets totale inntekt for " + forsikringsTypeInntektInput 
+                                 + " er i år " + inntektType1 + "kr.");
                     break;
                 case "inntektKunde":
                     String fodselsnrInntektInput = this.fodselsnr.getText().trim();
                     setTommeFelter();
                     ForsikringsKunde kundeInntekt = kundeRegister.finnKunde(fodselsnrInntektInput);
                     if(kundeInntekt == null){
-                        GUI.visInputFeilMelding("Feil inntasting", "Det finnes ingen kunde i registeret med fødselsnummeret " + fodselsnrInntektInput);
+                        GUI.visInputFeilMelding("Feil inntasting", 
+                                                "Det finnes ingen kunde i registeret med fødselsnummeret " 
+                                              + fodselsnrInntektInput);
                         break;
                     }
                     double inntektFodselsnr = kundeRegister.inntektFraKunde(fodselsnrInntektInput);
                     if(inntektFodselsnr == -1){
-                        output.setText("Vi har ingen inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + ".");
+                        output.setText("Vi har ingen inntekt fra " + kundeInntekt.getEtternavn() 
+                                     + ", " + kundeInntekt.getFornavn() + ".");
                         break;
                     }
-                    output.setText("Selskapets totale inntekt fra " + kundeInntekt.getEtternavn() + ", " + kundeInntekt.getFornavn() + " er i år " + inntektFodselsnr + "kr.");
+                    output.setText("Selskapets totale inntekt fra " + kundeInntekt.getEtternavn() 
+                                 + ", " + kundeInntekt.getFornavn() + " er i år " + inntektFodselsnr + "kr.");
                     break;
             }// end of switch
         }// end of try
