@@ -90,7 +90,7 @@ public class KundePane extends BorderPane{
         
         Tab registrerSkademeldingFane = new Tab();
         GridPane registrerSkademeldingPane = new GridPane();
-        Label registrerSkademeldingLabel = new Label("Registrer skademeldig");
+        Label registrerSkademeldingLabel = new Label("Registrer skademelding");
         registrerSkademeldingLabel.setFont(faneFont);
         Image registrerSkademeldingBilde = new Image(getClass().getResourceAsStream("/Bilder/registrerSkademelding_icon.png"));
         ImageView iv1 = new ImageView(registrerSkademeldingBilde);

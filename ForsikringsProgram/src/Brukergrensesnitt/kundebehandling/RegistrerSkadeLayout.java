@@ -41,6 +41,7 @@ public class RegistrerSkadeLayout extends GridPane {
     private Label output, filLastetOpp;
     private List<File> bildefiler;
     private int antallBilder;
+    private String tilbakemelding;
     
     /**
      * Oppretter hele layoutet.
@@ -55,9 +56,12 @@ public class RegistrerSkadeLayout extends GridPane {
      * Oppretter layoutet
      */
     private void opprettLayout(){
-        opprettRegistreringsLayout();
-       
-        addRow( 1, registrerLayout );
+        lastOppBildeLayout = bildeOpplastning();
+        registrerSkademeldingLayout = fyllInnMedOverskriftLayout();
+        bildefiler = new ArrayList<>();
+        
+        add( registrerSkademeldingLayout, 1, 1);
+        add( lastOppBildeLayout, 2, 1);
         setAlignment(Pos.TOP_CENTER);
         setPadding( new Insets(50, 0, 0, 0));
         setVgap(10);
@@ -66,20 +70,19 @@ public class RegistrerSkadeLayout extends GridPane {
     
     /**
      * Oppretter layouet for registrering av skademelding. 
+     * @return Et GridPane layout med oversikt og et layout som blir opprettet i fyllInnLayout()
      */
-    private void opprettRegistreringsLayout(){
-        registrerLayout = new GridPane();
-        lastOppBildeLayout = bildeOpplastning();
-        registrerSkademeldingLayout = registreringLayout();
-        bildefiler = new ArrayList<>();
+    private GridPane fyllInnMedOverskriftLayout(){
+        GridPane registreringsLayout = new GridPane();
+        VBox fyllInnOverskrift = overskrift("Fyll inn informasjon om skaden", 24);
         
-        registrerLayout.add( registrerSkademeldingLayout, 1, 1);
-        
-        registrerLayout.add( lastOppBildeLayout, 2, 1);
-        
-        registrerLayout.setPadding(new Insets(30, 20, 30, 50));
-        registrerLayout.setMargin( lastOppBildeLayout, new Insets( 0, 100, 0 , 0));
-    }// end of method opprettRegistreringsLayout
+        registreringsLayout.add( fyllInnOverskrift, 1, 1);
+        registreringsLayout.add( fyllInnLayout(), 1, 2);
+        registreringsLayout.setVgap(15);
+        registreringsLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(0)) ));
+        registreringsLayout.setPadding( new Insets( 5, 20, 20, 20) );
+        return registreringsLayout;
+    }// end of method fyllInnMedOverskriftLayout
     
     /**
      * Laster opp bilder, og lagrer dem som filer i en ArrayList av filer. 
@@ -90,8 +93,7 @@ public class RegistrerSkadeLayout extends GridPane {
         Label lastOppSubskrift = new Label("  - har du ingen bilder, hopp over dette.");
         lastOppSubskrift.setFont( font(14));
         filLastetOpp = new Label();
-        VBox lastOppOverskrift = overskrift("Last opp bilde av skaden", 20);
-        
+        VBox lastOppOverskrift = overskrift("Last opp bilde av skaden", 24);
         
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
@@ -126,6 +128,8 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.setVgap(20);
         returLayout.setHgap(20);
         returLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(0)) ));
+        returLayout.setPadding( new Insets( 5, 50, 20, 20) );
+        lastOppFilKnapp.setAlignment(Pos.CENTER_RIGHT);
         return returLayout;
     }// end of method bildeOpplastning()
     
@@ -133,7 +137,7 @@ public class RegistrerSkadeLayout extends GridPane {
      * Et layout for registrering av skademeldinger. Fikser plassering, størrelse, og lytter på knappene. 
      * @return Layout for registrering av skademelding. 
      */
-    private GridPane registreringLayout(){
+    private GridPane fyllInnLayout(){
         GridPane returLayout = new GridPane();
         
         fodselsNrInput = mellomStorInput();
@@ -154,11 +158,13 @@ public class RegistrerSkadeLayout extends GridPane {
         registrerKnapp = new Button("Registrer skademelding");
         registrerKnapp.setOnAction((ActionEvent e) -> {
             if(registrerSkademelding()){
-               bildefiler = new ArrayList<>();            
+               bildefiler = new ArrayList<>();
+               tilbakemelding += "\nErstatning utbetalt: kr. " + takstInput.getText();        
                setFelterTomme();
-               filLastetOpp.setText("");
+               filLastetOpp.setText( "" );
             }// end of if
-        });
+            output.setText(tilbakemelding);
+        });// end of lambda expression
         
         //Kolonne 1
         returLayout.add( new Label("Kundens fødselsnummer:"), 1, 1);
@@ -170,7 +176,6 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.add( new Label("Beskrivelse av skaden:"), 1, 7);
         returLayout.add( skadeBeskrivelseInput, 1, 8);
         returLayout.add( registrerKnapp, 1, 9);
-        returLayout.setBorder( new Border( new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(0)) ));
         
         //Kolonne 2
         returLayout.add( new Label("Dato inntruffet:"), 2, 1);
@@ -184,8 +189,6 @@ public class RegistrerSkadeLayout extends GridPane {
         returLayout.setMargin(output, new Insets(10));
         returLayout.setHgap(40);
         returLayout.setVgap(10);
-        
-       
         
         return returLayout;
     }// end of method registrerSkademeldingLayout()
@@ -213,9 +216,17 @@ public class RegistrerSkadeLayout extends GridPane {
             Calendar dato = new GregorianCalendar( datoInput.getValue().getYear(), datoInput.getValue().getMonthValue()-1, datoInput.getValue().getDayOfMonth() );
             String tidspunkt = tidspunktInput.getText().trim();
             String vitneKontakt = vitneKontaktInput.getText();
-        
-            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bildefiler ); 
-            output.setText(  kundeRegister.registrerSkademelding(skade, fodselsNr) + "\nErstatning utbetalt: kr. " + takst );
+            tilbakemelding = "";
+            
+            Skademelding skade = new Skademelding(skadetype, skadeBeskrivelse, vitneKontakt, takst, dato, tidspunkt, bildefiler );
+            tilbakemelding = kundeRegister.registrerSkademelding(skade, fodselsNr);
+            ForsikringsKunde skademeldingEier = kundeRegister.finnKunde( skade.getSkadeNr() );
+            if( skademeldingEier == null)
+                return false;
+            if( skademeldingEier.getForsikringer().erTom() )
+                return false;
+            if( ! ( skademeldingEier.getForsikringer().harRiktigForsikring( skade.getSkadeType()) ) )
+                return false;
             
         }// end of try
         catch(NumberFormatException | NullPointerException e){
