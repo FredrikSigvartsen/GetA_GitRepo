@@ -107,7 +107,7 @@ public class KundesokLayout extends GridPane{
         
         ingenbilder = new Label("Ingen bilder lagt til i denne skademeldingen.") ;
         ingenbilder.setFont( font(22));
-        bildeviserLayout.setMargin( ingenbilder, new Insets(40, 0 , 0, 0)  );
+        GridPane.setMargin( ingenbilder, new Insets(40, 0 , 0, 0)  );
         
         returLayout.addRow( 1, ingenbilder  );
         returLayout.addRow(2, imageviewer);
@@ -119,7 +119,8 @@ public class KundesokLayout extends GridPane{
     
     /**
      * 
-     * @return Et Layout for med søk metoder lagt inn i TitledPane's. Layoutet inneholder input, tekst og valg for søk på kunder, skademeldinger og forsikringer. 
+     * @return Et Layout for med søk metoder lagt inn i TitledPane's. Layoutet inneholder input, 
+     * tekst og valg for søk på kunder, skademeldinger og forsikringer. 
      */
     private GridPane sokLayout(){
         GridPane returLayout = new GridPane();
@@ -195,7 +196,7 @@ public class KundesokLayout extends GridPane{
         VBox vbox = new VBox();
         vbox.getChildren().addAll(kundeLabel, new Separator());
         returLayout.addRow(1, vbox);
-        returLayout.setMargin(vbox, new Insets(20,0,0,0));
+        GridPane.setMargin(vbox, new Insets(20,0,0,0));
         returLayout.addRow(2,  sokFodselsNrLayout );
         returLayout.addRow(3,  sokNavnLayout );
         returLayout.addRow(4,  sokForsikringstypeLayout );
@@ -203,14 +204,14 @@ public class KundesokLayout extends GridPane{
         VBox vbox1 = new VBox();
         vbox1.getChildren().addAll(skadeLabel, new Separator());
         returLayout.addRow(5, vbox1);
-        returLayout.setMargin(vbox1, new Insets(20,0,0,0));
+        GridPane.setMargin(vbox1, new Insets(20,0,0,0));
         returLayout.addRow(6,  sokSkadeNrLayout );
         returLayout.addRow(7,  sokSkadetypeLayout );
         
         VBox vbox2 = new VBox();
         vbox2.getChildren().addAll(forsikringsLabel, new Separator());
         returLayout.addRow(8, vbox2);
-        returLayout.setMargin(vbox2, new Insets(20,0,0,0));
+        GridPane.setMargin(vbox2, new Insets(20,0,0,0));
         returLayout.addRow( 9, sokForsikringLayout);
         returLayout.addRow( 10, sokForsikringerLayout);
         
@@ -436,8 +437,8 @@ public class KundesokLayout extends GridPane{
         });
         
         
-        returKnapper.setHgrow(nesteBildeKnapp, Priority.ALWAYS);
-        returKnapper.setHgrow(forrigeBildeKnapp, Priority.ALWAYS);
+        HBox.setHgrow(nesteBildeKnapp, Priority.ALWAYS);
+        HBox.setHgrow(forrigeBildeKnapp, Priority.ALWAYS);
         nesteBildeKnapp.setMaxWidth(100);
         forrigeBildeKnapp.setMaxWidth(100);
         returKnapper.getChildren().addAll(forrigeBildeKnapp, antallBilder, nesteBildeKnapp);
@@ -451,7 +452,8 @@ public class KundesokLayout extends GridPane{
     //Kontroll-metodene: 
     
     /**
-     * Legger til kunden som er funnet i metodene finnKundeMedFodselsNr() og finnKundeMedNavn(), sine skademeldinger i output-området
+     * Legger til kunden som er funnet i metodene finnKundeMedFodselsNr() og finnKundeMedNavn(), 
+     * sine skademeldinger i output-området
      */
     private void visKundensSkademeldinger(){
         if( kunden == null)
@@ -460,13 +462,16 @@ public class KundesokLayout extends GridPane{
         SkademeldingsListe kundensSkademeldinger = kunden.getSkademeldinger();
         output.setText(kunden.toString());
         if( kundensSkademeldinger.erTom())
-            output.appendText("\n\n" +  kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen registrerte skademeldinger.");
+            output.appendText("\n\n" +  kunden.getFornavn() + " " + kunden.getEtternavn() 
+                              + " har ingen registrerte skademeldinger.");
         else
-            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende skademeldinger:\n" + kundensSkademeldinger.toString() );
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() 
+                              + " har følgende skademeldinger:\n" + kundensSkademeldinger.toString() );
     }// end of method visKundensSkademeldinger()
     
     /**
-     * Legger til kunden som er funnet i metodene finnKundeMedFodselsNr() og finnKundeMedNavn(), sine forsikringer i output-området
+     * Legger til kunden som er funnet i metodene finnKundeMedFodselsNr() og finnKundeMedNavn(), 
+     * sine forsikringer i output-området
      */
     private void visKundensForsikringer(){
         if( kunden == null)
@@ -475,9 +480,11 @@ public class KundesokLayout extends GridPane{
         Forsikringsliste kundensForsikringer = kunden.getForsikringer();
         output.setText(kunden.toString());
         if( kundensForsikringer.erTom())
-            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har ingen forsikringer.");
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() 
+                              + " har ingen forsikringer.");
         else
-            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " har følgende forsikringer:\n" + kundensForsikringer.toString());
+            output.appendText("\n\n" + kunden.getFornavn() + " " + kunden.getEtternavn() 
+                              + " har følgende forsikringer:\n" + kundensForsikringer.toString());
     }// end of method visKundensForsikringer()
     
     /**
@@ -493,8 +500,10 @@ public class KundesokLayout extends GridPane{
         
         String fodselsNr = fodselsNrInput.getText().trim();
         if( !( GUI.sjekkRegexFodselsNr(fodselsNr) ) ){
-            GUI.visInputFeilMelding(" OBS!", " For å finne en kunde basert på fødselsnummer, må du fylle inn et gyldig fødselsnummer."
-                                                             + " Et gyldig fødselsnummer består av 11 sifre. Hvorav de 6 første er fødselsdato.");
+            GUI.visInputFeilMelding(" OBS!", " For å finne en kunde basert på fødselsnummer, "
+                                             + "må du fylle inn et gyldig fødselsnummer."
+                                             + " Et gyldig fødselsnummer består av 11 sifre. "
+                                             + "Hvorav de 6 første er fødselsdato.");
             return false;
         }// end of if
         
@@ -504,7 +513,8 @@ public class KundesokLayout extends GridPane{
                output.setText("\nKunden med dette fødselsnummer finnes ikke i vårt system.");
                return false;
             }
-            output.setText("\n" + kunden.getFornavn() + " " + kunden.getEtternavn() + " funnet i systemet:" + kunden.toString());
+            output.setText("\n" + kunden.getFornavn() + " " + kunden.getEtternavn() 
+                           + " funnet i systemet:" + kunden.toString());
             return true;
         }
         catch(NullPointerException npe){
@@ -515,8 +525,8 @@ public class KundesokLayout extends GridPane{
      
      /**
       * Finner en kunde med fornavn og etternavn. Skriver ut tilbakemelding i outputvinduet avhengig av om kunden finnes. 
-      * Hvis det finnes flere kunder med samme fornavn og/eller etternavn vil brukeren få muligheten til å velge ut den kunden 
-      * som er interessant å slå opp.
+      * Hvis det finnes flere kunder med samme fornavn og/eller etternavn vil brukeren få muligheten 
+      * til å velge ut den kunden som er interessant å slå opp.
       * @return En boolsk variabel som tilsier om kunden ble funnet eller ikke. 
       */
     private boolean finnKundeMedNavn(){
@@ -567,10 +577,12 @@ public class KundesokLayout extends GridPane{
     }// end of method finnKundeMedNavn()
     
     /**
-     * Hvis det finnes flere brukere med samme fornavn og/eller etternavn blir disse listet ut i et dialogvindu, og gir brukeren muligheten til
-     * å velge ut hvilken kunde brukeren vil slå opp. Returnerer en  
-     * @param fornavnANDORetternavn Hvilken type case det er snakk om. "Fornavn" hvis man søker på fornavn, "Etternavn" for etternavn, "FornavnEtternavn" hvis man skal søke på begge deler.
-     * @return En tekststreng som forklarer hva som har blitt gjort. Har brukeren valgt ut en kunde, og trykket "OK" så blir f.eks toString'en til kunden skrevet ut.
+     * Hvis det finnes flere brukere med samme fornavn og/eller etternavn blir disse listet ut i et dialogvindu, 
+     * og gir brukeren muligheten til å velge ut hvilken kunde brukeren vil slå opp. Returnerer en  
+     * @param fornavnANDORetternavn Hvilken type case det er snakk om. "Fornavn" hvis man søker på fornavn, 
+     * "Etternavn" for etternavn, "FornavnEtternavn" hvis man skal søke på begge deler.
+     * @return En tekststreng som forklarer hva som har blitt gjort. Har brukeren valgt ut en kunde, 
+     * og trykket "OK" så blir f.eks toString'en til kunden skrevet ut.
      */
     private String visValgAvKunder(String fornavnANDORetternavn){
         
@@ -660,9 +672,10 @@ public class KundesokLayout extends GridPane{
     }// end of method visValgAvKunder()
     
     /**
-     * Et dynamisk layout som avhenger av listen som blir sendt med i parameterlisten. Dette layoutet er laget for å la brukeren velge ut kunder med samme
-     * fornavn og/eller samme etternavn. 
-     * @param fornavnANDORetternavn Sender med konstanter for eget bruk. "Fornavn" hvis man skal søke på fornavn, "Etternavn" hvis etternavn, "FornavnEtternavn" hvis begge.
+     * Et dynamisk layout som avhenger av listen som blir sendt med i parameterlisten. 
+     * Dette layoutet er laget for å la brukeren velge ut kunder med samme fornavn og/eller samme etternavn. 
+     * @param fornavnANDORetternavn Sender med konstanter for eget bruk. "Fornavn" hvis man skal søke på fornavn, 
+     * "Etternavn" hvis etternavn, "FornavnEtternavn" hvis begge.
      * @param kunder Listen av kunder som skal listes ut i ChoiceBox'en
      * @return Et GridPane layout med en dynamisk ChoiceBox for valg av kunder. 
      */
@@ -678,10 +691,11 @@ public class KundesokLayout extends GridPane{
         Iterator<ForsikringsKunde> kIter = kunder.listIterator();
         while( kIter.hasNext() ){
             ForsikringsKunde gjeldende = kIter.next();
-            velgKundeBox.getItems().add( gjeldende.getFodselsNr() + ", " + gjeldende.getFornavn() + " " + gjeldende.getEtternavn() + ", " + gjeldende.getAdresse());
+            velgKundeBox.getItems().add(gjeldende.getFodselsNr() + ", " + gjeldende.getFornavn() 
+                                        + " " + gjeldende.getEtternavn() + ", " + gjeldende.getAdresse());
         }
         velgKundeBox.getSelectionModel().selectedItemProperty().addListener( new ChangeListener<String>(){
-            
+            @Override
             public void changed( ObservableValue<? extends String> source, String oldValue, String newValue){
                 String[] tekstSplit = newValue.split(",");
                 valgtKundesFodselsNr = tekstSplit[0];
@@ -728,7 +742,8 @@ public class KundesokLayout extends GridPane{
     }// end of method finnKunderMedForsikringstype()
     
     /**
-     * Finner skademelding med riktig type skadenummer, og skriver ut informasjon om denne i output-vinduet. Hvis skademeldingen har bilder, blir dette vist. 
+     * Finner skademelding med riktig type skadenummer, og skriver ut informasjon om denne i output-vinduet. 
+     * Hvis skademeldingen har bilder, blir dette vist. 
      */
     private void finnSkadeMedSkadeNr(){
         output.setText("");
@@ -737,7 +752,8 @@ public class KundesokLayout extends GridPane{
             return;
         }
         if( !( GUI.sjekkRegex("^\\d+$", skadeNrInput.getText().trim()) ) ){
-            GUI.visInputFeilMelding(" OBS!", "For å kunne søke opp en skademelding, må du fylle inn et gyldig skademeldingsnummer på skaden du vil finne. "
+            GUI.visInputFeilMelding(" OBS!", "For å kunne søke opp en skademelding, må du fylle inn et gyldig "
+                                            + "skademeldingsnummer på skaden du vil finne. "
                                             + "Et gyldig nummer består av bare tall.");
             return;
         }
@@ -767,8 +783,10 @@ public class KundesokLayout extends GridPane{
                 imageviewer.setVisible(true);
             }
             ForsikringsKunde skademeldingEier =  kundeRegister.finnKunde(skadeNr);
-            output.setText("\nFølgende skademelding funnet:" + gjeldendeSkademelding.toString() + "\nSkademeldingen er registrert på: " + 
-                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
+            output.setText("\nFølgende skademelding funnet:" + gjeldendeSkademelding.toString() 
+                         + "\nSkademeldingen er registrert på: " 
+                         + skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() 
+                         + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
         }// end of try
         catch( NumberFormatException | NullPointerException nfe){
             GUI.visProgramFeilMelding(nfe);
@@ -801,14 +819,14 @@ public class KundesokLayout extends GridPane{
                 //Legger til tekst om hvem skademeldingen er registrert på
                 ForsikringsKunde skademeldingEier = kundeRegister.finnKunde( iterSkademelding.getSkadeNr());
                 if(skademeldingEier != null){
-                    output.appendText("\nSkademeldingen er registrert på: " + 
-                    skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
+                    output.appendText("\nSkademeldingen er registrert på: "
+                                    + skademeldingEier.getFornavn() + " " + skademeldingEier.getEtternavn() 
+                                    + "\nFødselsnummer til kunden: " + skademeldingEier.getFodselsNr());
                 }
             }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
-            return;
         }
     }// end of method finnSkademeldingerMedSkadeType()
     
@@ -818,13 +836,15 @@ public class KundesokLayout extends GridPane{
      */
     private void finnForsikring(){
         if( avtaleNrInput.getText().trim().isEmpty()){
-            GUI.visInputFeilMelding("Fyll inn avtalenummer", " For å kunne søke på en forsikring må du fylle inn avtalenummeret"
-                                                              + " på forsikringen du vil søke opp.");
+            GUI.visInputFeilMelding("Fyll inn avtalenummer", 
+                                    " For å kunne søke på en forsikring må du fylle inn avtalenummeret"
+                                  + " på forsikringen du vil søke opp.");
             return;
         }//end of if
         if( ! ( GUI.sjekkRegex("^\\d+$", avtaleNrInput.getText().trim()) ) ){
-            GUI.visInputFeilMelding("OBS! Tast inn gyldig avtalenummer", " For å kunne søke opp en forsikring må du fylle inn et gyldig avtalenummer"
-                                                                       + ".\n Et avtalenummer består av bare tall");
+            GUI.visInputFeilMelding("OBS! Tast inn gyldig avtalenummer", 
+                                    " For å kunne søke opp en forsikring må du fylle inn et gyldig avtalenummer"
+                                  + ".\n Et avtalenummer består av bare tall");
             return;
         }// end of if
         
@@ -839,8 +859,9 @@ public class KundesokLayout extends GridPane{
             output.setText("\nForsikring nr." + avtaleNr + " funnet:" + forsikringen.toString());
             ForsikringsKunde forsikringsEier = kundeRegister.finnKundeMedAvtaleNr(avtaleNr);
             if( forsikringsEier != null){
-                output.appendText( "\nEr registrert på: " + forsikringsEier.getFornavn() + " " + forsikringsEier.getEtternavn() +
-                                   "\nKundens fødselsnummer: " + forsikringsEier.getFodselsNr());
+                output.appendText( "\nEr registrert på: " + forsikringsEier.getFornavn() + " " 
+                                 + forsikringsEier.getEtternavn() 
+                                 + "\nKundens fødselsnummer: " + forsikringsEier.getFodselsNr());
             }// end of if
         }// end of try
         catch( NumberFormatException | NullPointerException e){
@@ -849,7 +870,8 @@ public class KundesokLayout extends GridPane{
     }// end of method finnForsikring()
 
     /**
-     * Kontrollerer og validerer brukerens input, og søker deretter i kunderegisteret etter hvilke typer forsikringer som ble valgt.
+     * Kontrollerer og validerer brukerens input, og søker deretter i kunderegisteret etter hvilke typer 
+     * forsikringer som ble valgt.
      */
     private void finnForsikringerMedForsikringstype(){
         output.setText("");
@@ -874,8 +896,9 @@ public class KundesokLayout extends GridPane{
                 
                 ForsikringsKunde forsikringsEier = kundeRegister.finnKundeMedAvtaleNr( gjeldendeForsikring.getAvtaleNr());
                 if(forsikringsEier != null)
-                    output.appendText( "\nRegistrert på: " + forsikringsEier.getFornavn() + " " + forsikringsEier.getEtternavn()
-                                      +"\nFødselsnummeret til kunden: " + forsikringsEier.getFodselsNr());
+                    output.appendText( "\nRegistrert på: " + forsikringsEier.getFornavn() + " " 
+                                     + forsikringsEier.getEtternavn()
+                                     + "\nFødselsnummeret til kunden: " + forsikringsEier.getFodselsNr());
             }// end of while
         }// end of try// end of try
         catch(NullPointerException npe){
@@ -884,7 +907,8 @@ public class KundesokLayout extends GridPane{
     }// end of method finnForsikringerMedForsikringstype()
     
     /**
-     * Lager en iterator som starter der det nåværende bilde er i listen, og hvis det er flere bilder, setter vi neste bildet i imageviewer.
+     * Lager en iterator som starter der det nåværende bilde er i listen, og hvis det er flere bilder, 
+     * setter vi neste bildet i imageviewer.
      */
     private void nesteBilde(){
         ListIterator<Image> iter = skadeBilder.listIterator(skadeBilder.indexOf(imageviewer.getImage() ) + 1 );
@@ -896,7 +920,8 @@ public class KundesokLayout extends GridPane{
     }// end of method nesteBilde()
     
     /**
-     * Lager en iterator som starter der det nåværende bilde er i listen, og hvis lista ikke starter på første plass i lista, setter vi forrige bildet i imageviewer.
+     * Lager en iterator som starter der det nåværende bilde er i listen, 
+     * og hvis lista ikke starter på første plass i lista, setter vi forrige bildet i imageviewer.
      */
     private void forrigeBilde(){
         ListIterator<Image> iter = skadeBilder.listIterator(  skadeBilder.indexOf(imageviewer.getImage() )  );
