@@ -30,6 +30,15 @@ public class ForsikringsKunde implements Serializable{
     private String fodselsNr;
     private boolean erForsikringsKunde;
 
+    /**
+     * 
+     * @param fornavn Fornavnet til kunden som det skal opprettes
+     * @param etternavn Etternavnet til kunden som skal opprettes
+     * @param fakturaAdresse Gateadresse/Fakturaadresse på kunden som skal opprettes
+     * @param postSted Poststed til bostedet hvor kunden bor
+     * @param postNr Postnummeret til bostedet hvor kunden bor
+     * @param fodselsNr Fødselsnummeret til kunden som skal opprettes
+     */
     public ForsikringsKunde(String fornavn, String etternavn, String fakturaAdresse, String postSted, String postNr, String fodselsNr) {
         this.fornavn = fornavn;
         this.etternavn = etternavn;
@@ -142,28 +151,6 @@ public class ForsikringsKunde implements Serializable{
         this.aarligUtbetaling = this.forsikringsPremie;
         return this.aarligUtbetaling;
     }// end of getAarligUtbetaling()
-    
-    /**
-     * 
-     * @return En tekststreng med informasjon om kunden. 
-     */
-    @Override
-    public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
-        String startDatoString = sdf.format(startDato.getTime());
-        
-        String utskrift = "\n\n--------------------------------------------------------"
-                        + "\nKunde: " + fornavn + " " + etternavn  
-                        + "\n--------------------------------------------------------" 
-                        + "\nFødselsnummer: " + fodselsNr  
-                        + "\nFaktura adresse: " + fakturaAdresse + ", " + postNr + " " + postSted
-                        + "\nStartdato: " + startDatoString 
-                        + "\nForsikringspremie: " + forsikringsPremie 
-                        + "\nTotalkunde: " + (totalKunde ? "Ja" : "Nei")  
-                        + "\nUtbetalt erstatning: " + utbetaltErstatning 
-                        + "\nEr kunde hos oss: " + (erForsikringsKunde ? "Ja" : "Nei");
-        return utskrift;
-    } //end of method toString()
     
     /**
      * 
@@ -293,4 +280,26 @@ public class ForsikringsKunde implements Serializable{
     public void setErForsikringsKunde(boolean erForsikringsKunde) {
         this.erForsikringsKunde = erForsikringsKunde;
     }// end of method setErForsikringsKunde()
+    
+    /**
+     * 
+     * @return En tekststreng med informasjon om kunden. 
+     */
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+        String startDatoString = sdf.format(startDato.getTime());
+        
+        String utskrift = "\n\n--------------------------------------------------------"
+                        + "\nKunde: " + fornavn + " " + etternavn  
+                        + "\n--------------------------------------------------------" 
+                        + "\nFødselsnummer: " + fodselsNr  
+                        + "\nFaktura adresse: " + fakturaAdresse + ", " + postNr + " " + postSted
+                        + "\nStartdato: " + startDatoString 
+                        + "\nForsikringspremie: " + forsikringsPremie 
+                        + "\nTotalkunde: " + (totalKunde ? "Ja" : "Nei")  
+                        + "\nUtbetalt erstatning: " + utbetaltErstatning 
+                        + "\nEr kunde hos oss: " + (erForsikringsKunde ? "Ja" : "Nei");
+        return utskrift;
+    } //end of method toString()
 }//end of class ForsikringsKunde
