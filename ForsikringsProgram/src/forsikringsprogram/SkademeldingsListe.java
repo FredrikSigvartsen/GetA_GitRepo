@@ -166,6 +166,9 @@ public class SkademeldingsListe implements Serializable {
         return null;
     }// end of method finnSkademeldinger( Calendar min, Calendar max, String skademeldingsType)
     
+    /**
+     * @return returnerer skademeldingslisten.
+     */
     public List<Skademelding> getListe() {
         return this.skademeldingsListe;
     }

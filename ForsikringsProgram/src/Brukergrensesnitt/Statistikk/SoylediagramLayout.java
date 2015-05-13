@@ -29,6 +29,10 @@ import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Oppretter søylediagram med kontrollpanel.
+ * @author Elias
+ */
 public class SoylediagramLayout extends GridPane{
     
     private Calendar calMin, calMax;
@@ -45,6 +49,10 @@ public class SoylediagramLayout extends GridPane{
     private ImageView iv, iv1;
     private Font tekstStr, tekstStr1;
     
+    /**
+     * Konstruktør. Setter opp gridpanet med søylediagram og kontrollpanel.
+     * @param register 
+     */
     public SoylediagramLayout(Kunderegister register) {
         kundeRegister = register;
         pane = new GridPane();

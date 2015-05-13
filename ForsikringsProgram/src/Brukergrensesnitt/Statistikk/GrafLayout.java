@@ -37,6 +37,10 @@ import static javafx.scene.paint.Color.DARKGRAY;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Oppretter linje-graf med kontrollpanel.
+ * @author Elias
+ */
 public class GrafLayout extends GridPane{
     
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -55,6 +59,10 @@ public class GrafLayout extends GridPane{
     private Tooltip tooltip;
     private Font tekstStr, tekstStr1;
     
+    /**
+     * Konstruktør. Setter opp gridpanet med linje-graf og kontrollpanel.
+     * @param register 
+     */
     public GrafLayout(Kunderegister register) {
         kundeRegister = register;
         
@@ -282,39 +290,6 @@ public class GrafLayout extends GridPane{
     }//end of method opprettUtgifterSerie(String type)
     
     /**
-     * Lager en liste med Date-objekter utifra Fra-dato og Til-dato satt av bruker.
-     * @return List<Date> 
-     */
-    private List<Date> lagDatoListe() {
-        List<Date> datoListe = new ArrayList<>();
-        
-        Calendar min = Calendar.getInstance();
-        min.set(datePickerFra.getValue().getYear(), 
-                datePickerFra.getValue().getMonthValue() - 1, 
-                datePickerFra.getValue().getDayOfMonth()); 
-        min.clear(Calendar.HOUR);
-        min.clear(Calendar.HOUR_OF_DAY);
-        min.clear(Calendar.MINUTE);
-        min.clear(Calendar.SECOND);
-        min.clear(Calendar.MILLISECOND);
-        Calendar max = Calendar.getInstance(); 
-        max.set(datePickerTil.getValue().getYear(),
-                datePickerTil.getValue().getMonthValue() - 1, 
-                datePickerTil.getValue().getDayOfMonth());
-        max.clear(Calendar.HOUR);
-        max.clear(Calendar.HOUR_OF_DAY);
-        max.clear(Calendar.MINUTE);
-        max.clear(Calendar.SECOND);
-        max.clear(Calendar.MILLISECOND);
-        
-        while(!min.after(max)) {
-            datoListe.add(min.getTime());
-            min.add(Calendar.DATE, 1);
-        }
-        return datoListe;
-    }//end of method lagDatoListe()
-    
-    /**
      * Oppretter knappen og lytter på den.
      */
     private void opprettKnapp() {
@@ -437,4 +412,37 @@ public class GrafLayout extends GridPane{
         pane2.setVgap(5);
         add(pane, 1, 1);
     }//end of method opprettKontrollPanel()
+    
+    /**
+     * Lager en liste med Date-objekter utifra Fra-dato og Til-dato satt av bruker.
+     * @return Returnerer en List<Date> med alle datoer fra og med "Fra dato"-DatePickern, til og med "Til dato"-DatePickern. 
+     */
+    private List<Date> lagDatoListe() {
+        List<Date> datoListe = new ArrayList<>();
+        
+        Calendar min = Calendar.getInstance();
+        min.set(datePickerFra.getValue().getYear(), 
+                datePickerFra.getValue().getMonthValue() - 1, 
+                datePickerFra.getValue().getDayOfMonth()); 
+        min.clear(Calendar.HOUR);
+        min.clear(Calendar.HOUR_OF_DAY);
+        min.clear(Calendar.MINUTE);
+        min.clear(Calendar.SECOND);
+        min.clear(Calendar.MILLISECOND);
+        Calendar max = Calendar.getInstance(); 
+        max.set(datePickerTil.getValue().getYear(),
+                datePickerTil.getValue().getMonthValue() - 1, 
+                datePickerTil.getValue().getDayOfMonth());
+        max.clear(Calendar.HOUR);
+        max.clear(Calendar.HOUR_OF_DAY);
+        max.clear(Calendar.MINUTE);
+        max.clear(Calendar.SECOND);
+        max.clear(Calendar.MILLISECOND);
+        
+        while(!min.after(max)) {
+            datoListe.add(min.getTime());
+            min.add(Calendar.DATE, 1);
+        }
+        return datoListe;
+    }//end of method lagDatoListe()
 }//end of class GrafLayout
