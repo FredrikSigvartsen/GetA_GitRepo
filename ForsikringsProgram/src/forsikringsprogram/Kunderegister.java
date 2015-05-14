@@ -454,7 +454,7 @@ public class Kunderegister implements Serializable {
      * @param max Sluttdato for tidsintervallet det søkes i.
      * @return Returnerer (int)antall forsikringer av gitt type.
      */
-    public int antallForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
+    public int antallAktiveForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
         Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
         int sum = 0;
         
@@ -480,7 +480,42 @@ public class Kunderegister implements Serializable {
             }//end of outer if
         }//end of outer while
         return sum;
-    }//end of method antallForsikringAvType(String forsikringstype, Calendar min, Calendar max)
+    }//end of method antallAktiveForsikringAvType(String forsikringstype, Calendar min, Calendar max)
+    
+    /**
+     * Teller opp antall opphørte forsikringer av gitt type, i tidsrommet mellom min og max.
+     * @param forsikringstype Hvilken forsikringstype man vil finne antall av. 
+     * @param min Startdato for tidsintervallet det søkes i.
+     * @param max Sluttdato for tidsintervallet det søkes i.
+     * @return Returnerer (int)antall forsikringer av gitt type.
+     */
+    public int antallOpphorteForsikringAvType(String forsikringstype, Calendar min, Calendar max) {
+        Iterator<ForsikringsKunde> kIter = kunderegister.iterator();
+        int sum = 0;
+        
+        while(kIter.hasNext()) {
+            ForsikringsKunde kunde = kIter.next();
+            if(kunde.getForsikringer() != null && kunde.getForsikringer().listeMedForsikringAvType(forsikringstype) != null) {
+                List<Forsikring> liste = kunde.getForsikringer().listeMedForsikringAvType(forsikringstype);
+                Iterator<Forsikring> fIter = liste.iterator();
+                while(fIter.hasNext()) {
+                    Forsikring forsikring = fIter.next();
+                    if(!forsikring.isActive()) {
+                        Calendar dato = forsikring.getOpprettelsesDato();
+                        dato.clear(Calendar.HOUR);
+                        dato.clear(Calendar.HOUR_OF_DAY);
+                        dato.clear(Calendar.MINUTE);
+                        dato.clear(Calendar.SECOND);
+                        dato.clear(Calendar.MILLISECOND);
+                        if(!dato.before(min) && !dato.after(max)) {
+                                sum++;
+                        }//end of second inner if
+                    }//end of first inner if
+                }//end of inner while
+            }//end of outer if
+        }//end of outer while
+        return sum;
+    }//end of method antallOpphorteForsikringAvType(String forsikringstype, Calendar min, Calendar max)
     
     /**
      * Teller opp antall skademeldinger av gitt type, i tidsrommet mellom min og max.

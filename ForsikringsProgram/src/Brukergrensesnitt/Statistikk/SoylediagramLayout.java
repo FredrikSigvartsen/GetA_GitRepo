@@ -8,6 +8,7 @@ package Brukergrensesnitt.Statistikk;
 import forsikringsprogram.Forsikring;
 import forsikringsprogram.Kunderegister;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Calendar;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +38,7 @@ public class SoylediagramLayout extends GridPane{
     
     private Calendar calMin, calMax;
     private DatePicker datePickerFra, datePickerTil;
-    private BarChart<String, Number> bc;
+    private StackedBarChart<String, Number> bc;
     private GridPane pane, pane1, pane2;
     private Label typeLabel, fraLabel, tilLabel, beskrivelse;
     private Button oppdaterKnapp;
@@ -133,24 +134,40 @@ public class SoylediagramLayout extends GridPane{
     private void opprettSoylediagram(String type, Calendar min, Calendar max) {
         CategoryAxis xAkse = new CategoryAxis();
         NumberAxis yAkse = new NumberAxis();
-        bc = new BarChart<>(xAkse, yAkse);
-        bc.setTitle("Antall aktive " + type.toLowerCase());
-        xAkse.setLabel("Type");       
+        bc = new StackedBarChart<>(xAkse, yAkse);
+        bc.setTitle("Antall " + type.toLowerCase());
+        xAkse.setLabel("Type");  
+        xAkse.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(Forsikring.BAAT, 
+                                                                                    Forsikring.BIL, 
+                                                                                    Forsikring.REISE, 
+                                                                                    Forsikring.BOLIG)));
         yAkse.setLabel("Antall");    
         
         bc.getData().clear();
         XYChart.Series serie1 = new XYChart.Series();
-        serie1.setName(type);
         if(type.equals("Forsikringer")) {
+            serie1.setName("Aktive forsikringer");
             serie1.getData().add(new XYChart.Data(Forsikring.BAAT, 
-                                                  kundeRegister.antallForsikringAvType(Forsikring.BAAT, min, max)));
+                                                  kundeRegister.antallAktiveForsikringAvType(Forsikring.BAAT, min, max)));
             serie1.getData().add(new XYChart.Data(Forsikring.BIL, 
-                                                  kundeRegister.antallForsikringAvType(Forsikring.BIL, min, max)));
+                                                  kundeRegister.antallAktiveForsikringAvType(Forsikring.BIL, min, max)));
             serie1.getData().add(new XYChart.Data(Forsikring.REISE, 
-                                                  kundeRegister.antallForsikringAvType(Forsikring.REISE, min, max)));
+                                                  kundeRegister.antallAktiveForsikringAvType(Forsikring.REISE, min, max)));
             serie1.getData().add(new XYChart.Data(Forsikring.BOLIG, 
-                                                  kundeRegister.antallForsikringAvType(Forsikring.BOLIG, min, max)));
+                                                  kundeRegister.antallAktiveForsikringAvType(Forsikring.BOLIG, min, max)));
+            XYChart.Series serie2 = new XYChart.Series();
+            serie2.setName("Opphørte forsikringer");
+            serie2.getData().add(new XYChart.Data(Forsikring.BAAT, 
+                                                  kundeRegister.antallOpphorteForsikringAvType(Forsikring.BAAT, min, max)));
+            serie2.getData().add(new XYChart.Data(Forsikring.BIL, 
+                                                  kundeRegister.antallOpphorteForsikringAvType(Forsikring.BIL, min, max)));
+            serie2.getData().add(new XYChart.Data(Forsikring.REISE, 
+                                                  kundeRegister.antallOpphorteForsikringAvType(Forsikring.REISE, min, max)));
+            serie2.getData().add(new XYChart.Data(Forsikring.BOLIG, 
+                                                  kundeRegister.antallOpphorteForsikringAvType(Forsikring.BOLIG, min, max)));
+            bc.getData().addAll(serie1, serie2);
         } else {
+            serie1.setName("Skademeldinger");
             serie1.getData().add(new XYChart.Data(Forsikring.BAAT, 
                                                   kundeRegister.antallSkademeldingAvType(Forsikring.BAAT, min, max)));
             serie1.getData().add(new XYChart.Data(Forsikring.BIL, 
@@ -159,9 +176,9 @@ public class SoylediagramLayout extends GridPane{
                                                   kundeRegister.antallSkademeldingAvType(Forsikring.REISE, min, max)));
             serie1.getData().add(new XYChart.Data(Forsikring.BOLIG, 
                                                   kundeRegister.antallSkademeldingAvType(Forsikring.BOLIG, min, max)));
+            bc.getData().add(serie1);
         }
        
-        bc.getData().add(serie1);
         bc.setBorder(new Border(new BorderStroke(DARKGRAY,SOLID, new CornerRadii(5), THIN, new Insets(15))));
         bc.setCategoryGap(40);
         GridPane.setMargin(bc, new Insets(25,0,0,0));
