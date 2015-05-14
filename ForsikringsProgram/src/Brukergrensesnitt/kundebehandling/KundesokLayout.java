@@ -54,7 +54,10 @@ public class KundesokLayout extends GridPane{
     private ForsikringsKunde kunden;
     private String valgtKundesFodselsNr;
     
-    
+    /**
+     * Oppretter layoutet
+     * @param register Kunderegisteret det gjøres søk i
+     */
     public KundesokLayout(Kunderegister register){
         super();
         this.kundeRegister = register;
@@ -131,7 +134,7 @@ public class KundesokLayout extends GridPane{
         sokFodselsNrLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokFodselsNrLayout);
             if( !( sokFodselsNrLayout.isExpanded() ) ){
-                settSynligVisKnapper(false);
+                settVisKnapperSynlig(false);
                 settFelterTomme();
             }
         });
@@ -141,7 +144,7 @@ public class KundesokLayout extends GridPane{
         sokNavnLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokNavnLayout);
             if( ! (sokNavnLayout.isExpanded() ) ){
-                settSynligVisKnapper(false);
+                settVisKnapperSynlig(false);
                 settFelterTomme();
             }
         });
@@ -150,7 +153,7 @@ public class KundesokLayout extends GridPane{
         sokForsikringstypeLayout.setExpanded(false);
         sokForsikringstypeLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokForsikringstypeLayout);
-            settSynligVisKnapper(false);
+            settVisKnapperSynlig(false);
             settFelterTomme();
         });
         //Søk på skademeldinger med skadenummer
@@ -158,7 +161,7 @@ public class KundesokLayout extends GridPane{
         sokSkadeNrLayout.setExpanded(false);
         sokSkadeNrLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokSkadeNrLayout);
-            settSynligVisKnapper(false);
+            settVisKnapperSynlig(false);
             settFelterTomme();
         });
         //Søk på skademeldinger av gitt skadetype
@@ -166,7 +169,7 @@ public class KundesokLayout extends GridPane{
         sokSkadetypeLayout.setExpanded(false);
         sokSkadetypeLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokSkadetypeLayout);
-            settSynligVisKnapper(false);
+            settVisKnapperSynlig(false);
             settFelterTomme();
         });
         //Søk på forsikring med avtalenummer
@@ -174,7 +177,7 @@ public class KundesokLayout extends GridPane{
         sokForsikringLayout.setExpanded(false);
         sokForsikringLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokForsikringLayout);
-            settSynligVisKnapper(false);
+            settVisKnapperSynlig(false);
             settFelterTomme();
         });
         //Søk på forsikringer med forsikringstype
@@ -182,7 +185,7 @@ public class KundesokLayout extends GridPane{
         sokForsikringerLayout.setExpanded(false);
         sokForsikringerLayout.setOnMouseClicked((MouseEvent t) -> {
             settUtvidet(sokForsikringerLayout);
-            settSynligVisKnapper(false);
+            settVisKnapperSynlig(false);
             settFelterTomme();
         });
         //Overskrifter
@@ -234,7 +237,7 @@ public class KundesokLayout extends GridPane{
         sokKnapp.setOnAction((ActionEvent e) -> {
             if( finnKundeMedFodselsNr() ){
                 bildeviserLayout.setVisible(false);
-                settSynligVisKnapper(true);
+                settVisKnapperSynlig(true);
             }
         });
         //Knappe displayet for visning av forsikringer og skademeldinger til kunden
@@ -264,10 +267,10 @@ public class KundesokLayout extends GridPane{
         sokNavnKnapp.setOnAction((ActionEvent e) -> {
             if( finnKundeMedNavn() ){
                 bildeviserLayout.setVisible(false);
-                settSynligVisKnapper(true);
+                settVisKnapperSynlig(true);
             }
             else
-                settSynligVisKnapper(false);
+                settVisKnapperSynlig(false);
         });
         //Knappe displayet for visning av forsikringer og skademeldinger til kunden
         sokNavnKnappeDisplay = sokKundeKnapper();
@@ -565,13 +568,16 @@ public class KundesokLayout extends GridPane{
             else if( !( fornavn.isEmpty() ) && !( etternavn.isEmpty() ) )
                 output.setText( visValgAvKunder("FornavnEtternavn") );
             
-            //Hvis det ikke finnes noen kunde, er kunden null. 
-            if( kunden == null )
+            //Hvis det ikke finnes noen kunde lik input-navn, er kunden null her. 
+            if( kunden == null ){
+                settVisKnapperSynlig(false);
                 return false;
+            }
             return true;
         }// end of try
         catch(NullPointerException npe){
             GUI.visProgramFeilMelding(npe);
+            settVisKnapperSynlig(false);
             return false;
         }// end of try-catch
     }// end of method finnKundeMedNavn()
@@ -666,6 +672,8 @@ public class KundesokLayout extends GridPane{
             }
         }// end of outter if
         else{
+            kunden = null;
+            settVisKnapperSynlig(false);
             return "\nDu avbrøt handlingen. Søk gjerne på nytt for å finne  kunden du leter etter.";
         }// end of else
         return "\nFeil i søking etter kunde. Kontakt IT-ansvarlig";
@@ -1024,7 +1032,7 @@ public class KundesokLayout extends GridPane{
      * Metoden har til hensikt å skjule knappene "Vis forsikringer" og "Vis skademeldingerer"
      * @param skjulte En parameter som tilsier om knappene skal være skjult eller ikke.
      */
-    private void settSynligVisKnapper(boolean skjulte){
+    private void settVisKnapperSynlig(boolean skjulte){
         sokNavnKnappeDisplay.setVisible(skjulte);
         sokFodselsNrKnappeDisplay.setVisible(skjulte);
     }// end of method skjulKnapper
