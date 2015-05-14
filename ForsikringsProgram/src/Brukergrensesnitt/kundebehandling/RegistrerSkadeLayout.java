@@ -96,6 +96,7 @@ public class RegistrerSkadeLayout extends GridPane {
         //Knappen i layoutet som laster opp en fil. 
         lastOppFilKnapp = new Button("Last opp");
         lastOppFilKnapp.setOnAction((ActionEvent e) -> {
+            antallBilder = 0;
             FileChooser filvelger = new FileChooser();
             filvelger.getExtensionFilters().add(
                     new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.gif") );
