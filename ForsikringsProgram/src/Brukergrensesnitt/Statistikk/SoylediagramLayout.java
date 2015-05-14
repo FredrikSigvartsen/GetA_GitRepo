@@ -78,7 +78,7 @@ public class SoylediagramLayout extends GridPane{
         iv1.setImage(bilde);
         iv1.setFitWidth(60);
         iv1.setFitHeight(60);
-        tooltip = new Tooltip("Søylediagrammet viser antall aktive forsikringer/skademeldinger i" +
+        tooltip = new Tooltip("Søylediagrammet viser antall forsikringer/skademeldinger i" +
                               "\ntidsrommet mellom de to datoene. Velg datoer, velg type du vil se, oppdater deretter " +
                               "\ndiagrammet ved å trykke på knappen.");
         tooltip.setGraphic(iv1);
@@ -126,7 +126,8 @@ public class SoylediagramLayout extends GridPane{
     }//end of construnctor
     
     /**
-     * Oppretter soylediagram som viser antall aktive forsikringer eller skademeldinger (gitt av type) mellom min og max datoene.
+     * Oppretter soylediagram som viser antall forsikringer(aktive og opphørte i to forskjellige farger) 
+     * eller skademeldinger, gitt av type, mellom min og max datoene.
      * @param type Spesifiserer om søylediagrammet skal vise forsikringer elelr skademeldinger
      * @param min Startdato for tidsintervallet det søkes i
      * @param max Ssluttdato for tidsintervallet det søkes i
