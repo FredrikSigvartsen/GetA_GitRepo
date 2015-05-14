@@ -35,7 +35,7 @@ import javafx.scene.text.FontWeight;
  */
 public class KundesokLayout extends GridPane{
     
-    private static final String SOK_NAVN_REGEX = "[a-zA-Z\\-'\\s]+";
+    private static final String SOK_NAVN_REGEX = "[a-zæøåA-ZÆØÅ\\-'\\s]+";
     private Kunderegister kundeRegister;
     private TitledPane sokFodselsNrLayout, sokNavnLayout, sokForsikringstypeLayout, sokSkadeNrLayout, sokSkadetypeLayout
             , sokForsikringLayout, sokForsikringerLayout;
