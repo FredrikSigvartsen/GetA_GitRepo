@@ -54,7 +54,7 @@ public class SioppforsikringsLayout extends GridPane{
         setHgap(10);
         
         //legger til kolonne 1
-        add(KundePane.overskrift("Tegn forsikring", 20), 1, 1, 2, 1);
+        add(KundePane.overskrift("Si opp forsikring", 20), 1, 1, 2, 1);
         add(new Label("Fødselsnummer for oppsigelse:"), 1, 2);
         GridPane.setHalignment(siOppForsikring, HPos.CENTER);
         add(siOppForsikring, 1, 3, 2, 1);
