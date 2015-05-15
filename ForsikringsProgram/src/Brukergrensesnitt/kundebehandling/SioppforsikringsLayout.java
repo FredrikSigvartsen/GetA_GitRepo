@@ -31,7 +31,7 @@ public class SioppforsikringsLayout extends GridPane{
      */
     public SioppforsikringsLayout(Kunderegister register){
         opprettSiOppLayout();
-        siOppForsikringLytter();
+        siOppForsikring();
         this.kundeRegister = register;
         tekstFeltLyttere();
     }//end of constructor
@@ -42,6 +42,9 @@ public class SioppforsikringsLayout extends GridPane{
     public void opprettSiOppLayout(){
         
         siOppForsikring = new Button("Vis forsikring");
+        siOppForsikring.setOnAction((ActionEvent event) -> {
+            siOppForsikring();
+        });
         
         fodselsnr = TextFieldBuilder.create()
                    .minWidth(GUI.TEKSTFELT_BREDDE)
@@ -66,46 +69,27 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of methd opprettSiOppLayout()
     
     /**
-     * Oppretter et vindu med kundens aktive forsikringer
-     * @param forsikringBoks array med checkboxer som kan legges ut i vinduet
-     * @param valgPane GridPane med innholdet til vinduet
-     * @param fodselsnrForsikringer kundens fødselsnummer
+     * Legger til en lytter på siOppForsikring knappen
      */
-    private void visForsikringValg(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
-        Alert valg = new Alert(AlertType.CONFIRMATION);
-        valg.setTitle("Si opp forsikringer");
-        valg.setHeaderText("");
-        valg.setGraphic(valgPane);
-        
-        ButtonType siOppKnapp = new ButtonType("Si opp forsikringer");
-        ButtonType avbrytKnapp = new ButtonType("Avbryt", ButtonData.CANCEL_CLOSE);
-        
-        valg.getButtonTypes().setAll(siOppKnapp, avbrytKnapp);
-        
-        valg.getDialogPane().setPrefWidth(550);
-        valg.getDialogPane().setMinHeight(200);
-        valg.setResizable(true);
-        valg.initOwner(GUI.getStage());
-        Optional<ButtonType> handling = valg.showAndWait();
-        
-        int antallAvkrysset = 0;
-        int[] avtalenr = new int[forsikringBoks.length];
-        if( handling.isPresent() && handling.get() == siOppKnapp){
-            for(int j = 0; j < forsikringBoks.length; j++){
-                if(forsikringBoks != null && forsikringBoks[j].isSelected()){
-                    avtalenr[j] = Integer.parseInt(forsikringBoks[j].getId());
-                    antallAvkrysset++;
-                }
+    private void siOppForsikring(){
+            if( !erFelterTomme() ){
+                return;
             }
-            
-            if(antallAvkrysset == 0){
-                GUI.visInputFeilMelding("Feil i valg", "Velg en eller flere forsikringer som skal sies opp, eller trykk avbryt");
+            if( !tekstFeltLyttere() ){
+                return;
             }
-            else{
-                siOppForsikringer(avtalenr, fodselsnrForsikringer);
-            }
-        }
-    }// end of method visForsikringValg() 
+            try{
+                ForsikringsKunde forsikringsKunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
+                if(forsikringsKunde != null)
+                    opprettForsikringValgLayout(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
+                else
+                    GUI.visInputFeilMelding("Finner ikke kunde", "Kunden er ikke registrert i systemet");
+            }//end of try//end of try//end of try//end of try
+            catch(NumberFormatException | NullPointerException e){
+                GUI.visProgramFeilMelding(e);
+                return;
+            }//end of catch
+    }//end of method siOppForsikring()
     
     /**
      * Oppretter et GridPane-layout med en beskrivende tekst, og en dynamisk checkbox som avhenger av hva slags
@@ -173,6 +157,48 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of method opprettForsikringValgLayout()
     
     /**
+     * Oppretter et vindu med kundens aktive forsikringer
+     * @param forsikringBoks array med checkboxer som kan legges ut i vinduet
+     * @param valgPane GridPane med innholdet til vinduet
+     * @param fodselsnrForsikringer kundens fødselsnummer
+     */
+    private void visForsikringValg(CheckBox[] forsikringBoks, GridPane valgPane, String fodselsnrForsikringer){
+        Alert valg = new Alert(AlertType.CONFIRMATION);
+        valg.setTitle("Si opp forsikringer");
+        valg.setHeaderText("");
+        valg.setGraphic(valgPane);
+        
+        ButtonType siOppKnapp = new ButtonType("Si opp forsikringer");
+        ButtonType avbrytKnapp = new ButtonType("Avbryt", ButtonData.CANCEL_CLOSE);
+        
+        valg.getButtonTypes().setAll(siOppKnapp, avbrytKnapp);
+        
+        valg.getDialogPane().setPrefWidth(550);
+        valg.getDialogPane().setMinHeight(200);
+        valg.setResizable(true);
+        valg.initOwner(GUI.getStage());
+        Optional<ButtonType> handling = valg.showAndWait();
+        
+        int antallAvkrysset = 0;
+        int[] avtalenr = new int[forsikringBoks.length];
+        if( handling.isPresent() && handling.get() == siOppKnapp){
+            for(int j = 0; j < forsikringBoks.length; j++){
+                if(forsikringBoks != null && forsikringBoks[j].isSelected()){
+                    avtalenr[j] = Integer.parseInt(forsikringBoks[j].getId());
+                    antallAvkrysset++;
+                }
+            }
+            
+            if(antallAvkrysset == 0){
+                GUI.visInputFeilMelding("Feil i valg", "Velg en eller flere forsikringer som skal sies opp, eller trykk avbryt");
+            }
+            else{
+                siOppForsikringer(avtalenr, fodselsnrForsikringer);
+            }
+        }
+    }// end of method visForsikringValg() 
+    
+    /**
      * Sier opp alle forsikringer brukeren har valgt i dialog-vinduet.
      * @param avtalenr En array av typen integer som inneholder avtalenummere som skal sies opp
      * @param fodselsnrOppsigelse fødselsnummeret til forsikringskunden som forsikringene sies op fra
@@ -220,30 +246,5 @@ public class SioppforsikringsLayout extends GridPane{
         }
         return true;
     }//end of method erFelterTomme()
-    
-    /**
-     * Legger til en lytter på siOppForsikring knappen
-     */
-    private void siOppForsikringLytter(){
-        siOppForsikring.setOnAction((ActionEvent event) -> {
-            if( !erFelterTomme() ){
-                return;
-            }
-            if( !tekstFeltLyttere() ){
-                return;
-            }
-            try{
-                ForsikringsKunde forsikringsKunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
-                if(forsikringsKunde != null)
-                    opprettForsikringValgLayout(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
-                else
-                    GUI.visInputFeilMelding("Finner ikke kunde", "Kunden er ikke registrert i systemet");
-            }//end of try//end of try//end of try//end of try
-            catch(NumberFormatException | NullPointerException e){
-                GUI.visProgramFeilMelding(e);
-                return;
-            }//end of catch
-        });
-    }//end of method siOppForsikring()
     
 }//end of class SioppforsikringsLayout

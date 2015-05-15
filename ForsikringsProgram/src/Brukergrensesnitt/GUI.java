@@ -233,32 +233,6 @@ public class GUI extends Application{
         });
         kundeLayout.tabLytter();
     }// end of method opprettFaneMeny()
-   
-    /**
-     * Sjekker teksten skrevet inn i nyverdi mot regex
-     * @param feilLabel-Labelen med * som skal endres på
-     * @param nyverdi Den nye String verdien fra lytteren som kaller på metoden
-     * @param melding
-     * @param regex
-     * @return 
-     */
-    public static boolean sjekkRegEx(Label feilLabel, String nyverdi, String melding, String regex){
-        if(regex == null){
-            if(!(nyverdi.trim().isEmpty()) && sjekkRegexFodselsNr(nyverdi)){
-                feilLabel.setText("");
-                return true;
-            }
-            feilLabel.setText(melding);
-        }
-        else{
-            if(!(nyverdi.trim().isEmpty()) && sjekkRegex(regex, nyverdi)){
-                feilLabel.setText("");
-                return true;
-            }
-            feilLabel.setText(melding);
-        }
-        return false;
-    }//end of method sjekkRegEx()
     
     /**
      * En metode som sjekker om teksten stemmer overens med regexen man sender med. 
@@ -338,6 +312,32 @@ public class GUI extends Application{
           return false;
       }// end of catch
     }// end of method sjekkFodselsNr(String birthNumber)
+   
+    /**
+     * Sjekker teksten skrevet inn i nyverdi mot regex
+     * @param feilLabel-Labelen med * som skal endres på
+     * @param nyverdi Den nye String verdien fra lytteren som kaller på metoden
+     * @param melding Meldingen som skal skrives ut hvis brukeren sin input ikke valideres av sjekkRegex-metoden
+     * @param regex Regexen det skal valideres for
+     * @return En boolsk verdi som tilsier om brukerens input er godkjent eller ikke.
+     */
+    public static boolean sjekkRegEx(Label feilLabel, String nyverdi, String melding, String regex){
+        if(regex == null){
+            if(!(nyverdi.trim().isEmpty()) && sjekkRegexFodselsNr(nyverdi)){
+                feilLabel.setText("");
+                return true;
+            }
+            feilLabel.setText(melding);
+        }
+        else{
+            if(!(nyverdi.trim().isEmpty()) && sjekkRegex(regex, nyverdi)){
+                feilLabel.setText("");
+                return true;
+            }
+            feilLabel.setText(melding);
+        }
+        return false;
+    }//end of method sjekkRegEx()
 
     /**
      * Viser en varsel-melding som brukes til å fortelle brukeren at det er gjort noe feil, og brukeren må trykke OK for å fortsette. 
