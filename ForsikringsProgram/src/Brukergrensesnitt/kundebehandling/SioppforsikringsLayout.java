@@ -68,34 +68,6 @@ public class SioppforsikringsLayout extends GridPane{
     }//end of methd opprettSiOppLayout()
     
     /**
-     * Legger til en lytter på siOppForsikring knappen
-     */
-    private void siOppForsikring(){
-            if( !erFelterTomme() ){
-                return;
-            }
-            if( !tekstFeltLyttere() ){
-                return;
-            }
-<<<<<<< HEAD
-            try{
-                ForsikringsKunde forsikringsKunde = kundeRegister.finnKunde(fodselsnr.getText().trim());
-                if(forsikringsKunde != null)
-                    opprettForsikringValgLayout(fodselsnr.getText().trim(), forsikringsKunde.getAktiveForsikringer());
-                else
-                    GUI.visInputFeilMelding("Finner ikke kunde", "Kunden er ikke registrert i systemet");
-            }//end of try//end of try//end of try//end of try
-            catch(NumberFormatException | NullPointerException e){
-                GUI.visProgramFeilMelding(e);
-                return;
-            }//end of catch
-    }//end of method siOppForsikring()
-=======
-        }//end of if
-    }// end of method visForsikringValg() 
->>>>>>> Kunderegister-1.0
-    
-    /**
      * Oppretter et GridPane-layout med en beskrivende tekst, og en dynamisk checkbox som avhenger av hva slags
      * liste som blir sendt med i parameterlisten. 
      * @param fodselsnrForsikringer Fødselsnummeret til kunden som det skal sies opp forsikringer på
@@ -250,8 +222,6 @@ public class SioppforsikringsLayout extends GridPane{
         return true;
     }//end of method erFelterTomme()
     
-<<<<<<< HEAD
-=======
     /**
      * Legger til en lytter på siOppForsikring knappen
      */
@@ -275,6 +245,4 @@ public class SioppforsikringsLayout extends GridPane{
             }//end of catch
         });
     }//end of method siOppForsikring()
-    
->>>>>>> Kunderegister-1.0
 }//end of class SioppforsikringsLayout
