@@ -328,14 +328,14 @@ public class GUI extends Application{
                 return true;
             }
             feilLabel.setText(melding);
-        }
+        }// end of outter if
         else{
             if(!(nyverdi.trim().isEmpty()) && sjekkRegex(regex, nyverdi)){
                 feilLabel.setText("");
                 return true;
             }
             feilLabel.setText(melding);
-        }
+        }// end of else
         return false;
     }//end of method sjekkRegEx()
 
