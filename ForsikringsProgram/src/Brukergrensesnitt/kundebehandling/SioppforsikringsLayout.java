@@ -31,7 +31,7 @@ public class SioppforsikringsLayout extends GridPane{
      */
     public SioppforsikringsLayout(Kunderegister register){
         opprettSiOppLayout();
-        siOppForsikring();
+        siOppForsikringLytter();
         this.kundeRegister = register;
         tekstFeltLyttere();
     }//end of constructor
@@ -224,7 +224,7 @@ public class SioppforsikringsLayout extends GridPane{
     /**
      * Legger til en lytter på siOppForsikring knappen
      */
-    private void siOppForsikring(){
+    private void siOppForsikringLytter(){
         siOppForsikring.setOnAction((ActionEvent event) -> {
             if( !erFelterTomme() ){
                 return;
