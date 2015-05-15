@@ -7,10 +7,14 @@ import forsikringsprogram.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import static javafx.geometry.Pos.CENTER;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/**
+ * Klassen er et gridpane som inneholder to diagrammer med hvert sitt kontrollpanel. Disse brukes til å vise statistikk.
+ * Siste versjon skrevet: 15.05.2015 23:17
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
+ */
 public class StatistikkPane extends GridPane {
     
     private GrafLayout graf;

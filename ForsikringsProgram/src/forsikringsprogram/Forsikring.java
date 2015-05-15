@@ -6,7 +6,8 @@ import java.util.Calendar;
 
 /**
  * Abstrakt superklasse til alle forsikringstypene.
- * @author Elias
+ * Siste versjon skrevet: 15.05.2015 23.22
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public abstract class Forsikring implements Serializable{
     

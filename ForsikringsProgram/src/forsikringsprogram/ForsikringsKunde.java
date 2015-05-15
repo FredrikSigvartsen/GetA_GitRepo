@@ -6,7 +6,7 @@ import java.text.*;
 /**
  * En kunde i forsikringsselskapet har 0 eller flere forsikringer og skademeldinger. Derfor har en ForsikringsKunde en Forsikringsliste og SkademeldingsListe.
  * Hensikten med denne klassen er å registrere skademeldinger, registrere og si opp forsikringer og beregning av totalt utgift/inntekt på en kunde. 
- * Siste versjon skrevet: 01/05/15 12:00
+ * Siste versjon skrevet: 15/05/15 22:06
  * @author Fredrik Aleksander Sigvartsen, Dataingeniør, s236356
  * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  * @author Jens Omfjord, Informasjonsteknologi, s236641
@@ -109,6 +109,10 @@ public class ForsikringsKunde implements Serializable{
         if(forsikringen.getOpphorsDato() != null)
             return "Denne forsikringen er allerede opphørt";
         forsikringen.opphorForsikring();
+        if(misterTotalKunde()) {
+            return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString() + 
+                   "\n\nDenne kunden er ikke lenger totalkunde.";
+        }
         if(!forsikringer.harAktiveForsikringer()) {
             setErForsikringsKunde(false);
             return "\nFølgende forsikring er nå sagt opp:" + forsikringen.toString() + 
@@ -122,14 +126,28 @@ public class ForsikringsKunde implements Serializable{
      * @return True hvis kunden har forsikring av riktig type, OG IKKE er totalkunde fra før. False hvis kunnden er totalkunde og om kunden ikke har rett forsikring
      */
     public boolean blirTotalKunde() {
-        if(this.totalKunde)
+        if(totalKunde)
             return false;
         if(forsikringer.innholderTreForskjelligeForsikringstyper()) {
-            this.totalKunde = true;
+            totalKunde = true;
             return true;
         }
         return false;
     }// end of method blirTotalKunde()
+    
+    /**
+     * Kalles på når en forsikring sies opp. Hvis en kunnde mister sin "totalkunde-status" returnerer metoden true.
+     * @return returnerer true hvis kunden mister sin status som totalkunde. Ellers false.
+     */
+    public boolean misterTotalKunde() {
+        if(!totalKunde)
+            return false;
+        if(!forsikringer.innholderTreForskjelligeForsikringstyper()) {
+            totalKunde = false;
+            return true;
+        } else
+            return false;
+    }// end of method misterTotalKunde()
     
     /**
      * Legger til den årlige forsikringspremien på kunden. 

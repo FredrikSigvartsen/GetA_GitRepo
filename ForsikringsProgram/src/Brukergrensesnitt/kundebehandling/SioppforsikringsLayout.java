@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
 /**
  * Denne klassen er et layout for si opp forsikringer. Her fyller brukeren inn fødselsnummer og dette valideres, 
  * før det vises et vindu med kundens aktive forsikringer. Så kan brukeren krysse av de forsikringene en skulle ønske å si opp
- * Siste versjon skrevet: 13/05/15 17:10
+ * Siste versjon skrevet: 15/05/15 22:06
  * @author Jens Omfjord, Informasjonsteknologi, s236641
  */
 public class SioppforsikringsLayout extends GridPane{
@@ -104,7 +104,7 @@ public class SioppforsikringsLayout extends GridPane{
             else{
                 siOppForsikringer(avtalenr, fodselsnrForsikringer);
             }
-        }
+        }//end of if
     }// end of method visForsikringValg() 
     
     /**
@@ -181,8 +181,7 @@ public class SioppforsikringsLayout extends GridPane{
         StringBuilder output = new StringBuilder();
         for(int k = 0; k < avtalenr.length; k++){
             if(avtalenr[k] > 0){
-                kundeRegister.siOppForsikring(fodselsnrOppsigelse, avtalenr[k]);
-                output.append("Forsikringsnummer ").append(avtalenr[k]).append(" er nå sagt opp\n\n");
+                output.append(kundeRegister.siOppForsikring(fodselsnrOppsigelse, avtalenr[k])).append("\n");
             }
         }
         GUI.visInputFeilMelding("Forsikringer sagt opp", output.toString());
@@ -241,7 +240,6 @@ public class SioppforsikringsLayout extends GridPane{
             }//end of try//end of try//end of try//end of try
             catch(NumberFormatException | NullPointerException e){
                 GUI.visProgramFeilMelding(e);
-                return;
             }//end of catch
         });
     }//end of method siOppForsikring()
