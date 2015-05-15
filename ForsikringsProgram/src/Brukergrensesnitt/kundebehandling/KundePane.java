@@ -44,7 +44,7 @@ public class KundePane extends BorderPane{
     /**
      * Oppretter og setter de ulike layoutene under Kundebehandling
      */
-    public void opprettLayout(){
+    private void opprettLayout(){
         kundebehandlingsMeny = kundebehandlingsFaner();
         
         forsikringsBehandlingLayout = new ForsikringsbehandlingLayout(kundeRegister);
@@ -63,7 +63,7 @@ public class KundePane extends BorderPane{
      * Oppretter fanene for Kundebehandlings fanen
      * @return En HBox med kundebehandlingsfaner. 
      */
-    public HBox kundebehandlingsFaner(){
+    private HBox kundebehandlingsFaner(){
         HBox box = new HBox();
         kundebehandlingsPanel = new TabPane();
         kundebehandlingsPanel.setTabMinHeight(30);

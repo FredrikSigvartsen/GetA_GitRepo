@@ -33,7 +33,7 @@ public class RegistrerKundeLayout extends GridPane{
     /**
      * Oppretter skjema for registrering av kunde
      */
-    public void opprettKundeRegistreringSkjema(){
+    private void opprettKundeRegistreringSkjema(){
         
         registrerKunde = new Button("Registrer");
         
@@ -114,7 +114,7 @@ public class RegistrerKundeLayout extends GridPane{
    /**
     * Leser inn og validerer inputene fra bruker og registrerer kunden
     */
-    public void registrerKunde(){
+    private void registrerKunde(){
         if(!sjekkTommeFelter()){
             return;
         }//end of if

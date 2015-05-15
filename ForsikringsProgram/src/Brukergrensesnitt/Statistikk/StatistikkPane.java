@@ -7,7 +7,6 @@ import forsikringsprogram.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import static javafx.geometry.Pos.CENTER;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -29,7 +28,7 @@ public class StatistikkPane extends GridPane {
     /**
      * Oppretter og setter de ulike layoutene under Kundebehandling
      */
-    public void opprettLayout(){
+    private void opprettLayout(){
         GridPane.setMargin(soylediagram, new Insets(0,34,0,0));
         add(soylediagram,1,1);
         add(new Separator(Orientation.VERTICAL), 2, 1);

@@ -253,7 +253,7 @@ public class OkonomiPane extends GridPane{
     /**
      * Oppretter layouten for visning av økonomi
      */
-    public void opprettOkonomiSkjema(){
+    private void opprettOkonomiSkjema(){
         opprettTypeSkjema();
         opprettKundeSkjema();
         valgKunde();

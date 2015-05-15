@@ -31,7 +31,6 @@ public class SioppforsikringsLayout extends GridPane{
      */
     public SioppforsikringsLayout(Kunderegister register){
         opprettSiOppLayout();
-        siOppForsikring();
         this.kundeRegister = register;
         tekstFeltLyttere();
     }//end of constructor
@@ -39,7 +38,7 @@ public class SioppforsikringsLayout extends GridPane{
     /**
      * Oppretter et lite layout for oppsigelse av forsikring. 
      */
-    public void opprettSiOppLayout(){
+    private void opprettSiOppLayout(){
         
         siOppForsikring = new Button("Vis forsikring");
         siOppForsikring.setOnAction((ActionEvent event) -> {
