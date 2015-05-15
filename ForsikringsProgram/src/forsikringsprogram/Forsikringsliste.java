@@ -7,7 +7,8 @@ import java.util.ListIterator;
 
 /**
  * Klassen lagrer forsikrings-objekter i en ArrayList.
- * @author Elias
+ * Siste versjon skrevet: 15/05/15 22:06
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public class Forsikringsliste implements Serializable {
     
@@ -145,14 +146,16 @@ public class Forsikringsliste implements Serializable {
         
         while(iter.hasNext()) {
             Forsikring f = iter.next();
-            if(f instanceof Baatforsikring && antBaat == 0)
-                antBaat++;
-            if(f instanceof Reiseforsikring && antReise == 0)
-                antReise++;
-            if(f instanceof Bilforsikring && antBil == 0)
-                antBil++;
-            if(f instanceof Boligforsikring && antBolig == 0)
-                antBolig++;
+            if(f.isActive()) {
+                if(f instanceof Baatforsikring && antBaat == 0)
+                    antBaat++;
+                if(f instanceof Reiseforsikring && antReise == 0)
+                    antReise++;
+                if(f instanceof Bilforsikring && antBil == 0)
+                    antBil++;
+                if(f instanceof Boligforsikring && antBolig == 0)
+                    antBolig++;
+            }
         }//end of while
         return (antBaat + antReise + antBil + antBolig) >= 3;       
     }//end of innholderTreForskjelligeForsikringstyper()

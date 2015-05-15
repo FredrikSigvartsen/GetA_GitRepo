@@ -31,8 +31,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * Oppretter søylediagram med kontrollpanel.
- * @author Elias
+ * Klassen oppretter og legger et søylediagram med tilhørende kontrollpanel i et gridpane.
+ * Siste versjon skrevet: 15.05.2015 23:21
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public class SoylediagramLayout extends GridPane{
     

@@ -6,7 +6,8 @@ import java.io.Serializable;
 /**
  * Klassen lagrer data som er unike for reiseforsikringer.
  * Resten av konstruktør-parameterene sendes til superklassen Forsikring sin konstruktør.
- * @author Elias
+ * Siste versjon skrevet: 15.05.2015 23:22
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public class Reiseforsikring extends Forsikring implements Serializable {
     

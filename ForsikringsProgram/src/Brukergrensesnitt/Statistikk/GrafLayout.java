@@ -38,8 +38,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * Oppretter linje-graf med kontrollpanel.
- * @author Elias
+ * Klassen oppretter og legger en linjegraf med tilhørende kontrollpanel i et gridpane.
+ * Siste versrjon skrevet: 15.05.2015 23:22
+ * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public class GrafLayout extends GridPane{
     
