@@ -6,7 +6,7 @@ import java.text.*;
 /**
  * En kunde i forsikringsselskapet har 0 eller flere forsikringer og skademeldinger. Derfor har en ForsikringsKunde en Forsikringsliste og SkademeldingsListe.
  * Hensikten med denne klassen er å registrere skademeldinger, registrere og si opp forsikringer og beregning av totalt utgift/inntekt på en kunde. 
- * Siste versjon skrevet: 15/05/15 22:06
+ * Siste versjon skrevet: 16/05/15 14:15
  * @author Fredrik Aleksander Sigvartsen, Dataingeniør, s236356
  * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  * @author Jens Omfjord, Informasjonsteknologi, s236641
@@ -14,6 +14,7 @@ import java.text.*;
 public class ForsikringsKunde implements Serializable{
     
     private static final long serialVersionUID = 321L;
+    private static final double totalKundeRabatt = 0.10; //10%
     private String fornavn;
     private String etternavn;
     private String fakturaAdresse;
@@ -154,7 +155,7 @@ public class ForsikringsKunde implements Serializable{
      * @param forsikringspremie Det beløpet som skal registreres som kundens årlige forsikringspremie. 
      */
     public void leggTilForsikringspremie(double forsikringspremie) {
-        this.forsikringsPremie += forsikringspremie;
+        forsikringsPremie += forsikringspremie;
     }// end of method leggTilForsikringspremie()
     
     /**
@@ -162,12 +163,12 @@ public class ForsikringsKunde implements Serializable{
      * @return Kundens årlige betaling til selskapet, med hensyn på om kunden er totalkunde.  
      */
     public double getAarligUtbetaling() {
-        if(this.totalKunde) {
-            this.aarligUtbetaling = this.forsikringsPremie - (this.forsikringsPremie * 0.10);
-            return this.aarligUtbetaling;
+        if(totalKunde) {
+            aarligUtbetaling = forsikringsPremie - (forsikringsPremie * totalKundeRabatt);
+            return aarligUtbetaling;
         }// end of if
-        this.aarligUtbetaling = this.forsikringsPremie;
-        return this.aarligUtbetaling;
+        aarligUtbetaling = forsikringsPremie;
+        return aarligUtbetaling;
     }// end of getAarligUtbetaling()
     
     /**

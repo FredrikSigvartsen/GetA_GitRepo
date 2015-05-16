@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 /**
  * Abstrakt superklasse til alle forsikringstypene.
- * Siste versjon skrevet: 15.05.2015 23.22
+ * Siste versjon skrevet: 16.05.2015 14:38
  * @author Elias Andreassen Thøgersen, Informasjonsteknologi, s236603
  */
 public abstract class Forsikring implements Serializable{
@@ -50,7 +50,7 @@ public abstract class Forsikring implements Serializable{
      * @return returnerer avtalenummeret til forsikringen. 
      */
     public int getAvtaleNr() {
-        return avtaleNr;
+        return this.avtaleNr;
     }
     
     /**
@@ -58,7 +58,7 @@ public abstract class Forsikring implements Serializable{
      * @return betingelsene for forsikringen
      */
     public String getBetingelser() {
-        return betingelser;
+        return this.betingelser;
     }
     
     /**
@@ -72,8 +72,8 @@ public abstract class Forsikring implements Serializable{
      * Skal kalles på når en avtale opphøres. Setter opphørsdato og gjør forsikringen "inaktiv"
      */
     public void opphorForsikring() {
-        this.opphorsDato = Calendar.getInstance();
-        this.aktivForsikring = false;
+        opphorsDato = Calendar.getInstance();
+        aktivForsikring = false;
     }
     
     /**
@@ -123,12 +123,12 @@ public abstract class Forsikring implements Serializable{
     @Override
     public String toString() {
         return "\n--------------------------------------------" + 
-               "\nForsikringsavtale nr." + avtaleNr + (!( this.aktivForsikring ) ? " - Avtale opphørt" : "") +
+               "\nForsikringsavtale nr." + avtaleNr + (!(aktivForsikring) ? " - Avtale opphørt" : "") +
                "\n--------------------------------------------" +
-               "\nOpprettelses dato: " + sdf.format(this.opprettelsesDato.getTime()) +
-               "\nAvtale opphørt: " + (!this.aktivForsikring ? sdf.format(this.opphorsDato.getTime())  : "Ikke opphørt") +
-               "\nBetingelse: " + this.betingelser +
-               "\nForsikringspremie: " + this.forsikringsPremie +
-               "\nForsikringsbeløp: " + this.forsikringsBelop;
+               "\nOpprettelses dato: " + sdf.format(opprettelsesDato.getTime()) +
+               "\nAvtale opphørt: " + (!aktivForsikring ? sdf.format(opphorsDato.getTime())  : "Ikke opphørt") +
+               "\nBetingelse: " + betingelser +
+               "\nForsikringspremie: " + forsikringsPremie +
+               "\nForsikringsbeløp: " + forsikringsBelop;
     }//end of method toString()
 }//end of class Forsikring
