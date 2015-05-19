@@ -90,7 +90,7 @@ public class GrafLayout extends GridPane{
         tekstStr = Font.font(null, FontWeight.BOLD, 20);
         tekstStr1 = Font.font(null, FontWeight.BOLD, 12);
         
-        bilde = new Image(getClass().getResourceAsStream("/Bilder/info_icon.png"));
+        bilde = new Image(getClass().getResourceAsStream("/bilder/info_icon.png"));
         iv = new ImageView();
         iv.setImage(bilde);
         iv.setFitWidth(28);

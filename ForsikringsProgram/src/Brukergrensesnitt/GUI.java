@@ -90,7 +90,7 @@ public class GUI extends Application{
         okonomiLayout = new OkonomiPane(kundeRegister);
         stage = primaryStage;
         stage.setTitle("Forsikringsprogram - Behandle forsikring");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("../bilder/logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/bilder/logo.png")));
         layout = new BorderPane();
         
         scene = new Scene(layout, getSkjermBredde() / 1.1, getSkjermHoyde() / 1.2);
@@ -171,7 +171,7 @@ public class GUI extends Application{
         GridPane kundebehandlingPane = new GridPane();
         Label kundebehandlingLabel = new Label("Kundebehandling");
         kundebehandlingLabel.setFont(faneFont);
-        Image kundebehandlingBilde = new Image(getClass().getResourceAsStream("/Bilder/kundebehandling_icon.png"));
+        Image kundebehandlingBilde = new Image(getClass().getResourceAsStream("/bilder/kundebehandling_icon.png"));
         ImageView iv = new ImageView(kundebehandlingBilde);
         iv.setFitWidth(28);
         iv.setFitHeight(28);
@@ -186,7 +186,7 @@ public class GUI extends Application{
         GridPane okonomiPane = new GridPane();
         Label okonomiLabel = new Label("Økonomi");
         okonomiLabel.setFont(faneFont);
-        Image okonomiBilde = new Image(getClass().getResourceAsStream("/Bilder/okonomi_icon.png"));
+        Image okonomiBilde = new Image(getClass().getResourceAsStream("/bilder/okonomi_icon.png"));
         ImageView iv1 = new ImageView(okonomiBilde);
         iv1.setFitWidth(28);
         iv1.setFitHeight(28);
@@ -201,7 +201,7 @@ public class GUI extends Application{
         GridPane statistikkPane = new GridPane();
         Label statistikkLabel = new Label("Statistikk");
         statistikkLabel.setFont(faneFont);
-        Image statistikkBilde = new Image(getClass().getResourceAsStream("/Bilder/statistikk_icon.png"));
+        Image statistikkBilde = new Image(getClass().getResourceAsStream("/bilder/statistikk_icon.png"));
         ImageView iv2 = new ImageView(statistikkBilde);
         iv2.setFitWidth(28);
         iv2.setFitHeight(28);

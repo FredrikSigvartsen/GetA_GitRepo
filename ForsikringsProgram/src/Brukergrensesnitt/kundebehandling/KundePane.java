@@ -75,7 +75,7 @@ public class KundePane extends BorderPane{
         GridPane forsikringsBehandlingPane = new GridPane();
         Label forsikringsBehandlingLabel = new Label("Behandle forsikringer");
         forsikringsBehandlingLabel.setFont(faneFont);
-        Image forsikringsBehandlingBilde = new Image(getClass().getResourceAsStream("/Bilder/forsikringsBehandling_icon.png"));
+        Image forsikringsBehandlingBilde = new Image(getClass().getResourceAsStream("/bilder/forsikringsBehandling_icon.png"));
         ImageView iv = new ImageView(forsikringsBehandlingBilde);
         iv.setFitWidth(28);
         iv.setFitHeight(28);
@@ -91,7 +91,7 @@ public class KundePane extends BorderPane{
         GridPane registrerSkademeldingPane = new GridPane();
         Label registrerSkademeldingLabel = new Label("Registrer skademelding");
         registrerSkademeldingLabel.setFont(faneFont);
-        Image registrerSkademeldingBilde = new Image(getClass().getResourceAsStream("/Bilder/registrerSkademelding_icon.png"));
+        Image registrerSkademeldingBilde = new Image(getClass().getResourceAsStream("/bilder/registrerSkademelding_icon.png"));
         ImageView iv1 = new ImageView(registrerSkademeldingBilde);
         iv1.setFitWidth(28);
         iv1.setFitHeight(28);
@@ -107,7 +107,7 @@ public class KundePane extends BorderPane{
         GridPane sokePane = new GridPane();
         Label sokLabel = new Label("Søk");
         sokLabel.setFont(faneFont);
-        Image sokBilde = new Image(getClass().getResourceAsStream("/Bilder/sok_icon.png"));
+        Image sokBilde = new Image(getClass().getResourceAsStream("/bilder/sok_icon.png"));
         ImageView iv2 = new ImageView(sokBilde);
         iv2.setFitWidth(28);
         iv2.setFitHeight(28);
